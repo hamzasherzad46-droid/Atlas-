@@ -13,7 +13,7 @@ Vite + React + TypeScript, three.js via @react-three/fiber + drei, Zustand, loca
 1. Read existing code before writing; mirror existing patterns.
 2. Content is data-driven — never hard-code questions in components.
 3. New modules (Heart, Vessels, Muscles) = new JSON + models only, no code forks.
-4. Design: minimalist, dark default + light mode, one red highlight (#e5484d), serif answer word, no clutter.
+4. Design: clinical and calm. Deep navy background, slate cards, mist-grey text, system fonts (no serif, no rounded display faces). One teal accent for progress and primary actions. Status colours only carry meaning: red = incorrect answers and errors, amber = attention and warnings, blue = information and instructions, green = correct and completed. The 3D highlight is deep red. No gradients, illustrations, rings, flames or other fitness-app motifs. Tokens live in `src/styles/global.css`.
 5. Mobile performance first: compressed GLB, lazy-load per module, pixel ratio ≤ 2.
 6. No ads, analytics, social features or push notifications.
 7. Keep diffs scoped to the task asked.

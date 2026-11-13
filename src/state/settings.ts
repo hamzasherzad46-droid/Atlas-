@@ -34,7 +34,7 @@ interface SettingsState {
 export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
-      theme: 'light',
+      theme: 'dark',
       track: 'nursing',
       lang: 'en',
       name: '',
@@ -48,11 +48,13 @@ export const useSettings = create<SettingsState>()(
     {
       name: STORAGE_KEYS.settings,
       storage: createJSONStorage(() => appStorage),
-      version: 2,
+      version: 3,
       migrate: (old, version) => {
         const s = (old ?? {}) as Record<string, unknown>
-        // v1 had no onboarding; v1 users already chose a track, so skip it. The redesign defaults to the paper theme.
-        if (version < 2) return { ...s, theme: 'light', lang: 'en', name: '', dailyGoal: 20, answerTimer: 0, onboarded: true }
+        // v1 had no onboarding; v1 users already chose a track, so skip it.
+        if (version < 2) return { ...s, lang: 'en', name: '', dailyGoal: 20, answerTimer: 0, onboarded: true, theme: 'dark' }
+        // v3 redesign is dark-first; reset the old “paper” default once.
+        if (version < 3) return { ...s, theme: 'dark' }
         return s
       },
     },
@@ -65,7 +67,7 @@ export function applyTheme(pref: ThemePref): () => void {
   const apply = () => {
     const theme = pref === 'system' ? (mq.matches ? 'dark' : 'light') : pref
     document.documentElement.dataset.theme = theme
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#efeadf' : '#121417')
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#eef2f6' : '#0f1724')
   }
   apply()
   if (pref !== 'system') return () => {}

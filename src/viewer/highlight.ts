@@ -1,21 +1,21 @@
 import * as THREE from 'three'
 import { meshMatchesAny } from '../lib/meshMatch'
 
-export const ACCENT = new THREE.Color('#e5484d')
+export const ACCENT = new THREE.Color('#b3141c')
 
 export interface Palette {
   bone: string
   boneOpacity: number
-  /** Highlight colour; matches the UI accent. */
+  /** Highlight colour: deep red. */
   accent: string
 }
 
-// Ivory bone, nearly opaque so it reads as real bone; the target also shows
-// through anything in front of it (x-ray overlay), so hidden bones stay findable.
+// Neutral mist-grey anatomy, nearly opaque, under cool light; the target turns
+// deep red. The target also shows through anything in front of it (x-ray
+// overlay), so hidden structures stay findable.
 export const PALETTES: Record<'dark' | 'light', Palette> = {
-  dark: { bone: '#e9e1cf', boneOpacity: 0.9, accent: '#f0603f' },
-  // On paper the bone is a shade darker than the page so it reads like an engraved plate.
-  light: { bone: '#d6cab2', boneOpacity: 0.95, accent: '#cf4527' },
+  dark: { bone: '#d9dee5', boneOpacity: 0.9, accent: '#b3141c' },
+  light: { bone: '#c3cad3', boneOpacity: 0.95, accent: '#9c1219' },
 }
 
 /** Fresnel rim shell: a slightly inflated copy of the mesh that glows at its edges. */

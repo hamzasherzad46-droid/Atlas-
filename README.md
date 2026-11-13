@@ -33,13 +33,13 @@ apply there.
   intermediate / advanced); optional per-question timer (30/20/10 s; time-out = miss); exams with a whole-test
   clock and per-answer timer. Combos, XP, stamps and sounds that climb with the combo.
 - **Flashcards**: what it does, why it's there, and a note for your track; swipe to grade; own spaced repetition.
-- **Today**: level & XP, daily goal dial, streak + week strip, due flashcards and mistakes, daily / weekly /
-  monthly assignments (auto-awarded XP), fact of the day, systems index, weak spots, quick exam.
+- **Today**: continue card, daily goal, streak, level & XP, assessments, due flashcards and mistakes, daily / weekly /
+  monthly assignments (auto-awarded XP), systems index, fact of the day, weak spots.
 - **Tracks**: nursing, medicine, physiotherapy, dentistry, sports science — notes per structure where relevant.
 - **Languages**: English, French, German, Arabic (right-to-left), Russian, Chinese, Korean for the whole UI.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
-- **Design**: “plate book” — warm paper and ink, vermilion accent, Newsreader + IBM Plex, mono specimen labels;
-  “Darkroom” dark mode.
+- **Design**: clinical — deep navy and slate surfaces, mist-grey text, system fonts, one teal accent for progress.
+  Red marks errors, amber marks warnings, blue marks information; the highlighted structure in 3D is deep red.
 
 ### Known data gaps (BodyParts3D 4.0)
 
@@ -162,10 +162,10 @@ longer needs one.
 
 ### Rendering
 
-Bones use a near-opaque ivory material lit by a procedural studio environment (three's
-`RoomEnvironment`, nothing downloaded). The target bone is red with a soft rim glow. Any part of it
-hidden behind other bones shows through as a faint red silhouette (a `GreaterDepth` pass), so
-internal bones like the sphenoid and ethmoid stay findable.
+Anatomy uses a near-opaque mist-grey material under cool, neutral light and a procedural studio
+environment (three's `RoomEnvironment`, nothing downloaded). The target structure is deep red with a
+soft rim glow. Any part of it hidden behind other structures shows through as a faint red silhouette
+(a `GreaterDepth` pass), so internal bones like the sphenoid and ethmoid stay findable.
 
 The Draco decoder is served from `/draco` (copied from three.js), not from a CDN, so it works offline.
 

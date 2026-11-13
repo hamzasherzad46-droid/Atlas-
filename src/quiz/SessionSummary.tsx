@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useT } from '../i18n'
-import { formatClock } from '../lib/format'
+import { formatClock, sentence } from '../lib/format'
+import { Bar } from '../components/bits'
 import { useNav } from '../state/nav'
 import { accuracyOf, useQuiz } from '../state/quiz'
 
@@ -45,47 +46,51 @@ export function SessionSummary() {
   const review = () =>
     startSession({ kind: 'review', moduleId: config.moduleId, mode: 'learn', region: null, ids: missed, length: missed.length, answerTimer: 0 })
 
+  const ratio = total ? score / total : 0
   return (
     <div className="quiz summary">
       <div className="summary-inner">
-        <p className="kicker">{isAssessment ? t('summary.exam') : t('summary.session')}</p>
-        <h1 className="summary-score serif">
+        <p className="eyebrow">{isAssessment ? t('summary.exam') : t('summary.session')}</p>
+        <p className="summary-score num">
           {shownScore}
-          <span className="muted">/{total}</span>
-        </h1>
-        <p className="muted">{isAssessment ? t('summary.noErrors') : t('summary.firstTry')}</p>
-        {total > 0 && score === total && <span className="stamp summary-stamp">{t('quiz.correct')}</span>}
+          <span className="muted"> / {total}</span>
+        </p>
+        <p className="subhead">{isAssessment ? t('summary.noErrors') : t('summary.firstTry')}</p>
+        <Bar value={score} max={Math.max(total, 1)} color={ratio >= 0.8 ? 'var(--good)' : undefined} />
 
-        <div className="figures summary-figures">
-          <div className="figure">
-            <span className="figure-num serif xp-num">+{xp}</span>
-            <span className="kicker">{t('summary.xp')}</span>
+        <div className="grid-2 summary-stats">
+          <div className="card stat">
+            <span className="footnote">{t('summary.xp')}</span>
+            <span className="stat-num num accent-text">+{xp}</span>
           </div>
-          <div className="figure">
-            <span className="figure-num serif">{accuracyOf(q.keysCorrect, q.keysWrong)}%</span>
-            <span className="kicker">{t('summary.accuracy')}</span>
+          <div className="card stat">
+            <span className="footnote">{t('summary.accuracy')}</span>
+            <span className="stat-num num">{accuracyOf(q.keysCorrect, q.keysWrong)}%</span>
           </div>
-          <div className="figure">
-            <span className="figure-num serif">{q.bestStreak}</span>
-            <span className="kicker">{t('summary.bestCombo')}</span>
+          <div className="card stat">
+            <span className="footnote">{t('summary.bestCombo')}</span>
+            <span className="stat-num num">{q.bestStreak}</span>
           </div>
-          <div className="figure">
-            <span className="figure-num serif">{formatClock(q.finishedAt - q.startedAt)}</span>
-            <span className="kicker">{t('summary.time')}</span>
+          <div className="card stat">
+            <span className="footnote">{t('summary.time')}</span>
+            <span className="stat-num num">{formatClock(q.finishedAt - q.startedAt)}</span>
           </div>
         </div>
 
         {missed.length > 0 && (
           <div className="section">
-            <div className="section-head">
-              <h2 className="h2">{t('summary.review')}</h2>
-              <span className="kicker">{missed.length}</span>
-            </div>
-            <div className="index">
+            <p className="group-label">
+              {t('summary.review')} · {missed.length}
+            </p>
+            <div className="group">
               {missed.map((id) => (
-                <div className="index-row static" key={id}>
-                  <span className="index-main index-title">{q.byId[id]?.name}</span>
-                  <span className="mono tiny muted">{q.results.some((r) => r.id === id) ? t('summary.errors', { n: errorsFor(id) }) : t('summary.unanswered')}</span>
+                <div className="cell" key={id}>
+                  <span className="cell-main cell-title">{sentence(q.byId[id]?.name ?? '')}</span>
+                  {q.results.some((r) => r.id === id) ? (
+                    <span className="pill bad num">{t('summary.errors', { n: errorsFor(id) })}</span>
+                  ) : (
+                    <span className="pill warn">{t('summary.unanswered')}</span>
+                  )}
                 </div>
               ))}
             </div>
@@ -94,11 +99,11 @@ export function SessionSummary() {
 
         <div className="summary-actions">
           {missed.length > 0 && (
-            <button className="btn btn-accent btn-block" onClick={review}>
+            <button className="btn btn-primary btn-block" onClick={review}>
               {t('summary.fix')}
             </button>
           )}
-          <button className="btn btn-ink btn-block" onClick={endSession}>
+          <button className={`btn btn-block ${missed.length ? 'btn-secondary' : 'btn-primary'}`} onClick={endSession}>
             {t('common.done')}
           </button>
         </div>

@@ -35,9 +35,9 @@ function Lights() {
     <>
       {/* Attaches to the scene's `environment`; intensity is set on the Canvas scene. */}
       <primitive object={env} attach="environment" />
-      <hemisphereLight args={['#fff8ee', '#1d1d22', 0.45]} />
-      <directionalLight position={[1.5, 3, 2.5]} intensity={1.35} color="#fff6e8" />
-      <directionalLight position={[-2.5, 1.5, -2]} intensity={0.8} color="#dfe8ff" />
+      <hemisphereLight args={['#f4f7fb', '#0f1724', 0.45]} />
+      <directionalLight position={[1.5, 3, 2.5]} intensity={1.35} color="#ffffff" />
+      <directionalLight position={[-2.5, 1.5, -2]} intensity={0.8} color="#d6e2f2" />
     </>
   )
 }

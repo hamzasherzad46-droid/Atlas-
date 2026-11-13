@@ -57,10 +57,10 @@ function Key({ id, label, aria, wide, space, accent, flash, onPress }: KeyProps)
     el.current.animate(
       wrong
         ? [
-            { background: 'var(--danger)', color: '#fff', transform: 'scale(0.94)' },
-            { background: 'var(--key)', color: 'var(--text)', transform: 'scale(1)' },
+            { background: 'var(--bad)', color: '#fff', transform: 'scale(0.94)' },
+            { background: 'var(--key)', color: 'var(--label)', transform: 'scale(1)' },
           ]
-        : [{ background: 'var(--key-pressed)', transform: 'scale(0.94)' }, { background: 'var(--key)', transform: 'scale(1)' }],
+        : [{ background: 'var(--surface-3)', transform: 'scale(0.94)' }, { background: 'var(--key)', transform: 'scale(1)' }],
       { duration: wrong ? 420 : 180, easing: 'ease-out' },
     )
   }, [hit])

@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Heatmap, Meter } from '../components/bits'
+import { Bar, Heatmap } from '../components/bits'
 import { useModule } from '../content/useModule'
 import { useT } from '../i18n'
-import { formatClock, pct } from '../lib/format'
+import { formatClock, pct, sentence } from '../lib/format'
 import { isMastered } from '../lib/srs'
 import { availableModules, defaultModuleId } from '../state/actions'
 import { useLevel } from '../state/dashboard'
@@ -26,30 +26,34 @@ export function ProgressScreen() {
 
   return (
     <main className="page">
-      <p className="kicker">
-        {t('level.label', { n: level.level })} · {t(`level.${level.title}`)}
-      </p>
-      <h1 className="display">{t('progress.title')}</h1>
+      <header className="page-head">
+        <div>
+          <p className="eyebrow">
+            {t('level.label', { n: level.level })} · {t(`level.${level.title}`)}
+          </p>
+          <h1 className="large-title">{t('progress.title')}</h1>
+        </div>
+      </header>
 
-      <div className="figures">
-        <div className="figure">
-          <span className="figure-num serif">{level.xp}</span>
-          <span className="kicker">{t('progress.totalXp')}</span>
+      <div className="stat-grid">
+        <div className="card stat">
+          <span className="footnote">{t('progress.totalXp')}</span>
+          <span className="stat-num num accent-text">{level.xp}</span>
         </div>
-        <div className="figure">
-          <span className="figure-num serif">{mastered}</span>
-          <span className="kicker">{t('progress.mastered')}</span>
+        <div className="card stat">
+          <span className="footnote">{t('progress.mastered')}</span>
+          <span className="stat-num num">{mastered}</span>
         </div>
-        <div className="figure">
-          <span className="figure-num serif">{attempts ? `${pct(correct, attempts)}%` : '—'}</span>
-          <span className="kicker">{t('progress.accuracy')}</span>
+        <div className="card stat">
+          <span className="footnote">{t('progress.accuracy')}</span>
+          <span className="stat-num num">{attempts ? `${pct(correct, attempts)}%` : '—'}</span>
         </div>
       </div>
 
-      <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('progress.activity')}</h2>
-          <span className="heat-legend tiny muted mono">
+      <section className="section card">
+        <div className="row heat-head">
+          <span className="headline">{t('progress.activity')}</span>
+          <span className="caption heat-legend">
             {t('progress.less')} <span className="heat-cell l1" /> <span className="heat-cell l2" /> <span className="heat-cell l3" />{' '}
             <span className="heat-cell l4" /> {t('progress.more')}
           </span>
@@ -57,98 +61,95 @@ export function ProgressScreen() {
         <Heatmap days={days} />
       </section>
 
-      {availableModules.length > 1 && (
-        <div className="chips progress-modules">
-          {availableModules.map((m) => (
-            <button key={m.id} className="chip" aria-pressed={moduleId === m.id} onClick={() => setModuleId(m.id)}>
-              {t.td(`module.${m.id}`, m.id)}
-            </button>
-          ))}
-        </div>
-      )}
+      <div className="module-scroller section">
+        {availableModules.map((m) => (
+          <button
+            key={m.id}
+            className="chip"
+            aria-pressed={moduleId === m.id}
+            onClick={() => setModuleId(m.id)}
+          >
+            {t.td(`module.${m.id}`, m.id)}
+          </button>
+        ))}
+      </div>
 
-      <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('progress.byRegion')}</h2>
-          <span className="kicker">
-            {t('progress.seen')} {seen}/{content?.structures.length ?? 0}
-          </span>
-        </div>
-        <div className="index">
+      <div className="section">
+        <p className="group-label">
+          {t('progress.byRegion')} · {t('progress.seen')} {seen}/{content?.structures.length ?? 0}
+        </p>
+        <div className="group">
           {regions.map((r) => (
-            <div key={r.id} className="index-row static">
-              <span className="index-main">
+            <div key={r.id} className="cell">
+              <span className="cell-main">
                 <span className="row">
-                  <span className="index-title">{t.td(`region.${r.id}`, r.name)}</span>
-                  <span className="mono small muted">{r.accuracy === null ? t('progress.notStarted') : `${r.accuracy}%`}</span>
+                  <span className="cell-title">{t.td(`region.${r.id}`, r.name)}</span>
+                  <span className="cell-value num">{r.accuracy === null ? t('progress.notStarted') : `${r.accuracy}%`}</span>
                 </span>
-                <Meter value={r.accuracy ?? 0} max={100} tone="accent" />
+                <Bar value={r.accuracy ?? 0} max={100} />
               </span>
             </div>
           ))}
         </div>
-      </section>
+      </div>
 
-      <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('progress.mostMissed')}</h2>
-        </div>
+      <div className="section">
+        <p className="group-label">{t('progress.mostMissed')}</p>
         {missed.length === 0 ? (
-          <p className="empty">{t('progress.noMisses')}</p>
+          <div className="group">
+            <p className="cell empty-cell">{t('progress.noMisses')}</p>
+          </div>
         ) : (
-          <div className="index">
+          <div className="group">
             {missed.map(({ structure, record, misses }) => (
-              <div key={structure.id} className="index-row static">
-                <span className="index-main index-title">{structure.name}</span>
-                <span className="mono small muted">
+              <div key={structure.id} className="cell">
+                <span className="cell-main cell-title">{sentence(structure.name)}</span>
+                <span className="cell-value num">
                   {t('progress.missed', { n: misses })} · {pct(record.correct, record.attempts)}%
                 </span>
               </div>
             ))}
           </div>
         )}
-      </section>
+      </div>
 
-      <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('progress.exams')}</h2>
-        </div>
-        {assessments.length === 0 ? (
-          <p className="empty">{t('progress.noExams')}</p>
-        ) : (
-          <div className="index">
-            {assessments.slice(0, 8).map((a) => (
-              <div key={a.at} className="index-row static">
-                <span className="index-main">
-                  <span className="index-title">
-                    {a.correct}/{a.total} <span className="mono small muted">{pct(a.correct, a.total)}%</span>
+      <div className="section">
+        <p className="group-label">{t('progress.exams')}</p>
+        <div className="group">
+          {assessments.length === 0 ? (
+            <p className="cell empty-cell">{t('progress.noExams')}</p>
+          ) : (
+            assessments.slice(0, 8).map((a) => (
+              <div key={a.at} className="cell">
+                <span className="cell-main">
+                  <span className="cell-title num">
+                    {a.correct}/{a.total} · {pct(a.correct, a.total)}%
                   </span>
+                  <span className="cell-sub">{t.td(`module.${a.moduleId}`, a.moduleId)}</span>
                 </span>
-                <span className="mono small muted">
+                <span className="cell-value num">
                   {new Intl.DateTimeFormat(t.lang, { day: 'numeric', month: 'short' }).format(a.at)} · {formatClock(a.durationMs)}
                 </span>
               </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('progress.every')}</h2>
+            ))
+          )}
         </div>
-        <div className="structure-table">
+      </div>
+
+      <div className="section">
+        <p className="group-label">{t('progress.every')}</p>
+        <div className="group">
           {content?.structures.map((s) => {
             const r = records[s.id]
             return (
-              <div key={s.id} className="row structure-row">
-                <span className={isMastered(r) ? 'mastered' : ''}>{s.name}</span>
-                <span className="mono tiny muted">{r ? `${pct(r.correct, r.attempts)}% · ${r.attempts}×` : '—'}</span>
+              <div key={s.id} className="cell compact">
+                <span className={`cell-main${isMastered(r) ? ' mastered' : ''}`}>{sentence(s.name)}</span>
+                <span className="cell-value num small">{r ? `${pct(r.correct, r.attempts)}% · ${r.attempts}×` : '—'}</span>
               </div>
             )
           })}
         </div>
-      </section>
+      </div>
     </main>
   )
 }

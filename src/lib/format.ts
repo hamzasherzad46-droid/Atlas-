@@ -11,3 +11,8 @@ export function weekdayLabels(lang: string): string[] {
   const f = new Intl.DateTimeFormat(lang, { weekday: 'narrow' })
   return Array.from({ length: 7 }, (_, i) => f.format(new Date(2024, 0, 1 + i))) // 1 Jan 2024 was a Monday
 }
+
+/** "sphenoid bone" → "Sphenoid bone" (iOS sentence case; CSS capitalize would give "Sphenoid Bone"). */
+export function sentence(s: string): string {
+  return s ? s[0].toUpperCase() + s.slice(1) : s
+}

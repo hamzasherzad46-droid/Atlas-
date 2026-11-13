@@ -1,8 +1,8 @@
 import { catalog, getModuleInfo } from '../content/loader'
 import type { ModuleInfo } from '../content/types'
 import { useModule } from '../content/useModule'
-import { CardsIcon, ChevronIcon, ClockIcon, CubeIcon, PracticeIcon, SystemGlyph } from '../components/Icons'
-import { Meter } from '../components/bits'
+import { BackIcon, CardsIcon, ChevronIcon, ClockIcon, CubeIcon, KeyboardIcon } from '../components/Icons'
+import { Bar } from '../components/bits'
 import { useT } from '../i18n'
 import { pct } from '../lib/format'
 import { startAssessment, startCards, startPractice } from '../state/actions'
@@ -18,20 +18,20 @@ export function AtlasScreen() {
 
   return (
     <main className="page">
-      <p className="kicker">{t('atlas.sub')}</p>
-      <h1 className="display">{t('atlas.title')}</h1>
+      <header className="page-head">
+        <div>
+          <p className="eyebrow">{t('atlas.sub')}</p>
+          <h1 className="large-title">{t('atlas.title')}</h1>
+        </div>
+      </header>
       <div className="atlas-list">
-        {catalog.systems.map((sys, i) => (
+        {catalog.systems.map((sys) => (
           <section key={sys.id} className="atlas-system">
-            <div className="atlas-system-head">
-              <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
-              <SystemGlyph glyph={sys.glyph} size={30} />
-              <div className="index-main">
-                <h2 className="h2">{t.td(`system.${sys.id}`, sys.id)}</h2>
-                <p className="index-sub">{t.td(`systemBlurb.${sys.id}`, '')}</p>
-              </div>
+            <div className="atlas-head">
+              <h2 className="title-2">{t.td(`system.${sys.id}`, sys.id)}</h2>
+              <p className="subhead">{t.td(`systemBlurb.${sys.id}`, '')}</p>
             </div>
-            <div className="index">
+            <div className="atlas-modules">
               {sys.modules.map((m) => (
                 <ModuleRow key={m.id} info={m} />
               ))}
@@ -54,14 +54,15 @@ function ModuleRow({ info }: { info: ModuleInfo }) {
   const mastered = stats.reduce((n, r) => n + r.mastered, 0)
 
   return (
-    <button className="index-row" disabled={!available} onClick={() => openModule(info.id)}>
-      <span className="index-main">
-        <span className="index-title">{t.td(`module.${info.id}`, info.id)}</span>
-        <span className="index-sub">
+    <button className="cell" disabled={!available} onClick={() => openModule(info.id)}>
+      <span className="cell-main">
+        <span className="cell-title">{t.td(`module.${info.id}`, info.id)}</span>
+        <span className="cell-sub num">
           {available ? `${t('atlas.structures', { n: total })} · ${t('atlas.mastered', { n: pct(mastered, total) })}` : t('common.soon')}
         </span>
+        {available && <Bar value={mastered} max={Math.max(total, 1)} thin />}
       </span>
-      {available ? <ChevronIcon /> : <span className="tag">{t('common.soon')}</span>}
+      {available && <ChevronIcon />}
     </button>
   )
 }
@@ -78,59 +79,90 @@ function ModuleScreen({ id }: { id: string }) {
   const total = stats.reduce((n, r) => n + r.total, 0)
   const seen = stats.reduce((n, r) => n + r.seen, 0)
   const mastered = stats.reduce((n, r) => n + r.mastered, 0)
+  const attempts = stats.reduce((n, r) => n + r.attempts, 0)
+  const correct = stats.reduce((n, r) => n + r.correct, 0)
 
   return (
     <main className="page module-page">
-      <button className="back mono" onClick={() => openModule(null)}>
-        <span className="flip-rtl">←</span> {t('atlas.title')}
+      <button className="nav-back" onClick={() => openModule(null)}>
+        <BackIcon /> {t('atlas.title')}
       </button>
-      <p className="kicker">{t.td(`system.${info.systemId}`, '')}</p>
-      <h1 className="display">{t.td(`module.${id}`, id)}</h1>
-      <div className="module-stats mono small">
-        <span>{t('atlas.structures', { n: total })}</span>
-        <span>{t('mod.seen', { a: seen, b: total })}</span>
-        <span>{t('atlas.mastered', { n: pct(mastered, total) })}</span>
-      </div>
-      <Meter value={mastered} max={total} tone="moss" />
+      <header className="page-head">
+        <p className="eyebrow">{t.td(`system.${info.systemId}`, '')}</p>
+        <h1 className="large-title">{t.td(`module.${id}`, id)}</h1>
+      </header>
 
-      <div className="actions">
-        <button className="action" onClick={() => startCards(id)}>
-          <CardsIcon />
-          <span className="action-title">{t('mod.cards')}</span>
-          <span className="action-sub">{t('mod.cardsSub')}</span>
+      <section className="card module-summary">
+        <div className="stat-row">
+          <div>
+            <span className="stat-num num">
+              {seen}
+              <span className="muted"> / {total}</span>
+            </span>
+            <span className="footnote">{t('progress.seen')}</span>
+          </div>
+          <div>
+            <span className="stat-num num">{mastered}</span>
+            <span className="footnote">{t('progress.mastered')}</span>
+          </div>
+          <div>
+            <span className="stat-num num">{attempts ? `${pct(correct, attempts)}%` : '—'}</span>
+            <span className="footnote">{t('progress.accuracy')}</span>
+          </div>
+        </div>
+        <Bar value={mastered} max={Math.max(total, 1)} />
+        <span className="resume-pct num">{t('atlas.mastered', { n: pct(mastered, total) })}</span>
+      </section>
+
+      <button className="btn btn-primary btn-block module-cta" onClick={() => startPractice(id, null, lastMode)}>
+        <KeyboardIcon /> {t('mod.practice')}
+      </button>
+
+      <div className="group with-icons module-actions">
+        <button className="cell" onClick={() => startCards(id)}>
+          <span className="icon-badge">
+            <CardsIcon />
+          </span>
+          <span className="cell-main">
+            <span className="cell-title">{t('mod.cards')}</span>
+            <span className="cell-sub">{t('mod.cardsSub')}</span>
+          </span>
+          <ChevronIcon />
         </button>
-        <button className="action primary" onClick={() => startPractice(id, null, lastMode)}>
-          <PracticeIcon />
-          <span className="action-title">{t('mod.practice')}</span>
-          <span className="action-sub">{t('mod.practiceSub')}</span>
+        <button className="cell" onClick={() => openExplore(id)}>
+          <span className="icon-badge">
+            <CubeIcon />
+          </span>
+          <span className="cell-main">
+            <span className="cell-title">{t('mod.explore')}</span>
+            <span className="cell-sub">{t('mod.exploreSub')}</span>
+          </span>
+          <ChevronIcon />
         </button>
-        <button className="action" onClick={() => startAssessment(id)}>
-          <ClockIcon />
-          <span className="action-title">{t('mod.exam')}</span>
-          <span className="action-sub">{t('mod.examSub', { n: ASSESSMENT_LENGTH, m: ASSESSMENT_TIME_MS / 60_000, s: ASSESSMENT_ANSWER_TIMER })}</span>
-        </button>
-        <button className="action" onClick={() => openExplore(id)}>
-          <CubeIcon />
-          <span className="action-title">{t('mod.explore')}</span>
-          <span className="action-sub">{t('mod.exploreSub')}</span>
+        <button className="cell" onClick={() => startAssessment(id)}>
+          <span className="icon-badge">
+            <ClockIcon />
+          </span>
+          <span className="cell-main">
+            <span className="cell-title">{t('mod.exam')}</span>
+            <span className="cell-sub">{t('mod.examSub', { n: ASSESSMENT_LENGTH, m: ASSESSMENT_TIME_MS / 60_000, s: ASSESSMENT_ANSWER_TIMER })}</span>
+          </span>
+          <ChevronIcon />
         </button>
       </div>
 
       <div className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('mod.regions')}</h2>
-        </div>
-        <div className="index">
-          {stats.map((r, i) => (
-            <button key={r.id} className="index-row" onClick={() => startPractice(id, r.id, lastMode)}>
-              <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
-              <span className="index-main">
-                <span className="index-title">{t.td(`region.${r.id}`, r.name)}</span>
-                <span className="index-sub">
+        <p className="group-label">{t('mod.regions')}</p>
+        <div className="group">
+          {stats.map((r) => (
+            <button key={r.id} className="cell region-cell" onClick={() => startPractice(id, r.id, lastMode)}>
+              <span className="cell-main">
+                <span className="cell-title">{t.td(`region.${r.id}`, r.name)}</span>
+                <span className="cell-sub">
                   {t('mod.seen', { a: r.seen, b: r.total })}
                   {r.accuracy !== null && ` · ${r.accuracy}%`}
                 </span>
-                <Meter value={r.mastered} max={r.total} tone="moss" />
+                <Bar value={r.mastered} max={r.total} thin />
               </span>
               <ChevronIcon />
             </button>

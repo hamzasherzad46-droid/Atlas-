@@ -6,6 +6,7 @@ import { formatClock } from '../lib/format'
 import { meshKeys } from '../lib/meshMatch'
 import { activeAnswer, type KeyInput } from '../lib/typing'
 import { comboMultiplier } from '../lib/xp'
+import { CheckIcon, CloseIcon } from '../components/Icons'
 import { useNav, type SessionConfig } from '../state/nav'
 import { accuracyOf, useQuiz } from '../state/quiz'
 import { useSettings } from '../state/settings'
@@ -94,25 +95,32 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   return (
     <div className="quiz">
       <header className="quiz-top">
-        <button className="quiz-close" onClick={endSession} aria-label={t('quiz.end')}>
-          ✕
+        <button className="round-btn" onClick={endSession} aria-label={t('quiz.end')}>
+          <CloseIcon />
         </button>
-        <span className="kicker">{t('quiz.plate', { a: Math.min(q.index + 1, q.queue.length), b: q.queue.length })}</span>
-        <span className="quiz-stat mono">
-          {accuracyOf(q.keysCorrect, q.keysWrong)}% <span className="muted">{t('quiz.acc')}</span>
-        </span>
-        <span className="quiz-stat mono">
-          <span className="xp-pill">{q.sessionXp} XP</span>
-        </span>
-        {examLeft !== null && <span className={`quiz-stat mono${examLeft < 30_000 ? ' low' : ''}`}>{formatClock(examLeft)}</span>}
+        <div className="quiz-progress" aria-label={t('quiz.plate', { a: Math.min(q.index + 1, q.queue.length), b: q.queue.length })}>
+          <span style={{ width: `${(q.index / Math.max(q.queue.length, 1)) * 100}%` }} />
+        </div>
+        {examLeft !== null ? (
+          <span className={`pill num${examLeft < 30_000 ? ' warn' : ''}`}>{formatClock(examLeft)}</span>
+        ) : (
+          <span className="pill num">
+            {q.sessionXp} {t('common.xp')}
+          </span>
+        )}
       </header>
-      <div className="timer-track" aria-hidden>
-        {qFrac !== null && <span className={`timer-fill${qFrac < 0.3 ? ' low' : ''}`} style={{ transform: `scaleX(${qFrac})` }} />}
+      <div className="quiz-sub">
+        <span className="caption num">
+          {Math.min(q.index + 1, q.queue.length)}/{q.queue.length} · {accuracyOf(q.keysCorrect, q.keysWrong)}% {t('quiz.acc')}
+        </span>
+        <div className="timer-track" aria-hidden>
+          {qFrac !== null && <span className={`timer-fill${qFrac < 0.3 ? ' low' : ''}`} style={{ transform: `scaleX(${qFrac})` }} />}
+        </div>
       </div>
 
       <div className="quiz-viewer viewer-fade">
         {mult > 1 && !done && (
-          <span className="stamp combo-stamp" key={q.streak}>
+          <span className="combo num" key={q.streak}>
             {t('quiz.combo', { n: mult })}
           </span>
         )}
@@ -125,8 +133,11 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
         <AnswerWord answer={answer} typed={q.typing.buffer} mode={config.mode} done={done} outcome={q.lastOutcome} wrongCount={q.wrongCount} />
         {done ? (
           <div className="quiz-feedback" key={q.index}>
-            <div className="feedback-row">
-              <span className={`stamp feedback-stamp ${q.lastOutcome === 'failed' ? 'bad' : 'good'}`}>
+            <div className="result-row">
+              <span className={`result-badge ${q.lastOutcome === 'failed' ? 'bad' : q.lastOutcome === 'ok' ? 'warn' : 'good'}`}>
+                {q.lastOutcome === 'failed' ? <CloseIcon size={14} /> : <CheckIcon size={14} />}
+              </span>
+              <span className="headline">
                 {q.lastOutcome === 'perfect'
                   ? t('quiz.correct')
                   : q.lastOutcome === 'ok'
@@ -135,20 +146,31 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
                       ? t('quiz.timeout')
                       : t('quiz.skipped')}
               </span>
-              {q.lastXp > 0 && <span className="xp-float mono">+{q.lastXp} XP</span>}
+              {q.lastXp > 0 && (
+                <span className="pill num">
+                  +{q.lastXp} {t('common.xp')}
+                </span>
+              )}
             </div>
-            {current.latinName.toLowerCase() !== current.name.toLowerCase() && <span className="quiz-latin serif">{current.latinName}</span>}
-            <p className="quiz-def">{current.function}</p>
-            {note && <p className="quiz-note">{note.text}</p>}
+            {current.latinName.toLowerCase() !== current.name.toLowerCase() && <span className="quiz-latin" dir="auto">{current.latinName}</span>}
+            <p className="quiz-def" dir="auto">{current.function}</p>
+            {note && (
+              <p className="callout quiz-note">
+                <span className="callout-label">{t(`note.${note.track}`)}</span>
+                <span className="callout-text" dir="auto">
+                  {note.text}
+                </span>
+              </p>
+            )}
             {paused && (
-              <button className="btn btn-line quiz-next" onClick={() => useQuiz.getState().next()}>
-                {t('quiz.next')} <span className="flip-rtl">→</span>
+              <button className="btn btn-secondary quiz-next" onClick={() => useQuiz.getState().next()}>
+                {t('quiz.next')}
               </button>
             )}
           </div>
         ) : (
           <div className="quiz-feedback">
-            <p className="quiz-def">{showDefinition ? current.definition : ' '}</p>
+            <p className="quiz-def" dir="auto">{showDefinition ? current.definition : '\u00a0'}</p>
             {q.typing.awaitingEnter && <p className="quiz-hint">{t('quiz.confirm')}</p>}
           </div>
         )}

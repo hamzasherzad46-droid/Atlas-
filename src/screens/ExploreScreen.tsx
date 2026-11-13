@@ -2,11 +2,13 @@ import { lazy, Suspense, useMemo, useRef, useState } from 'react'
 import { noteFor } from '../content/notes'
 import type { CameraView, Structure } from '../content/types'
 import { useModule } from '../content/useModule'
+import { BackIcon, CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { meshKeys, meshMatchesAny } from '../lib/meshMatch'
 import { useNav } from '../state/nav'
 import { useSettings } from '../state/settings'
 import type { CameraApi } from '../viewer/CameraRig'
+import { sentence } from '../lib/format'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -44,11 +46,11 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
   return (
     <div className="overlay explore">
       <header className="explore-head">
-        <button className="back mono" onClick={() => openExplore(null)}>
-          <span className="flip-rtl">←</span> {t.td(`module.${moduleId}`, moduleId)}
+        <button className="nav-back" onClick={() => openExplore(null)}>
+          <BackIcon /> {t.td(`module.${moduleId}`, moduleId)}
         </button>
-        <h1 className="h2">{t('explore.title')}</h1>
-        <p className="tiny muted">{t('explore.help')}</p>
+        <h1 className="title-1">{t('explore.title')}</h1>
+        <p className="footnote explore-help">{t('explore.help')}</p>
       </header>
       <div className="explore-viewer">
         {assets && (
@@ -57,34 +59,41 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
           </Suspense>
         )}
         {import.meta.env.DEV && (
-          <button className="dev-copy mono" onClick={() => void copyCamera()}>
+          <button className="dev-copy" onClick={() => void copyCamera()}>
             {copied ? t('explore.copied') : t('explore.copy')}
           </button>
         )}
       </div>
-      <section className={`sheet explore-card${selected ? ' open' : ''}`} aria-live="polite">
+      <section className={`explore-card${selected ? ' open' : ''}`} aria-live="polite">
         {selected ? (
           <>
             <div className="row">
-              <h2 className="explore-name serif">{selected.name}</h2>
-              <button className="explore-close muted" onClick={() => setSelected(null)} aria-label={t('common.close')}>
-                ✕
+              <h2 className="title-2">{sentence(selected.name)}</h2>
+              <button className="round-btn small" onClick={() => setSelected(null)} aria-label={t('common.close')}>
+                <CloseIcon size={14} />
               </button>
             </div>
-            {selected.latinName.toLowerCase() !== selected.name.toLowerCase() && <p className="serif explore-latin">{selected.latinName}</p>}
-            <p className="small">{selected.function}</p>
-            {note && <p className="small muted explore-note">{note.text}</p>}
+            {selected.latinName.toLowerCase() !== selected.name.toLowerCase() && <p className="explore-latin" dir="auto">{selected.latinName}</p>}
+            <p className="explore-fn" dir="auto">{selected.function}</p>
+            {note && (
+              <p className="callout explore-note">
+                <span className="callout-label">{t(`note.${note.track}`)}</span>
+                <span className="callout-text" dir="auto">
+                  {note.text}
+                </span>
+              </p>
+            )}
             <div className="explore-actions">
-              <button className="btn btn-line" onClick={() => setView({ ...selected.camera })}>
+              <button className="btn btn-primary" onClick={() => setView({ ...selected.camera })}>
                 {t('explore.focus')}
               </button>
-              <button className="btn btn-line" onClick={() => setView({ ...OVERVIEW })}>
+              <button className="btn btn-secondary" onClick={() => setView({ ...OVERVIEW })}>
                 {t('explore.whole')}
               </button>
             </div>
           </>
         ) : (
-          <p className="small muted">{t('explore.tap')}</p>
+          <p className="subhead">{t('explore.tap')}</p>
         )}
       </section>
     </div>

@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react'
-import { catalog } from '../content/loader'
+import { catalog, getModuleInfo } from '../content/loader'
 import type { BodySystem, Structure } from '../content/types'
 import { useModule } from '../content/useModule'
-import { CardsIcon, ChevronIcon, ClockIcon, FlameIcon, RedoIcon, SystemGlyph } from '../components/Icons'
-import { Meter, Ring, WeekStrip } from '../components/bits'
+import { ArrowIcon, CardsIcon, CheckIcon, ChevronIcon, RedoIcon } from '../components/Icons'
+import { Bar } from '../components/bits'
 import { useT } from '../i18n'
 import type { Period } from '../lib/dates'
-import { pct, weekdayLabels } from '../lib/format'
+import { pct, sentence } from '../lib/format'
 import { defaultModuleId, startAssessment, startCards, startPractice, startReview } from '../state/actions'
 import { dueCards, missedCount, useAssignments, useLevel, useStreak } from '../state/dashboard'
 import { useNav } from '../state/nav'
@@ -22,157 +22,160 @@ function hashIndex(key: string, n: number) {
 
 export function TodayScreen() {
   const t = useT()
-  const { name, lastSession, dailyGoal } = useSettings()
+  const { name, track, lastSession, dailyGoal } = useSettings()
+  const setTab = useNav((s) => s.setTab)
   const moduleId = lastSession?.moduleId ?? defaultModuleId
+  const info = getModuleInfo(moduleId)
   const { assets } = useModule(moduleId)
   const { records, cards, days } = useProgress()
-  const { streak, week } = useStreak()
+  const { streak } = useStreak()
   const level = useLevel()
   const now = new Date()
-  const today = days[dayKey(now)]
-  const answered = today?.answered ?? 0
+  const answered = days[dayKey(now)]?.answered ?? 0
 
   const hour = now.getHours()
   const greeting = t(hour < 12 ? 'today.morning' : hour < 18 ? 'today.afternoon' : 'today.evening')
-  const dateLine = new Intl.DateTimeFormat(t.lang, { weekday: 'short', day: 'numeric', month: 'short' }).format(now)
 
   const content = assets?.content
+  const stats = content ? regionStats(content, records) : []
+  const total = stats.reduce((n, r) => n + r.total, 0)
+  const mastered = stats.reduce((n, r) => n + r.mastered, 0)
   const due = content ? dueCards(content, cards) : 0
   const mistakes = content ? missedCount(content, records) : 0
   const weak = content ? mostMissed(content, records, 6) : []
   const fact: Structure | undefined = content ? content.structures[hashIndex(dayKey(now), content.structures.length)] : undefined
-  const regionName = (id: string | null) => (id ? t.td(`region.${id}`, content?.regions.find((r) => r.id === id)?.name ?? id) : t('practice.all'))
+  const region = lastSession?.region ?? null
+  const regionName = region ? t.td(`region.${region}`, content?.regions.find((r) => r.id === region)?.name ?? region) : t('practice.all')
+  const goalDone = answered >= dailyGoal
 
   return (
     <main className="page today">
-      <header className="masthead">
-        <p className="kicker">
-          {dateLine}
-          {streak > 0 && <span className="masthead-day"> · {t('today.streak')} {streak}</span>}
-        </p>
-        <h1 className="display">
-          {greeting}
-          {name ? (
-            <>
-              , <em>{name}</em>.
-            </>
-          ) : (
-            '.'
-          )}
-        </h1>
-        <div className="level-line">
-          <span className="mono small">
-            {t('level.label', { n: level.level })} · {t(`level.${level.title}`)}
-          </span>
-          <span className="tiny muted mono">{t('level.toNext', { n: level.span - level.into, next: level.level + 1 })}</span>
-        </div>
-        <Meter value={level.into} max={level.span} tone="accent" />
+      <header className="brand-bar">
+        <span className="wordmark">ATLAS</span>
+        <button className="pill good lg" onClick={() => setTab('you')}>
+          {t(`track.${track}`)}
+        </button>
       </header>
 
-      <section className="sheet hero">
-        <div className="hero-goal">
-          <Ring value={answered} max={dailyGoal}>
-            <span className="ring-num serif">{answered}</span>
-            <span className="ring-of mono">/{dailyGoal}</span>
-          </Ring>
+      <div className="page-head">
+        <p className="eyebrow">{t('today.space')}</p>
+        <h1 className="large-title">{name ? `${greeting}, ${name}.` : `${greeting}.`}</h1>
+        <p className="lead">{lastSession ? t('today.resume') : t('today.begin')}</p>
+      </div>
+
+      <button className="card resume" onClick={() => startPractice(moduleId, region, lastSession?.mode ?? 'learn')}>
+        <span className="title-2">{t.td(`module.${moduleId}`, moduleId)}</span>
+        <span className="resume-sub">
+          {t.td(`system.${info?.systemId}`, '')} · {regionName}
+        </span>
+        <Bar value={mastered} max={Math.max(total, 1)} />
+        <span className="resume-pct num">{t('atlas.mastered', { n: pct(mastered, total) })}</span>
+      </button>
+
+      <section className="card goal">
+        <div className="row">
+          <span className="eyebrow">{t('today.goal')}</span>
+          {goalDone ? (
+            <span className="pill good">
+              <CheckIcon size={12} /> {t('today.goalDone')}
+            </span>
+          ) : (
+            <span className="goal-count num">
+              {answered} <span className="muted">/ {dailyGoal}</span>
+            </span>
+          )}
+        </div>
+        <Bar value={answered} max={dailyGoal} color={goalDone ? 'var(--good)' : undefined} />
+        <div className="goal-stats">
           <div>
-            <p className="kicker">{t('today.goal')}</p>
-            <p className="hero-goal-text">{answered >= dailyGoal ? t('today.goalDone') : t('today.answered')}</p>
+            <span className="stat-num num">{streak}</span>
+            <span className="footnote">{streak > 0 ? t('today.streak') : t('today.streakStart')}</span>
+          </div>
+          <div>
+            <span className="stat-num num">{t('level.label', { n: level.level })}</span>
+            <span className="footnote">{t(`level.${level.title}`)}</span>
+          </div>
+          <div>
+            <span className="stat-num num">{level.xp}</span>
+            <span className="footnote">{t('common.xp')}</span>
           </div>
         </div>
-        <div className="hero-streak">
-          <div className="streak-num">
-            <span className={streak > 0 ? 'flame on' : 'flame'}>
-              <FlameIcon size={22} />
-            </span>
-            <span className="serif">{streak}</span>
-            <span className="small muted">{streak > 0 ? t('today.streak') : t('today.streakStart')}</span>
-          </div>
-          <WeekStrip days={week} labels={weekdayLabels(t.lang)} />
-        </div>
-        <button className="btn btn-accent btn-block hero-cta" onClick={() => startPractice(moduleId, lastSession?.region ?? null, lastSession?.mode ?? 'learn')}>
-          <span className="hero-cta-text">
-            <span>{lastSession ? t('today.continue') : t('today.startHere')}</span>
-            <span className="hero-cta-sub">
-              {t.td(`module.${moduleId}`, moduleId)} · {regionName(lastSession?.region ?? null)}
-            </span>
-          </span>
-          <ChevronIcon />
-        </button>
       </section>
 
+      <button className="card assess" onClick={() => startAssessment(moduleId)}>
+        <span className="title-2">{t('today.assess')}</span>
+        <span className="assess-sub">{t('today.assessSub')}</span>
+        <span className="link">
+          {t('today.assessGo')} <ArrowIcon />
+        </span>
+      </button>
+
       <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('today.due')}</h2>
-        </div>
-        <div className="grid-2">
-          <button className="tile" onClick={() => startCards(moduleId)}>
-            <CardsIcon />
-            <span className="tile-num serif">{due}</span>
-            <span className="tile-label">{t('today.cardsDue')}</span>
+        <p className="group-label">{t('today.due')}</p>
+        <div className="group with-icons">
+          <button className="cell" onClick={() => startCards(moduleId)}>
+            <span className="icon-badge">
+              <CardsIcon />
+            </span>
+            <span className="cell-main cell-title">{t('today.cardsDue')}</span>
+            {due > 0 ? <span className="pill warn num">{due}</span> : <span className="cell-value num">0</span>}
+            <ChevronIcon />
           </button>
-          <button className="tile" disabled={!mistakes} onClick={() => void startReview(moduleId)}>
-            <RedoIcon />
-            <span className="tile-num serif">{mistakes}</span>
-            <span className="tile-label">{t('today.mistakes')}</span>
+          <button className="cell" disabled={!mistakes} onClick={() => void startReview(moduleId)}>
+            <span className="icon-badge">
+              <RedoIcon />
+            </span>
+            <span className="cell-main cell-title">{t('today.mistakes')}</span>
+            {mistakes > 0 ? <span className="pill bad num">{mistakes}</span> : <span className="cell-value num">0</span>}
+            <ChevronIcon />
           </button>
         </div>
       </section>
 
       <Assignments />
 
+      <section className="section">
+        <div className="section-head">
+          <h2 className="title-2">{t('today.systems')}</h2>
+          <button className="see-all" onClick={() => setTab('atlas')}>
+            {t('atlas.title')}
+          </button>
+        </div>
+        <div className="group">
+          {catalog.systems.map((s) => (
+            <SystemRow key={s.id} system={s} />
+          ))}
+        </div>
+      </section>
+
       {fact && (
         <section className="section">
-          <div className="section-head">
-            <h2 className="h2">{t('today.fact')}</h2>
-            <span className="kicker">{fact.latinName}</span>
-          </div>
-          <button className="fact" onClick={() => startCards(moduleId)}>
-            <span className="fact-name serif">{fact.name}</span>
-            <span className="fact-why">{fact.why}</span>
-            <span className="fact-fn small muted">{fact.function}</span>
+          <p className="group-label">{t('today.fact')}</p>
+          <button className="card fact" onClick={() => startCards(moduleId)}>
+            <span className="title-2">{sentence(fact.name)}</span>
+            {fact.latinName.toLowerCase() !== fact.name.toLowerCase() && <span className="fact-latin" dir="auto">{fact.latinName}</span>}
+            <span className="fact-why" dir="auto">{fact.why}</span>
+            <span className="footnote" dir="auto">{fact.function}</span>
           </button>
         </section>
       )}
 
       <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('today.systems')}</h2>
-          <span className="kicker">{catalog.systems.length}</span>
-        </div>
-        <div className="systems-grid">
-          {catalog.systems.map((s, i) => (
-            <SystemTile key={s.id} system={s} n={i + 1} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="section-head">
-          <h2 className="h2">{t('today.weak')}</h2>
-        </div>
+        <p className="group-label">{t('today.weak')}</p>
         {weak.length === 0 ? (
           <p className="empty">{t('today.noWeak')}</p>
         ) : (
           <div className="chips">
             {weak.map((w) => (
-              <button key={w.structure.id} className="chip weak-chip" onClick={() => void startReview(moduleId)}>
-                {w.structure.name} <span className="mono tiny muted">{pct(w.record.correct, w.record.attempts)}%</span>
+              <button key={w.structure.id} className="chip" onClick={() => void startReview(moduleId)}>
+                {sentence(w.structure.name)}{' '}
+                <span className={`num weak-pct ${pct(w.record.correct, w.record.attempts) < 50 ? 'bad' : 'warn'}`}>
+                  {pct(w.record.correct, w.record.attempts)}%
+                </span>
               </button>
             ))}
           </div>
         )}
-      </section>
-
-      <section className="section">
-        <button className="index-row exam-row" onClick={() => startAssessment(moduleId)}>
-          <ClockIcon />
-          <span className="index-main">
-            <span className="index-title">{t('today.exam')}</span>
-            <span className="index-sub">{t('today.examSub')}</span>
-          </span>
-          <ChevronIcon />
-        </button>
       </section>
     </main>
   )
@@ -190,8 +193,8 @@ function Assignments() {
   return (
     <section className="section">
       <div className="section-head">
-        <h2 className="h2">{t('today.assignments')}</h2>
-        <span className="kicker">
+        <h2 className="title-2">{t('today.assignments')}</h2>
+        <span className="footnote num">
           {doneCount}/{list.length} · {leftLabel}
         </span>
       </div>
@@ -202,49 +205,51 @@ function Assignments() {
           </button>
         ))}
       </div>
-      <ol className="assignments">
+      <div className="group">
         {list.map((a) => (
-          <li key={a.key} className={`assignment${a.done ? ' done' : ''}`}>
-            <span className="assignment-box" aria-hidden />
-            <span className="assignment-main">
-              <span className="assignment-text">{t(`assignment.${a.id}` as Parameters<typeof t>[0], { n: a.target })}</span>
-              <Meter value={a.value} max={a.target} tone={a.done ? 'moss' : undefined} />
-            </span>
-            <span className="assignment-side">
-              <span className="mono tiny muted">
-                {a.value}/{a.target}
+          <div key={a.key} className={`cell assignment${a.done ? ' done' : ''}`}>
+            <span className="cell-main">
+              <span className="cell-title">{t(`assignment.${a.id}` as Parameters<typeof t>[0], { n: a.target })}</span>
+              <span className="cell-sub num">
+                {Math.min(a.value, a.target)} / {a.target} · +{a.xp} {t('common.xp')}
               </span>
-              <span className={`tag ${a.done ? 'done' : 'xp'}`}>+{a.xp} XP</span>
+              <Bar value={a.value} max={a.target} thin color={a.done ? 'var(--good)' : undefined} />
             </span>
-          </li>
+            {a.done && (
+              <span className="done-mark" aria-label={t('common.done')}>
+                <CheckIcon size={14} />
+              </span>
+            )}
+          </div>
         ))}
-      </ol>
+      </div>
     </section>
   )
 }
 
-function SystemTile({ system, n }: { system: BodySystem; n: number }) {
+function SystemRow({ system }: { system: BodySystem }) {
   const t = useT()
   const openModule = useNav((s) => s.openModule)
   const available = system.modules.find((m) => m.status === 'available')
   const { assets } = useModule(available?.id ?? null)
   const records = useProgress((s) => s.records)
-  const mastery = useMemo(() => {
+  const summary = useMemo(() => {
     if (!assets) return null
     const stats = regionStats(assets.content, records)
     const total = stats.reduce((a, r) => a + r.total, 0)
-    return pct(
-      stats.reduce((a, r) => a + r.mastered, 0),
-      total,
-    )
+    return { total, mastery: pct(stats.reduce((a, r) => a + r.mastered, 0), total) }
   }, [assets, records])
 
   return (
-    <button className={`system-tile${available ? '' : ' soon'}`} disabled={!available} onClick={() => available && openModule(available.id)}>
-      <span className="system-num mono">{String(n).padStart(2, '0')}</span>
-      <SystemGlyph glyph={system.glyph} />
-      <span className="system-name">{t.td(`system.${system.id}`, system.id)}</span>
-      <span className="system-meta mono">{available ? (mastery === null ? '…' : t('atlas.mastered', { n: mastery })) : t('common.soon')}</span>
+    <button className="cell system-row" disabled={!available} onClick={() => available && openModule(available.id)}>
+      <span className="cell-main">
+        <span className="cell-title">{t.td(`system.${system.id}`, system.id)}</span>
+        <span className="cell-sub num">
+          {available && summary ? `${t('atlas.structures', { n: summary.total })} · ${t('atlas.mastered', { n: summary.mastery })}` : t('common.soon')}
+        </span>
+        {available && summary && <Bar value={summary.mastery} max={100} thin />}
+      </span>
+      <ChevronIcon />
     </button>
   )
 }
