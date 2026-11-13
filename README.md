@@ -12,6 +12,8 @@ npm run lint
 npm run build && npm run preview   # production build with service worker
 ```
 
+**Live:** https://hamzasherzad46-droid.github.io/Atlas-/ — published by `.github/workflows/pages.yml` on every push to `main`.
+
 To try it on a phone on the same Wi-Fi: `npm run dev -- --host`, then open the printed network URL.
 (Service workers need HTTPS or localhost, so offline mode and installation only work on a deployed build.)
 
