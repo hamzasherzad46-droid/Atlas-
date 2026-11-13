@@ -18,8 +18,8 @@ interface InstanceProps {
   assets: ModuleAssets
   highlight: string[]
   glow?: boolean
-  /** Explore mode: report the tapped mesh name. */
-  onPick?: (meshName: string) => void
+  /** Explore mode: report the tapped mesh name and the world-space point that was tapped. */
+  onPick?: (meshName: string, point: [number, number, number]) => void
   onMatched?: (meshes: THREE.Mesh[]) => void
 }
 
@@ -100,7 +100,7 @@ function Highlighted({ root, highlight, glow = true, onPick, onMatched }: Instan
     ? (e: ThreeEvent<MouseEvent>) => {
         if (e.delta > 8) return // was a drag, not a tap
         e.stopPropagation()
-        onPick(e.object.name)
+        onPick(e.object.name, [e.point.x, e.point.y, e.point.z])
       }
     : undefined
 

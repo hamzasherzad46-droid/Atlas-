@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type PointerEvent as RPointerEvent } from 'react'
 import { noteFor } from '../content/notes'
 import { useModule } from '../content/useModule'
-import { CheckIcon, CloseIcon } from '../components/Icons'
+import { ArrowIcon, CheckIcon, CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { meshKeys } from '../lib/meshMatch'
 import { playSound } from '../lib/sound'
@@ -84,28 +84,30 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
     return (
       <div className="quiz summary">
         <div className="summary-inner">
-          <span className="summary-badge">
-            <CheckIcon size={26} />
-          </span>
-          <p className="eyebrow">{t('cards.title')}</p>
-          <h1 className="large-title">{t('cards.done')}</h1>
-          <div className="stat-grid summary-stats">
-            <div className="card stat">
-              <span className="footnote">{t('cards.known')}</span>
-              <span className="stat-num num">{known}</span>
+          <header className="masthead">
+            <span className="wordmark">{t('app.name')}</span>
+            <span className="label">{t.td(`module.${config.moduleId}`, config.moduleId)}</span>
+          </header>
+          <div className="titleblock">
+            <p className="label">{t('cards.title')}</p>
+            <h1 className="display">{t('cards.done')}</h1>
+          </div>
+          <div className="figures summary-figures">
+            <div>
+              <span className="figure good">{known}</span>
+              <p className="label">{t('cards.known')}</p>
             </div>
-            <div className="card stat">
-              <span className="footnote">{t('cards.revisit')}</span>
-              <span className="stat-num num">{again.length}</span>
-            </div>
-            <div className="card stat">
-              <span className="footnote">{t('summary.xp')}</span>
-              <span className="stat-num num accent-text">+{known * 2 + again.length}</span>
+            <div>
+              <span className={`figure${again.length ? ' warn' : ''}`}>{again.length}</span>
+              <p className="label">{t('cards.revisit')}</p>
             </div>
           </div>
-          <button className="btn btn-primary btn-block summary-done" onClick={endCards}>
-            {t('common.done')}
-          </button>
+          <div className="summary-actions">
+            <button className="go" onClick={endCards}>
+              {t('common.done')}
+              <ArrowIcon />
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -116,18 +118,14 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
   return (
     <div className="quiz cards">
       <header className="quiz-top">
-        <button className="round-btn" onClick={endCards} aria-label={t('quiz.end')}>
+        <button className="icon-btn" onClick={endCards} aria-label={t('quiz.end')}>
           <CloseIcon />
         </button>
-        <div className="quiz-progress">
-          <span style={{ width: `${(index / Math.max(deck.length, 1)) * 100}%` }} />
-        </div>
-        <span className="pill num">
-          {known * 2 + again.length} {t('common.xp')}
-        </span>
+        <p className="label num quiz-count">{t('cards.count', { a: index + 1, b: deck.length })}</p>
+        <span className="quiz-clock" />
       </header>
-      <div className="quiz-sub">
-        <span className="caption num">{t('cards.count', { a: index + 1, b: deck.length })}</span>
+      <div className="quiz-progress" aria-hidden>
+        <span style={{ width: `${(index / Math.max(deck.length, 1)) * 100}%` }} />
       </div>
 
       <div className="quiz-viewer viewer-fade cards-viewer">
@@ -153,23 +151,33 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
           >
             <div className="flashcard-inner">
               <div className="face front">
-                <p className="eyebrow">{t('cards.whatIs')}</p>
-                <p className="front-def" dir="auto">{current.definition}</p>
-                <p className="caption front-tap">{t('cards.tap')}</p>
+                <p className="label">{t('cards.whatIs')}</p>
+                <p className="front-def" dir="auto">
+                  {current.definition}
+                </p>
+                <p className="tiny front-tap">{t('cards.tap')}</p>
               </div>
               <div className="face back">
-                {drag > 40 && <span className="swipe-tag ok">{t('cards.gotIt')}</span>}
-                {drag < -40 && <span className="swipe-tag again">{t('cards.again')}</span>}
-                <h2 className="back-name">{sentence(current.name)}</h2>
-                <p className="back-latin" dir="auto">{current.latinName}</p>
-                <p className="eyebrow back-label">{t('cards.function')}</p>
-                <p className="back-text" dir="auto">{current.function}</p>
-                <p className="eyebrow back-label">{t('cards.why')}</p>
-                <p className="back-text" dir="auto">{current.why}</p>
+                {drag > 40 && <span className="swipe-tag good">{t('cards.gotIt')}</span>}
+                {drag < -40 && <span className="swipe-tag bad">{t('cards.again')}</span>}
+                <h2 className="title">{sentence(current.name)}</h2>
+                {current.latinName.toLowerCase() !== current.name.toLowerCase() && (
+                  <p className="latin back-latin" dir="auto">
+                    {current.latinName}
+                  </p>
+                )}
+                <p className="label back-label">{t('cards.function')}</p>
+                <p className="back-text" dir="auto">
+                  {current.function}
+                </p>
+                <p className="label back-label">{t('cards.why')}</p>
+                <p className="back-text" dir="auto">
+                  {current.why}
+                </p>
                 {note && (
-                  <p className="callout back-note">
-                    <span className="callout-label">{t(`note.${note.track}`)}</span>
-                    <span className="callout-text" dir="auto">
+                  <p className="note back-note">
+                    <span className="label">{t(`note.${note.track}`)}</span>
+                    <span className="note-text" dir="auto">
                       {note.text}
                     </span>
                   </p>
@@ -178,11 +186,12 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
             </div>
           </div>
           <div className={`card-actions${flipped ? ' show' : ''}`}>
-            <button className="btn btn-secondary again-btn" onClick={() => answer(false)} disabled={!flipped}>
+            <button className="go quiet again-btn" onClick={() => answer(false)} disabled={!flipped}>
               {t('cards.again')}
             </button>
-            <button className="btn btn-primary" onClick={() => answer(true)} disabled={!flipped}>
+            <button className="go" onClick={() => answer(true)} disabled={!flipped}>
               {t('cards.gotIt')}
+              <CheckIcon />
             </button>
           </div>
         </div>

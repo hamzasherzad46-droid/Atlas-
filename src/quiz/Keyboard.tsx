@@ -58,9 +58,9 @@ function Key({ id, label, aria, wide, space, accent, flash, onPress }: KeyProps)
       wrong
         ? [
             { background: 'var(--bad)', color: '#fff', transform: 'scale(0.94)' },
-            { background: 'var(--key)', color: 'var(--label)', transform: 'scale(1)' },
+            { background: 'var(--key)', color: 'var(--ink)', transform: 'scale(1)' },
           ]
-        : [{ background: 'var(--surface-3)', transform: 'scale(0.94)' }, { background: 'var(--key)', transform: 'scale(1)' }],
+        : [{ background: 'var(--paper-3)', transform: 'scale(0.94)' }, { background: 'var(--key)', transform: 'scale(1)' }],
       { duration: wrong ? 420 : 180, easing: 'ease-out' },
     )
   }, [hit])

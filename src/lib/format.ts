@@ -16,3 +16,22 @@ export function weekdayLabels(lang: string): string[] {
 export function sentence(s: string): string {
   return s ? s[0].toUpperCase() + s.slice(1) : s
 }
+
+/** 1 → "I", 4 → "IV": plate numbers in the atlas index. */
+export function roman(n: number): string {
+  const table: [number, string][] = [
+    [10, 'X'],
+    [9, 'IX'],
+    [5, 'V'],
+    [4, 'IV'],
+    [1, 'I'],
+  ]
+  let out = ''
+  for (const [v, r] of table) {
+    while (n >= v) {
+      out += r
+      n -= v
+    }
+  }
+  return out
+}

@@ -1,16 +1,19 @@
 import { catalog, getModuleInfo } from '../content/loader'
 import type { ModuleInfo } from '../content/types'
 import { useModule } from '../content/useModule'
-import { BackIcon, CardsIcon, ChevronIcon, ClockIcon, CubeIcon, KeyboardIcon } from '../components/Icons'
-import { Bar } from '../components/bits'
+import { ArrowIcon, BackIcon } from '../components/Icons'
+import { Masthead } from '../components/Masthead'
+import { Meter } from '../components/bits'
 import { useT } from '../i18n'
-import { pct } from '../lib/format'
+import { pct, roman } from '../lib/format'
+import { tintVars } from '../lib/tint'
 import { startAssessment, startCards, startPractice } from '../state/actions'
 import { ASSESSMENT_ANSWER_TIMER, ASSESSMENT_LENGTH, ASSESSMENT_TIME_MS, useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
 import { regionStats } from '../state/stats'
 
+/** The atlas as a table of contents: one numbered part per body system. */
 export function AtlasScreen() {
   const t = useT()
   const modulePage = useNav((s) => s.modulePage)
@@ -18,27 +21,27 @@ export function AtlasScreen() {
 
   return (
     <main className="page">
-      <header className="page-head">
-        <div>
-          <p className="eyebrow">{t('atlas.sub')}</p>
-          <h1 className="large-title">{t('atlas.title')}</h1>
-        </div>
-      </header>
-      <div className="atlas-list">
-        {catalog.systems.map((sys) => (
-          <section key={sys.id} className="atlas-system">
-            <div className="atlas-head">
-              <h2 className="title-2">{t.td(`system.${sys.id}`, sys.id)}</h2>
-              <p className="subhead">{t.td(`systemBlurb.${sys.id}`, '')}</p>
-            </div>
-            <div className="atlas-modules">
+      <Masthead />
+      <div className="titleblock">
+        <h1 className="display">{t('atlas.title')}</h1>
+        <p className="lede">{t('atlas.sub')}</p>
+      </div>
+      {catalog.systems.map((sys, i) => (
+        <section key={sys.id} className="sect sys atlas-part" style={tintVars(sys.id)}>
+          <p className="part-number num" aria-hidden>
+            {roman(i + 1)}
+          </p>
+          <div className="sect-body">
+            <h2 className="head">{t.td(`system.${sys.id}`, sys.id)}</h2>
+            <p className="small part-blurb">{t.td(`systemBlurb.${sys.id}`, '')}</p>
+            <div className="rows">
               {sys.modules.map((m) => (
                 <ModuleRow key={m.id} info={m} />
               ))}
             </div>
-          </section>
-        ))}
-      </div>
+          </div>
+        </section>
+      ))}
     </main>
   )
 }
@@ -54,19 +57,19 @@ function ModuleRow({ info }: { info: ModuleInfo }) {
   const mastered = stats.reduce((n, r) => n + r.mastered, 0)
 
   return (
-    <button className="cell" disabled={!available} onClick={() => openModule(info.id)}>
-      <span className="cell-main">
-        <span className="cell-title">{t.td(`module.${info.id}`, info.id)}</span>
-        <span className="cell-sub num">
-          {available ? `${t('atlas.structures', { n: total })} · ${t('atlas.mastered', { n: pct(mastered, total) })}` : t('common.soon')}
-        </span>
-        {available && <Bar value={mastered} max={Math.max(total, 1)} thin />}
+    <button className="r" disabled={!available} onClick={() => openModule(info.id)}>
+      <span className="r-main">
+        <span className="r-title">{t.td(`module.${info.id}`, info.id)}</span>
+        <span className="r-sub num">{available ? t('atlas.structures', { n: total }) : t('common.soon')}</span>
+        {available && <Meter value={mastered} max={Math.max(total, 1)} tone="tint" />}
       </span>
-      {available && <ChevronIcon />}
+      {available && <span className="r-value">{pct(mastered, total)}%</span>}
+      {available && <ArrowIcon />}
     </button>
   )
 }
 
+/** A module: its standing, the ways to study it, and its regions. */
 function ModuleScreen({ id }: { id: string }) {
   const t = useT()
   const { openModule, openExplore } = useNav()
@@ -81,94 +84,89 @@ function ModuleScreen({ id }: { id: string }) {
   const mastered = stats.reduce((n, r) => n + r.mastered, 0)
   const attempts = stats.reduce((n, r) => n + r.attempts, 0)
   const correct = stats.reduce((n, r) => n + r.correct, 0)
+  const part = catalog.systems.findIndex((s) => s.id === info.systemId) + 1
 
   return (
-    <main className="page module-page">
-      <button className="nav-back" onClick={() => openModule(null)}>
+    <main className="page module-page sys" style={tintVars(info.systemId)}>
+      <button className="backlink" onClick={() => openModule(null)}>
         <BackIcon /> {t('atlas.title')}
       </button>
-      <header className="page-head">
-        <p className="eyebrow">{t.td(`system.${info.systemId}`, '')}</p>
-        <h1 className="large-title">{t.td(`module.${id}`, id)}</h1>
-      </header>
 
-      <section className="card module-summary">
-        <div className="stat-row">
-          <div>
-            <span className="stat-num num">
-              {seen}
-              <span className="muted"> / {total}</span>
-            </span>
-            <span className="footnote">{t('progress.seen')}</span>
-          </div>
-          <div>
-            <span className="stat-num num">{mastered}</span>
-            <span className="footnote">{t('progress.mastered')}</span>
-          </div>
-          <div>
-            <span className="stat-num num">{attempts ? `${pct(correct, attempts)}%` : '—'}</span>
-            <span className="footnote">{t('progress.accuracy')}</span>
-          </div>
+      <div className="titleblock module-titleblock">
+        <p className="label">
+          <span className="swatch" aria-hidden />
+          {part > 0 ? `${roman(part)} · ` : ''}
+          {t.td(`system.${info.systemId}`, '')}
+        </p>
+        <h1 className="display">{t.td(`module.${id}`, id)}</h1>
+      </div>
+
+      <div className="figures module-figures">
+        <div>
+          <span className="figure">
+            {seen}
+            <span className="of">/{total}</span>
+          </span>
+          <p className="label">{t('progress.seen')}</p>
         </div>
-        <Bar value={mastered} max={Math.max(total, 1)} />
-        <span className="resume-pct num">{t('atlas.mastered', { n: pct(mastered, total) })}</span>
-      </section>
+        <div>
+          <span className="figure">{mastered}</span>
+          <p className="label">{t('progress.mastered')}</p>
+        </div>
+        <div>
+          <span className="figure">{attempts ? `${pct(correct, attempts)}%` : '—'}</span>
+          <p className="label">{t('progress.accuracy')}</p>
+        </div>
+      </div>
+      <Meter value={mastered} max={Math.max(total, 1)} tone="tint" />
 
-      <button className="btn btn-primary btn-block module-cta" onClick={() => startPractice(id, null, lastMode)}>
-        <KeyboardIcon /> {t('mod.practice')}
+      <button className="go module-go" onClick={() => startPractice(id, null, lastMode)}>
+        {t('mod.practice')}
+        <ArrowIcon />
       </button>
 
-      <div className="group with-icons module-actions">
-        <button className="cell" onClick={() => startCards(id)}>
-          <span className="icon-badge">
-            <CardsIcon />
+      <div className="rows module-ways">
+        <button className="r" onClick={() => startCards(id)}>
+          <span className="r-main">
+            <span className="r-title">{t('mod.cards')}</span>
+            <span className="r-sub">{t('mod.cardsSub')}</span>
           </span>
-          <span className="cell-main">
-            <span className="cell-title">{t('mod.cards')}</span>
-            <span className="cell-sub">{t('mod.cardsSub')}</span>
-          </span>
-          <ChevronIcon />
+          <ArrowIcon />
         </button>
-        <button className="cell" onClick={() => openExplore(id)}>
-          <span className="icon-badge">
-            <CubeIcon />
+        <button className="r" onClick={() => openExplore(id)}>
+          <span className="r-main">
+            <span className="r-title">{t('mod.explore')}</span>
+            <span className="r-sub">{t('mod.exploreSub')}</span>
           </span>
-          <span className="cell-main">
-            <span className="cell-title">{t('mod.explore')}</span>
-            <span className="cell-sub">{t('mod.exploreSub')}</span>
-          </span>
-          <ChevronIcon />
+          <ArrowIcon />
         </button>
-        <button className="cell" onClick={() => startAssessment(id)}>
-          <span className="icon-badge">
-            <ClockIcon />
+        <button className="r" onClick={() => startAssessment(id)}>
+          <span className="r-main">
+            <span className="r-title">{t('mod.exam')}</span>
+            <span className="r-sub num">{t('mod.examSub', { n: ASSESSMENT_LENGTH, m: ASSESSMENT_TIME_MS / 60_000, s: ASSESSMENT_ANSWER_TIMER })}</span>
           </span>
-          <span className="cell-main">
-            <span className="cell-title">{t('mod.exam')}</span>
-            <span className="cell-sub">{t('mod.examSub', { n: ASSESSMENT_LENGTH, m: ASSESSMENT_TIME_MS / 60_000, s: ASSESSMENT_ANSWER_TIMER })}</span>
-          </span>
-          <ChevronIcon />
+          <ArrowIcon />
         </button>
       </div>
 
-      <div className="section">
-        <p className="group-label">{t('mod.regions')}</p>
-        <div className="group">
+      <section className="sect">
+        <p className="label">{t('mod.regions')}</p>
+        <div className="sect-body rows">
           {stats.map((r) => (
-            <button key={r.id} className="cell region-cell" onClick={() => startPractice(id, r.id, lastMode)}>
-              <span className="cell-main">
-                <span className="cell-title">{t.td(`region.${r.id}`, r.name)}</span>
-                <span className="cell-sub">
+            <button key={r.id} className="r" onClick={() => startPractice(id, r.id, lastMode)}>
+              <span className="r-main">
+                <span className="r-title">{t.td(`region.${r.id}`, r.name)}</span>
+                <span className="r-sub num">
                   {t('mod.seen', { a: r.seen, b: r.total })}
                   {r.accuracy !== null && ` · ${r.accuracy}%`}
                 </span>
-                <Bar value={r.mastered} max={r.total} thin />
+                <Meter value={r.mastered} max={r.total} tone="tint" />
               </span>
-              <ChevronIcon />
+              <ArrowIcon />
             </button>
           ))}
         </div>
-      </div>
+      </section>
     </main>
   )
 }

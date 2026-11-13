@@ -4,7 +4,7 @@ import { translate } from './index'
 import { translations } from './translations'
 
 /** Keys that are intentionally the same in every language (brand, units, dev-only tools). */
-const UNTRANSLATED: MessageKey[] = ['app.name', 'common.xp', 'explore.copy', 'explore.copied']
+const UNTRANSLATED: MessageKey[] = ['app.name', 'explore.copy', 'explore.copied']
 const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort()
 
 describe('translations', () => {
@@ -19,8 +19,8 @@ describe('translations', () => {
   }
 
   it('fills placeholders with localised numbers and falls back to English', () => {
-    expect(translate('de', 'level.label', { n: 3 })).toBe('Stufe 3')
-    expect(translate('ar', 'level.label', { n: 3 })).toMatch(/^المستوى [3٣]$/)
+    expect(translate('de', 'atlas.structures', { n: 3 })).toBe('3 Strukturen')
+    expect(translate('ar', 'mod.seen', { a: 3, b: 5 })).toMatch(/^شوهد [3٣] من [5٥]$/)
     expect(translate('fr', 'app.name')).toBe('Atlas')
   })
 })

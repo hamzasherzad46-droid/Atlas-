@@ -31,15 +31,16 @@ apply there.
   skeleton behind them for orientation.
 - **Quiz**: learn mode (ghost letters + definition clue) or hard mode (dashes); level filter (foundation /
   intermediate / advanced); optional per-question timer (30/20/10 s; time-out = miss); exams with a whole-test
-  clock and per-answer timer. Combos, XP, stamps and sounds that climb with the combo.
+  clock and per-answer timer. Feedback shows the verdict, the Latin name, what the structure does and a track note.
 - **Flashcards**: what it does, why it's there, and a note for your track; swipe to grade; own spaced repetition.
-- **Today**: continue card, daily goal, streak, level & XP, assessments, due flashcards and mistakes, daily / weekly /
-  monthly assignments (auto-awarded XP), systems index, fact of the day, weak spots.
+- **Today**: continue where you left off, today's goal, due flashcards and mistakes, days in a row, assessment,
+  a daily / weekly / monthly study plan, the systems index, a fact of the day and weak spots.
 - **Tracks**: nursing, medicine, physiotherapy, dentistry, sports science — notes per structure where relevant.
 - **Languages**: English, French, German, Arabic (right-to-left), Russian, Chinese, Korean for the whole UI.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
-- **Design**: clinical — deep navy and slate surfaces, mist-grey text, system fonts, one teal accent for progress.
-  Red marks errors, amber marks warnings, blue marks information; the highlighted structure in 3D is deep red.
+- **Design**: set like an anatomical reference book — ivory paper and charcoal ink (and the reverse in dark
+  mode), Libre Franklin throughout, hairline rules and margin labels instead of cards, burgundy for actions
+  and progress, and a muted colour key per body system (bone ochre, arterial crimson, nerve gold…).
 
 ### Known data gaps (BodyParts3D 4.0)
 
@@ -162,9 +163,10 @@ longer needs one.
 
 ### Rendering
 
-Anatomy uses a near-opaque mist-grey material under cool, neutral light and a procedural studio
-environment (three's `RoomEnvironment`, nothing downloaded). The target structure is deep red with a
-soft rim glow. Any part of it hidden behind other structures shows through as a faint red silhouette
+Anatomy uses a near-opaque ivory material under warm, neutral light and a procedural studio
+environment (three's `RoomEnvironment`, nothing downloaded). The target structure is burgundy-red with a
+soft rim glow. In Explore, a tapped structure gets a label pinned to the tapped point with a leader line,
+placed outward from the body as on an atlas plate. Any part of it hidden behind other structures shows through as a faint red silhouette
 (a `GreaterDepth` pass), so internal bones like the sphenoid and ethmoid stay findable.
 
 The Draco decoder is served from `/draco` (copied from three.js), not from a CDN, so it works offline.

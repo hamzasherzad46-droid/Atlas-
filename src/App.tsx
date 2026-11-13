@@ -1,8 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { TabBar } from './components/TabBar'
 import { Toasts } from './components/bits'
 import { applyLang, useT } from './i18n'
-import { playSound } from './lib/sound'
 import { QuizScreen } from './quiz/QuizScreen'
 import { AtlasScreen } from './screens/AtlasScreen'
 import { CreditsScreen } from './screens/CreditsScreen'
@@ -13,7 +12,7 @@ import { PracticeScreen } from './screens/PracticeScreen'
 import { ProgressScreen } from './screens/ProgressScreen'
 import { TodayScreen } from './screens/TodayScreen'
 import { YouScreen } from './screens/YouScreen'
-import { useAssignments, useLevel } from './state/dashboard'
+import { useAssignments } from './state/dashboard'
 import { useNav } from './state/nav'
 import { useProgress } from './state/progress'
 import { applyTheme, useSettings } from './state/settings'
@@ -28,31 +27,22 @@ const SCREENS = {
   you: YouScreen,
 }
 
-/** Awards finished assignments once and celebrates level-ups. */
-function EngagementWatcher() {
+/** Marks finished study-plan items once and posts a quiet notice. */
+function StudyPlanWatcher() {
   const t = useT()
   const assignments = useAssignments()
   const claimed = useProgress((s) => s.claimed)
-  const level = useLevel()
   const push = useToasts((s) => s.push)
-  const lastLevel = useRef(level.level)
 
   useEffect(() => {
     for (const a of assignments) {
       if (a.done && !claimed[a.key]) {
+        // The XP ledger is kept in storage for compatibility but no longer shown anywhere.
         useProgress.getState().claim(a.key, a.xp)
-        push({ kind: 'assignment', title: t('toast.assignment'), detail: `${t(`assignment.${a.id}` as Parameters<typeof t>[0], { n: a.target })} · +${a.xp} XP` })
+        push({ kind: 'assignment', title: t('toast.assignment'), detail: t(`assignment.${a.id}` as Parameters<typeof t>[0], { n: a.target }) })
       }
     }
   }, [assignments, claimed, push, t])
-
-  useEffect(() => {
-    if (level.level > lastLevel.current) {
-      push({ kind: 'level', title: t('toast.levelUp', { n: level.level }), detail: t(`level.${level.title}`) })
-      playSound('level')
-    }
-    lastLevel.current = level.level
-  }, [level.level, level.title, push, t])
 
   return null
 }
@@ -79,7 +69,7 @@ export default function App() {
       {session && <QuizScreen config={session} />}
       {cards && <FlashcardScreen config={cards} />}
       {!onboarded && <OnboardingScreen />}
-      <EngagementWatcher />
+      <StudyPlanWatcher />
       <Toasts />
     </>
   )

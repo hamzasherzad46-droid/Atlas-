@@ -22,6 +22,10 @@ const catalog = read<Catalog>('catalog.json')
 const modules = catalog.systems.flatMap((c) => c.modules).filter((m) => m.status === 'available')
 
 describe('content catalog', () => {
+  it('every body system has a colour key', () => {
+    for (const s of catalog.systems) expect(s.tint, s.id).toMatch(/^#[0-9a-f]{6}$/)
+  })
+
   it('module ids are unique across systems', () => {
     const ids = catalog.systems.flatMap((c) => c.modules.map((m) => m.id))
     expect(new Set(ids).size).toBe(ids.length)

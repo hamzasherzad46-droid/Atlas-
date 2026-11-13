@@ -13,7 +13,7 @@ Vite + React + TypeScript, three.js via @react-three/fiber + drei, Zustand, loca
 1. Read existing code before writing; mirror existing patterns.
 2. Content is data-driven — never hard-code questions in components.
 3. New modules (Heart, Vessels, Muscles) = new JSON + models only, no code forks.
-4. Design: clinical and calm. Deep navy background, slate cards, mist-grey text, system fonts (no serif, no rounded display faces). One teal accent for progress and primary actions. Status colours only carry meaning: red = incorrect answers and errors, amber = attention and warnings, blue = information and instructions, green = correct and completed. The 3D highlight is deep red. No gradients, illustrations, rings, flames or other fitness-app motifs. Tokens live in `src/styles/global.css`.
+4. Design: an anatomical reference book. Warm ivory paper and charcoal ink (dark mode: charcoal paper, ivory ink), one typeface (Libre Franklin, bundled) across many weights, hairline rules instead of cards, section labels hung in the left margin, Latin names in italic. Burgundy is the brand: wordmark, primary actions, progress, selection and the 3D highlight. Each body system has a muted colour key in `content/catalog.json` (`tint`). Status colours carry meaning only: green correct, red errors, amber attention, blue information. No gradients, rounded card stacks, rings, XP, levels or other gamified chrome. Tokens live in `src/styles/global.css`.
 5. Mobile performance first: compressed GLB, lazy-load per module, pixel ratio ≤ 2.
 6. No ads, analytics, social features or push notifications.
 7. Keep diffs scoped to the task asked.

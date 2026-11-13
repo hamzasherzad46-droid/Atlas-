@@ -1,4 +1,5 @@
-import { Canvas, useThree } from '@react-three/fiber'
+import { Html } from '@react-three/drei'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { Component, Suspense, useEffect, useMemo, useRef, useState, type ReactNode, type PointerEvent as ReactPointerEvent, type Ref } from 'react'
 import * as THREE from 'three'
@@ -15,7 +16,9 @@ export interface AnatomyViewerProps {
   view: CameraView
   /** Questions either side, shown as blurred ghost models (quiz carousel). */
   ghosts?: { prev?: Structure; next?: Structure; index: number }
-  onPick?: (meshName: string) => void
+  onPick?: (meshName: string, point: [number, number, number]) => void
+  /** A label pinned to a point on the model (explore). */
+  pin?: { point: [number, number, number]; label: string } | null
   cameraApi?: Ref<CameraApi>
 }
 
@@ -35,16 +38,16 @@ function Lights() {
     <>
       {/* Attaches to the scene's `environment`; intensity is set on the Canvas scene. */}
       <primitive object={env} attach="environment" />
-      <hemisphereLight args={['#f4f7fb', '#0f1724', 0.45]} />
-      <directionalLight position={[1.5, 3, 2.5]} intensity={1.35} color="#ffffff" />
-      <directionalLight position={[-2.5, 1.5, -2]} intensity={0.8} color="#d6e2f2" />
+      <hemisphereLight args={['#fbf7ef', '#2a2723', 0.45]} />
+      <directionalLight position={[1.5, 3, 2.5]} intensity={1.3} color="#fff9ef" />
+      <directionalLight position={[-2.5, 1.5, -2]} intensity={0.75} color="#e9eef5" />
     </>
   )
 }
 
 const SCENE = { environmentIntensity: 0.35 }
 
-export default function AnatomyViewer({ assets, highlight, view, ghosts, onPick, cameraApi }: AnatomyViewerProps) {
+export default function AnatomyViewer({ assets, highlight, view, ghosts, onPick, pin, cameraApi }: AnatomyViewerProps) {
   const [resetKey, setResetKey] = useState(0)
   const lastTap = useRef({ t: 0, x: 0, y: 0 })
 
@@ -82,10 +85,41 @@ export default function AnatomyViewer({ assets, highlight, view, ghosts, onPick,
               <ContextModel file={assets.info.model.context} />
             </Suspense>
           )}
+          {pin && <PinLabel point={pin.point} label={pin.label} />}
           <CameraRig view={view} resetKey={resetKey} apiRef={cameraApi} />
         </Canvas>
       </div>
     </ViewerBoundary>
+  )
+}
+
+/**
+ * Label pinned to a point on the model with a leader line. As on an atlas plate the label sits
+ * outward from the body (left of centre → label on the left), unless that would leave the screen.
+ */
+function PinLabel({ point, label }: { point: [number, number, number]; label: string }) {
+  const camera = useThree((s) => s.camera)
+  const width = useThree((s) => s.size.width)
+  const invalidate = useThree((s) => s.invalidate)
+  const [left, setLeft] = useState(false)
+  const projected = useMemo(() => new THREE.Vector3(), [])
+  // Html positions itself on rendered frames; a new point needs one.
+  useEffect(() => invalidate(), [point, invalidate])
+  useFrame(() => {
+    const x = ((projected.set(...point).project(camera).x + 1) / 2) * width
+    const room = 48 + label.length * 8 // dot, leader and an estimate of the name's width
+    const wantLeft = x < width / 2
+    const next = wantLeft ? x > room : x + room > width
+    if (next !== left) setLeft(next)
+  })
+  return (
+    <Html position={point} pointerEvents="none" zIndexRange={[3, 0]} wrapperClass="pin-wrap">
+      <div className={`pin${left ? ' flip' : ''}`} key={label}>
+        <span className="pin-dot" />
+        <span className="pin-line" />
+        <span className="pin-name">{label}</span>
+      </div>
+    </Html>
   )
 }
 

@@ -5,10 +5,9 @@ import { useT } from '../i18n'
 import { formatClock } from '../lib/format'
 import { meshKeys } from '../lib/meshMatch'
 import { activeAnswer, type KeyInput } from '../lib/typing'
-import { comboMultiplier } from '../lib/xp'
-import { CheckIcon, CloseIcon } from '../components/Icons'
+import { ArrowIcon, CheckIcon, CloseIcon } from '../components/Icons'
 import { useNav, type SessionConfig } from '../state/nav'
-import { accuracyOf, useQuiz } from '../state/quiz'
+import { useQuiz } from '../state/quiz'
 import { useSettings } from '../state/settings'
 import { AnswerWord } from './AnswerWord'
 import { Keyboard } from './Keyboard'
@@ -90,87 +89,78 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   const qFrac = qLeft !== null && config.answerTimer ? qLeft / (config.answerTimer * 1000) : null
   const note = noteFor(current, track)
   const showDefinition = config.mode === 'learn' || done
-  const mult = comboMultiplier(q.streak)
+
+  const kindLabel = config.kind === 'assessment' ? t('mod.exam') : config.kind === 'review' ? t('practice.review') : t('mod.practice')
+  const verdict =
+    q.lastOutcome === 'perfect'
+      ? { tone: 'good', text: t('quiz.correct') }
+      : q.lastOutcome === 'ok'
+        ? { tone: 'warn', text: `${t('quiz.correct')} · ${t('quiz.errors', { n: q.qErrors })}` }
+        : { tone: 'bad', text: q.timedOut ? t('quiz.timeout') : t('quiz.skipped') }
 
   return (
     <div className="quiz">
       <header className="quiz-top">
-        <button className="round-btn" onClick={endSession} aria-label={t('quiz.end')}>
+        <button className="icon-btn" onClick={endSession} aria-label={t('quiz.end')}>
           <CloseIcon />
         </button>
-        <div className="quiz-progress" aria-label={t('quiz.plate', { a: Math.min(q.index + 1, q.queue.length), b: q.queue.length })}>
-          <span style={{ width: `${(q.index / Math.max(q.queue.length, 1)) * 100}%` }} />
-        </div>
-        {examLeft !== null ? (
-          <span className={`pill num${examLeft < 30_000 ? ' warn' : ''}`}>{formatClock(examLeft)}</span>
-        ) : (
-          <span className="pill num">
-            {q.sessionXp} {t('common.xp')}
-          </span>
-        )}
-      </header>
-      <div className="quiz-sub">
-        <span className="caption num">
-          {Math.min(q.index + 1, q.queue.length)}/{q.queue.length} · {accuracyOf(q.keysCorrect, q.keysWrong)}% {t('quiz.acc')}
+        <p className="label num quiz-count">
+          {kindLabel} · {Math.min(q.index + 1, q.queue.length)} / {q.queue.length}
+        </p>
+        <span className={`quiz-clock num${examLeft !== null && examLeft < 30_000 ? ' warn' : ''}`}>
+          {examLeft !== null ? formatClock(examLeft) : ''}
         </span>
-        <div className="timer-track" aria-hidden>
-          {qFrac !== null && <span className={`timer-fill${qFrac < 0.3 ? ' low' : ''}`} style={{ transform: `scaleX(${qFrac})` }} />}
-        </div>
+      </header>
+      <div className="quiz-progress" aria-hidden>
+        <span style={{ width: `${(q.index / Math.max(q.queue.length, 1)) * 100}%` }} />
+      </div>
+      <div className="timer-track" aria-hidden>
+        {qFrac !== null && <span className={`timer-fill${qFrac < 0.3 ? ' low' : ''}`} style={{ transform: `scaleX(${qFrac})` }} />}
       </div>
 
       <div className="quiz-viewer viewer-fade">
-        {mult > 1 && !done && (
-          <span className="combo num" key={q.streak}>
-            {t('quiz.combo', { n: mult })}
-          </span>
-        )}
         <Suspense fallback={null}>
           <AnatomyViewer assets={assets} highlight={highlight} view={current.camera} ghosts={{ prev, next, index: q.index }} />
         </Suspense>
       </div>
 
       <section className="quiz-answer" onPointerDown={() => done && setPausedAt(q.index)}>
+        {!done && <p className="label quiz-prompt">{t('mod.practiceSub')}</p>}
         <AnswerWord answer={answer} typed={q.typing.buffer} mode={config.mode} done={done} outcome={q.lastOutcome} wrongCount={q.wrongCount} />
         {done ? (
           <div className="quiz-feedback" key={q.index}>
-            <div className="result-row">
-              <span className={`result-badge ${q.lastOutcome === 'failed' ? 'bad' : q.lastOutcome === 'ok' ? 'warn' : 'good'}`}>
-                {q.lastOutcome === 'failed' ? <CloseIcon size={14} /> : <CheckIcon size={14} />}
-              </span>
-              <span className="headline">
-                {q.lastOutcome === 'perfect'
-                  ? t('quiz.correct')
-                  : q.lastOutcome === 'ok'
-                    ? t('quiz.errors', { n: q.qErrors })
-                    : q.timedOut
-                      ? t('quiz.timeout')
-                      : t('quiz.skipped')}
-              </span>
-              {q.lastXp > 0 && (
-                <span className="pill num">
-                  +{q.lastXp} {t('common.xp')}
-                </span>
-              )}
-            </div>
-            {current.latinName.toLowerCase() !== current.name.toLowerCase() && <span className="quiz-latin" dir="auto">{current.latinName}</span>}
-            <p className="quiz-def" dir="auto">{current.function}</p>
+            <p className={`verdict ${verdict.tone}`}>
+              {q.lastOutcome === 'failed' ? <CloseIcon size={14} /> : <CheckIcon size={14} />}
+              <span>{verdict.text}</span>
+            </p>
+            {current.latinName.toLowerCase() !== current.name.toLowerCase() && (
+              <p className="latin quiz-latin" dir="auto">
+                {current.latinName}
+              </p>
+            )}
+            <p className="quiz-def" dir="auto">
+              {current.function}
+            </p>
             {note && (
-              <p className="callout quiz-note">
-                <span className="callout-label">{t(`note.${note.track}`)}</span>
-                <span className="callout-text" dir="auto">
+              <p className="note quiz-note">
+                <span className="label">{t(`note.${note.track}`)}</span>
+                <span className="note-text" dir="auto">
                   {note.text}
                 </span>
               </p>
             )}
             {paused && (
-              <button className="btn btn-secondary quiz-next" onClick={() => useQuiz.getState().next()}>
+              <button className="textlink quiz-next" onClick={() => useQuiz.getState().next()}>
                 {t('quiz.next')}
+                <ArrowIcon size={14} />
               </button>
             )}
           </div>
         ) : (
           <div className="quiz-feedback">
-            <p className="quiz-def" dir="auto">{showDefinition ? current.definition : '\u00a0'}</p>
+            <p className="quiz-def" dir="auto">
+              {showDefinition ? current.definition : '\u00a0'}
+            </p>
             {q.typing.awaitingEnter && <p className="quiz-hint">{t('quiz.confirm')}</p>}
           </div>
         )}

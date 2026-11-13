@@ -164,7 +164,7 @@ export const useQuiz = create<QuizState>()((set, get) => {
       // On skip or timeout, reveal the answer.
       typing: skipped ? { buffer: st.answers[0] ?? '', awaitingEnter: false } : st.typing,
     })
-    playSound(outcome === 'failed' ? 'fail' : streak >= 3 ? 'combo' : 'complete', streak)
+    playSound(outcome === 'failed' ? 'fail' : 'complete')
   }
 
   return {

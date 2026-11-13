@@ -1,131 +1,111 @@
 import { useState } from 'react'
 import { TRACKS } from '../content/types'
-import { CheckIcon, ChevronIcon } from '../components/Icons'
-import { Bar } from '../components/bits'
+import { ArrowIcon } from '../components/Icons'
+import { Masthead } from '../components/Masthead'
 import { LANG_NAMES, useT } from '../i18n'
-import { useLevel } from '../state/dashboard'
 import { useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { ANSWER_TIMERS, DAILY_GOALS, LANGS, useSettings } from '../state/settings'
 
+/** Settings, set as a ledger: each preference on its own line with its label in the margin. */
 export function YouScreen() {
   const t = useT()
   const s = useSettings()
   const reset = useProgress((p) => p.reset)
   const setCredits = useNav((n) => n.setCredits)
-  const level = useLevel()
   const [confirming, setConfirming] = useState(false)
-  const initial = (s.name.trim()[0] ?? '').toUpperCase()
 
   return (
     <main className="page">
-      <header className="page-head">
-        <h1 className="large-title">{t('you.title')}</h1>
-      </header>
+      <Masthead />
+      <div className="titleblock">
+        <h1 className="display">{s.name || t('you.title')}</h1>
+      </div>
 
-      <section className="card profile">
-        <span className="profile-avatar num">{initial || level.level}</span>
-        <div className="profile-main">
-          <p className="title-2">{s.name || t(`level.${level.title}`)}</p>
-          <p className="footnote">
-            {t('level.label', { n: level.level })} · {t(`level.${level.title}`)} · <span className="num">{level.xp} XP</span>
-          </p>
-          <Bar value={level.into} max={level.span} />
+      <section className="sect">
+        <label className="label" htmlFor="you-name">
+          {t('you.name')}
+        </label>
+        <div className="sect-body">
+          <input id="you-name" className="field" value={s.name} maxLength={24} placeholder={t('you.namePlaceholder')} onChange={(e) => s.set({ name: e.target.value })} />
         </div>
       </section>
 
-      <div className="section">
-        <div className="group">
-          <label className="cell">
-            <span className="cell-title">{t('you.name')}</span>
-            <input className="input" value={s.name} maxLength={24} placeholder={t('you.namePlaceholder')} onChange={(e) => s.set({ name: e.target.value })} />
-          </label>
-        </div>
-      </div>
-
-      <div className="section">
-        <p className="group-label">{t('you.track')}</p>
-        <div className="group">
+      <section className="sect">
+        <p className="label">{t('you.track')}</p>
+        <div className="sect-body">
           {TRACKS.map((tr) => (
-            <button key={tr} className="cell" aria-pressed={s.track === tr} onClick={() => s.set({ track: tr })}>
-              <span className="cell-main">
-                <span className="cell-title">{t(`track.${tr}`)}</span>
-                <span className="cell-sub">{t(`trackHelp.${tr}`)}</span>
+            <button key={tr} className="choice" aria-pressed={s.track === tr} onClick={() => s.set({ track: tr })}>
+              <span className="choice-mark" aria-hidden />
+              <span className="r-main">
+                <span className="r-title">{t(`track.${tr}`)}</span>
+                <span className="r-sub">{t(`trackHelp.${tr}`)}</span>
               </span>
-              {s.track === tr && (
-                <span className="check">
-                  <CheckIcon size={18} />
-                </span>
-              )}
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="section">
-        <p className="group-label">{t('you.language')}</p>
-        <div className="group">
+      <section className="sect">
+        <p className="label">{t('you.language')}</p>
+        <div className="sect-body options">
           {LANGS.map((l) => (
-            <button key={l} className="cell" lang={l} aria-pressed={s.lang === l} onClick={() => s.set({ lang: l })}>
-              <span className="cell-main cell-title">{LANG_NAMES[l]}</span>
-              {s.lang === l && (
-                <span className="check">
-                  <CheckIcon size={18} />
-                </span>
-              )}
+            <button key={l} lang={l} aria-pressed={s.lang === l} onClick={() => s.set({ lang: l })}>
+              {LANG_NAMES[l]}
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="form-group section">
-        <p className="group-label">{t('you.theme')}</p>
-        <div className="seg">
-          {(['dark', 'light', 'system'] as const).map((th) => (
+      <section className="sect">
+        <p className="label">{t('you.theme')}</p>
+        <div className="sect-body options">
+          {(['light', 'dark', 'system'] as const).map((th) => (
             <button key={th} aria-pressed={s.theme === th} onClick={() => s.set({ theme: th })}>
               {t(`theme.${th}`)}
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="form-group">
-        <p className="group-label">{t('you.goal')}</p>
-        <div className="seg">
+      <section className="sect">
+        <p className="label">{t('you.goal')}</p>
+        <div className="sect-body options">
           {DAILY_GOALS.map((g) => (
-            <button key={g} aria-pressed={s.dailyGoal === g} onClick={() => s.set({ dailyGoal: g })}>
+            <button key={g} className="num" aria-pressed={s.dailyGoal === g} onClick={() => s.set({ dailyGoal: g })}>
               {g}
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="form-group">
-        <p className="group-label">{t('you.timer')}</p>
-        <div className="seg">
+      <section className="sect">
+        <p className="label">{t('you.timer')}</p>
+        <div className="sect-body options">
           {ANSWER_TIMERS.map((sec) => (
-            <button key={sec} aria-pressed={s.answerTimer === sec} onClick={() => s.set({ answerTimer: sec })}>
+            <button key={sec} className="num" aria-pressed={s.answerTimer === sec} onClick={() => s.set({ answerTimer: sec })}>
               {sec ? t('timer.sec', { n: sec }) : t('timer.off')}
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="section">
-        <div className="group">
-          <button className="cell" role="switch" aria-checked={s.sound} onClick={() => s.set({ sound: !s.sound })}>
-            <span className="cell-main cell-title">{t('you.sound')}</span>
+      <section className="sect">
+        <p className="label">{t('you.sound')}</p>
+        <div className="sect-body">
+          <button className="r toggle-row" role="switch" aria-checked={s.sound} onClick={() => s.set({ sound: !s.sound })}>
+            <span className="r-main r-title">{s.sound ? t('you.on') : t('you.off')}</span>
             <span className={`switch${s.sound ? ' on' : ''}`} />
           </button>
         </div>
-      </div>
+      </section>
 
-      <div className="section">
-        <p className="group-label">{t('you.data')}</p>
-        <div className="group">
+      <section className="sect">
+        <p className="label">{t('you.data')}</p>
+        <div className="sect-body rows">
           {/* In-page confirm: native confirm() is blocked in sandboxed hosts. */}
           <button
-            className="cell"
+            className="r"
             onClick={() => {
               if (!confirming) return setConfirming(true)
               reset()
@@ -133,17 +113,17 @@ export function YouScreen() {
             }}
             onBlur={() => setConfirming(false)}
           >
-            <span className="cell-main">
-              <span className="cell-title danger">{confirming ? t('you.resetConfirm') : t('you.reset')}</span>
-              {confirming && <span className="cell-sub">{t('you.cantUndo')}</span>}
+            <span className="r-main">
+              <span className="r-title bad">{confirming ? t('you.resetConfirm') : t('you.reset')}</span>
+              {confirming && <span className="r-sub">{t('you.cantUndo')}</span>}
             </span>
           </button>
-          <button className="cell" onClick={() => setCredits(true)}>
-            <span className="cell-main cell-title">{t('you.about')}</span>
-            <ChevronIcon />
+          <button className="r" onClick={() => setCredits(true)}>
+            <span className="r-main r-title">{t('you.about')}</span>
+            <ArrowIcon />
           </button>
         </div>
-      </div>
+      </section>
     </main>
   )
 }

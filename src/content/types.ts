@@ -91,6 +91,8 @@ export interface ModuleInfo {
 export interface BodySystem {
   id: string
   glyph: string
+  /** Colour key for the system, after the conventions of anatomical plates (bone ochre, arterial red, nerve yellow…). */
+  tint?: string
   modules: ModuleInfo[]
 }
 

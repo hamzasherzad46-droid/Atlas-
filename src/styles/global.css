@@ -1,82 +1,96 @@
 /*
- * Atlas design system — clinical.
- * Deep navy background, slate surfaces, mist-grey text, one teal accent for
- * progress and actions. Status colours carry meaning only:
- *   red   = incorrect answers, errors
- *   amber = attention, warnings
- *   blue  = information, instructions
- *   green = correct answers, completed
- * The 3D highlight is deep red (src/viewer/highlight.ts).
+ * Atlas design system.
+ *
+ * An anatomy atlas, set like a reference book: warm ivory paper and charcoal
+ * ink (dark mode inverts to charcoal paper and ivory ink), one typeface
+ * (Libre Franklin) used across a wide range of weights, hairline rules instead
+ * of boxes, and section labels hung in the left margin.
+ *
+ * Colour is placed, never spread:
+ *   burgundy  the brand: wordmark, primary actions, progress, selection,
+ *             and the anatomical highlight in 3D
+ *   system    each body system's colour key, after anatomical-plate
+ *             conventions (catalog.json `tint`): bone ochre, muscle oxblood,
+ *             arterial crimson, airway blue, nerve gold, gut olive…
+ *   green     correct, complete
+ *   red       incorrect, errors
+ *   amber     attention (due, time running out)
+ *   blue      information and instructions (clinical notes)
  */
 :root,
-:root[data-theme='dark'] {
-  --bg: #0f1724;
-  --surface: #1b2535;
-  --surface-2: #253145;
-  --surface-3: #303d54;
-  --track: #2b374b;
-  --fill: rgba(148, 163, 184, 0.14);
-  --label: #f1f5f9;
-  --label-2: #9aa8bd;
-  --label-3: #64748b;
-  --sep: rgba(148, 163, 184, 0.16);
-  --accent: #5fb3a1;
-  --accent-ink: #6cc2af;
-  --on-accent: #08201b;
-  --good: #4caf72;
-  --bad: #e5484d;
-  --warn: #f0a83a;
-  --info: #5b9bf0;
-  --kb-bg: #121b29;
-  --key: #2f3b50;
-  --key-alt: #1f2a3b;
-  --key-shadow: rgba(0, 0, 0, 0.45);
-  --shadow: 0 10px 30px rgba(3, 8, 18, 0.45);
-  color-scheme: dark;
-}
-
 :root[data-theme='light'] {
-  --bg: #eef2f6;
-  --surface: #ffffff;
-  --surface-2: #e5eaf0;
-  --surface-3: #d6dde6;
-  --track: #dde3ea;
-  --fill: rgba(100, 116, 139, 0.12);
-  --label: #0f1724;
-  --label-2: #4b5b70;
-  --label-3: #8594a8;
-  --sep: rgba(15, 23, 36, 0.1);
-  --accent: #2f8f7b;
-  --accent-ink: #23715f;
-  --on-accent: #ffffff;
+  --paper: #f4f0e8;
+  --paper-2: #ebe6dc;
+  --paper-3: #ddd6c9;
+  --ink: #1c1b19;
+  --ink-2: #57524b;
+  --ink-3: #8a8378;
+  --rule: rgba(28, 27, 25, 0.15);
+  --accent: #8e1b3a;
+  /* Fills (buttons, notices) can differ from accent text/lines; in dark mode they stay deep. */
+  --accent-fill: #8e1b3a;
+  --accent-wash: rgba(142, 27, 58, 0.08);
+  --on-accent: #fbf6ee;
   --good: #2e7d4f;
-  --bad: #c62828;
-  --warn: #b26a00;
-  --info: #1f63d1;
-  --kb-bg: #d3d9e1;
-  --key: #ffffff;
-  --key-alt: #aab4c2;
-  --key-shadow: #8a96a6;
-  --shadow: 0 6px 20px rgba(15, 23, 36, 0.08);
+  --bad: #c0352b;
+  --warn: #a86400;
+  --info: #2f67a8;
+  --info-wash: rgba(47, 103, 168, 0.08);
+  --kb-bg: #e3ddd2;
+  --key: #fbf9f4;
+  --key-alt: #d3ccbf;
+  --key-shadow: rgba(28, 27, 25, 0.24);
   color-scheme: light;
 }
 
+:root[data-theme='dark'] {
+  --paper: #161513;
+  --paper-2: #1f1d1a;
+  --paper-3: #2b2925;
+  --ink: #ece6da;
+  --ink-2: #a39c90;
+  --ink-3: #6e685e;
+  --rule: rgba(236, 230, 218, 0.15);
+  --accent: #e0758b;
+  --accent-fill: #9e2a45;
+  --accent-wash: rgba(224, 117, 139, 0.12);
+  --on-accent: #fbf6ee;
+  --good: #7cc495;
+  --bad: #f07b6e;
+  --warn: #e8b05a;
+  --info: #8fb8e8;
+  --info-wash: rgba(143, 184, 232, 0.1);
+  --kb-bg: #1c1b18;
+  --key: #2e2c28;
+  --key-alt: #24221f;
+  --key-shadow: rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
 :root {
-  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans',
+  --sans: 'Libre Franklin Variable', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans',
     'Apple SD Gothic Neo', 'Noto Sans CJK SC', 'Geeza Pro', 'Noto Sans Arabic', sans-serif;
 
-  --r-s: 8px;
-  --r-m: 12px;
-  --r-l: 16px;
+  /* Width of the margin column that carries section labels. */
+  --margin: 84px;
+  --gutter: 16px;
+  --pad: 20px;
 
-  --ease: cubic-bezier(0.32, 0.72, 0, 1);
-  --fast: 150ms;
-  --mid: 280ms;
+  --ease: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --fast: 140ms;
+  --mid: 260ms;
   --slow: 600ms;
 
-  --tabbar-h: 54px;
+  --tabbar-h: 50px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (min-width: 560px) {
+  :root {
+    --margin: 132px;
+    --pad: 32px;
+  }
 }
 
 *,
@@ -93,11 +107,12 @@ body,
 }
 
 body {
-  background: var(--bg);
-  color: var(--label);
-  font-family: var(--font);
-  font-size: 17px;
-  line-height: 1.4;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  font-feature-settings: 'lnum', 'kern';
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
@@ -110,6 +125,7 @@ button {
   letter-spacing: inherit;
   background: none;
   border: 0;
+  border-radius: 0;
   padding: 0;
   cursor: pointer;
   text-align: inherit;
@@ -124,7 +140,7 @@ input {
 }
 
 :focus-visible {
-  outline: 2px solid var(--info);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -133,453 +149,402 @@ h2,
 h3,
 p {
   margin: 0;
+  font-weight: inherit;
 }
 
 a {
   color: inherit;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
 /* ---------- Type ---------- */
-.wordmark {
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-  line-height: 1;
+
+/* Screen titles and the greeting: large, light, tight. */
+.display {
+  font-size: 40px;
+  line-height: 1.04;
+  font-weight: 300;
+  letter-spacing: -0.025em;
 }
 
-.large-title {
-  font-size: 34px;
-  line-height: 1.15;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.title-1 {
+/* Structure and module names. */
+.title {
   font-size: 26px;
-  line-height: 1.2;
-  font-weight: 700;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.015em;
 }
 
-.title-2 {
-  font-size: 21px;
-  line-height: 1.25;
-  font-weight: 700;
-}
-
-.headline {
+.head {
   font-size: 17px;
+  line-height: 1.3;
   font-weight: 600;
+  letter-spacing: -0.005em;
 }
 
-.subhead {
-  font-size: 15px;
-  color: var(--label-2);
+.lede {
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 300;
+  color: var(--ink-2);
 }
 
-.lead {
-  font-size: 19px;
-  color: var(--label-2);
+.small {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-2);
 }
 
-.footnote {
-  font-size: 13px;
-  color: var(--label-2);
-}
-
-.caption {
+.tiny {
   font-size: 12px;
-  color: var(--label-2);
+  line-height: 1.4;
+  color: var(--ink-2);
 }
 
-.eyebrow {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+/* Small capitals: section labels, column heads, metadata. */
+.label {
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 650;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--label-2);
+  color: var(--ink-2);
+}
+
+/* Latin nomenclature, as atlases set it. */
+.latin {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-2);
 }
 
 .num {
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Large figures: counts, scores. */
+.figure {
+  display: block;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.figure .of {
+  color: var(--ink-3);
 }
 
 .muted {
-  color: var(--label-2);
+  color: var(--ink-2);
 }
 
-.accent-text {
-  color: var(--accent-ink);
+.faint {
+  color: var(--ink-3);
 }
 
-/* ---------- Layout ---------- */
+/* ---------- Page ---------- */
 .page {
   min-height: 100%;
-  max-width: 640px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: calc(var(--safe-top) + 16px) 16px calc(var(--tabbar-h) + var(--safe-bottom) + 32px);
-  animation: page-in 360ms var(--ease) both;
+  padding: calc(var(--safe-top) + 10px) var(--pad) calc(var(--tabbar-h) + var(--safe-bottom) + 40px);
+  animation: page-in 300ms var(--ease) both;
 }
 
-.page-head {
-  margin: 4px 2px 20px;
-}
-
-.page-head .eyebrow {
-  margin-bottom: 6px;
-}
-
-.section {
-  margin-top: 28px;
-}
-
-.section-head {
+/* Running head: wordmark, then a heavy rule, as on a book's title page. */
+.masthead {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin: 0 2px 10px;
+  padding: 8px 0 10px;
+  border-bottom: 2px solid var(--ink);
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.card {
-  background: var(--surface);
-  border-radius: var(--r-l);
-  padding: 18px;
-}
-
-/* ---------- Grouped list ---------- */
-.group {
-  background: var(--surface);
-  border-radius: var(--r-l);
-  overflow: hidden;
-}
-
-.group-label {
-  margin: 0 4px 8px;
+.wordmark {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--label-2);
 }
 
-.group-foot {
-  margin: 8px 4px 0;
-  font-size: 13px;
-  color: var(--label-2);
+.masthead .label {
+  letter-spacing: 0.12em;
 }
 
-.cell {
+/* Title block under the masthead. */
+.titleblock {
+  padding: 28px 0 30px;
+}
+
+.titleblock .label {
+  margin-bottom: 12px;
+}
+
+.titleblock .lede {
+  margin-top: 14px;
+  max-width: 30em;
+}
+
+/* Section: label in the margin, content beside it, hairline above. */
+.sect {
+  display: grid;
+  grid-template-columns: var(--margin) minmax(0, 1fr);
+  column-gap: var(--gutter);
+  padding: 18px 0 22px;
+  border-top: 1px solid var(--rule);
+}
+
+.sect > .label:first-child {
+  padding-top: 4px;
+}
+
+.sect-body {
+  min-width: 0;
+}
+
+/* A section that runs the full measure (label above). */
+.sect.wide {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 12px;
+}
+
+/* ---------- Rows ---------- */
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.r {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 12px;
   width: 100%;
-  min-height: 52px;
-  padding: 12px 18px;
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
   text-align: start;
-  transition: background-color var(--fast) linear;
 }
 
-button.cell:active {
-  background: var(--surface-2);
+.rows > .r:first-child {
+  border-top: 0;
+  padding-top: 2px;
 }
 
-.cell + .cell::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  inset-inline-start: var(--sep-inset, 18px);
-  inset-inline-end: 0;
-  height: 1px;
-  background: var(--sep);
-}
-
-.group.with-icons .cell {
-  --sep-inset: 64px;
-}
-
-.cell-main {
+.r-main {
   flex: 1;
   min-width: 0;
 }
 
-.cell-title {
+.r-title {
   display: block;
-  font-size: 17px;
+  font-size: 16px;
+  line-height: 1.35;
 }
 
-.cell-sub {
+.r-sub {
   display: block;
-  font-size: 14px;
-  color: var(--label-2);
   margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-2);
 }
 
-.cell-value {
-  font-size: 15px;
-  color: var(--label-2);
-}
-
-.cell:disabled {
-  opacity: 0.45;
-}
-
-.chev {
-  color: var(--label-3);
+.r-value {
   flex-shrink: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
-[dir='rtl'] .chev,
+button.r:active,
+button.go:active {
+  background: var(--paper-2);
+}
+
+.r:disabled {
+  opacity: 0.4;
+}
+
+.r .meter {
+  margin-top: 8px;
+}
+
+/* The arrow that marks something you can open. */
+.arrow {
+  flex-shrink: 0;
+  align-self: center;
+  color: var(--ink-3);
+  font-size: 15px;
+  line-height: 1;
+}
+
+[dir='rtl'] .arrow,
 [dir='rtl'] .flip-rtl {
+  display: inline-block;
   transform: scaleX(-1);
 }
 
-/* Square icon tile in a list row. */
-.icon-badge {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  color: var(--accent-ink);
-  flex-shrink: 0;
-}
+/* ---------- Actions ---------- */
 
-/* ---------- Controls ---------- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 52px;
-  padding: 0 20px;
-  border-radius: var(--r-m);
-  font-size: 17px;
-  font-weight: 600;
-  transition: transform var(--fast) var(--ease), opacity var(--mid) var(--ease), background-color var(--mid) var(--ease);
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-.btn-primary {
-  background: var(--accent);
-  color: var(--on-accent);
-}
-
-.btn-secondary {
-  background: var(--surface-2);
-  color: var(--label);
-}
-
-.btn-block {
-  width: 100%;
-}
-
-.btn:disabled {
-  opacity: 0.35;
-  pointer-events: none;
-}
-
-/* Text link with an arrow, as in "Start assessment →". */
-.link {
+/* Primary action: a solid ink bar, label left, arrow right. */
+.go {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
   width: 100%;
-  font-size: 19px;
-  font-weight: 700;
-  color: var(--accent-ink);
+  min-height: 52px;
+  padding: 0 18px;
+  border-radius: 2px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: opacity var(--fast) linear;
 }
 
-/* Segmented control */
-.seg {
-  display: flex;
-  background: var(--surface);
-  border-radius: 10px;
-  padding: 3px;
-  gap: 3px;
+button.go:active {
+  background: var(--accent-fill);
+  opacity: 0.86;
 }
 
-.seg button {
-  flex: 1;
-  min-height: 34px;
-  border-radius: 8px;
+.go .arrow {
+  color: inherit;
+}
+
+.go:disabled {
+  opacity: 0.3;
+}
+
+/* Secondary action: outlined. */
+.go.quiet {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+button.go.quiet:active {
+  background: var(--paper-2);
+  opacity: 1;
+}
+
+/* Inline text action, underlined. */
+.textlink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.textlink:active {
+  color: var(--accent);
+}
+
+/* Back link at the top of a sub-page. */
+.backlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--label-2);
-  text-align: center;
-  transition: background-color var(--mid) var(--ease), color var(--mid) var(--ease);
 }
 
-.seg button[aria-pressed='true'] {
-  background: var(--surface-3);
-  color: var(--label);
-}
+/* ---------- Choice controls ---------- */
 
-:root[data-theme='light'] .seg {
-  background: var(--surface-2);
-}
-
-:root[data-theme='light'] .seg button[aria-pressed='true'] {
-  background: var(--surface);
-  box-shadow: 0 1px 3px rgba(15, 23, 36, 0.12);
-}
-
-.chips {
+/* A run of text options; the chosen one is underlined in burgundy. */
+.options {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  column-gap: 18px;
+  row-gap: 4px;
 }
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.options button {
   min-height: 36px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: var(--surface);
-  border: 1px solid var(--sep);
+  padding: 6px 0 4px;
   font-size: 15px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: background-color var(--mid) var(--ease), color var(--mid) var(--ease), border-color var(--mid) var(--ease);
+  color: var(--ink-2);
+  border-bottom: 2px solid transparent;
+  transition: color var(--fast) linear, border-color var(--fast) linear;
 }
 
-.chip[aria-pressed='true'] {
-  background: color-mix(in srgb, var(--accent) 16%, var(--surface));
-  border-color: var(--accent);
-  color: var(--accent-ink);
-}
-
-/* Progress bar */
-.bar {
-  position: relative;
-  height: 8px;
-  border-radius: 4px;
-  background: var(--track);
-  overflow: hidden;
-}
-
-.bar > span {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  border-radius: 4px;
-  background: var(--accent);
-  transition: width var(--slow) var(--ease);
-}
-
-.bar.thin {
-  height: 4px;
-}
-
-/* Status pill: neutral by default, tinted by meaning. */
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  min-height: 26px;
-  padding: 0 10px;
-  border-radius: 999px;
-  font-size: 13px;
+.options button[aria-pressed='true'] {
+  color: var(--ink);
   font-weight: 600;
-  background: var(--surface-2);
-  color: var(--label-2);
-  white-space: nowrap;
+  border-bottom-color: var(--accent);
 }
 
-.pill.lg {
-  min-height: 34px;
-  padding: 0 14px;
-  font-size: 16px;
-}
-
-.pill.good {
-  background: color-mix(in srgb, var(--good) 16%, transparent);
-  color: var(--good);
-}
-
-.pill.warn {
-  background: color-mix(in srgb, var(--warn) 16%, transparent);
-  color: var(--warn);
-}
-
-.pill.bad {
-  background: color-mix(in srgb, var(--bad) 16%, transparent);
-  color: var(--bad);
-}
-
-.pill.info {
-  background: color-mix(in srgb, var(--info) 16%, transparent);
-  color: var(--info);
-}
-
-/* Information / instruction callout (blue). */
-.callout {
-  padding: 10px 14px;
-  border-radius: var(--r-m);
-  border-inline-start: 3px solid var(--info);
-  background: color-mix(in srgb, var(--info) 10%, transparent);
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--label);
+/* Vertical list of choices with a mark on the chosen one (track, language). */
+.choice {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 0;
+  border-top: 1px solid var(--rule);
   text-align: start;
 }
 
-.callout-label {
-  display: block;
-  margin-bottom: 2px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--info);
+.choice:first-child {
+  border-top: 0;
+  padding-top: 2px;
 }
 
-/* Switch */
+.choice-mark {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--ink-3);
+  transform: translateY(1px);
+}
+
+.choice[aria-pressed='true'] .choice-mark {
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+.choice[aria-pressed='true'] .r-title {
+  font-weight: 600;
+}
+
+/* On/off switch: a square-shouldered track. */
 .switch {
   position: relative;
-  width: 51px;
-  height: 31px;
-  border-radius: 999px;
-  background: var(--surface-3);
+  width: 44px;
+  height: 24px;
+  border-radius: 3px;
+  background: var(--paper-3);
   flex-shrink: 0;
+  align-self: center;
   transition: background-color var(--mid) var(--ease);
 }
 
 .switch::after {
   content: '';
   position: absolute;
-  top: 2px;
-  inset-inline-start: 2px;
-  width: 27px;
-  height: 27px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  top: 3px;
+  inset-inline-start: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   transition: transform var(--mid) var(--ease);
 }
 
 .switch.on {
-  background: var(--accent);
+  background: var(--ink);
 }
 
 .switch.on::after {
@@ -590,36 +555,139 @@ button.cell:active {
   transform: translateX(-20px);
 }
 
-.input {
+/* Text field: just an underline. */
+.field {
   width: 100%;
-  min-height: 24px;
+  min-height: 40px;
+  padding: 6px 0;
   border: 0;
+  border-bottom: 1px solid var(--ink-3);
+  border-radius: 0;
   background: transparent;
-  font-size: 17px;
-  text-align: end;
-  color: var(--label-2);
+  font-size: 16px;
+  color: var(--ink);
 }
 
-.input:focus {
+.field:focus {
   outline: none;
-  color: var(--label);
+  border-bottom-color: var(--accent);
+}
+
+.field::placeholder {
+  color: var(--ink-3);
+}
+
+/* ---------- Measures ---------- */
+
+/* Progress: a hairline track with an ink fill. */
+.meter {
+  position: relative;
+  height: 3px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.meter > span {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  background: var(--accent);
+  transition: width var(--slow) var(--ease);
+}
+
+.meter.good > span {
+  background: var(--good);
+}
+
+.meter.tint > span {
+  background: var(--sys-ink, var(--accent));
+}
+
+/* ---------- System colour key ---------- */
+
+/* Carries an inline --sys (see lib/tint.ts); --sys-ink is the readable version. */
+.sys {
+  --sys-ink: var(--sys);
+}
+
+:root[data-theme='dark'] .sys {
+  --sys-ink: color-mix(in srgb, var(--sys) 60%, #fff);
+}
+
+.sys-ink {
+  color: var(--sys-ink);
+}
+
+/* A small square key, as in a plate's legend. */
+.swatch {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  margin-inline-end: 8px;
+  background: var(--sys-ink);
+  vertical-align: 0.05em;
+}
+
+/* Three figures side by side with labels under them. */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.figures .label {
+  margin-top: 8px;
+}
+
+/* Clinical note: blue rule in the margin. */
+.note {
+  padding: 2px 0 2px 12px;
+  border-inline-start: 2px solid var(--info);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: start;
+}
+
+.note .label {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--info);
+}
+
+.note-text {
+  display: block;
 }
 
 .empty {
-  color: var(--label-2);
-  font-size: 15px;
-  padding: 14px 2px;
+  font-size: 14px;
+  color: var(--ink-2);
 }
 
-/* ---------- Motion (quiet: fades and short slides, no bounces) ---------- */
+/* ---------- Status colours (last, so they win over neutral text colours) ---------- */
+.good {
+  color: var(--good);
+}
+
+.bad {
+  color: var(--bad);
+}
+
+.warn {
+  color: var(--warn);
+}
+
+.accent {
+  color: var(--accent);
+}
+
+/* ---------- Motion: quiet fades only ---------- */
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -635,7 +703,7 @@ button.cell:active {
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -650,8 +718,4 @@ button.cell:active {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
   }
-}
-
-.callout-text {
-  display: block;
 }

@@ -1,13 +1,13 @@
 import { addDays, dayKey } from '../lib/dates'
 import type { DayActivity } from '../lib/assignments'
 import { useToasts } from '../state/toast'
-import { CheckIcon } from './Icons'
 
-export function Bar({ value, max, color, thin }: { value: number; max: number; color?: string; thin?: boolean }) {
+/** Hairline progress meter: burgundy; `good` for completed items, `tint` for the surrounding system's colour key. */
+export function Meter({ value, max, tone }: { value: number; max: number; tone?: 'good' | 'tint' }) {
   const pct = max ? Math.min(100, (value / max) * 100) : 0
   return (
-    <div className={`bar${thin ? ' thin' : ''}`} role="progressbar" aria-valuenow={value} aria-valuemax={max}>
-      <span style={{ width: `${pct}%`, ...(color ? { background: color } : {}) }} />
+    <div className={`meter${tone ? ` ${tone}` : ''}`} role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}>
+      <span style={{ width: `${pct}%` }} />
     </div>
   )
 }
@@ -33,19 +33,15 @@ export function Heatmap({ days, now = new Date() }: { days: Record<string, DayAc
   )
 }
 
+/** Quiet notices: an ink strip under the status bar. */
 export function Toasts() {
   const toasts = useToasts((s) => s.toasts)
   return (
     <div className="toasts" aria-live="polite">
       {toasts.map((t) => (
-        <div key={t.id} className={`toast toast-${t.kind}`}>
-          <span className="toast-icon">
-            <CheckIcon size={16} />
-          </span>
-          <span className="toast-text">
-            <span className="toast-title">{t.title}</span>
-            {t.detail && <span className="toast-detail">{t.detail}</span>}
-          </span>
+        <div key={t.id} className="toast">
+          <span className="label">{t.title}</span>
+          {t.detail && <span className="toast-detail">{t.detail}</span>}
         </div>
       ))}
     </div>

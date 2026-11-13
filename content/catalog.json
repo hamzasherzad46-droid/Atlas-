@@ -3,6 +3,7 @@
     {
       "id": "skeletal",
       "glyph": "bone",
+      "tint": "#9a7b45",
       "modules": [
         {
           "id": "skeleton",
@@ -15,6 +16,7 @@
     {
       "id": "muscular",
       "glyph": "muscle",
+      "tint": "#8c3b33",
       "modules": [
         {
           "id": "muscles",
@@ -27,6 +29,7 @@
     {
       "id": "cardiovascular",
       "glyph": "heart",
+      "tint": "#ad2f3c",
       "modules": [
         {
           "id": "heart",
@@ -45,6 +48,7 @@
     {
       "id": "respiratory",
       "glyph": "lungs",
+      "tint": "#4f7fa0",
       "modules": [
         {
           "id": "airways",
@@ -57,11 +61,13 @@
     {
       "id": "nervous",
       "glyph": "brain",
+      "tint": "#a67c12",
       "modules": [{ "id": "brain", "status": "available", "contentFile": "brain", "model": { "file": "brain.glb" } }]
     },
     {
       "id": "digestive",
       "glyph": "stomach",
+      "tint": "#6e7f3a",
       "modules": [
         {
           "id": "digestive",
@@ -74,6 +80,7 @@
     {
       "id": "urinary",
       "glyph": "kidney",
+      "tint": "#3b7a86",
       "modules": [
         {
           "id": "urinary",
@@ -86,6 +93,7 @@
     {
       "id": "reproductive",
       "glyph": "reproductive",
+      "tint": "#8c4e78",
       "modules": [
         {
           "id": "reproductive",

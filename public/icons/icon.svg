@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#0f1724"/>
-  <path fill="#f1f5f9" fill-rule="evenodd" d="M228 130h56l67 200h-54l-12.7-38h-57.6L215 330h-54zM256 208l-14.9 44h29.8z"/>
-  <rect x="156" y="362" width="200" height="16" rx="8" fill="#2b374b"/>
-  <rect x="156" y="362" width="134" height="16" rx="8" fill="#5fb3a1"/>
+  <rect width="512" height="512" fill="#8e1b3a"/>
+  <path fill="#f4f0e8" fill-rule="evenodd" d="M228 130h56l67 200h-54l-12.7-38h-57.6L215 330h-54zM256 208l-14.9 44h29.8z"/>
+  <rect x="161" y="360" width="190" height="6" fill="#f4f0e8"/>
 </svg>

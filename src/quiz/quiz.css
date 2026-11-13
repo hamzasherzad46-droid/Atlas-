@@ -1,15 +1,16 @@
+/* ---------- Assessment: question, answer, feedback ---------- */
 .quiz {
   position: fixed;
   inset: 0;
   z-index: 20;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
+  max-width: 720px;
+  margin: 0 auto;
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
+  background: var(--paper);
   animation: fade-in var(--mid) var(--ease) both;
-  max-width: 640px;
-  margin: 0 auto;
 }
 
 .quiz-center {
@@ -17,56 +18,60 @@
   justify-content: center;
 }
 
-/* ---------- Top bar ---------- */
 .quiz-top {
-  display: flex;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
   align-items: center;
-  gap: 12px;
-  height: 52px;
-  padding: 0 14px;
+  height: 48px;
+  padding: 0 calc(var(--pad) - 12px);
   flex-shrink: 0;
 }
 
+.quiz-count {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quiz-clock {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: end;
+  padding-inline-end: 4px;
+}
+
+.quiz-clock.warn {
+  color: var(--warn);
+}
+
+/* Session progress: a hairline across the full width. */
 .quiz-progress {
   position: relative;
-  flex: 1;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--track);
-  overflow: hidden;
+  height: 2px;
+  background: var(--rule);
+  flex-shrink: 0;
 }
 
 .quiz-progress > span {
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
-  border-radius: 3px;
   background: var(--accent);
   transition: width var(--slow) var(--ease);
 }
 
-.quiz-sub {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 16px;
-  flex-shrink: 0;
-}
-
-/* Per-question countdown: teal, amber when time is short. */
+/* Per-question countdown under it; amber when time is short. */
 .timer-track {
-  flex: 1;
-  height: 3px;
-  border-radius: 2px;
+  height: 2px;
+  flex-shrink: 0;
   overflow: hidden;
-  background: var(--track);
 }
 
 .timer-fill {
   display: block;
   height: 100%;
-  border-radius: 2px;
-  background: var(--accent);
+  background: var(--ink-3);
   transform-origin: left;
   transition: transform 100ms linear, background-color var(--mid);
 }
@@ -79,68 +84,58 @@
   background: var(--warn);
 }
 
-/* ---------- Viewer ---------- */
 .quiz-viewer {
   flex: 1 1 auto;
-  min-height: 190px;
+  min-height: 180px;
   position: relative;
 }
 
 .viewer-fade {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
 }
 
-.combo {
-  position: absolute;
-  z-index: 3;
-  top: 12px;
-  inset-inline-end: 14px;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: var(--surface);
-  border: 1px solid var(--sep);
-  color: var(--label);
-  font-size: 13px;
-  font-weight: 600;
-  animation: fade-in var(--mid) var(--ease) both;
-}
-
-/* ---------- Answer ---------- */
 .quiz-answer {
   flex-shrink: 0;
-  padding: 4px 20px 8px;
+  min-height: 166px;
+  padding: 2px var(--pad) 12px;
   text-align: center;
-  min-height: 158px;
 }
 
+.quiz-prompt {
+  margin-bottom: 6px;
+}
+
+/* The answer word. */
 .answer {
-  font-weight: 700;
-  line-height: 1.15;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   min-height: 1.2em;
+  font-weight: 450;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 .answer-ch {
   position: relative;
   display: inline-block;
-  min-width: 0.3em;
+  min-width: 0.28em;
 }
 
 .answer-space {
   position: relative;
   display: inline-block;
-  width: 0.3em;
+  width: 0.28em;
 }
 
 .answer-ch.ghost {
-  color: var(--label-3);
+  color: var(--ink-3);
+  opacity: 0.55;
 }
 
 .answer-ch.typed {
-  color: var(--label);
+  color: var(--ink);
 }
 
 .answer-ch.dash {
@@ -150,21 +145,19 @@
 .answer-ch.dash::after {
   content: '';
   position: absolute;
-  inset-inline: 12%;
-  bottom: 0.12em;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--label-3);
+  inset-inline: 14%;
+  bottom: 0.14em;
+  height: 1.5px;
+  background: var(--ink-3);
 }
 
 .caret::before {
   content: '';
   position: absolute;
   left: -1px;
-  top: 0.12em;
-  bottom: 0.12em;
+  top: 0.1em;
+  bottom: 0.1em;
   width: 2px;
-  border-radius: 1px;
   background: var(--accent);
   animation: caret-blink 1.05s steps(1) infinite;
 }
@@ -176,10 +169,12 @@
 
 .answer-ok .answer-ch {
   color: var(--good);
+  opacity: 1;
 }
 
 .answer-fail .answer-ch {
   color: var(--bad);
+  opacity: 1;
 }
 
 @keyframes caret-blink {
@@ -189,59 +184,54 @@
 }
 
 .quiz-feedback {
-  margin-top: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  margin-top: 8px;
   animation: rise var(--mid) var(--ease) both;
 }
 
-.result-row {
-  display: flex;
+.verdict {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.result-badge {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  color: #fff;
+.verdict.good {
+  color: var(--good);
 }
 
-.result-badge.good {
-  background: var(--good);
+.verdict.warn {
+  color: var(--warn);
 }
 
-.result-badge.warn {
-  background: var(--warn);
-}
-
-.result-badge.bad {
-  background: var(--bad);
-}
-
-.quiz-def {
-  color: var(--label-2);
-  font-size: 15px;
-  max-width: 32em;
-}
-
-.quiz-note {
-  max-width: 32em;
-  width: 100%;
+.verdict.bad {
+  color: var(--bad);
 }
 
 .quiz-latin {
-  font-size: 14px;
-  font-style: italic;
-  color: var(--label-2);
+  font-size: 15px;
 }
 
-/* Instruction (press return to confirm): blue. */
+.quiz-def {
+  max-width: 30em;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.quiz-note {
+  max-width: 30em;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Instruction: blue. */
 .quiz-hint {
   font-size: 13px;
   font-weight: 600;
@@ -250,8 +240,6 @@
 
 .quiz-next {
   margin-top: 6px;
-  min-height: 40px;
-  font-size: 15px;
 }
 
 /* ---------- Keyboard ---------- */
@@ -259,52 +247,56 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 11px;
-  padding: 8px 3px 10px;
+  gap: 10px;
+  padding: 9px 4px 10px;
   background: var(--kb-bg);
+  border-top: 1px solid var(--rule);
   transition: opacity var(--mid) var(--ease);
 }
 
 .kb-disabled {
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .kb-row {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .kb-key {
-  flex: 0 1 9.2%;
-  height: 43px;
-  border-radius: 6px;
+  flex: 0 1 9.3%;
+  height: 44px;
+  border-radius: 4px;
   background: var(--key);
   box-shadow: 0 1px 0 var(--key-shadow);
-  font-size: 22px;
-  font-weight: 400;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px;
+  font-weight: 400;
   text-transform: lowercase;
-  color: var(--label);
+  color: var(--ink);
 }
 
 .kb-wide {
   flex: 0 1 13.5%;
   background: var(--key-alt);
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   text-transform: none;
 }
 
 .kb-space {
   flex: 1 1 50%;
-  font-size: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
 }
 
+/* Return when an answer is waiting to be confirmed. */
 .kb-accent {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 
@@ -314,7 +306,7 @@
   }
 }
 
-@media (max-height: 640px) {
+@media (max-height: 680px) {
   .kb-key {
     height: 38px;
   }
@@ -322,81 +314,66 @@
     gap: 8px;
   }
   .quiz-answer {
-    min-height: 124px;
+    min-height: 128px;
   }
 }
 
-/* ---------- Summary ---------- */
+/* ---------- Results ---------- */
 .summary {
   overflow-y: auto;
 }
 
 .summary-inner {
-  padding: 40px 16px 48px;
-  max-width: 540px;
   width: 100%;
-  margin: 0 auto;
+  padding: 10px var(--pad) 48px;
 }
 
 .summary-score {
-  margin: 6px 0 4px;
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1.05;
+  font-size: 88px;
+  line-height: 0.95;
+  font-weight: 200;
+  letter-spacing: -0.04em;
 }
 
-.summary-score .muted {
-  font-size: 0.5em;
-  font-weight: 600;
+.summary-score .of {
+  font-size: 0.42em;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ink-3);
 }
 
-.summary-inner > .subhead {
-  margin-bottom: 16px;
+.summary .titleblock .lede {
+  margin-top: 10px;
 }
 
-.summary-badge {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  margin-bottom: 18px;
-  border-radius: 50%;
-  background: var(--good);
-  color: #fff;
+.summary-figures {
+  padding: 22px 0 24px;
 }
 
-.summary .large-title {
-  margin-top: 4px;
-}
-
-.summary-stats {
-  margin-top: 22px;
-}
-
-.summary-actions,
-.summary-done {
+.summary-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
 }
 
-/* ---------- Flashcards ---------- */
+/* ---------- Flashcards: an index card ---------- */
 .cards-viewer {
-  flex: 0.85 1 auto;
+  flex: 0.8 1 auto;
 }
 
 .card-stage {
   flex-shrink: 0;
-  padding: 0 14px 12px;
-  perspective: 1200px;
+  padding: 0 var(--pad) 14px;
+  perspective: 1400px;
 }
 
 .flashcard {
   position: relative;
   height: min(46vh, 380px);
   touch-action: pan-y;
-  transition: transform 260ms var(--ease);
+  transition: transform 240ms var(--ease);
   cursor: pointer;
 }
 
@@ -415,84 +392,86 @@
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  padding: 22px 20px;
-  border-radius: var(--r-l);
-  background: var(--surface);
-  border: 1px solid var(--sep);
+  padding: 20px 20px 22px;
+  border-radius: 2px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+
+/* The ruled head line of an index card. */
+.face::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 46px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.6;
 }
 
 .face.front {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 12px;
+  text-align: start;
+  gap: 32px;
 }
 
 .front-def {
   font-size: 21px;
-  font-weight: 600;
-  line-height: 1.35;
-  max-width: 20em;
+  line-height: 1.4;
+  font-weight: 300;
 }
 
 .front-tap {
-  position: absolute;
-  bottom: 18px;
+  margin-top: auto;
 }
 
 .face.back {
   transform: rotateY(180deg);
 }
 
-.back-name {
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.1;
+.face.back .title {
+  margin-top: 30px;
 }
 
 .back-latin {
-  margin: 4px 0 6px;
+  margin-top: 2px;
   font-size: 15px;
-  font-style: italic;
-  color: var(--label-2);
 }
 
 .back-label {
-  margin-top: 14px;
+  margin-top: 16px;
   margin-bottom: 3px;
 }
 
 .back-text {
-  font-size: 16px;
-  line-height: 1.45;
-  color: var(--label);
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .back-note {
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .swipe-tag {
   position: absolute;
-  top: 18px;
+  top: 14px;
   inset-inline-end: 18px;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
-  color: #fff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.swipe-tag.ok {
-  background: var(--good);
+.swipe-tag.good {
+  color: var(--good);
 }
 
-.swipe-tag.again {
-  background: var(--bad);
+.swipe-tag.bad {
+  color: var(--bad);
 }
 
 .card-actions {
@@ -500,7 +479,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 12px;
-  opacity: 0.4;
+  opacity: 0.35;
   transition: opacity var(--mid) var(--ease);
 }
 
@@ -510,4 +489,5 @@
 
 .again-btn {
   color: var(--bad);
+  box-shadow: inset 0 0 0 1px var(--bad);
 }
