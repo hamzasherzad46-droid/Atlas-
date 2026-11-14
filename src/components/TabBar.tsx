@@ -1,7 +1,7 @@
 import { useT } from '../i18n'
 import { useNav, type Tab } from '../state/nav'
 
-const TABS: Tab[] = ['today', 'atlas', 'practice', 'progress', 'you']
+const TABS: Tab[] = ['today', 'atlas', 'progress', 'you']
 
 /** Understated text navigation: the current section is set in ink with a burgundy rule above it. */
 export function TabBar() {

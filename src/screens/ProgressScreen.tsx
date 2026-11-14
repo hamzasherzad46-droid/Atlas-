@@ -1,29 +1,25 @@
 import { useState } from 'react'
-import { Heatmap, Meter } from '../components/bits'
+import { CheckIcon } from '../components/Icons'
+import { Heatmap } from '../components/bits'
 import { Masthead } from '../components/Masthead'
 import { useModule } from '../content/useModule'
 import { useT } from '../i18n'
+import type { Period } from '../lib/dates'
 import { formatClock, pct, sentence } from '../lib/format'
-import { isMastered } from '../lib/srs'
-import { availableModules, defaultModuleId } from '../state/actions'
+import { defaultModuleId, startReview } from '../state/actions'
+import { useAssignments, useStreak } from '../state/dashboard'
 import { useProgress } from '../state/progress'
-import { mostMissed, regionStats } from '../state/stats'
+import { useSettings } from '../state/settings'
+import { mostMissed } from '../state/stats'
 
-/** A record of study, set as tables. */
+/** Your record: activity, the study plan, weak spots and exam results. */
 export function ProgressScreen() {
   const t = useT()
-  const [moduleId, setModuleId] = useState(defaultModuleId)
+  const moduleId = useSettings((s) => s.lastSession?.moduleId ?? defaultModuleId)
   const { assets } = useModule(moduleId)
   const { records, days, assessments } = useProgress()
-
-  const content = assets?.content
-  const regions = content ? regionStats(content, records) : []
-  const total = regions.reduce((n, r) => n + r.total, 0)
-  const seen = regions.reduce((n, r) => n + r.seen, 0)
-  const mastered = regions.reduce((n, r) => n + r.mastered, 0)
-  const attempts = regions.reduce((n, r) => n + r.attempts, 0)
-  const correct = regions.reduce((n, r) => n + r.correct, 0)
-  const missed = content ? mostMissed(content, records) : []
+  const { streak } = useStreak()
+  const weak = assets ? mostMissed(assets.content, records, 5) : []
   const date = new Intl.DateTimeFormat(t.lang, { day: 'numeric', month: 'short' })
 
   return (
@@ -37,74 +33,29 @@ export function ProgressScreen() {
         <p className="label">{t('progress.activity')}</p>
         <div className="sect-body">
           <Heatmap days={days} />
-          <p className="tiny heat-legend" aria-hidden>
-            {t('progress.less')} <span className="heat-cell l1" />
-            <span className="heat-cell l2" />
-            <span className="heat-cell l3" />
-            <span className="heat-cell l4" /> {t('progress.more')}
-          </p>
+          <p className="small streak-line num">{streak > 0 ? t('today.streakTitle', { n: streak }) : t('today.streakStart')}</p>
         </div>
       </section>
 
-      <section className="sect">
-        <p className="label">{t('practice.module')}</p>
-        <div className="sect-body options">
-          {availableModules.map((m) => (
-            <button key={m.id} aria-pressed={moduleId === m.id} onClick={() => setModuleId(m.id)}>
-              {t.td(`module.${m.id}`, m.id)}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <div className="figures progress-figures">
-        <div>
-          <span className="figure">
-            {seen}
-            <span className="of">/{total}</span>
-          </span>
-          <p className="label">{t('progress.seen')}</p>
-        </div>
-        <div>
-          <span className="figure">{mastered}</span>
-          <p className="label">{t('progress.mastered')}</p>
-        </div>
-        <div>
-          <span className="figure">{attempts ? `${pct(correct, attempts)}%` : '—'}</span>
-          <p className="label">{t('progress.accuracy')}</p>
-        </div>
-      </div>
+      <StudyPlan />
 
       <section className="sect">
-        <p className="label">{t('progress.byRegion')}</p>
-        <div className="sect-body rows">
-          {regions.map((r) => (
-            <div key={r.id} className="r">
-              <span className="r-main">
-                <span className="r-title">{t.td(`region.${r.id}`, r.name)}</span>
-                <Meter value={r.accuracy ?? 0} max={100} />
-              </span>
-              <span className="r-value">{r.accuracy === null ? t('progress.notStarted') : `${r.accuracy}%`}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="sect">
-        <p className="label">{t('progress.mostMissed')}</p>
+        <p className="label">{t('today.weak')}</p>
         <div className="sect-body">
-          {missed.length === 0 ? (
-            <p className="empty">{t('progress.noMisses')}</p>
+          <p className="tiny weak-module">{t.td(`module.${moduleId}`, moduleId)}</p>
+          {weak.length === 0 ? (
+            <p className="empty">{t('today.noWeak')}</p>
           ) : (
             <div className="rows">
-              {missed.map(({ structure, record, misses }) => (
-                <div key={structure.id} className="r">
-                  <span className="r-main r-title">{sentence(structure.name)}</span>
-                  <span className="r-value">
-                    <span className="bad">{t('progress.missed', { n: misses })}</span> · {pct(record.correct, record.attempts)}%
-                  </span>
-                </div>
-              ))}
+              {weak.map((w) => {
+                const p = pct(w.record.correct, w.record.attempts)
+                return (
+                  <button key={w.structure.id} className="r" onClick={() => void startReview(moduleId)}>
+                    <span className="r-main r-title">{sentence(w.structure.name)}</span>
+                    <span className={`r-value ${p < 50 ? 'bad' : 'warn'}`}>{p}%</span>
+                  </button>
+                )
+              })}
             </div>
           )}
         </div>
@@ -117,7 +68,7 @@ export function ProgressScreen() {
             <p className="empty">{t('progress.noExams')}</p>
           ) : (
             <div className="rows">
-              {assessments.slice(0, 8).map((a) => (
+              {assessments.slice(0, 5).map((a) => (
                 <div key={a.at} className="r">
                   <span className="r-main">
                     <span className="r-title num">
@@ -134,24 +85,45 @@ export function ProgressScreen() {
           )}
         </div>
       </section>
-
-      <section className="sect">
-        <p className="label">{t('progress.every')}</p>
-        <div className="sect-body rows index-table">
-          {content?.structures.map((s) => {
-            const r = records[s.id]
-            return (
-              <div key={s.id} className="r">
-                <span className="r-main r-title">
-                  {sentence(s.name)}
-                  {isMastered(r) && <span className="mastered-mark" aria-label={t('progress.mastered')} />}
-                </span>
-                <span className="r-value">{r ? `${pct(r.correct, r.attempts)}% · ${r.attempts}×` : '—'}</span>
-              </div>
-            )
-          })}
-        </div>
-      </section>
     </main>
+  )
+}
+
+/** Day, week and month goals, ticked off as you study. */
+function StudyPlan() {
+  const t = useT()
+  const all = useAssignments()
+  const [period, setPeriod] = useState<Period>('day')
+  const list = all.filter((a) => a.period === period)
+  const left = list[0]?.remainingMs ?? 0
+  const leftLabel = left > 48 * 3600_000 ? t('time.daysLeft', { n: Math.ceil(left / 86_400_000) }) : t('time.hoursLeft', { n: Math.max(1, Math.ceil(left / 3_600_000)) })
+
+  return (
+    <section className="sect">
+      <p className="label">{t('today.assignments')}</p>
+      <div className="sect-body">
+        <div className="options plan-periods">
+          {(['day', 'week', 'month'] as const).map((p) => (
+            <button key={p} aria-pressed={period === p} onClick={() => setPeriod(p)}>
+              {t(`period.${p}`)}
+            </button>
+          ))}
+        </div>
+        <div className="rows plan">
+          {list.map((a) => (
+            <div key={a.key} className={`r plan-item${a.done ? ' done' : ''}`}>
+              <span className="tick" aria-hidden>
+                {a.done && <CheckIcon size={11} />}
+              </span>
+              <span className="r-main r-title">{t(`assignment.${a.id}` as Parameters<typeof t>[0], { n: a.target })}</span>
+              <span className={`r-value${a.done ? ' good' : ''}`}>
+                {Math.min(a.value, a.target)} / {a.target}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p className="tiny num plan-left">{leftLabel}</p>
+      </div>
+    </section>
   )
 }

@@ -8,7 +8,6 @@ import { CreditsScreen } from './screens/CreditsScreen'
 import { ExploreScreen } from './screens/ExploreScreen'
 import { FlashcardScreen } from './screens/FlashcardScreen'
 import { OnboardingScreen } from './screens/OnboardingScreen'
-import { PracticeScreen } from './screens/PracticeScreen'
 import { ProgressScreen } from './screens/ProgressScreen'
 import { TodayScreen } from './screens/TodayScreen'
 import { YouScreen } from './screens/YouScreen'
@@ -22,7 +21,6 @@ import './app.css'
 const SCREENS = {
   today: TodayScreen,
   atlas: AtlasScreen,
-  practice: PracticeScreen,
   progress: ProgressScreen,
   you: YouScreen,
 }

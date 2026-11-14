@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { QuizMode } from './settings'
 
-export type Tab = 'today' | 'atlas' | 'practice' | 'progress' | 'you'
+export type Tab = 'today' | 'atlas' | 'progress' | 'you'
 
 export type SessionKind = 'practice' | 'review' | 'assessment'
 

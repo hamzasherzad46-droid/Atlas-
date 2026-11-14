@@ -19,7 +19,7 @@ describe('translations', () => {
   }
 
   it('fills placeholders with localised numbers and falls back to English', () => {
-    expect(translate('de', 'atlas.structures', { n: 3 })).toBe('3 Strukturen')
+    expect(translate('de', 'mod.seen', { a: 3, b: 5 })).toBe('3 von 5 gesehen')
     expect(translate('ar', 'mod.seen', { a: 3, b: 5 })).toMatch(/^شوهد [3٣] من [5٥]$/)
     expect(translate('fr', 'app.name')).toBe('Atlas')
   })

@@ -33,8 +33,9 @@ apply there.
   intermediate / advanced); optional per-question timer (30/20/10 s; time-out = miss); exams with a whole-test
   clock and per-answer timer. Feedback shows the verdict, the Latin name, what the structure does and a track note.
 - **Flashcards**: what it does, why it's there, and a note for your track; swipe to grade; own spaced repetition.
-- **Today**: continue where you left off, today's goal, due flashcards and mistakes, days in a row, assessment,
-  a daily / weekly / monthly study plan, the systems index, a fact of the day and weak spots.
+- **Four tabs**: Today (resume your module, today's goal, due flashcards and mistakes), Atlas (every module,
+  each with Practice, Flashcards, Explore in 3D and Exam; practice options sit behind one link), Progress
+  (activity, days in a row, study plan, weak spots, exams) and Settings.
 - **Tracks**: nursing, medicine, physiotherapy, dentistry, sports science — notes per structure where relevant.
 - **Languages**: English, French, German, Arabic (right-to-left), Russian, Chinese, Korean for the whole UI.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
@@ -180,7 +181,7 @@ src/
   state/     Zustand: settings + progress (persisted via storage interface), nav, quiz session
   viewer/    AnatomyViewer (lazy chunk with three.js), ModelInstance, Highlighter, CameraRig, placeholder builder
   quiz/      QuizScreen, AnswerWord, Keyboard, SessionSummary
-  screens/   one per tab + Credits
+  screens/   one per tab, the practice options sheet, Explore, Flashcards, Onboarding and Credits
 ```
 
 - **Storage**: everything persisted goes through `appStorage` in `src/lib/storage.ts`

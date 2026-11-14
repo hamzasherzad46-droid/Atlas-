@@ -7,7 +7,7 @@ import { useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { ANSWER_TIMERS, DAILY_GOALS, LANGS, useSettings } from '../state/settings'
 
-/** Settings, set as a ledger: each preference on its own line with its label in the margin. */
+/** Settings: one preference per line, label in the margin. */
 export function YouScreen() {
   const t = useT()
   const s = useSettings()
@@ -19,7 +19,7 @@ export function YouScreen() {
     <main className="page">
       <Masthead />
       <div className="titleblock">
-        <h1 className="display">{s.name || t('you.title')}</h1>
+        <h1 className="display">{t('tab.you')}</h1>
       </div>
 
       <section className="sect">
@@ -34,15 +34,14 @@ export function YouScreen() {
       <section className="sect">
         <p className="label">{t('you.track')}</p>
         <div className="sect-body">
-          {TRACKS.map((tr) => (
-            <button key={tr} className="choice" aria-pressed={s.track === tr} onClick={() => s.set({ track: tr })}>
-              <span className="choice-mark" aria-hidden />
-              <span className="r-main">
-                <span className="r-title">{t(`track.${tr}`)}</span>
-                <span className="r-sub">{t(`trackHelp.${tr}`)}</span>
-              </span>
-            </button>
-          ))}
+          <div className="options">
+            {TRACKS.map((tr) => (
+              <button key={tr} aria-pressed={s.track === tr} onClick={() => s.set({ track: tr })}>
+                {t(`track.${tr}`)}
+              </button>
+            ))}
+          </div>
+          <p className="small option-help">{t(`trackHelp.${s.track}`)}</p>
         </div>
       </section>
 
@@ -100,30 +99,27 @@ export function YouScreen() {
         </div>
       </section>
 
-      <section className="sect">
-        <p className="label">{t('you.data')}</p>
-        <div className="sect-body rows">
-          {/* In-page confirm: native confirm() is blocked in sandboxed hosts. */}
-          <button
-            className="r"
-            onClick={() => {
-              if (!confirming) return setConfirming(true)
-              reset()
-              setConfirming(false)
-            }}
-            onBlur={() => setConfirming(false)}
-          >
-            <span className="r-main">
-              <span className="r-title bad">{confirming ? t('you.resetConfirm') : t('you.reset')}</span>
-              {confirming && <span className="r-sub">{t('you.cantUndo')}</span>}
-            </span>
-          </button>
-          <button className="r" onClick={() => setCredits(true)}>
-            <span className="r-main r-title">{t('you.about')}</span>
-            <ArrowIcon />
-          </button>
-        </div>
-      </section>
+      <div className="rows settings-end">
+        <button className="r" onClick={() => setCredits(true)}>
+          <span className="r-main r-title">{t('you.about')}</span>
+          <ArrowIcon />
+        </button>
+        {/* In-page confirm: native confirm() is blocked in sandboxed hosts. */}
+        <button
+          className="r"
+          onClick={() => {
+            if (!confirming) return setConfirming(true)
+            reset()
+            setConfirming(false)
+          }}
+          onBlur={() => setConfirming(false)}
+        >
+          <span className="r-main">
+            <span className="r-title bad">{confirming ? t('you.resetConfirm') : t('you.reset')}</span>
+            {confirming && <span className="r-sub">{t('you.cantUndo')}</span>}
+          </span>
+        </button>
+      </div>
     </main>
   )
 }
