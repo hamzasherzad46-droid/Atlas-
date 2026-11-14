@@ -44,6 +44,27 @@ export interface TypingState {
 
 export const emptyTyping: TypingState = { buffer: '', awaitingEnter: false }
 
+/**
+ * Medium difficulty: which letters of the answer are shown as clues. Always the first letter, then about a
+ * quarter of the rest, picked by a hash of the word so the clue stays put while typing. Short words get one
+ * letter; at least two letters always stay hidden.
+ */
+export function revealedLetters(answer: string): Set<number> {
+  const letters = [...answer].map((ch, i) => (ch === ' ' ? -1 : i)).filter((i) => i >= 0)
+  if (!letters.length) return new Set()
+  const count = Math.max(1, Math.min(letters.length - 2, Math.round(letters.length * 0.25)))
+  let h = 2166136261
+  for (const ch of answer) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0
+  const rest = letters.slice(1)
+  // Deterministic shuffle of the remaining letters.
+  for (let i = rest.length - 1; i > 0; i--) {
+    h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0
+    const j = h % (i + 1)
+    ;[rest[i], rest[j]] = [rest[j], rest[i]]
+  }
+  return new Set([letters[0], ...rest.slice(0, count - 1)])
+}
+
 /** The answer the student is currently heading towards (used for ghost letters / dashes). */
 export function activeAnswer(buffer: string, answers: string[]): string {
   return answers.find((a) => a.startsWith(buffer)) ?? answers[0] ?? ''
@@ -52,10 +73,13 @@ export function activeAnswer(buffer: string, answers: string[]): string {
 function settle(buffer: string, answers: string[]): { state: TypingState; result: KeyResult } {
   const exact = answers.includes(buffer)
   if (!exact) return { state: { buffer, awaitingEnter: false }, result: 'correct' }
-  // Wait for Enter only if a longer answer continues with another word ("frontal" → "frontal bone").
-  // A longer form that only adds letters ("temporal bone" → "temporal bones") doesn't hold things up.
-  const longer = answers.some((a) => a.startsWith(buffer + ' '))
-  if (longer) return { state: { buffer, awaitingEnter: true }, result: 'correct' }
+  // Never finish a word for the student. The word on screen is the highest-priority answer that starts with what's
+  // typed; if it is longer ("metacarpal" typed, "metacarpals" shown; "delt" typed, "deltoid" shown), they are still
+  // spelling it, so wait for more letters — or Enter, to settle for the shorter accepted form.
+  // A lower-priority longer form ("temporal bone" shown, "temporal bones" also accepted) doesn't hold things up.
+  const shown = activeAnswer(buffer, answers)
+  const anotherWord = answers.some((a) => a.startsWith(buffer + ' '))
+  if (shown !== buffer || anotherWord) return { state: { buffer, awaitingEnter: true }, result: 'correct' }
   return { state: { buffer, awaitingEnter: false }, result: 'complete' }
 }
 

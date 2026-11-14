@@ -59,13 +59,13 @@ export function PracticeSheet({ moduleId, onClose }: { moduleId: string; onClose
           <p className="label">{t('practice.mode')}</p>
           <div className="sect-body">
             <div className="options">
-              {(['learn', 'hard'] as const).map((m) => (
+              {(['learn', 'medium', 'hard'] as const).map((m) => (
                 <button key={m} aria-pressed={mode === m} onClick={() => setMode(m)}>
                   {t(`mode.${m}`)}
                 </button>
               ))}
             </div>
-            <p className="small option-help">{t(mode === 'learn' ? 'mode.learnHelp' : 'mode.hardHelp')}</p>
+            <p className="small option-help">{t(`mode.${mode}Help`)}</p>
           </div>
         </section>
 

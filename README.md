@@ -29,7 +29,10 @@ apply there.
   carpals/tarsals, C1/C2/C7, teeth by type), muscles (52), heart (23), major vessels (32), airways (15),
   brain (31), digestive (17), urinary (7), male reproductive (7). Organ and muscle modules show a faint
   skeleton behind them for orientation.
-- **Quiz**: learn mode (ghost letters + definition clue) or hard mode (dashes); level filter (foundation /
+- **Quiz**: learn mode (ghost letters + definition clue), medium (the first letter and about a quarter of the rest,
+  plus the definition) or hard mode (dashes). Each structure is asked once per session, in an order that alternates
+  body regions; misses are listed at the end to fix. A word is never finished for you: if a shorter accepted form
+  ("delt", "metacarpal") is typed inside the displayed name, the quiz waits for the rest or for ↵. Level filter (foundation /
   intermediate / advanced); optional per-question timer (30/20/10 s; time-out = miss); exams with a whole-test
   clock and per-answer timer. Feedback shows the verdict, the Latin name, what the structure does and a track note.
 - **Flashcards**: what it does, why it's there, and a note for your track; swipe to grade; own spaced repetition.

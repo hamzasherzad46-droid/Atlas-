@@ -96,6 +96,7 @@
 }
 
 .quiz-answer {
+  position: relative;
   flex-shrink: 0;
   min-height: 166px;
   padding: 2px var(--pad) 12px;
@@ -583,4 +584,19 @@
 .identify-name {
   margin: 2px 0 4px;
   font-size: 34px;
+}
+
+/* "Try again" after a wrong letter: it sits over the prompt line in amber, then fades. */
+.try-again {
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  background: var(--paper);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--warn);
+  pointer-events: none;
+  /* No fill mode: visible by default, so a stalled animation can never hide it. */
+  animation: fade-in var(--fast) var(--ease);
 }

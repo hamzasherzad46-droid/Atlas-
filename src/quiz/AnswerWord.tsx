@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { QuizMode } from '../state/settings'
 import type { Outcome } from '../lib/srs'
+import { revealedLetters } from '../lib/typing'
 
 interface Props {
   answer: string
@@ -12,7 +13,7 @@ interface Props {
   wrongCount: number
 }
 
-/** The large serif answer word: ghost letters (learn) or dashes (hard), filled in as you type. */
+/** The large serif answer word: ghost letters (learn), a few letters among dashes (medium) or dashes (hard), filled in as you type. */
 export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: Props) {
   const el = useRef<HTMLDivElement>(null)
 
@@ -32,6 +33,7 @@ export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: P
   }, [wrongCount])
 
   const size = Math.max(24, Math.min(46, 620 / Math.max(answer.length, 1)))
+  const shown = mode === 'medium' ? revealedLetters(answer) : null
   const state = done ? (outcome === 'failed' ? 'fail' : 'ok') : 'typing'
 
   return (
@@ -50,7 +52,7 @@ export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: P
         return (
           <span
             key={i}
-            className={`answer-ch ${isTyped || done ? 'typed' : mode === 'hard' ? 'dash' : 'ghost'}${caret ? ' caret' : ''}`}
+            className={`answer-ch ${isTyped || done ? 'typed' : mode === 'learn' || shown?.has(i) ? 'ghost' : 'dash'}${caret ? ' caret' : ''}`}
           >
             {ch}
           </span>

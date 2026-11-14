@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { acceptedAnswers, activeAnswer, applyKey, emptyTyping, normalizeAnswer, type KeyInput, type TypingState } from './typing'
+import { acceptedAnswers, activeAnswer, applyKey, type KeyInput, emptyTyping, normalizeAnswer, revealedLetters, type TypingState } from './typing'
 import { meshMatchesKey, meshSide, mostSpecific } from './meshMatch'
-import { INTERVALS, isMissed, prioritise, requeue, updateRecord } from './srs'
+import { INTERVALS, isMissed, prioritise, updateRecord } from './srs'
 
 function typeAll(text: string, answers: string[]) {
   let state: TypingState = emptyTyping
@@ -61,6 +61,32 @@ describe('typing engine', () => {
     expect(typeAll('maxilla', acceptedAnswers('maxilla', ['maxillae'])).results.at(-1)).toBe('complete')
     // …but still waits when another word may follow.
     expect(typeAll('temporal', answers).state.awaitingEnter).toBe(true)
+  })
+
+  it('never finishes the word on screen for you', () => {
+    // A shorter accepted form inside the displayed name must not end the question.
+    const metacarpals = acceptedAnswers('metacarpals', ['metacarpal', 'metacarpal bones'])
+    const typed = typeAll('metacarpal', metacarpals)
+    expect(typed.results.at(-1)).toBe('correct')
+    expect(typed.state.awaitingEnter).toBe(true)
+    expect(applyKey(typed.state, { type: 'char', char: 's' }, metacarpals).result).toBe('complete')
+    expect(applyKey(typed.state, { type: 'enter' }, metacarpals).result).toBe('complete')
+
+    const deltoid = acceptedAnswers('deltoid', ['delt', 'delts'])
+    expect(typeAll('delt', deltoid).results.at(-1)).toBe('correct')
+    expect(typeAll('deltoid', deltoid).results.at(-1)).toBe('complete')
+  })
+
+  it('medium shows the first letter and a few more, never the whole word', () => {
+    for (const word of ['ulna', 'scapula', 'inferior nasal concha', 'atlas', 'os']) {
+      const shown = revealedLetters(word)
+      const letters = [...word].filter((c) => c !== ' ').length
+      expect(shown.has(0), word).toBe(true)
+      expect(shown.size, word).toBeGreaterThanOrEqual(1)
+      expect(shown.size, word).toBeLessThanOrEqual(Math.max(1, letters - 2))
+      for (const i of shown) expect(word[i], word).not.toBe(' ')
+      expect(revealedLetters(word)).toEqual(shown) // stable while typing
+    }
   })
 
   it('backspace and hint', () => {
@@ -155,8 +181,4 @@ describe('spaced repetition', () => {
     expect(isMissed(updateRecord(undefined, 'perfect', 0, now))).toBe(false)
   })
 
-  it('requeues a missed item a few questions later', () => {
-    expect(requeue(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 0, 'a')).toEqual(['a', 'b', 'c', 'd', 'e', 'a', 'f', 'g'])
-    expect(requeue(['a', 'b'], 1, 'b')).toEqual(['a', 'b', 'b'])
-  })
 })

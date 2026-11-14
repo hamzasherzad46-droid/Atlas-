@@ -33,7 +33,6 @@ export function SessionSummary() {
 
   // Anything answered imperfectly at least once this session (or unanswered in a timed test) is listed for review.
   const unique = [...new Set(q.queue)]
-  const errorsFor = (id: string) => q.results.filter((r) => r.id === id).reduce((n, r) => n + r.errors + (r.outcome === 'failed' ? 1 : 0), 0)
   const missed = unique.filter((id) => {
     const rs = q.results.filter((r) => r.id === id)
     return rs.length === 0 || rs.some((r) => r.outcome !== 'perfect')
@@ -90,7 +89,7 @@ export function SessionSummary() {
                 <div className="r" key={id}>
                   <span className="r-main r-title">{sentence(q.byId[id]?.name ?? '')}</span>
                   {q.results.some((r) => r.id === id) ? (
-                    <span className="r-value bad">{t('summary.errors', { n: errorsFor(id) })}</span>
+                    <span className="r-value bad">{t('summary.tryAgain')}</span>
                   ) : (
                     <span className="r-value warn">{t('summary.unanswered')}</span>
                   )}

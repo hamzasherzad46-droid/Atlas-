@@ -163,6 +163,8 @@ export const en = {
   'mode.learn': 'Learn',
   'mode.hard': 'Hard',
   'mode.learnHelp': 'Faint letters and a definition as a clue.',
+  'mode.medium': 'Medium',
+  'mode.mediumHelp': 'A few letters shown, with the definition as a clue.',
   'mode.hardHelp': 'Dashes only. No clues.',
   'practice.level': 'Level',
   'tier.all': 'All',
@@ -179,7 +181,8 @@ export const en = {
   'practice.review': 'Fix mistakes',
 
   'quiz.correct': 'Correct',
-  'quiz.errors': 'Errors: {n}',
+  'quiz.triedAgain': 'Correct, after trying again',
+  'quiz.tryAgain': 'Try again',
   'quiz.skipped': 'Skipped',
   'quiz.timeout': 'Time’s up',
   'quiz.confirm': 'Press ↵ to confirm, or keep typing',
@@ -211,7 +214,7 @@ export const en = {
   'summary.time': 'Time',
   'summary.review': 'To review',
   'summary.unanswered': 'unanswered',
-  'summary.errors': 'Errors: {n}',
+  'summary.tryAgain': 'Try again',
   'summary.fix': 'Fix these now',
 
   'cards.title': 'Flashcards',

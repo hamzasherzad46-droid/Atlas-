@@ -30,6 +30,17 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   const [now, setNow] = useState(() => Date.now())
 
   const format = config.format ?? 'type'
+  // "Try again" shows for a moment after each wrong letter.
+  const [tryAgain, setTryAgain] = useState(false)
+  useEffect(() => {
+    if (!q.wrongCount) return
+    // Shown on the wrong key, hidden after a beat; a state flag rather than a CSS fade-out so it also
+    // appears when the device asks for reduced motion.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTryAgain(true)
+    const tm = setTimeout(() => setTryAgain(false), 1200)
+    return () => clearTimeout(tm)
+  }, [q.wrongCount])
   // In identify mode the camera holds the region's framing, so the answer isn't given away.
   const [regionView, setRegionView] = useState<CameraView | null>(null)
 
@@ -96,12 +107,13 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   if (!assets || !ready) return <div className="quiz quiz-center muted">{t('common.loading')}</div>
   if (q.phase === 'finished' || !current) return <SessionSummary />
 
-  const answer = done && q.lastOutcome === 'failed' ? q.answers[0] : activeAnswer(q.typing.buffer, q.answers)
+  // When finished, show exactly what was typed (a shorter accepted form stays short); on a miss, the main answer.
+  const answer = done ? (q.lastOutcome === 'failed' || !q.typing.buffer ? q.answers[0] : q.typing.buffer) : activeAnswer(q.typing.buffer, q.answers)
   const examLeft = q.endsAt ? Math.max(0, q.endsAt - now) : null
   const qLeft = q.qDeadline ? Math.max(0, q.qDeadline - now) : null
   const qFrac = qLeft !== null && config.answerTimer ? qLeft / (config.answerTimer * 1000) : null
   const note = noteFor(current, track)
-  const showDefinition = config.mode === 'learn' || done
+  const showDefinition = config.mode !== 'hard' || done
 
   const kindLabel =
     config.kind === 'assessment'
@@ -116,7 +128,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
     q.lastOutcome === 'perfect'
       ? { tone: 'good', text: t('quiz.correct') }
       : q.lastOutcome === 'ok'
-        ? { tone: 'warn', text: `${t('quiz.correct')} · ${t('quiz.errors', { n: q.qErrors })}` }
+        ? { tone: 'warn', text: t('quiz.triedAgain') }
         : {
             tone: 'bad',
             text: q.timedOut
@@ -202,6 +214,12 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
         <>
           <section className="quiz-answer" onPointerDown={() => done && setPausedAt(q.index)}>
             {!done && <p className="label quiz-prompt">{t('mod.practiceSub')}</p>}
+            {/* A wrong letter isn't an error to dwell on: say "Try again" and let it fade. */}
+            {!done && tryAgain && (
+              <p className="try-again" key={q.wrongCount} aria-live="assertive">
+                {t('quiz.tryAgain')}
+              </p>
+            )}
             <AnswerWord answer={answer} typed={q.typing.buffer} mode={config.mode} done={done} outcome={q.lastOutcome} wrongCount={q.wrongCount} />
             {feedback ?? (
               <div className="quiz-feedback">

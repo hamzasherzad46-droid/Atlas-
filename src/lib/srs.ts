@@ -81,12 +81,3 @@ export function prioritise<T extends { id: string; difficulty: number }>(
   return [...items].sort((a, b) => score(a) - score(b))
 }
 
-/** Within a session, an item answered imperfectly comes back this many questions later. */
-export const REQUEUE_GAP = 4
-
-export function requeue(queue: string[], index: number, id: string): string[] {
-  const at = Math.min(index + 1 + REQUEUE_GAP, queue.length)
-  const next = [...queue]
-  next.splice(at, 0, id)
-  return next
-}

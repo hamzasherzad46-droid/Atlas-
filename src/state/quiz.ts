@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { Structure } from '../content/types'
 import { acceptedAnswers, applyKey, emptyTyping, type KeyInput, type TypingState } from '../lib/typing'
-import { outcomeFor, prioritise, requeue, type Outcome, type StructureRecord } from '../lib/srs'
+import { outcomeFor, prioritise, type Outcome, type StructureRecord } from '../lib/srs'
 import { meshKeys, meshMatchesAny, meshMatchesKey, mostSpecific } from '../lib/meshMatch'
 import { playSound } from '../lib/sound'
 import { xpForAnswer } from '../lib/xp'
@@ -46,7 +46,6 @@ interface QuizState {
   bestStreak: number
   sessionXp: number
   results: QuestionResult[]
-  requeued: string[]
   flash: KeyFlash | null
   wrongCount: number
   startedAt: number
@@ -105,16 +104,42 @@ export function distractorsFor(target: Structure, pool: Structure[], count = 3):
   return [...near, ...far].slice(0, count)
 }
 
+/**
+ * Mix a set of questions so that, where possible, no two in a row come from the same region of the body
+ * (the skull, then a limb, then the trunk…). The largest remaining region goes next, which spreads them evenly.
+ */
+export function mixByRegion<T extends { region: string }>(items: T[]): T[] {
+  const groups = new Map<string, T[]>()
+  for (const s of shuffle(items)) {
+    const g = groups.get(s.region)
+    if (g) g.push(s)
+    else groups.set(s.region, [s])
+  }
+  const out: T[] = []
+  let last: string | null = null
+  while (out.length < items.length) {
+    const open = [...groups.entries()].filter(([, g]) => g.length > 0)
+    const pick = open.filter(([r]) => r !== last).sort((a, b) => b[1].length - a[1].length)[0] ?? open[0]
+    out.push(pick[1].shift()!)
+    last = pick[0]
+  }
+  return out
+}
+
 export function buildQueue(config: SessionConfig, structures: Structure[], records: Record<string, StructureRecord>): string[] {
-  if (config.ids?.length) return shuffle(config.ids).slice(0, config.length)
+  const unique = [...new Set(config.ids ?? [])]
+  if (unique.length) {
+    const chosen = structures.filter((s) => unique.includes(s.id))
+    const ids = chosen.length === unique.length ? mixByRegion(chosen).map((s) => s.id) : shuffle(unique)
+    return ids.slice(0, config.length)
+  }
   const inRegion = structures.filter((s) => !config.region || s.region === config.region)
   const tiered = inRegion.filter((s) => !config.tier || s.difficulty === config.tier)
   // If a region has nothing at the chosen level, fall back to every level rather than an empty session.
   const pool = tiered.length ? tiered : inRegion
-  if (config.kind === 'assessment') return shuffle(pool).slice(0, config.length).map((s) => s.id)
-  return prioritise(pool, records, Date.now())
-    .slice(0, config.length)
-    .map((s) => s.id)
+  if (config.kind === 'assessment') return mixByRegion(shuffle(pool).slice(0, config.length)).map((s) => s.id)
+  // Spaced repetition decides which structures are due; the order they are asked in is mixed.
+  return mixByRegion(prioritise(pool, records, Date.now()).slice(0, config.length)).map((s) => s.id)
 }
 
 /** English name and synonyms, plus the Latin name: the international terms are accepted in every language. */
@@ -140,7 +165,6 @@ const fresh = {
   bestStreak: 0,
   sessionXp: 0,
   results: [] as QuestionResult[],
-  requeued: [] as string[],
   flash: null,
   wrongCount: 0,
   startedAt: 0,
@@ -185,13 +209,8 @@ export const useQuiz = create<QuizState>()((set, get) => {
     const streak = outcome === 'perfect' ? st.streak + 1 : 0
     const xp = xpForAnswer({ outcome, combo: streak, hard: config.mode === 'hard', timed: !!config.answerTimer, difficulty: s?.difficulty ?? 1 })
     useProgress.getState().record({ id, moduleId: config.moduleId, outcome, errors, ms: Date.now() - st.qStart, xp, combo: streak })
-    let queue = st.queue
-    let requeued = st.requeued
-    // In practice and review, missed items come back later in the same session (once).
-    if (outcome !== 'perfect' && config.kind !== 'assessment' && !requeued.includes(id)) {
-      queue = requeue(queue, st.index, id)
-      requeued = [...requeued, id]
-    }
+    // Each structure is asked once per session; anything missed is listed at the end ("Fix these now")
+    // and comes back through spaced repetition, rather than looping within the session.
     set({
       phase: 'done',
       lastOutcome: outcome,
@@ -202,8 +221,6 @@ export const useQuiz = create<QuizState>()((set, get) => {
       bestStreak: Math.max(st.bestStreak, streak),
       sessionXp: st.sessionXp + xp,
       results: [...st.results, { id, outcome, errors, xp, timedOut }],
-      queue,
-      requeued,
       // On skip or timeout, reveal the answer.
       typing: skipped ? { buffer: st.answers[0] ?? '', awaitingEnter: false } : st.typing,
     })

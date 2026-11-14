@@ -5,7 +5,8 @@ import { appStorage, STORAGE_KEYS } from '../lib/storage'
 
 export type { Track }
 export type ThemePref = 'light' | 'dark' | 'system'
-export type QuizMode = 'learn' | 'hard'
+/** learn: every letter shown faintly, with a definition; medium: a few letters and the definition; hard: dashes only. */
+export type QuizMode = 'learn' | 'medium' | 'hard'
 export type Lang = 'en' | 'fr' | 'de' | 'ar' | 'ru' | 'zh' | 'ko'
 export const LANGS: Lang[] = ['en', 'fr', 'de', 'ar', 'ru', 'zh', 'ko']
 /** Seconds per question; 0 = off. */
