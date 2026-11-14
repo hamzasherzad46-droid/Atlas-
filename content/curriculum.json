@@ -1,0 +1,1178 @@
+{
+  "note": "The Atlas curriculum. Topic titles are English, like the anatomy content. A topic lists `modules` only where an available module teaches its core structures; everything else is in preparation.",
+  "categories": [
+    {
+      "id": "sub-regional",
+      "title": "Sub-Regional Anatomical Modules",
+      "topics": [
+        {
+          "title": "Pectoral Region",
+          "modules": [
+            "muscles",
+            "shoulder-girdle"
+          ]
+        },
+        {
+          "title": "Axilla"
+        },
+        {
+          "title": "Scapular Region",
+          "modules": [
+            "shoulder-girdle",
+            "muscles"
+          ]
+        },
+        {
+          "title": "Arm",
+          "modules": [
+            "arm",
+            "muscles"
+          ]
+        },
+        {
+          "title": "Cubital Fossa"
+        },
+        {
+          "title": "Forearm",
+          "modules": [
+            "forearm",
+            "muscles"
+          ]
+        },
+        {
+          "title": "Wrist and Hand",
+          "modules": [
+            "hand"
+          ]
+        },
+        {
+          "title": "Gluteal Region",
+          "modules": [
+            "muscles",
+            "pelvis"
+          ]
+        },
+        {
+          "title": "Thigh",
+          "modules": [
+            "thigh-knee",
+            "muscles"
+          ]
+        },
+        {
+          "title": "Popliteal Fossa"
+        },
+        {
+          "title": "Leg",
+          "modules": [
+            "leg",
+            "muscles"
+          ]
+        },
+        {
+          "title": "Ankle and Foot",
+          "modules": [
+            "foot"
+          ]
+        },
+        {
+          "title": "Thoracic Wall",
+          "modules": [
+            "thoracic-wall",
+            "muscles"
+          ]
+        },
+        {
+          "title": "Mediastinum",
+          "modules": [
+            "heart"
+          ]
+        },
+        {
+          "title": "Pleural Cavities"
+        },
+        {
+          "title": "Anterior Abdominal Wall"
+        },
+        {
+          "title": "Posterior Abdominal Wall"
+        },
+        {
+          "title": "Inguinal Region"
+        },
+        {
+          "title": "Peritoneal Cavity"
+        },
+        {
+          "title": "Retroperitoneum"
+        },
+        {
+          "title": "Pelvic Cavity"
+        },
+        {
+          "title": "Pelvic Floor"
+        },
+        {
+          "title": "Ischioanal Fossa"
+        },
+        {
+          "title": "Scalp and Face"
+        },
+        {
+          "title": "Temporal and Infratemporal Fossae"
+        },
+        {
+          "title": "Pterygopalatine Fossa"
+        },
+        {
+          "title": "Orbit"
+        },
+        {
+          "title": "Nasal Cavity and Paranasal Sinuses"
+        },
+        {
+          "title": "Oral Cavity",
+          "modules": [
+            "teeth"
+          ]
+        },
+        {
+          "title": "Pharynx"
+        },
+        {
+          "title": "Larynx",
+          "modules": [
+            "airways"
+          ]
+        },
+        {
+          "title": "Ear"
+        },
+        {
+          "title": "Triangles of the Neck"
+        },
+        {
+          "title": "Root of the Neck"
+        },
+        {
+          "title": "Cranial Cavity"
+        }
+      ]
+    },
+    {
+      "id": "systemic-sub",
+      "title": "Systemic Sub-Disciplines",
+      "topics": [
+        {
+          "title": "Osteogenesis and Bone Remodeling"
+        },
+        {
+          "title": "Syndesmology"
+        },
+        {
+          "title": "Kinesiology"
+        },
+        {
+          "title": "Hemodynamics"
+        },
+        {
+          "title": "Microcirculation"
+        },
+        {
+          "title": "Lymphoid Organs"
+        },
+        {
+          "title": "Mucosal-Associated Lymphoid Tissue"
+        },
+        {
+          "title": "Bronchopulmonary Segments"
+        },
+        {
+          "title": "Hepatobiliary System",
+          "modules": [
+            "digestive"
+          ]
+        },
+        {
+          "title": "Gastrointestinal Tract",
+          "modules": [
+            "digestive"
+          ]
+        },
+        {
+          "title": "Enteric Nervous System"
+        },
+        {
+          "title": "Nephrology Anatomy",
+          "modules": [
+            "urinary"
+          ]
+        },
+        {
+          "title": "Neuroendocrinology",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Special Visceral Afferent Systems"
+        },
+        {
+          "title": "General Somatic Afferent Systems"
+        }
+      ]
+    },
+    {
+      "id": "clinical",
+      "title": "Specialized Clinical and Procedural Anatomy",
+      "topics": [
+        {
+          "title": "Fascial Space Anatomy"
+        },
+        {
+          "title": "Surgical Planes and Approaches"
+        },
+        {
+          "title": "Transplant Anatomy"
+        },
+        {
+          "title": "Oncological Anatomy"
+        },
+        {
+          "title": "Trauma Anatomy"
+        },
+        {
+          "title": "Sports Anatomy"
+        },
+        {
+          "title": "Rehabilitation Anatomy"
+        },
+        {
+          "title": "Ergonomic Anatomy"
+        },
+        {
+          "title": "Anesthesia Block Anatomy"
+        },
+        {
+          "title": "Vascular Access Anatomy",
+          "modules": [
+            "vessels"
+          ]
+        },
+        {
+          "title": "Endovascular Anatomy"
+        },
+        {
+          "title": "Interventional Radiology Anatomy"
+        },
+        {
+          "title": "Radiation Oncology Anatomy"
+        },
+        {
+          "title": "Robotic Surgery Anatomy"
+        }
+      ]
+    },
+    {
+      "id": "embryology-modules",
+      "title": "Specialized Embryological and Developmental Modules",
+      "topics": [
+        {
+          "title": "Somite Differentiation"
+        },
+        {
+          "title": "Limb Bud Development"
+        },
+        {
+          "title": "Craniofacial Development"
+        },
+        {
+          "title": "Cardiovascular Embryology"
+        },
+        {
+          "title": "Respiratory Embryology"
+        },
+        {
+          "title": "Gastrointestinal Embryology"
+        },
+        {
+          "title": "Urogenital Embryology"
+        },
+        {
+          "title": "Endocrine Embryology"
+        },
+        {
+          "title": "Ocular and Otic Embryology"
+        },
+        {
+          "title": "Integumentary Embryology"
+        },
+        {
+          "title": "Twin and Multiple Gestation Embryology"
+        }
+      ]
+    },
+    {
+      "id": "neuro-modules",
+      "title": "Specialized Neuroanatomical Modules",
+      "topics": [
+        {
+          "title": "Cerebrospinal Fluid Dynamics"
+        },
+        {
+          "title": "Blood-Brain Barrier"
+        },
+        {
+          "title": "Circumventricular Organs"
+        },
+        {
+          "title": "Reticular Formation"
+        },
+        {
+          "title": "Hypothalamic-Pituitary Axis",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Extrapyramidal System",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Pyramidal System",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Somatosensory Pathways",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Pain and Temperature Pathways"
+        },
+        {
+          "title": "Proprioceptive Pathways"
+        },
+        {
+          "title": "Olfactory Pathway"
+        },
+        {
+          "title": "Gustatory Pathway"
+        },
+        {
+          "title": "Oculomotor Control Systems"
+        },
+        {
+          "title": "Autonomic Plexuses"
+        }
+      ]
+    },
+    {
+      "id": "comparative",
+      "title": "Non-Human and Comparative Disciplines",
+      "topics": [
+        {
+          "title": "Veterinary Anatomy"
+        },
+        {
+          "title": "Zootomy"
+        },
+        {
+          "title": "Phytotomy"
+        },
+        {
+          "title": "Invertebrate Anatomy"
+        },
+        {
+          "title": "Vertebrate Anatomy"
+        },
+        {
+          "title": "Primatology Anatomy"
+        },
+        {
+          "title": "Paleoanatomy"
+        }
+      ]
+    },
+    {
+      "id": "history-ethics",
+      "title": "Historical, Ethical, and Methodological Subjects",
+      "topics": [
+        {
+          "title": "History of Anatomy"
+        },
+        {
+          "title": "Anatomical Nomenclature and Terminologia Anatomica"
+        },
+        {
+          "title": "Body Donation Ethics"
+        },
+        {
+          "title": "Anatomical Museum Curation"
+        },
+        {
+          "title": "Forensic Osteology"
+        },
+        {
+          "title": "Somatotyping"
+        },
+        {
+          "title": "Anthropometry"
+        }
+      ]
+    },
+    {
+      "id": "branches",
+      "title": "Specialized Branches and Subdisciplines",
+      "topics": [
+        {
+          "title": "Topographic Anatomy"
+        },
+        {
+          "title": "Living Anatomy"
+        },
+        {
+          "title": "Artistic Anatomy"
+        },
+        {
+          "title": "Forensic Anatomy"
+        },
+        {
+          "title": "Anthropological Anatomy"
+        },
+        {
+          "title": "Evolutionary Anatomy"
+        },
+        {
+          "title": "Geriatric Anatomy"
+        },
+        {
+          "title": "Pediatric Anatomy"
+        },
+        {
+          "title": "Fetal Anatomy"
+        },
+        {
+          "title": "Neonatal Anatomy"
+        },
+        {
+          "title": "Dental Anatomy",
+          "modules": [
+            "teeth"
+          ]
+        },
+        {
+          "title": "Oral Anatomy",
+          "modules": [
+            "teeth"
+          ]
+        },
+        {
+          "title": "Ocular Anatomy"
+        },
+        {
+          "title": "Otological Anatomy"
+        },
+        {
+          "title": "Gynecological Anatomy"
+        },
+        {
+          "title": "Obstetric Anatomy"
+        },
+        {
+          "title": "Urological Anatomy",
+          "modules": [
+            "urinary"
+          ]
+        },
+        {
+          "title": "Orthopedic Anatomy"
+        },
+        {
+          "title": "Neurosurgical Anatomy"
+        },
+        {
+          "title": "Endoscopic Anatomy"
+        },
+        {
+          "title": "Laparoscopic Anatomy"
+        },
+        {
+          "title": "Microsurgical Anatomy"
+        },
+        {
+          "title": "Molecular Anatomy"
+        },
+        {
+          "title": "Ultrastructural Anatomy"
+        },
+        {
+          "title": "Immunohistochemical Anatomy"
+        },
+        {
+          "title": "Digital Anatomy"
+        },
+        {
+          "title": "Virtual Anatomy"
+        },
+        {
+          "title": "3D Computational Anatomy"
+        },
+        {
+          "title": "Quantitative Anatomy"
+        },
+        {
+          "title": "Morphometrics"
+        },
+        {
+          "title": "Stereology"
+        }
+      ]
+    },
+    {
+      "id": "laboratory",
+      "title": "Practical and Laboratory Subjects",
+      "topics": [
+        {
+          "title": "Cadaveric Dissection"
+        },
+        {
+          "title": "Prosection Study"
+        },
+        {
+          "title": "Plastination Study"
+        },
+        {
+          "title": "Histological Slide Preparation"
+        },
+        {
+          "title": "Histochemistry"
+        },
+        {
+          "title": "Immunohistochemistry"
+        },
+        {
+          "title": "Electron Microscopy"
+        },
+        {
+          "title": "Live Ultrasound Scanning"
+        },
+        {
+          "title": "Cross-Sectional Correlation"
+        },
+        {
+          "title": "Surface Landmark Palpation"
+        },
+        {
+          "title": "Clinical Correlation Studies"
+        }
+      ]
+    },
+    {
+      "id": "organisation",
+      "title": "Structural Organization and General Systems",
+      "topics": [
+        {
+          "title": "Levels of Structural Organization"
+        },
+        {
+          "title": "Body Cavities and Membranes"
+        },
+        {
+          "title": "Fascial Planes and Compartments"
+        },
+        {
+          "title": "Joint Classification and Biomechanics"
+        },
+        {
+          "title": "Vascular Anastomoses and Collateral Circulation"
+        },
+        {
+          "title": "Lymphatic Drainage Pathways"
+        },
+        {
+          "title": "Autonomic Innervation Pathways"
+        },
+        {
+          "title": "Somatic Innervation Pathways"
+        },
+        {
+          "title": "Dermatomes and Myotomes"
+        },
+        {
+          "title": "Biomechanics and Kinesiology"
+        }
+      ]
+    },
+    {
+      "id": "development",
+      "title": "Developmental and Genetic Subtopics",
+      "topics": [
+        {
+          "title": "Prenatal Development"
+        },
+        {
+          "title": "Postnatal Growth and Maturation"
+        },
+        {
+          "title": "Aging and Senescence Changes"
+        },
+        {
+          "title": "Molecular Embryology"
+        },
+        {
+          "title": "Stem Cell Differentiation"
+        },
+        {
+          "title": "Tissue Regeneration"
+        },
+        {
+          "title": "Developmental Genetics"
+        },
+        {
+          "title": "Epigenetics in Development"
+        }
+      ]
+    },
+    {
+      "id": "advanced-neuro",
+      "title": "Advanced Neuroanatomy Subtopics",
+      "topics": [
+        {
+          "title": "Neuroembryology"
+        },
+        {
+          "title": "Cytoarchitecture of the Cerebral Cortex"
+        },
+        {
+          "title": "White Matter Tracts",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Neurovascular Territory Mapping"
+        },
+        {
+          "title": "Autonomic Reflex Arcs"
+        },
+        {
+          "title": "Neuroendocrine Pathways"
+        },
+        {
+          "title": "Functional Neuroimaging Correlation"
+        }
+      ]
+    },
+    {
+      "id": "imaging-extra",
+      "title": "Additional Imaging Modalities",
+      "topics": [
+        {
+          "title": "Fluoroscopy"
+        },
+        {
+          "title": "Positron Emission Tomography"
+        },
+        {
+          "title": "Single-Photon Emission Computed Tomography"
+        },
+        {
+          "title": "Doppler Ultrasonography"
+        },
+        {
+          "title": "Endoscopic Ultrasonography"
+        },
+        {
+          "title": "Contrast Radiography"
+        },
+        {
+          "title": "Mammography"
+        }
+      ]
+    },
+    {
+      "id": "divisions",
+      "title": "Core Divisions of Anatomy",
+      "topics": [
+        {
+          "title": "Gross Anatomy"
+        },
+        {
+          "title": "Microscopic Anatomy"
+        },
+        {
+          "title": "Developmental Anatomy"
+        },
+        {
+          "title": "Embryology"
+        },
+        {
+          "title": "Histology"
+        },
+        {
+          "title": "Cytology"
+        },
+        {
+          "title": "Neuroanatomy",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Surface Anatomy"
+        },
+        {
+          "title": "Regional Anatomy"
+        },
+        {
+          "title": "Systemic Anatomy"
+        },
+        {
+          "title": "Sectional Anatomy"
+        },
+        {
+          "title": "Radiological Anatomy"
+        },
+        {
+          "title": "Clinical Anatomy"
+        },
+        {
+          "title": "Applied Anatomy"
+        },
+        {
+          "title": "Surgical Anatomy"
+        },
+        {
+          "title": "Comparative Anatomy"
+        },
+        {
+          "title": "Functional Anatomy"
+        },
+        {
+          "title": "Pathological Anatomy"
+        },
+        {
+          "title": "Osteology",
+          "modules": [
+            "skeleton"
+          ]
+        },
+        {
+          "title": "Arthrology"
+        },
+        {
+          "title": "Myology",
+          "modules": [
+            "muscles"
+          ]
+        },
+        {
+          "title": "Angiology",
+          "modules": [
+            "vessels",
+            "heart"
+          ]
+        },
+        {
+          "title": "Neurology",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Splanchnology",
+          "modules": [
+            "digestive",
+            "urinary",
+            "airways"
+          ]
+        },
+        {
+          "title": "Endocrinology"
+        },
+        {
+          "title": "Dermatology"
+        },
+        {
+          "title": "Organology"
+        }
+      ]
+    },
+    {
+      "id": "foundations",
+      "title": "Foundational Principles",
+      "topics": [
+        {
+          "title": "Anatomical Terminology"
+        },
+        {
+          "title": "Anatomical Position"
+        },
+        {
+          "title": "Anatomical Planes and Axes"
+        },
+        {
+          "title": "Terms of Location and Direction"
+        },
+        {
+          "title": "Terms of Movement"
+        },
+        {
+          "title": "Anatomical Variations"
+        }
+      ]
+    },
+    {
+      "id": "systemic",
+      "title": "Systemic Anatomy Topics",
+      "topics": [
+        {
+          "title": "Integumentary System"
+        },
+        {
+          "title": "Skeletal System",
+          "modules": [
+            "skeleton"
+          ]
+        },
+        {
+          "title": "Articular System"
+        },
+        {
+          "title": "Muscular System",
+          "modules": [
+            "muscles"
+          ]
+        },
+        {
+          "title": "Nervous System",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Central Nervous System",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Peripheral Nervous System"
+        },
+        {
+          "title": "Autonomic Nervous System"
+        },
+        {
+          "title": "Cardiovascular System",
+          "modules": [
+            "heart",
+            "vessels"
+          ]
+        },
+        {
+          "title": "Circulatory System",
+          "modules": [
+            "vessels",
+            "heart"
+          ]
+        },
+        {
+          "title": "Lymphatic System"
+        },
+        {
+          "title": "Respiratory System",
+          "modules": [
+            "airways"
+          ]
+        },
+        {
+          "title": "Digestive System",
+          "modules": [
+            "digestive"
+          ]
+        },
+        {
+          "title": "Urinary System",
+          "modules": [
+            "urinary"
+          ]
+        },
+        {
+          "title": "Urogenital System",
+          "modules": [
+            "urinary",
+            "reproductive"
+          ]
+        },
+        {
+          "title": "Male Reproductive System",
+          "modules": [
+            "reproductive"
+          ]
+        },
+        {
+          "title": "Female Reproductive System"
+        },
+        {
+          "title": "Endocrine System"
+        },
+        {
+          "title": "Immune System"
+        },
+        {
+          "title": "Special Senses"
+        }
+      ]
+    },
+    {
+      "id": "regional",
+      "title": "Regional Anatomy Topics",
+      "topics": [
+        {
+          "title": "Back",
+          "modules": [
+            "vertebral-column",
+            "muscles"
+          ]
+        },
+        {
+          "title": "Upper Limb",
+          "modules": [
+            "shoulder-girdle",
+            "arm",
+            "forearm",
+            "hand"
+          ]
+        },
+        {
+          "title": "Lower Limb",
+          "modules": [
+            "thigh-knee",
+            "leg",
+            "foot"
+          ]
+        },
+        {
+          "title": "Thorax",
+          "modules": [
+            "thoracic-wall",
+            "heart",
+            "airways"
+          ]
+        },
+        {
+          "title": "Abdomen",
+          "modules": [
+            "digestive"
+          ]
+        },
+        {
+          "title": "Pelvis",
+          "modules": [
+            "pelvis"
+          ]
+        },
+        {
+          "title": "Perineum"
+        },
+        {
+          "title": "Head",
+          "modules": [
+            "skull",
+            "teeth",
+            "brain"
+          ]
+        },
+        {
+          "title": "Neck"
+        }
+      ]
+    },
+    {
+      "id": "histology",
+      "title": "Histology and Cytology Topics",
+      "topics": [
+        {
+          "title": "Cell Biology"
+        },
+        {
+          "title": "Epithelial Tissue"
+        },
+        {
+          "title": "Connective Tissue"
+        },
+        {
+          "title": "Cartilage"
+        },
+        {
+          "title": "Bone Tissue"
+        },
+        {
+          "title": "Muscle Tissue"
+        },
+        {
+          "title": "Nervous Tissue"
+        },
+        {
+          "title": "Blood and Hematopoiesis"
+        },
+        {
+          "title": "Ultrastructure of Tissues"
+        },
+        {
+          "title": "Organ Microanatomy"
+        }
+      ]
+    },
+    {
+      "id": "embryology",
+      "title": "Embryology and Developmental Topics",
+      "topics": [
+        {
+          "title": "Gametogenesis"
+        },
+        {
+          "title": "Fertilization"
+        },
+        {
+          "title": "Cleavage and Implantation"
+        },
+        {
+          "title": "Gastrulation"
+        },
+        {
+          "title": "Neurulation"
+        },
+        {
+          "title": "Organogenesis"
+        },
+        {
+          "title": "Pharyngeal Arches"
+        },
+        {
+          "title": "Placentation"
+        },
+        {
+          "title": "Fetal Circulation"
+        },
+        {
+          "title": "Teratology"
+        },
+        {
+          "title": "Congenital Malformations"
+        }
+      ]
+    },
+    {
+      "id": "neuro",
+      "title": "Neuroanatomy Topics",
+      "topics": [
+        {
+          "title": "Neurohistology"
+        },
+        {
+          "title": "Meninges and Cerebrospinal Fluid"
+        },
+        {
+          "title": "Ventricular System",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Blood Supply of the Brain",
+          "modules": [
+            "vessels"
+          ]
+        },
+        {
+          "title": "Spinal Cord"
+        },
+        {
+          "title": "Brainstem",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Cerebellum",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Diencephalon",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Cerebrum",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Basal Ganglia",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Limbic System",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Cranial Nerves"
+        },
+        {
+          "title": "Spinal Nerves"
+        },
+        {
+          "title": "Ascending and Descending Tracts"
+        },
+        {
+          "title": "Visual Pathway",
+          "modules": [
+            "brain"
+          ]
+        },
+        {
+          "title": "Auditory and Vestibular Pathways"
+        }
+      ]
+    },
+    {
+      "id": "imaging",
+      "title": "Medical Imaging Topics",
+      "topics": [
+        {
+          "title": "Plain Radiography"
+        },
+        {
+          "title": "Computed Tomography"
+        },
+        {
+          "title": "Magnetic Resonance Imaging"
+        },
+        {
+          "title": "Ultrasonography"
+        },
+        {
+          "title": "Angiography"
+        },
+        {
+          "title": "Cross-Sectional Imaging"
+        }
+      ]
+    }
+  ]
+}

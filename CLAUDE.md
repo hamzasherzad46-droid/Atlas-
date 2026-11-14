@@ -13,7 +13,7 @@ Vite + React + TypeScript, three.js via @react-three/fiber + drei, Zustand, loca
 1. Read existing code before writing; mirror existing patterns.
 2. Content is data-driven — never hard-code questions in components.
 3. New modules (Heart, Vessels, Muscles) = new JSON + models only, no code forks.
-4. Design: an anatomical reference book. Warm ivory paper and charcoal ink (dark mode: charcoal paper, ivory ink), one typeface (Libre Franklin, bundled) across many weights, hairline rules instead of cards, section labels hung in the left margin, Latin names in italic. Burgundy is the brand: wordmark, primary actions, progress, selection and the 3D highlight. Each body system has a muted colour key in `content/catalog.json` (`tint`). Status colours carry meaning only: green correct, red errors, amber attention, blue information. No gradients, rounded card stacks, rings, XP, levels or other gamified chrome. Tokens live in `src/styles/global.css`.
+4. Design: the observatory — an antique anatomical institution with an astronomical observatory. Dark is the signature: obsidian #171614 and charcoal #211F1B rooms, aged ivory #E8DDC5 type, antique brass #A88A54 for the instrument (wordmark seal, primary actions, progress, selection), muted copper #98664D for clinical notes, deep oxblood #542C30 sparingly (the 3D highlight is a lifted oxblood). Parchment #D8C9A9 for reference material (flashcards). Light mode is the same house as a manuscript page. Type: Libre Caslon Display (titles, structure names), Libre Caslon Text italic (Latin names, margin notes), Libre Franklin (reading), DM Mono (references, counts, clocks, bearings) — all bundled. Hairline rules, notes hung in the left margin, no cards. Celestial detail is real and sparse: the armillary seal, the Orion chart (J2000 positions), camera bearings. Each body system has a muted pigment key in `content/catalog.json` (`tint`). No blue or cyan, no gradients, no glow, no XP or gamified chrome. Tokens live in `src/styles/global.css`.
 5. Mobile performance first: compressed GLB, lazy-load per module, pixel ratio ≤ 2.
 6. No ads, analytics, social features or push notifications.
 7. Keep diffs scoped to the task asked.
@@ -36,6 +36,8 @@ Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to en
 ## Where things live
 - `content/catalog.json` — courses → modules (status, content file, model file + transform)
 - `content/<module>.json` — structures; optional `content/<module>.placeholder.json` — primitive stand-ins for modules without a GLB
+- `content/catalog.json` `regions` — focused regional modules (skull, forearm, hand…) that `include` structure ids from a system's content file and reuse its model
+- `content/curriculum.json` — every curriculum topic by category; `modules` only where an available module teaches the topic's core structures
 - `public/models/skeleton.glb` — real BodyParts3D bones, built by `scripts/import-bodyparts3d.mjs` (see README "3D models")
 - `src/content/content.test.ts` — validates every content file (run `npm test` after editing content)
 - `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`

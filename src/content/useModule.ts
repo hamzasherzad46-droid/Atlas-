@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getModuleInfo, loadModuleContent, loadPlaceholder, modelAvailable } from './loader'
-import type { ModuleContent, ModuleInfo, PlaceholderModel } from './types'
+import { getModuleInfo, loadContentFile, loadModuleContent, loadPlaceholder, modelAvailable } from './loader'
+import type { ModuleContent, ModuleInfo, PlaceholderModel, Structure } from './types'
 
 export interface ModuleAssets {
   info: ModuleInfo
@@ -8,6 +8,8 @@ export interface ModuleAssets {
   placeholder: PlaceholderModel
   /** Real GLB present in /public/models; otherwise primitives are rendered. */
   hasModel: boolean
+  /** Every structure in the source content file (wider than `content` for a focused region); used for answer choices. */
+  pool: Structure[]
 }
 
 const cache = new Map<string, ModuleAssets>()
@@ -17,12 +19,13 @@ export async function loadModuleAssets(id: string): Promise<ModuleAssets> {
   if (hit) return hit
   const info = getModuleInfo(id)
   if (!info) throw new Error(`Unknown module ${id}`)
-  const [content, placeholder, hasModel] = await Promise.all([
+  const [content, placeholder, hasModel, source] = await Promise.all([
     loadModuleContent(info),
     loadPlaceholder(info),
     info.model ? modelAvailable(info.model.file) : Promise.resolve(false),
+    info.contentFile ? loadContentFile(info.contentFile) : Promise.resolve(null),
   ])
-  const assets = { info, content, placeholder, hasModel }
+  const assets = { info, content, placeholder, hasModel, pool: source?.structures ?? content.structures }
   cache.set(id, assets)
   return assets
 }

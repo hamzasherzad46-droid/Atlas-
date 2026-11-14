@@ -4,6 +4,7 @@ import { useModule } from '../content/useModule'
 import { ArrowIcon, BackIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { startPractice } from '../state/actions'
+import type { QuestionFormat } from '../state/nav'
 import { ANSWER_TIMERS, useSettings, type QuizMode } from '../state/settings'
 
 /** Practice options for one module: region, mode, level and timer, then start. Opened from the module page. */
@@ -15,6 +16,7 @@ export function PracticeSheet({ moduleId, onClose }: { moduleId: string; onClose
   const [region, setRegion] = useState<string | null>(last?.region ?? null)
   const [timer, setTimer] = useState<number>(settings.answerTimer)
   const [tier, setTier] = useState<number | null>(null)
+  const [format, setFormat] = useState<QuestionFormat>('type')
   const { assets } = useModule(moduleId)
 
   // Portalled to <body> so it sits above the tab bar, outside the page's stacking context.
@@ -27,6 +29,17 @@ export function PracticeSheet({ moduleId, onClose }: { moduleId: string; onClose
         <div className="titleblock">
           <h1 className="display">{t('mod.options')}</h1>
         </div>
+
+        <section className="sect">
+          <p className="label">{t('practice.format')}</p>
+          <div className="sect-body options">
+            {(['type', 'choice', 'identify'] as const).map((f) => (
+              <button key={f} aria-pressed={format === f} onClick={() => setFormat(f)}>
+                {t(`format.${f}`)}
+              </button>
+            ))}
+          </div>
+        </section>
 
         <section className="sect">
           <p className="label">{t('practice.region')}</p>
@@ -84,7 +97,7 @@ export function PracticeSheet({ moduleId, onClose }: { moduleId: string; onClose
             disabled={!assets}
             onClick={() => {
               onClose() // the sheet lives outside the app shell, so close it before the session takes over
-              startPractice(moduleId, region, mode, timer, tier)
+              startPractice(moduleId, region, mode, timer, tier, format)
             }}
           >
             {t('practice.start')}

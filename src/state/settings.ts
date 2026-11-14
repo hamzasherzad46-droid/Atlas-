@@ -34,7 +34,7 @@ interface SettingsState {
 export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
-      theme: 'system',
+      theme: 'dark',
       track: 'nursing',
       lang: 'en',
       name: '',
@@ -68,7 +68,7 @@ export function applyTheme(pref: ThemePref): () => void {
     const theme = pref === 'system' ? (mq.matches ? 'dark' : 'light') : pref
     document.documentElement.dataset.theme = theme
     // index.html carries one tag per colour scheme; an explicit choice in the app overrides both.
-    for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.setAttribute('content', theme === 'light' ? '#f4f0e8' : '#161513')
+    for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.setAttribute('content', theme === 'light' ? '#e8ddc5' : '#171614')
   }
   apply()
   if (pref !== 'system') return () => {}

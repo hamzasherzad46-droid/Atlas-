@@ -5,6 +5,7 @@ import { Meter } from '../components/bits'
 import { ArrowIcon } from '../components/Icons'
 import { useNav } from '../state/nav'
 import { accuracyOf, useQuiz } from '../state/quiz'
+import { Seal } from '../components/Celestial'
 
 /** Counts up to `to` for a satisfying tally. */
 function useCountUp(to: number, ms = 900) {
@@ -52,8 +53,11 @@ export function SessionSummary() {
     <div className="quiz summary">
       <div className="summary-inner">
         <header className="masthead">
-          <span className="wordmark">{t('app.name')}</span>
-          <span className="label">{moduleName}</span>
+          <span className="brand">
+            <Seal />
+            <span className="wordmark">{t('app.name')}</span>
+          </span>
+          <span className="mono">{moduleName}</span>
         </header>
 
         <div className="titleblock">
@@ -68,7 +72,8 @@ export function SessionSummary() {
 
         <div className="figures summary-figures">
           <div>
-            <span className="figure">{accuracyOf(q.keysCorrect, q.keysWrong)}%</span>
+            {/* Typing scores keystrokes; choice and identify score answers. */}
+            <span className="figure">{(config.format ?? 'type') === 'type' ? accuracyOf(q.keysCorrect, q.keysWrong) : total ? Math.round((score / total) * 100) : 0}%</span>
             <p className="label">{t('summary.accuracy')}</p>
           </div>
           <div>

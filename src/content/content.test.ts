@@ -22,6 +22,23 @@ const catalog = read<Catalog>('catalog.json')
 const modules = catalog.systems.flatMap((c) => c.modules).filter((m) => m.status === 'available')
 
 describe('content catalog', () => {
+  it('regional modules include only structures that exist in their content file', () => {
+    for (const g of catalog.regions ?? []) {
+      for (const m of g.modules) {
+        const content = read<ModuleContent>(`${m.contentFile}.json`)
+        const ids = new Set(content.structures.map((s) => s.id))
+        expect(m.include?.length, m.id).toBeGreaterThan(0)
+        for (const id of m.include ?? []) expect(ids.has(id), `${m.id}: ${id}`).toBe(true)
+        expect(new Set(m.include).size, `${m.id} has duplicates`).toBe(m.include?.length)
+      }
+    }
+  })
+
+  it('module ids are unique across systems and regions', () => {
+    const ids = [...catalog.systems.flatMap((c) => c.modules), ...(catalog.regions ?? []).flatMap((g) => g.modules)].map((m) => m.id)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
   it('every body system has a colour key', () => {
     for (const s of catalog.systems) expect(s.tint, s.id).toMatch(/^#[0-9a-f]{6}$/)
   })

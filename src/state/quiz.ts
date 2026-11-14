@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import type { Structure } from '../content/types'
 import { acceptedAnswers, applyKey, emptyTyping, type KeyInput, type TypingState } from '../lib/typing'
 import { outcomeFor, prioritise, requeue, type Outcome, type StructureRecord } from '../lib/srs'
+import { meshKeys, meshMatchesAny, meshMatchesKey, mostSpecific } from '../lib/meshMatch'
 import { playSound } from '../lib/sound'
 import { xpForAnswer } from '../lib/xp'
 import type { SessionConfig } from './nav'
@@ -51,7 +52,17 @@ interface QuizState {
   startedAt: number
   finishedAt: number
   endsAt: number | null
-  init(config: SessionConfig, structures: Structure[]): void
+  /** Wider set of structures that answer choices may be drawn from (a focused region's whole content file). */
+  pool: Structure[]
+  /** Multiple choice: the structure ids on offer for this question. */
+  choices: string[]
+  /** The choice made, or the structure tapped when identifying (null if a tap hit nothing named). */
+  picked: string | null
+  init(config: SessionConfig, structures: Structure[], pool?: Structure[]): void
+  /** Multiple choice. */
+  choose(id: string): void
+  /** Identify: a mesh was tapped. */
+  tap(meshName: string): void
   press(input: KeyInput): void
   skip(): void
   timeout(): void
@@ -66,6 +77,32 @@ function shuffle<T>(arr: T[]): T[] {
     ;[a[i], a[j]] = [a[j], a[i]]
   }
   return a
+}
+
+/** Two structures overlap if either names any of the other's meshes (the carpals and the scaphoid, the ribs and the first rib). */
+export function overlaps(a: Structure, b: Structure): boolean {
+  const ka = meshKeys(a.meshName)
+  const kb = meshKeys(b.meshName)
+  return ka.some((x) => kb.some((y) => meshMatchesKey(x, y) || meshMatchesKey(y, x)))
+}
+
+/**
+ * Three wrong answers for a multiple-choice question. A distractor must be a different structure
+ * that doesn't share any part with the answer (so "carpals" is never offered against "scaphoid",
+ * where both would be right) and doesn't share its name. Neighbours from the same region come first.
+ */
+export function distractorsFor(target: Structure, pool: Structure[], count = 3): Structure[] {
+  const seen = new Set([target.name.toLowerCase()])
+  const ok = shuffle(pool).filter((s) => {
+    if (s.id === target.id || overlaps(s, target)) return false
+    const name = s.name.toLowerCase()
+    if (seen.has(name)) return false
+    seen.add(name)
+    return true
+  })
+  const near = ok.filter((s) => s.region === target.region)
+  const far = ok.filter((s) => s.region !== target.region)
+  return [...near, ...far].slice(0, count)
 }
 
 export function buildQueue(config: SessionConfig, structures: Structure[], records: Record<string, StructureRecord>): string[] {
@@ -109,6 +146,8 @@ const fresh = {
   startedAt: 0,
   finishedAt: 0,
   endsAt: null,
+  choices: [] as string[],
+  picked: null as string | null,
 }
 
 export const useQuiz = create<QuizState>()((set, get) => {
@@ -118,8 +157,12 @@ export const useQuiz = create<QuizState>()((set, get) => {
     const { queue, byId, config } = get()
     const s = byId[queue[index]]
     const now = Date.now()
+    const pool = get().pool
+    const choices = s && config?.format === 'choice' ? shuffle([s, ...distractorsFor(s, pool)]).map((c) => c.id) : []
     set({
       index,
+      choices,
+      picked: null,
       answers: s ? answersFor(s) : [],
       typing: emptyTyping,
       phase: 'typing',
@@ -170,10 +213,14 @@ export const useQuiz = create<QuizState>()((set, get) => {
   return {
     config: null,
     byId: {},
+    pool: [],
     ...fresh,
 
-    init(config, structures) {
-      const byId = Object.fromEntries(structures.map((s) => [s.id, s]))
+    init(config, structures, pool) {
+      const wider = pool?.length ? pool : structures
+      // Answer choices may come from the wider pool, so their names and details must be known too.
+      const byId = Object.fromEntries([...wider, ...structures].map((s) => [s.id, s]))
+      set({ pool: wider })
       const queue = buildQueue(config, structures, useProgress.getState().records)
       const now = Date.now()
       set({ ...fresh, config, byId, queue, startedAt: now, endsAt: config.timeLimitMs ? now + config.timeLimitMs : null })
@@ -219,6 +266,26 @@ export const useQuiz = create<QuizState>()((set, get) => {
 
     skip() {
       if (get().phase === 'typing') complete(true)
+    },
+
+    choose(id) {
+      const st = get()
+      if (st.phase !== 'typing' || st.config?.format !== 'choice') return
+      const right = id === st.queue[st.index]
+      set({ picked: id, qErrors: right ? 0 : 1 })
+      complete(!right)
+    },
+
+    tap(meshName) {
+      const st = get()
+      if (st.phase !== 'typing' || st.config?.format !== 'identify') return
+      const target = st.byId[st.queue[st.index]]
+      if (!target) return
+      const right = meshMatchesAny(meshName, meshKeys(target.meshName))
+      const hit = right ? target : mostSpecific(meshName, st.pool)
+      // '' marks a tap on something that isn't a named structure (still an answer, not a skip).
+      set({ picked: hit?.id ?? '', qErrors: right ? 0 : 1 })
+      complete(!right)
     },
 
     timeout() {

@@ -33,15 +33,24 @@ apply there.
   intermediate / advanced); optional per-question timer (30/20/10 s; time-out = miss); exams with a whole-test
   clock and per-answer timer. Feedback shows the verdict, the Latin name, what the structure does and a track note.
 - **Flashcards**: what it does, why it's there, and a note for your track; swipe to grade; own spaced repetition.
-- **Four tabs**: Today (resume your module, today's goal, due flashcards and mistakes), Atlas (every module,
-  each with Practice, Flashcards, Explore in 3D and Exam; practice options sit behind one link), Progress
-  (activity, days in a row, study plan, weak spots, exams) and Settings.
+- **Four tabs**: Today (resume your module, today's goal, due flashcards and mistakes), Atlas (regions, systems and
+  the full curriculum; each module offers Learn — Explore in 3D, Flashcards — and Test — Spelling, Multiple choice,
+  Identify on the model, Timed exam; practice options sit behind one link), Progress (activity, days in a row, study
+  plan, weak spots, exams) and Settings.
+- **Focused regions**: Skull and hyoid, Teeth, Vertebral column, Thoracic wall, Bony pelvis, Shoulder girdle, Arm,
+  Forearm, Wrist and hand, Thigh and knee, Leg, Ankle and foot. Each is defined in `catalog.json` as a list of
+  structures from the skeleton; the rest of the skeleton stays faint and untappable, and limbs are framed on one side.
+- **Explore as a plate**: numbered references sit on real surface points of each structure (group structures such as
+  "carpals" are only numbered where no member structure covers them), with a key, a pinned label and the camera's
+  azimuth and altitude.
+- **Curriculum**: 282 topics in 21 categories (`content/curriculum.json`). 59 link to the modules that teach their core
+  structures; the rest are marked in preparation — they need content (and often imagery) that isn't written yet.
 - **Tracks**: nursing, medicine, physiotherapy, dentistry, sports science — notes per structure where relevant.
 - **Languages**: English, French, German, Arabic (right-to-left), Russian, Chinese, Korean for the whole UI.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
-- **Design**: set like an anatomical reference book — ivory paper and charcoal ink (and the reverse in dark
-  mode), Libre Franklin throughout, hairline rules and margin labels instead of cards, burgundy for actions
-  and progress, and a muted colour key per body system (bone ochre, arterial crimson, nerve gold…).
+- **Design**: the observatory — an antique anatomical institution with an astronomical observatory. Obsidian and
+  charcoal with aged-ivory Caslon type and brass instrument details (dark is the signature; light is a manuscript
+  page), parchment flashcards, an armillary-sphere seal and an engraved Orion chart drawn from real star positions.
 
 ### Known data gaps (BodyParts3D 4.0)
 

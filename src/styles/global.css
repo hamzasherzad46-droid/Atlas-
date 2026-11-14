@@ -1,87 +1,99 @@
 /*
- * Atlas design system.
+ * Atlas design system — the observatory.
  *
- * An anatomy atlas, set like a reference book: warm ivory paper and charcoal
- * ink (dark mode inverts to charcoal paper and ivory ink), one typeface
- * (Libre Franklin) used across a wide range of weights, hairline rules instead
- * of boxes, and section labels hung in the left margin.
+ * An antique anatomical institution with an astronomical observatory in its
+ * east wing. Obsidian and charcoal rooms, aged-ivory paper and type, brass
+ * instruments; parchment for reference material; oxblood used sparingly.
+ * Dark is the signature; light is the same house as a manuscript page.
+ *
+ * Type: Libre Caslon Display for titles and structure names, Libre Caslon
+ * Text italic for Latin nomenclature and marginal notes, Libre Franklin for
+ * reading, DM Mono for references, counts, clocks and bearings.
  *
  * Colour is placed, never spread:
- *   burgundy  the brand: wordmark, primary actions, progress, selection,
- *             and the anatomical highlight in 3D
- *   system    each body system's colour key, after anatomical-plate
- *             conventions (catalog.json `tint`): bone ochre, muscle oxblood,
- *             arterial crimson, airway blue, nerve gold, gut olive…
- *   green     correct, complete
- *   red       incorrect, errors
- *   amber     attention (due, time running out)
- *   blue      information and instructions (clinical notes)
+ *   brass     the instrument: wordmark, primary actions, progress, selection
+ *   copper    clinical notes and secondary references
+ *   oxblood   the anatomical highlight in 3D, and errors
+ *   system    each body system's muted colour key (catalog.json `tint`)
+ *   verdigris correct, complete        amber  attention
+ * No blue, no cyan, no gradients, no glow.
  */
 :root,
-:root[data-theme='light'] {
-  --paper: #f4f0e8;
-  --paper-2: #ebe6dc;
-  --paper-3: #ddd6c9;
-  --ink: #1c1b19;
-  --ink-2: #57524b;
-  --ink-3: #8a8378;
-  --rule: rgba(28, 27, 25, 0.15);
-  --accent: #8e1b3a;
-  /* Fills (buttons, notices) can differ from accent text/lines; in dark mode they stay deep. */
-  --accent-fill: #8e1b3a;
-  --accent-wash: rgba(142, 27, 58, 0.08);
-  --on-accent: #fbf6ee;
-  --good: #2e7d4f;
-  --bad: #c0352b;
-  --warn: #a86400;
-  --info: #2f67a8;
-  --info-wash: rgba(47, 103, 168, 0.08);
-  --kb-bg: #e3ddd2;
-  --key: #fbf9f4;
-  --key-alt: #d3ccbf;
-  --key-shadow: rgba(28, 27, 25, 0.24);
-  color-scheme: light;
-}
-
 :root[data-theme='dark'] {
-  --paper: #161513;
-  --paper-2: #1f1d1a;
-  --paper-3: #2b2925;
-  --ink: #ece6da;
-  --ink-2: #a39c90;
-  --ink-3: #6e685e;
-  --rule: rgba(236, 230, 218, 0.15);
-  --accent: #e0758b;
-  --accent-fill: #9e2a45;
-  --accent-wash: rgba(224, 117, 139, 0.12);
-  --on-accent: #fbf6ee;
-  --good: #7cc495;
-  --bad: #f07b6e;
-  --warn: #e8b05a;
-  --info: #8fb8e8;
-  --info-wash: rgba(143, 184, 232, 0.1);
-  --kb-bg: #1c1b18;
-  --key: #2e2c28;
-  --key-alt: #24221f;
-  --key-shadow: rgba(0, 0, 0, 0.5);
+  --paper: #171614; /* obsidian */
+  --paper-2: #211f1b; /* deep charcoal */
+  --paper-3: #2d2a25;
+  --ink: #e8ddc5; /* aged ivory */
+  --ink-2: #aba18c;
+  --ink-3: #7a7262;
+  --rule: rgba(232, 221, 197, 0.14);
+  --rule-brass: rgba(168, 138, 84, 0.55);
+  --parchment: #d8c9a9;
+  --parchment-ink: #2a2620;
+  --accent: #a88a54; /* antique brass */
+  --accent-fill: #a88a54;
+  --on-accent: #171614;
+  --accent-wash: rgba(168, 138, 84, 0.1);
+  --copper: #b07a5e;
+  --oxblood: #542c30;
+  --good: #8fae8a;
+  --bad: #c9706a;
+  --warn: #d0a457;
+  --info: #b07a5e;
+  --kb-bg: #12110f;
+  --key: #2a2723;
+  --key-alt: #1e1c19;
+  --key-shadow: rgba(0, 0, 0, 0.55);
   color-scheme: dark;
 }
 
+/* The manuscript: aged ivory paper, charcoal ink, darker brass for legibility. */
+:root[data-theme='light'] {
+  --paper: #e8ddc5;
+  --paper-2: #ded1b4;
+  --paper-3: #d1c19f;
+  --ink: #211f1b;
+  --ink-2: #554c3d;
+  --ink-3: #887c64;
+  --rule: rgba(33, 31, 27, 0.17);
+  --rule-brass: rgba(125, 100, 53, 0.6);
+  --parchment: #f1e8d4;
+  --parchment-ink: #211f1b;
+  --accent: #7d6435;
+  --accent-fill: #a88a54;
+  --on-accent: #171614;
+  --accent-wash: rgba(125, 100, 53, 0.1);
+  --copper: #84513a;
+  --oxblood: #542c30;
+  --good: #3e6a46;
+  --bad: #8e2f2a;
+  --warn: #855610;
+  --info: #84513a;
+  --kb-bg: #d6c8a8;
+  --key: #f1e8d4;
+  --key-alt: #c4b48f;
+  --key-shadow: rgba(33, 31, 27, 0.3);
+  color-scheme: light;
+}
+
 :root {
+  --display: 'Libre Caslon Display', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Noto Serif', serif;
+  --serif: 'Libre Caslon Text', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Noto Serif', serif;
   --sans: 'Libre Franklin Variable', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans',
     'Apple SD Gothic Neo', 'Noto Sans CJK SC', 'Geeza Pro', 'Noto Sans Arabic', sans-serif;
+  --mono: 'DM Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Width of the margin column that carries section labels. */
+  /* Width of the margin column that carries section notes. */
   --margin: 84px;
   --gutter: 16px;
   --pad: 20px;
 
   --ease: cubic-bezier(0.25, 0.8, 0.25, 1);
   --fast: 140ms;
-  --mid: 260ms;
-  --slow: 600ms;
+  --mid: 280ms;
+  --slow: 700ms;
 
-  --tabbar-h: 50px;
+  --tabbar-h: 52px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -112,7 +124,7 @@ body {
   font-family: var(--sans);
   font-size: 16px;
   line-height: 1.5;
-  font-feature-settings: 'lnum', 'kern';
+  font-feature-settings: 'kern';
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
@@ -140,8 +152,8 @@ input {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
 }
 
 h1,
@@ -160,32 +172,32 @@ a {
 
 /* ---------- Type ---------- */
 
-/* Screen titles and the greeting: large, light, tight. */
+/* Titles: Caslon display, as on a title page. */
 .display {
+  font-family: var(--display);
   font-size: 40px;
-  line-height: 1.04;
-  font-weight: 300;
-  letter-spacing: -0.025em;
+  line-height: 1.06;
+  font-weight: 400;
+  letter-spacing: -0.005em;
 }
 
 /* Structure and module names. */
 .title {
-  font-size: 26px;
-  line-height: 1.15;
+  font-family: var(--display);
+  font-size: 28px;
+  line-height: 1.12;
   font-weight: 400;
-  letter-spacing: -0.015em;
 }
 
 .head {
   font-size: 17px;
   line-height: 1.3;
   font-weight: 600;
-  letter-spacing: -0.005em;
 }
 
 .lede {
-  font-size: 18px;
-  line-height: 1.45;
+  font-size: 17px;
+  line-height: 1.5;
   font-weight: 300;
   color: var(--ink-2);
 }
@@ -202,18 +214,28 @@ a {
   color: var(--ink-2);
 }
 
-/* Small capitals: section labels, column heads, metadata. */
+/* Marginal notes: Caslon italic, the way old atlases annotate. */
 .label {
-  font-size: 11px;
-  line-height: 1.35;
-  font-weight: 650;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 400;
   color: var(--ink-2);
 }
 
-/* Latin nomenclature, as atlases set it. */
+/* Technical references: plate numbers, counts, clocks, bearings. */
+.mono {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Latin nomenclature. */
 .latin {
+  font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
   color: var(--ink-2);
@@ -226,11 +248,11 @@ a {
 /* Large figures: counts, scores. */
 .figure {
   display: block;
-  font-size: 34px;
+  font-family: var(--display);
+  font-size: 38px;
   line-height: 1;
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums lining-nums;
+  font-weight: 400;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .figure .of {
@@ -251,38 +273,50 @@ a {
   max-width: 720px;
   margin: 0 auto;
   padding: calc(var(--safe-top) + 10px) var(--pad) calc(var(--tabbar-h) + var(--safe-bottom) + 40px);
-  animation: page-in 300ms var(--ease) both;
+  animation: page-in 320ms var(--ease) both;
 }
 
-/* Running head: wordmark, then a heavy rule, as on a book's title page. */
+/* Running head: the seal and the wordmark over a brass rule. */
 .masthead {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 8px 0 10px;
-  border-bottom: 2px solid var(--ink);
+  padding: 10px 0 12px;
+  border-bottom: 1px solid var(--rule-brass);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
 }
 
 .wordmark {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: 0.34em;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
+  color: var(--ink);
 }
 
-.masthead .label {
-  letter-spacing: 0.12em;
+.masthead .mono {
+  color: var(--ink-2);
 }
 
 /* Title block under the masthead. */
 .titleblock {
-  padding: 28px 0 30px;
+  position: relative;
+  padding: 28px 0 28px;
 }
 
-.titleblock .label {
+.titleblock > .mono,
+.titleblock > .label {
+  display: block;
   margin-bottom: 12px;
+  color: var(--ink-2);
 }
 
 .titleblock .lede {
@@ -290,7 +324,7 @@ a {
   max-width: 30em;
 }
 
-/* Section: label in the margin, content beside it, hairline above. */
+/* Section: a note in the margin, content beside it, hairline above. */
 .sect {
   display: grid;
   grid-template-columns: var(--margin) minmax(0, 1fr);
@@ -300,17 +334,11 @@ a {
 }
 
 .sect > .label:first-child {
-  padding-top: 4px;
+  padding-top: 2px;
 }
 
 .sect-body {
   min-width: 0;
-}
-
-/* A section that runs the full measure (label above). */
-.sect.wide {
-  grid-template-columns: minmax(0, 1fr);
-  row-gap: 12px;
 }
 
 /* ---------- Rows ---------- */
@@ -325,7 +353,7 @@ a {
   align-items: baseline;
   gap: 12px;
   width: 100%;
-  padding: 12px 0;
+  padding: 13px 0;
   border-top: 1px solid var(--rule);
   text-align: start;
 }
@@ -356,9 +384,13 @@ a {
 
 .r-value {
   flex-shrink: 0;
-  font-size: 14px;
+  /* "14 / 20" keeps its order in right-to-left languages; words still follow their own direction. */
+  unicode-bidi: plaintext;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
   color: var(--ink-2);
-  font-variant-numeric: tabular-nums lining-nums;
+  font-variant-numeric: tabular-nums;
 }
 
 button.r:active,
@@ -379,8 +411,6 @@ button.go:active {
   flex-shrink: 0;
   align-self: center;
   color: var(--ink-3);
-  font-size: 15px;
-  line-height: 1;
 }
 
 [dir='rtl'] .arrow,
@@ -391,7 +421,7 @@ button.go:active {
 
 /* ---------- Actions ---------- */
 
-/* Primary action: a solid ink bar, label left, arrow right. */
+/* Primary action: a brass plate, label left, arrow right. */
 .go {
   display: flex;
   align-items: center;
@@ -405,13 +435,13 @@ button.go:active {
   color: var(--on-accent);
   font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   transition: opacity var(--fast) linear;
 }
 
 button.go:active {
   background: var(--accent-fill);
-  opacity: 0.86;
+  opacity: 0.85;
 }
 
 .go .arrow {
@@ -422,11 +452,11 @@ button.go:active {
   opacity: 0.3;
 }
 
-/* Secondary action: outlined. */
+/* Secondary action: a brass-ruled outline. */
 .go.quiet {
   background: transparent;
   color: var(--ink);
-  box-shadow: inset 0 0 0 1px var(--ink);
+  box-shadow: inset 0 0 0 1px var(--rule-brass);
 }
 
 button.go.quiet:active {
@@ -440,9 +470,10 @@ button.go.quiet:active {
   align-items: baseline;
   gap: 6px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-decoration-color: var(--rule-brass);
+  text-underline-offset: 5px;
   text-decoration-thickness: 1px;
 }
 
@@ -457,12 +488,13 @@ button.go.quiet:active {
   gap: 8px;
   min-height: 44px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--ink-2);
 }
 
 /* ---------- Choice controls ---------- */
 
-/* A run of text options; the chosen one is underlined in burgundy. */
+/* A run of text options; the chosen one is underlined in brass. */
 .options {
   display: flex;
   flex-wrap: wrap;
@@ -475,47 +507,13 @@ button.go.quiet:active {
   padding: 6px 0 4px;
   font-size: 15px;
   color: var(--ink-2);
-  border-bottom: 2px solid transparent;
+  border-bottom: 1px solid transparent;
   transition: color var(--fast) linear, border-color var(--fast) linear;
 }
 
 .options button[aria-pressed='true'] {
   color: var(--ink);
-  font-weight: 600;
   border-bottom-color: var(--accent);
-}
-
-/* Vertical list of choices with a mark on the chosen one (track, language). */
-.choice {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  width: 100%;
-  padding: 11px 0;
-  border-top: 1px solid var(--rule);
-  text-align: start;
-}
-
-.choice:first-child {
-  border-top: 0;
-  padding-top: 2px;
-}
-
-.choice-mark {
-  flex-shrink: 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px var(--ink-3);
-  transform: translateY(1px);
-}
-
-.choice[aria-pressed='true'] .choice-mark {
-  box-shadow: inset 0 0 0 3px var(--accent);
-}
-
-.choice[aria-pressed='true'] .r-title {
-  font-weight: 600;
 }
 
 /* On/off switch: a square-shouldered track. */
@@ -523,7 +521,7 @@ button.go.quiet:active {
   position: relative;
   width: 44px;
   height: 24px;
-  border-radius: 3px;
+  border-radius: 2px;
   background: var(--paper-3);
   flex-shrink: 0;
   align-self: center;
@@ -537,17 +535,17 @@ button.go.quiet:active {
   inset-inline-start: 3px;
   width: 18px;
   height: 18px;
-  border-radius: 2px;
-  background: var(--paper);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-  transition: transform var(--mid) var(--ease);
+  border-radius: 1px;
+  background: var(--ink-2);
+  transition: transform var(--mid) var(--ease), background-color var(--mid) var(--ease);
 }
 
 .switch.on {
-  background: var(--ink);
+  background: var(--accent-fill);
 }
 
 .switch.on::after {
+  background: var(--on-accent);
   transform: translateX(20px);
 }
 
@@ -579,10 +577,10 @@ button.go.quiet:active {
 
 /* ---------- Measures ---------- */
 
-/* Progress: a hairline track with an ink fill. */
+/* Progress: a hairline track with a brass fill. */
 .meter {
   position: relative;
-  height: 3px;
+  height: 2px;
   background: var(--rule);
   overflow: hidden;
 }
@@ -611,25 +609,26 @@ button.go.quiet:active {
 }
 
 :root[data-theme='dark'] .sys {
-  --sys-ink: color-mix(in srgb, var(--sys) 60%, #fff);
+  --sys-ink: color-mix(in srgb, var(--sys) 70%, #e8ddc5);
 }
 
 .sys-ink {
   color: var(--sys-ink);
 }
 
-/* A small square key, as in a plate's legend. */
+/* A small lozenge key, as in a plate's legend. */
 .swatch {
   display: inline-block;
   flex-shrink: 0;
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   margin-inline-end: 8px;
   background: var(--sys-ink);
-  vertical-align: 0.05em;
+  transform: rotate(45deg);
+  vertical-align: 0.1em;
 }
 
-/* Three figures side by side with labels under them. */
+/* Three figures side by side with notes under them. */
 .figures {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -640,10 +639,10 @@ button.go.quiet:active {
   margin-top: 8px;
 }
 
-/* Clinical note: blue rule in the margin. */
+/* Clinical note: a copper rule in the margin. */
 .note {
   padding: 2px 0 2px 12px;
-  border-inline-start: 2px solid var(--info);
+  border-inline-start: 1px solid var(--copper);
   font-size: 14px;
   line-height: 1.5;
   text-align: start;
@@ -652,7 +651,7 @@ button.go.quiet:active {
 .note .label {
   display: block;
   margin-bottom: 2px;
-  color: var(--info);
+  color: var(--copper);
 }
 
 .note-text {

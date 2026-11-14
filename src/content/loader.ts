@@ -1,10 +1,14 @@
 import catalogJson from '../../content/catalog.json'
 import { publicUrl } from '../lib/paths'
-import type { Catalog, ModuleContent, ModuleInfo, PlaceholderModel } from './types'
+import type { Catalog, Curriculum, ModuleContent, ModuleInfo, PlaceholderModel } from './types'
 
 export const catalog = catalogJson as Catalog
 
-export const allModules: ModuleInfo[] = catalog.systems.flatMap((sys) => sys.modules.map((m) => ({ ...m, systemId: sys.id })))
+export const systemModules: ModuleInfo[] = catalog.systems.flatMap((sys) => sys.modules.map((m) => ({ ...m, systemId: sys.id })))
+
+export const regionModules: ModuleInfo[] = (catalog.regions ?? []).flatMap((g) => g.modules.map((m) => ({ ...m, group: g.id })))
+
+export const allModules: ModuleInfo[] = [...regionModules, ...systemModules]
 
 export function getModuleInfo(id: string): ModuleInfo | undefined {
   return allModules.find((m) => m.id === id)
@@ -19,14 +23,42 @@ async function loadJson<T>(basename: string): Promise<T> {
   return (await loader()).default as T
 }
 
+let curriculum: Promise<Curriculum> | null = null
+
+/** The full curriculum index, loaded on demand. */
+export function loadCurriculum(): Promise<Curriculum> {
+  curriculum ??= loadJson<Curriculum>('curriculum')
+  return curriculum
+}
+
 const contentCache = new Map<string, Promise<ModuleContent>>()
+const fileCache = new Map<string, Promise<ModuleContent>>()
+
+/** A content file as authored, shared by every module built from it. */
+export function loadContentFile(basename: string): Promise<ModuleContent> {
+  let p = fileCache.get(basename)
+  if (!p) {
+    p = loadJson<ModuleContent>(basename)
+    fileCache.set(basename, p)
+  }
+  return p
+}
+
+/** Keeps only the included structures, and only the regions they use. */
+export function focusContent(content: ModuleContent, include: string[]): ModuleContent {
+  const keep = new Set(include)
+  const structures = content.structures.filter((s) => keep.has(s.id))
+  const regions = content.regions.filter((r) => structures.some((s) => s.region === r.id))
+  return { ...content, structures, regions }
+}
 const placeholderCache = new Map<string, Promise<PlaceholderModel>>()
 
 export function loadModuleContent(info: ModuleInfo): Promise<ModuleContent> {
   if (!info.contentFile) return Promise.reject(new Error(`Module ${info.id} has no content yet`))
   let p = contentCache.get(info.id)
   if (!p) {
-    p = loadJson<ModuleContent>(info.contentFile)
+    const include = info.include
+    p = loadContentFile(info.contentFile).then((c) => (include ? focusContent(c, include) : c))
     contentCache.set(info.id, p)
   }
   return p

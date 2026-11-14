@@ -1,12 +1,12 @@
-import { allModules } from '../content/loader'
+import { allModules, systemModules } from '../content/loader'
 import { loadModuleAssets } from '../content/useModule'
 import { isMissed } from '../lib/srs'
-import { ASSESSMENT_ANSWER_TIMER, ASSESSMENT_LENGTH, ASSESSMENT_TIME_MS, PRACTICE_LENGTH, useNav } from './nav'
+import { ASSESSMENT_ANSWER_TIMER, ASSESSMENT_LENGTH, ASSESSMENT_TIME_MS, PRACTICE_LENGTH, useNav, type QuestionFormat } from './nav'
 import { useProgress } from './progress'
 import { useSettings, type QuizMode } from './settings'
 
 export const availableModules = allModules.filter((m) => m.status === 'available')
-export const defaultModuleId = availableModules[0]?.id ?? 'skeleton'
+export const defaultModuleId = systemModules.find((m) => m.status === 'available')?.id ?? 'skeleton'
 
 export function startPractice(
   moduleId: string,
@@ -14,9 +14,10 @@ export function startPractice(
   mode: QuizMode,
   answerTimer = useSettings.getState().answerTimer,
   tier: number | null = null,
+  format: QuestionFormat = 'type',
 ) {
   useSettings.getState().set({ lastSession: { moduleId, region, mode } })
-  useNav.getState().startSession({ kind: 'practice', moduleId, region, mode, length: PRACTICE_LENGTH, answerTimer, tier })
+  useNav.getState().startSession({ kind: 'practice', moduleId, region, mode, length: PRACTICE_LENGTH, answerTimer, tier, format })
 }
 
 export function startAssessment(moduleId: string) {

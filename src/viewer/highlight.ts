@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 import { meshMatchesAny } from '../lib/meshMatch'
 
-export const ACCENT = new THREE.Color('#8a1c2e')
+export const ACCENT = new THREE.Color('#7a2a30')
 
 export interface Palette {
   bone: string
   boneOpacity: number
-  /** Highlight colour: burgundy-red. */
+  /** Highlight colour: oxblood, lifted enough to read on ivory bone. */
   accent: string
 }
 
@@ -15,9 +15,12 @@ export interface Palette {
 // also shows through anything in front of it (x-ray overlay), so hidden
 // structures stay findable.
 export const PALETTES: Record<'dark' | 'light', Palette> = {
-  dark: { bone: '#e2dbcd', boneOpacity: 0.9, accent: '#a8253a' },
-  light: { bone: '#cfc6b6', boneOpacity: 0.95, accent: '#8a1c2e' },
+  dark: { bone: '#e6dcc6', boneOpacity: 0.92, accent: '#9e3a40' },
+  light: { bone: '#cdbf9f', boneOpacity: 0.95, accent: '#7a2a30' },
 }
+
+const GHOST_OPACITY = 0.1
+const noRaycast = () => {}
 
 /** Fresnel rim shell: a slightly inflated copy of the mesh that glows at its edges. */
 function makeGlowMaterial(): THREE.ShaderMaterial {
@@ -59,10 +62,18 @@ export class Highlighter {
   readonly glow: THREE.ShaderMaterial
   /** Drawn only where another bone is in front (GreaterDepth), so hidden parts of the target show through. */
   readonly xray: THREE.MeshBasicMaterial
+  /** Bones outside a focused region: faint, behind everything, not tappable. */
+  readonly ghost: THREE.MeshStandardMaterial
   private meshes: THREE.Mesh[] = []
   private glows: THREE.Mesh[] = []
 
-  constructor(root: THREE.Object3D, palette: Palette, private withGlow = true) {
+  constructor(
+    root: THREE.Object3D,
+    palette: Palette,
+    private withGlow = true,
+    /** Mesh keys of a focused region; everything else is ghosted. */
+    private focus: string[] | null = null,
+  ) {
     this.base = new THREE.MeshStandardMaterial({
       color: palette.bone,
       roughness: 0.62,
@@ -76,6 +87,13 @@ export class Highlighter {
       emissiveIntensity: 0,
       roughness: 0.5,
       metalness: 0,
+    })
+    this.ghost = new THREE.MeshStandardMaterial({
+      color: palette.bone,
+      roughness: 0.8,
+      transparent: true,
+      opacity: GHOST_OPACITY,
+      depthWrite: false,
     })
     this.glow = makeGlowMaterial()
     this.xray = new THREE.MeshBasicMaterial({
@@ -92,8 +110,18 @@ export class Highlighter {
 
   private accent = ACCENT.clone()
 
+  /** Meshes in the focused region (all meshes when there is no focus). */
+  focusMeshes(): THREE.Mesh[] {
+    return this.meshes.filter((m) => this.inFocus(m))
+  }
+
+  private inFocus(m: THREE.Mesh): boolean {
+    return !this.focus || meshMatchesAny(m.name, this.focus)
+  }
+
   setPalette(palette: Palette) {
     this.base.color.set(palette.bone)
+    this.ghost.color.set(palette.bone)
     this.base.opacity = palette.boneOpacity
     this.accent.set(palette.accent)
     this.target.emissive.copy(this.accent)
@@ -108,8 +136,10 @@ export class Highlighter {
     const matched: THREE.Mesh[] = []
     for (const m of this.meshes) {
       const hit = keys.length > 0 && meshMatchesAny(m.name, keys)
-      m.material = hit ? this.target : this.base
-      m.renderOrder = hit ? 0 : 1
+      const focused = this.inFocus(m)
+      m.material = hit ? this.target : focused ? this.base : this.ghost
+      m.renderOrder = hit ? 0 : focused ? 1 : 4
+      m.raycast = focused ? THREE.Mesh.prototype.raycast : noRaycast
       if (hit) {
         matched.push(m)
         const overlays = this.withGlow ? [this.glow, this.xray] : [this.xray]
@@ -142,6 +172,7 @@ export class Highlighter {
   dispose() {
     for (const g of this.glows) g.removeFromParent()
     this.base.dispose()
+    this.ghost.dispose()
     this.target.dispose()
     this.glow.dispose()
     this.xray.dispose()

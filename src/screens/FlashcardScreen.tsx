@@ -11,6 +11,7 @@ import { buildDeck } from '../lib/deck'
 import { useSettings } from '../state/settings'
 import '../quiz/quiz.css'
 import { sentence } from '../lib/format'
+import { Seal } from '../components/Celestial'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -85,8 +86,11 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
       <div className="quiz summary">
         <div className="summary-inner">
           <header className="masthead">
+            <span className="brand">
+            <Seal />
             <span className="wordmark">{t('app.name')}</span>
-            <span className="label">{t.td(`module.${config.moduleId}`, config.moduleId)}</span>
+          </span>
+            <span className="mono">{t.td(`module.${config.moduleId}`, config.moduleId)}</span>
           </header>
           <div className="titleblock">
             <p className="label">{t('cards.title')}</p>
@@ -121,7 +125,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
         <button className="icon-btn" onClick={endCards} aria-label={t('quiz.end')}>
           <CloseIcon />
         </button>
-        <p className="label num quiz-count">{t('cards.count', { a: index + 1, b: deck.length })}</p>
+        <p className="mono quiz-count">{t('cards.count', { a: index + 1, b: deck.length })}</p>
         <span className="quiz-clock" />
       </header>
       <div className="quiz-progress" aria-hidden>

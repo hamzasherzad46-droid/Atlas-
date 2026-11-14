@@ -71,10 +71,21 @@ export function CreditsScreen() {
           <div className="sect-body rows" dir="ltr">
             <div className="r">
               <span className="r-main">
-                <span className="r-title credit">Libre Franklin – © 2020 The Libre Franklin Project Authors – SIL Open Font License 1.1</span>
+                <span className="r-title credit">
+                  Libre Caslon Display, © 2012 The Libre Caslon Display Authors; Libre Caslon Text, © 2012 The Libre Caslon Text Project
+                  Authors; Libre Franklin, © 2020 The Libre Franklin Project Authors; DM Mono, © 2020 The DM Mono Project Authors. All
+                  under the SIL Open Font License 1.1.
+                </span>
                 <a className="r-sub" href="https://openfontlicense.org" target="_blank" rel="noreferrer">
                   openfontlicense.org
                 </a>
+              </span>
+            </div>
+            <div className="r">
+              <span className="r-main">
+                <span className="r-title credit">
+                  Star chart: positions of the principal stars of Orion (J2000 right ascension and declination), drawn for Atlas.
+                </span>
               </span>
             </div>
           </div>

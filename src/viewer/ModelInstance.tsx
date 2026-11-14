@@ -21,6 +21,10 @@ interface InstanceProps {
   /** Explore mode: report the tapped mesh name and the world-space point that was tapped. */
   onPick?: (meshName: string, point: [number, number, number]) => void
   onMatched?: (meshes: THREE.Mesh[]) => void
+  /** Mesh keys of a focused region; other meshes are ghosted and can't be tapped. */
+  focus?: string[]
+  /** Hands over the instance's highlighter once its materials are set up (region framing, plate labels). */
+  onReady?: (highlighter: Highlighter) => void
 }
 
 /** Renders a module's model (GLB if present, otherwise primitives) with a highlight. */
@@ -64,10 +68,10 @@ function PlaceholderInstance(props: InstanceProps) {
   return <Highlighted key={root.uuid} root={root} {...props} />
 }
 
-function Highlighted({ root, highlight, glow = true, onPick, onMatched }: InstanceProps & { root: THREE.Object3D }) {
+function Highlighted({ root, highlight, glow = true, onPick, onMatched, focus, onReady }: InstanceProps & { root: THREE.Object3D }) {
   const theme = useResolvedTheme()
   const invalidate = useThree((s) => s.invalidate)
-  const [highlighter] = useState(() => new Highlighter(root, PALETTES[theme], glow))
+  const [highlighter] = useState(() => new Highlighter(root, PALETTES[theme], glow, focus?.length ? focus : null))
   const fade = useRef({ t: 1, from: 0 })
   const key = highlight.join('|')
 
@@ -87,6 +91,12 @@ function Highlighted({ root, highlight, glow = true, onPick, onMatched }: Instan
     // onMatched is intentionally not a dependency: it only matters when the highlight changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [highlighter, key, invalidate])
+
+  useEffect(() => {
+    onReady?.(highlighter)
+    // Called once per instance.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [highlighter])
 
   useFrame(() => {
     const f = fade.current

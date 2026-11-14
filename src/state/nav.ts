@@ -5,6 +5,9 @@ export type Tab = 'today' | 'atlas' | 'progress' | 'you'
 
 export type SessionKind = 'practice' | 'review' | 'assessment'
 
+/** How each question is answered: type the name, pick it from four, or find it on the model. */
+export type QuestionFormat = 'type' | 'choice' | 'identify'
+
 export interface SessionConfig {
   kind: SessionKind
   moduleId: string
@@ -19,6 +22,8 @@ export interface SessionConfig {
   answerTimer: number
   /** Only structures of this difficulty (1 foundation, 2 intermediate, 3 advanced); null = all. */
   tier?: number | null
+  /** Defaults to typing the name. */
+  format?: QuestionFormat
 }
 
 export interface CardsConfig {

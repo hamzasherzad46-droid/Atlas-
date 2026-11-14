@@ -3,6 +3,7 @@ import { TRACKS, type Track } from '../content/types'
 import { ArrowIcon } from '../components/Icons'
 import { LANG_NAMES, useT } from '../i18n'
 import { LANGS, useSettings } from '../state/settings'
+import { OrionChart, Seal } from '../components/Celestial'
 
 /** First run: language and study track, then straight in. Name and daily goal can be set later in Settings. */
 export function OnboardingScreen() {
@@ -14,8 +15,12 @@ export function OnboardingScreen() {
     <div className="overlay onboarding">
       <main className="page">
         <header className="masthead">
-          <span className="wordmark">{t('app.name')}</span>
+          <span className="brand">
+            <Seal />
+            <span className="wordmark">{t('app.name')}</span>
+          </span>
         </header>
+        <OrionChart className="frontispiece onb-chart" />
         <div className="titleblock onb-title">
           <p className="label">{t('onb.kicker')}</p>
           <h1 className="display">{t('onb.title')}</h1>

@@ -1,20 +1,42 @@
-import { lazy, Suspense, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { noteFor } from '../content/notes'
 import type { CameraView, Structure } from '../content/types'
 import { useModule } from '../content/useModule'
 import { BackIcon, CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
-import { meshKeys, meshMatchesAny } from '../lib/meshMatch'
+import { sentence } from '../lib/format'
+import { meshKeys, mostSpecific } from '../lib/meshMatch'
 import { useNav } from '../state/nav'
 import { useSettings } from '../state/settings'
 import type { CameraApi } from '../viewer/CameraRig'
-import { sentence } from '../lib/format'
+import type { PlateAnchor } from '../viewer/plate'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
 const OVERVIEW: CameraView = { position: [0.7, 1.05, 2.55], target: [0, 0.88, 0] }
+/** Numbered references are offered only where they stay legible: focused regions and small modules. */
+const PLATE_LIMIT = 20
 
-/** Free explore: drag, pinch, tap a structure to see what it is and what it does. */
+/** Camera bearing around the model, like an instrument's azimuth and altitude scales. */
+function useBearing(camera: React.RefObject<CameraApi | null>) {
+  const [bearing, setBearing] = useState({ az: 0, alt: 0 })
+  useEffect(() => {
+    const tm = setInterval(() => {
+      const v = camera.current?.getView()
+      if (!v) return
+      const dx = v.position[0] - v.target[0]
+      const dy = v.position[1] - v.target[1]
+      const dz = v.position[2] - v.target[2]
+      const az = Math.round(((Math.atan2(dx, dz) * 180) / Math.PI + 360) % 360)
+      const alt = Math.round((Math.atan2(dy, Math.hypot(dx, dz)) * 180) / Math.PI)
+      setBearing((b) => (b.az === az && b.alt === alt ? b : { az, alt }))
+    }, 250)
+    return () => clearInterval(tm)
+  }, [camera])
+  return bearing
+}
+
+/** Explore a model like an atlas plate: rotate it, tap a structure or a number, read what it is. */
 export function ExploreScreen({ moduleId }: { moduleId: string }) {
   const t = useT()
   const openExplore = useNav((s) => s.openExplore)
@@ -22,21 +44,35 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
   const track = useSettings((s) => s.track)
   const [selected, setSelected] = useState<Structure | null>(null)
   const [point, setPoint] = useState<[number, number, number] | null>(null)
+  const [home, setHome] = useState<CameraView>(OVERVIEW)
   const [view, setView] = useState<CameraView>(OVERVIEW)
+  const [anchors, setAnchors] = useState<PlateAnchor[]>([])
+  const [labels, setLabels] = useState(true)
   const [copied, setCopied] = useState(false)
   const camera = useRef<CameraApi>(null)
+  const bearing = useBearing(camera)
 
+  const structures = useMemo(() => assets?.content.structures ?? [], [assets])
+  const plateOffered = structures.length > 0 && structures.length <= PLATE_LIMIT
+  const plate = plateOffered && labels
   const highlight = useMemo(() => (selected ? meshKeys(selected.meshName) : []), [selected])
+  const numberOf = useMemo(() => new Map(anchors.map((a, i) => [a.id, i + 1])), [anchors])
 
-  const onPick = (meshName: string, at: [number, number, number]) => {
-    const s = assets?.content.structures.find((x) => meshMatchesAny(meshName, meshKeys(x.meshName)))
-    setSelected(s ?? null)
+  const select = (s: Structure | null, at: [number, number, number] | null) => {
+    setSelected(s)
     setPoint(s ? at : null)
   }
 
-  const clear = () => {
-    setSelected(null)
-    setPoint(null)
+  const onPick = (meshName: string, at: [number, number, number]) => select(mostSpecific(meshName, structures) ?? null, at)
+
+  const fromKey = (id: string) => {
+    const s = structures.find((x) => x.id === id) ?? null
+    select(s, anchors.find((a) => a.id === id)?.point ?? null)
+  }
+
+  const onFraming = (v: CameraView) => {
+    setHome(v)
+    setView(v)
   }
 
   // Dev helper for authoring content: copy the current camera as JSON.
@@ -49,6 +85,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
   }
 
   const note = selected ? noteFor(selected, track) : null
+  const n = selected ? numberOf.get(selected.id) : undefined
 
   return (
     <div className="overlay explore">
@@ -56,7 +93,11 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
         <button className="backlink" onClick={() => openExplore(null)}>
           <BackIcon /> {t.td(`module.${moduleId}`, moduleId)}
         </button>
-        <p className="label">{t('explore.title')}</p>
+        {plateOffered && (
+          <button className="mono explore-toggle" aria-pressed={labels} onClick={() => setLabels((v) => !v)}>
+            {t('explore.labels')} {labels ? '●' : '○'}
+          </button>
+        )}
       </header>
       <div className="explore-viewer">
         {assets && (
@@ -66,11 +107,19 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
               highlight={highlight}
               view={view}
               onPick={onPick}
-              pin={selected && point ? { point, label: sentence(selected.name) } : null}
+              pin={selected && point ? { point, label: n ? `${n} · ${sentence(selected.name)}` : sentence(selected.name) } : null}
               cameraApi={camera}
+              onFraming={onFraming}
+              plate={plate}
+              onPlate={setAnchors}
+              onPlateSelect={fromKey}
             />
           </Suspense>
         )}
+        <p className="mono bearing" aria-hidden>
+          AZ {String(bearing.az).padStart(3, '0')}° · ALT {bearing.alt >= 0 ? '+' : '−'}
+          {String(Math.abs(bearing.alt)).padStart(2, '0')}°
+        </p>
         {!selected && <p className="tiny explore-help">{t('explore.help')}</p>}
         {import.meta.env.DEV && (
           <button className="dev-copy" onClick={() => void copyCamera()}>
@@ -82,8 +131,11 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
         {selected ? (
           <>
             <div className="explore-title">
-              <h2 className="title">{sentence(selected.name)}</h2>
-              <button className="icon-btn" onClick={clear} aria-label={t('common.close')}>
+              <h2 className="title">
+                {n && <span className="mono plate-no">{n}</span>}
+                {sentence(selected.name)}
+              </h2>
+              <button className="icon-btn" onClick={() => select(null, null)} aria-label={t('common.close')}>
                 <CloseIcon />
               </button>
             </div>
@@ -107,10 +159,27 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
               <button className="textlink" onClick={() => setView({ ...selected.camera })}>
                 {t('explore.focus')}
               </button>
-              <button className="textlink" onClick={() => setView({ ...OVERVIEW })}>
-                {t('explore.whole')}
+              <button className="textlink" onClick={() => setView({ ...home })}>
+                {t('explore.reset')}
               </button>
             </div>
+          </>
+        ) : plate && anchors.length ? (
+          <>
+            <p className="label">{t('explore.key')}</p>
+            <ol className="plate-key">
+              {anchors.map((a, i) => {
+                const s = structures.find((x) => x.id === a.id)
+                return (
+                  <li key={a.id}>
+                    <button onClick={() => fromKey(a.id)}>
+                      <span className="mono">{i + 1}</span>
+                      <span>{s ? sentence(s.name) : a.id}</span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ol>
           </>
         ) : (
           <p className="small">{t('explore.tap')}</p>

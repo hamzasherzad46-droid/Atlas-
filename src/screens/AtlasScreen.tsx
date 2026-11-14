@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { catalog, getModuleInfo } from '../content/loader'
+import { catalog, getModuleInfo, regionModules } from '../content/loader'
 import type { ModuleInfo } from '../content/types'
 import { useModule } from '../content/useModule'
 import { ArrowIcon, BackIcon } from '../components/Icons'
@@ -13,12 +13,20 @@ import { ASSESSMENT_ANSWER_TIMER, ASSESSMENT_LENGTH, ASSESSMENT_TIME_MS, useNav 
 import { useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
 import { regionStats } from '../state/stats'
+import { Curriculum } from './Curriculum'
 import { PracticeSheet } from './PracticeSheet'
 
-/** Every module in one list; each row carries its body system's colour key. */
+type AtlasView = 'regions' | 'systems' | 'curriculum'
+
+/**
+ * The atlas, three ways in: focused regions (one part of the body at a time), whole systems,
+ * and the full curriculum index. Each module row carries its body system's colour key.
+ */
 export function AtlasScreen() {
   const t = useT()
   const modulePage = useNav((s) => s.modulePage)
+  const [view, setView] = useState<AtlasView>('regions')
+  const [openCategory, setOpenCategory] = useState<string | null>(null)
   if (modulePage) return <ModuleScreen id={modulePage} />
 
   return (
@@ -28,14 +36,31 @@ export function AtlasScreen() {
         <h1 className="display">{t('atlas.title')}</h1>
         <p className="lede">{t('atlas.sub')}</p>
       </div>
-      <div className="rows atlas-list">
-        {catalog.systems.flatMap((sys) => sys.modules.map((m) => <ModuleRow key={m.id} info={m} systemId={sys.id} />))}
+      <div className="options atlas-views">
+        {(['regions', 'systems', 'curriculum'] as const).map((v) => (
+          <button key={v} aria-pressed={view === v} onClick={() => setView(v)}>
+            {t(`atlas.${v}`)}
+          </button>
+        ))}
       </div>
+      {view === 'regions' && (
+        <div className="rows atlas-list">
+          {regionModules.map((m) => (
+            <ModuleRow key={m.id} info={m} systemId={m.systemId ?? 'skeletal'} sub={t.td(`group.${m.group}`, '')} />
+          ))}
+        </div>
+      )}
+      {view === 'systems' && (
+        <div className="rows atlas-list">
+          {catalog.systems.flatMap((sys) => sys.modules.map((m) => <ModuleRow key={m.id} info={m} systemId={sys.id} sub={t.td(`system.${sys.id}`, '')} />))}
+        </div>
+      )}
+      {view === 'curriculum' && <Curriculum open={openCategory} onOpen={setOpenCategory} />}
     </main>
   )
 }
 
-function ModuleRow({ info, systemId }: { info: ModuleInfo; systemId: string }) {
+function ModuleRow({ info, systemId, sub }: { info: ModuleInfo; systemId: string; sub: string }) {
   const t = useT()
   const openModule = useNav((s) => s.openModule)
   const available = info.status === 'available'
@@ -50,7 +75,7 @@ function ModuleRow({ info, systemId }: { info: ModuleInfo; systemId: string }) {
       <span className="swatch" aria-hidden />
       <span className="r-main">
         <span className="r-title">{t.td(`module.${info.id}`, info.id)}</span>
-        <span className="r-sub">{available ? t.td(`system.${systemId}`, '') : t('common.soon')}</span>
+        <span className="r-sub">{available ? sub : t('common.soon')}</span>
       </span>
       {available && <span className="r-value">{pct(mastered, total)}%</span>}
       {available && <ArrowIcon />}
@@ -82,7 +107,7 @@ function ModuleScreen({ id }: { id: string }) {
       <div className="titleblock module-titleblock">
         <p className="label">
           <span className="swatch" aria-hidden />
-          {t.td(`system.${info.systemId}`, '')}
+          {info.group ? t.td(`group.${info.group}`, '') : t.td(`system.${info.systemId}`, '')}
         </p>
         <h1 className="display">{t.td(`module.${id}`, id)}</h1>
         <p className="lede module-blurb">{t.td(`systemBlurb.${info.systemId}`, '')}</p>
@@ -93,36 +118,61 @@ function ModuleScreen({ id }: { id: string }) {
       <Meter value={mastered} max={Math.max(total, 1)} tone="tint" />
 
       <button className="go module-go" onClick={() => startPractice(id, null, lastMode)}>
-        {t('mod.practice')}
+        <span>
+          {t('mod.practice')} <span className="go-sub">· {t('format.type')}</span>
+        </span>
         <ArrowIcon />
       </button>
       <button className="textlink module-options" onClick={() => setOptions(true)}>
         {t('mod.options')}
       </button>
 
-      <div className="rows module-ways">
-        <button className="r" onClick={() => startCards(id)}>
-          <span className="r-main">
-            <span className="r-title">{t('mod.cards')}</span>
-            <span className="r-sub">{t('mod.cardsSub')}</span>
-          </span>
-          <ArrowIcon />
-        </button>
-        <button className="r" onClick={() => openExplore(id)}>
-          <span className="r-main">
-            <span className="r-title">{t('mod.explore')}</span>
-            <span className="r-sub">{t('mod.exploreSub')}</span>
-          </span>
-          <ArrowIcon />
-        </button>
-        <button className="r" onClick={() => startAssessment(id)}>
-          <span className="r-main">
-            <span className="r-title">{t('mod.exam')}</span>
-            <span className="r-sub num">{t('mod.examSub', { n: ASSESSMENT_LENGTH, m: ASSESSMENT_TIME_MS / 60_000, s: ASSESSMENT_ANSWER_TIMER })}</span>
-          </span>
-          <ArrowIcon />
-        </button>
-      </div>
+      <section className="sect module-ways">
+        <p className="label">{t('mod.learn')}</p>
+        <div className="sect-body rows">
+          <button className="r" onClick={() => openExplore(id)}>
+            <span className="r-main">
+              <span className="r-title">{t('mod.explore')}</span>
+              <span className="r-sub">{t('mod.exploreSub')}</span>
+            </span>
+            <ArrowIcon />
+          </button>
+          <button className="r" onClick={() => startCards(id)}>
+            <span className="r-main">
+              <span className="r-title">{t('mod.cards')}</span>
+              <span className="r-sub">{t('mod.cardsSub')}</span>
+            </span>
+            <ArrowIcon />
+          </button>
+        </div>
+      </section>
+
+      <section className="sect">
+        <p className="label">{t('mod.test')}</p>
+        <div className="sect-body rows">
+          <button className="r" onClick={() => startPractice(id, null, lastMode, undefined, null, 'choice')}>
+            <span className="r-main">
+              <span className="r-title">{t('format.choice')}</span>
+              <span className="r-sub">{t('mod.choiceSub')}</span>
+            </span>
+            <ArrowIcon />
+          </button>
+          <button className="r" onClick={() => startPractice(id, null, lastMode, undefined, null, 'identify')}>
+            <span className="r-main">
+              <span className="r-title">{t('format.identify')}</span>
+              <span className="r-sub">{t('mod.identifySub')}</span>
+            </span>
+            <ArrowIcon />
+          </button>
+          <button className="r" onClick={() => startAssessment(id)}>
+            <span className="r-main">
+              <span className="r-title">{t('mod.exam')}</span>
+              <span className="r-sub num">{t('mod.examSub', { n: ASSESSMENT_LENGTH, m: ASSESSMENT_TIME_MS / 60_000, s: ASSESSMENT_ANSWER_TIMER })}</span>
+            </span>
+            <ArrowIcon />
+          </button>
+        </div>
+      </section>
 
       {options && <PracticeSheet moduleId={id} onClose={() => setOptions(false)} />}
     </main>

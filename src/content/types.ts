@@ -83,8 +83,23 @@ export interface ModuleInfo {
     /** Faint backdrop model for orientation, e.g. the skeleton behind organs. */
     context?: string
   }
-  /** Set by the loader. */
+  /**
+   * A focused region: only these structure ids from `contentFile` are taught. The rest of the model
+   * stays visible but faint and can't be tapped, so the student sees where the region sits.
+   */
+  include?: string[]
+  /** Frame one side of the body (`l` or `r`) when the region is bilateral, e.g. a limb. */
+  side?: 'l' | 'r'
+  /** Body system for colour and grouping; set by the loader for system modules, given explicitly for regions. */
   systemId?: string
+  /** Region group id (e.g. `upper-limb`); set by the loader for regional modules. */
+  group?: string
+}
+
+/** A group of focused regional modules, e.g. the upper limb. Its name lives in the UI translations (group.<id>). */
+export interface RegionGroup {
+  id: string
+  modules: ModuleInfo[]
 }
 
 /** Names and descriptions of systems and modules live in the UI translations (system.<id>, module.<id>). */
@@ -96,6 +111,25 @@ export interface BodySystem {
   modules: ModuleInfo[]
 }
 
+/** The full curriculum (content/curriculum.json). Topic titles are English, like the anatomy content. */
+export interface CurriculumTopic {
+  title: string
+  /** Available modules that teach this topic's core structures; absent while the topic is in preparation. */
+  modules?: string[]
+}
+
+export interface CurriculumCategory {
+  id: string
+  title: string
+  topics: CurriculumTopic[]
+}
+
+export interface Curriculum {
+  categories: CurriculumCategory[]
+}
+
 export interface Catalog {
   systems: BodySystem[]
+  /** Focused regional modules built from the system modules' content and models. */
+  regions?: RegionGroup[]
 }

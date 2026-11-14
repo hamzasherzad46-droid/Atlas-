@@ -1,8 +1,9 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { noteFor } from '../content/notes'
+import type { CameraView } from '../content/types'
 import { useModule } from '../content/useModule'
 import { useT } from '../i18n'
-import { formatClock } from '../lib/format'
+import { formatClock, sentence } from '../lib/format'
 import { meshKeys } from '../lib/meshMatch'
 import { activeAnswer, type KeyInput } from '../lib/typing'
 import { ArrowIcon, CheckIcon, CloseIcon } from '../components/Icons'
@@ -28,8 +29,12 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   const [pausedAt, setPausedAt] = useState<number | null>(null)
   const [now, setNow] = useState(() => Date.now())
 
+  const format = config.format ?? 'type'
+  // In identify mode the camera holds the region's framing, so the answer isn't given away.
+  const [regionView, setRegionView] = useState<CameraView | null>(null)
+
   useEffect(() => {
-    if (assets) useQuiz.getState().init(config, assets.content.structures)
+    if (assets) useQuiz.getState().init(config, assets.content.structures, assets.pool)
   }, [assets, config])
 
   const ready = q.config === config
@@ -64,6 +69,13 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
       if (e.metaKey || e.ctrlKey || e.altKey) return
       const st = useQuiz.getState()
       if (e.key === 'Escape') return endSession()
+      if (st.config?.format === 'choice' || st.config?.format === 'identify') {
+        if (e.key === 'Enter' && st.phase === 'done') st.next()
+        else if (st.config.format === 'choice' && /^[1-4]$/.test(e.key) && st.choices[+e.key - 1]) st.choose(st.choices[+e.key - 1])
+        else return
+        e.preventDefault()
+        return
+      }
       if (e.key === 'Backspace') st.press({ type: 'backspace' })
       else if (e.key === 'Enter') st.press({ type: 'enter' })
       else if (e.key === '?') st.press({ type: 'hint' })
@@ -75,7 +87,8 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [endSession])
 
-  const highlight = useMemo(() => (current ? meshKeys(current.meshName) : []), [current])
+  // Identify hides the answer until it's given.
+  const highlight = useMemo(() => (current && (format !== 'identify' || done) ? meshKeys(current.meshName) : []), [current, format, done])
   const onKey = useCallback((input: KeyInput) => useQuiz.getState().press(input), [])
   const onSkip = useCallback(() => useQuiz.getState().skip(), [])
 
@@ -90,13 +103,67 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   const note = noteFor(current, track)
   const showDefinition = config.mode === 'learn' || done
 
-  const kindLabel = config.kind === 'assessment' ? t('mod.exam') : config.kind === 'review' ? t('practice.review') : t('mod.practice')
+  const kindLabel =
+    config.kind === 'assessment'
+      ? t('mod.exam')
+      : config.kind === 'review'
+        ? t('practice.review')
+        : format === 'type'
+          ? t('mod.practice')
+          : t(`format.${format}`)
+  const tapped = format === 'identify' && q.picked ? q.byId[q.picked] : undefined
   const verdict =
     q.lastOutcome === 'perfect'
       ? { tone: 'good', text: t('quiz.correct') }
       : q.lastOutcome === 'ok'
         ? { tone: 'warn', text: `${t('quiz.correct')} · ${t('quiz.errors', { n: q.qErrors })}` }
-        : { tone: 'bad', text: q.timedOut ? t('quiz.timeout') : t('quiz.skipped') }
+        : {
+            tone: 'bad',
+            text: q.timedOut
+              ? t('quiz.timeout')
+              : q.picked === null
+                ? t('quiz.skipped')
+                : tapped
+                  ? t('quiz.youTapped', { name: sentence(tapped.name) })
+                  : t('quiz.wrong'),
+          }
+  // Identify starts from the region's framing (or a wider view of the structure's neighbourhood).
+  const zoomedOut: CameraView = {
+    target: current.camera.target,
+    position: current.camera.position.map((p, i) => current.camera.target[i] + (p - current.camera.target[i]) * 1.8) as CameraView['position'],
+  }
+  const view = format === 'identify' && !done ? (regionView ?? zoomedOut) : current.camera
+
+  const feedback = done ? (
+    <div className="quiz-feedback" key={q.index}>
+      <p className={`verdict ${verdict.tone}`}>
+        {q.lastOutcome === 'failed' ? <CloseIcon size={14} /> : <CheckIcon size={14} />}
+        <span>{verdict.text}</span>
+      </p>
+      {current.latinName.toLowerCase() !== current.name.toLowerCase() && (
+        <p className="latin quiz-latin" dir="auto">
+          {current.latinName}
+        </p>
+      )}
+      <p className="quiz-def" dir="auto">
+        {current.function}
+      </p>
+      {note && (
+        <p className="note quiz-note">
+          <span className="label">{t(`note.${note.track}`)}</span>
+          <span className="note-text" dir="auto">
+            {note.text}
+          </span>
+        </p>
+      )}
+      {paused && (
+        <button className="textlink quiz-next" onClick={() => useQuiz.getState().next()}>
+          {t('quiz.next')}
+          <ArrowIcon size={14} />
+        </button>
+      )}
+    </div>
+  ) : null
 
   return (
     <div className="quiz">
@@ -104,8 +171,8 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
         <button className="icon-btn" onClick={endSession} aria-label={t('quiz.end')}>
           <CloseIcon />
         </button>
-        <p className="label num quiz-count">
-          {kindLabel} · {Math.min(q.index + 1, q.queue.length)} / {q.queue.length}
+        <p className="mono quiz-count">
+          {kindLabel} · <bdi dir="ltr">{Math.min(q.index + 1, q.queue.length)} / {q.queue.length}</bdi>
         </p>
         <span className={`quiz-clock num${examLeft !== null && examLeft < 30_000 ? ' warn' : ''}`}>
           {examLeft !== null ? formatClock(examLeft) : ''}
@@ -120,53 +187,81 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
 
       <div className="quiz-viewer viewer-fade">
         <Suspense fallback={null}>
-          <AnatomyViewer assets={assets} highlight={highlight} view={current.camera} ghosts={{ prev, next, index: q.index }} />
+          <AnatomyViewer
+            assets={assets}
+            highlight={highlight}
+            view={view}
+            ghosts={format === 'identify' ? undefined : { prev, next, index: q.index }}
+            onPick={format === 'identify' && !done ? (mesh) => useQuiz.getState().tap(mesh) : undefined}
+            onFraming={format === 'identify' ? setRegionView : undefined}
+          />
         </Suspense>
       </div>
 
-      <section className="quiz-answer" onPointerDown={() => done && setPausedAt(q.index)}>
-        {!done && <p className="label quiz-prompt">{t('mod.practiceSub')}</p>}
-        <AnswerWord answer={answer} typed={q.typing.buffer} mode={config.mode} done={done} outcome={q.lastOutcome} wrongCount={q.wrongCount} />
-        {done ? (
-          <div className="quiz-feedback" key={q.index}>
-            <p className={`verdict ${verdict.tone}`}>
-              {q.lastOutcome === 'failed' ? <CloseIcon size={14} /> : <CheckIcon size={14} />}
-              <span>{verdict.text}</span>
-            </p>
-            {current.latinName.toLowerCase() !== current.name.toLowerCase() && (
-              <p className="latin quiz-latin" dir="auto">
-                {current.latinName}
-              </p>
+      {format === 'type' && (
+        <>
+          <section className="quiz-answer" onPointerDown={() => done && setPausedAt(q.index)}>
+            {!done && <p className="label quiz-prompt">{t('mod.practiceSub')}</p>}
+            <AnswerWord answer={answer} typed={q.typing.buffer} mode={config.mode} done={done} outcome={q.lastOutcome} wrongCount={q.wrongCount} />
+            {feedback ?? (
+              <div className="quiz-feedback">
+                <p className="quiz-def" dir="auto">
+                  {showDefinition ? current.definition : '\u00a0'}
+                </p>
+                {q.typing.awaitingEnter && <p className="quiz-hint">{t('quiz.confirm')}</p>}
+              </div>
             )}
-            <p className="quiz-def" dir="auto">
-              {current.function}
-            </p>
-            {note && (
-              <p className="note quiz-note">
-                <span className="label">{t(`note.${note.track}`)}</span>
-                <span className="note-text" dir="auto">
-                  {note.text}
-                </span>
-              </p>
-            )}
-            {paused && (
-              <button className="textlink quiz-next" onClick={() => useQuiz.getState().next()}>
-                {t('quiz.next')}
-                <ArrowIcon size={14} />
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="quiz-feedback">
-            <p className="quiz-def" dir="auto">
-              {showDefinition ? current.definition : '\u00a0'}
-            </p>
-            {q.typing.awaitingEnter && <p className="quiz-hint">{t('quiz.confirm')}</p>}
-          </div>
-        )}
-      </section>
+          </section>
+          <Keyboard
+            flash={q.flash}
+            onKey={onKey}
+            onSkip={onSkip}
+            awaitingEnter={q.typing.awaitingEnter}
+            disabled={done}
+            labels={{ hint: t('quiz.hint'), skip: t('quiz.skip'), space: t('quiz.space') }}
+          />
+        </>
+      )}
 
-      <Keyboard flash={q.flash} onKey={onKey} onSkip={onSkip} awaitingEnter={q.typing.awaitingEnter} disabled={done} labels={{ hint: t('quiz.hint'), skip: t('quiz.skip'), space: t('quiz.space') }} />
+      {format === 'choice' && (
+        <section className="quiz-answer quiz-choice" onPointerDown={() => done && setPausedAt(q.index)}>
+          {!done && <p className="label quiz-prompt">{t('quiz.choicePrompt')}</p>}
+          <ol className="choices">
+            {q.choices.map((id, i) => {
+              const s = q.byId[id]
+              const state = done ? (id === current.id ? 'right' : id === q.picked ? 'wrong' : 'dim') : ''
+              return (
+                <li key={id}>
+                  <button className={`choice-btn ${state}`} disabled={done} onClick={() => useQuiz.getState().choose(id)}>
+                    <span className="mono choice-n">{i + 1}</span>
+                    <span className="choice-name">{s ? sentence(s.name) : id}</span>
+                    {state === 'right' && <CheckIcon />}
+                    {state === 'wrong' && <CloseIcon size={14} />}
+                  </button>
+                </li>
+              )
+            })}
+          </ol>
+          {feedback}
+          {!done && (
+            <button className="textlink quiz-skip" onClick={onSkip}>
+              {t('quiz.skip')}
+            </button>
+          )}
+        </section>
+      )}
+
+      {format === 'identify' && (
+        <section className="quiz-answer quiz-identify" onPointerDown={() => done && setPausedAt(q.index)}>
+          <p className="label quiz-prompt">{t('quiz.findPrompt')}</p>
+          <p className="title identify-name">{sentence(current.name)}</p>
+          {feedback ?? (
+            <button className="textlink quiz-skip" onClick={onSkip}>
+              {t('quiz.skip')}
+            </button>
+          )}
+        </section>
+      )}
     </div>
   )
 }

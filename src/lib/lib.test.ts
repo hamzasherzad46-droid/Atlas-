@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { acceptedAnswers, activeAnswer, applyKey, emptyTyping, normalizeAnswer, type KeyInput, type TypingState } from './typing'
-import { meshMatchesKey } from './meshMatch'
+import { meshMatchesKey, meshSide, mostSpecific } from './meshMatch'
 import { INTERVALS, isMissed, prioritise, requeue, updateRecord } from './srs'
 
 function typeAll(text: string, answers: string[]) {
@@ -87,6 +87,35 @@ describe('mesh matching', () => {
     ['nasal_concha', 'nasal', false],
   ])('%s vs %s → %s', (mesh, key, expected) => {
     expect(meshMatchesKey(mesh, key)).toBe(expected)
+  })
+})
+
+describe('most specific structure for a tapped mesh', () => {
+  const structures = [
+    { id: 'ribs', meshName: 'rib' },
+    { id: 'first-rib', meshName: ['rib_1.l', 'rib_1.r'] },
+    { id: 'carpals', meshName: ['scaphoid', 'lunate'] },
+    { id: 'scaphoid', meshName: 'scaphoid' },
+    { id: 'humerus', meshName: ['humerus', 'medial_epicondyle'] },
+    { id: 'medial-epicondyle', meshName: 'medial_epicondyle' },
+  ]
+  it('prefers the named bone over its group', () => {
+    expect(mostSpecific('scaphoidl', structures)?.id).toBe('scaphoid')
+    expect(mostSpecific('rib_1l', structures)?.id).toBe('first-rib')
+    expect(mostSpecific('rib_6r', structures)?.id).toBe('ribs')
+    expect(mostSpecific('medial_epicondylel', structures)?.id).toBe('medial-epicondyle')
+    expect(mostSpecific('humerusl', structures)?.id).toBe('humerus')
+    expect(mostSpecific('femurl', structures)).toBeUndefined()
+  })
+})
+
+describe('mesh side', () => {
+  it('reads the side from what follows the key', () => {
+    expect(meshSide('radiusl', ['radius'])).toBe('l')
+    expect(meshSide('Radius.r', ['radius'])).toBe('r')
+    expect(meshSide('rib_1r_2', ['rib_1'])).toBe('r')
+    expect(meshSide('sacrum', ['sacrum'])).toBeNull()
+    expect(meshSide('occipital', ['occipital'])).toBeNull()
   })
 })
 

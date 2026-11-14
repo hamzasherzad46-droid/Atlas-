@@ -6,6 +6,10 @@ import * as THREE from 'three'
 import type { CameraView, Structure } from '../content/types'
 import type { ModuleAssets } from '../content/useModule'
 import { meshKeys } from '../lib/meshMatch'
+import type { Highlighter } from './highlight'
+import { onSide, plateAnchors, viewForMeshes, type PlateAnchor } from './plate'
+
+export type { PlateAnchor }
 import { CameraRig, type CameraApi } from './CameraRig'
 import { ContextModel, ModelInstance } from './ModelInstance'
 import './viewer.css'
@@ -20,6 +24,14 @@ export interface AnatomyViewerProps {
   /** A label pinned to a point on the model (explore). */
   pin?: { point: [number, number, number]; label: string } | null
   cameraApi?: Ref<CameraApi>
+  /** For a focused region: called once with a view that frames the region. */
+  onFraming?: (view: CameraView) => void
+  /** Numbered references on the model, one per structure (atlas plate). */
+  plate?: boolean
+  /** The numbered structures, in order, with the surface point each number marks. */
+  onPlate?: (anchors: PlateAnchor[]) => void
+  /** A numbered reference was tapped. */
+  onPlateSelect?: (id: string) => void
 }
 
 const DPR: [number, number] = [1, 2] // cap pixel ratio at 2 for mobile GPUs
@@ -47,8 +59,23 @@ function Lights() {
 
 const SCENE = { environmentIntensity: 0.35 }
 
-export default function AnatomyViewer({ assets, highlight, view, ghosts, onPick, pin, cameraApi }: AnatomyViewerProps) {
+export default function AnatomyViewer({
+  assets,
+  highlight,
+  view,
+  ghosts,
+  onPick,
+  pin,
+  cameraApi,
+  onFraming,
+  plate,
+  onPlate,
+  onPlateSelect,
+}: AnatomyViewerProps) {
   const [resetKey, setResetKey] = useState(0)
+  const [highlighter, setHighlighter] = useState<Highlighter | null>(null)
+  // A focused region ghosts everything outside it.
+  const focus = useMemo(() => (assets.info.include ? assets.content.structures.flatMap((s) => meshKeys(s.meshName)) : undefined), [assets])
   const lastTap = useRef({ t: 0, x: 0, y: 0 })
 
   // Double-tap (touch) or double-click (mouse) resets the view.
@@ -78,7 +105,7 @@ export default function AnatomyViewer({ assets, highlight, view, ghosts, onPick,
         >
           <Lights />
           <Suspense fallback={null}>
-            <ModelInstance assets={assets} highlight={highlight} onPick={onPick} />
+            <ModelInstance assets={assets} highlight={highlight} onPick={onPick} focus={focus} onReady={setHighlighter} />
           </Suspense>
           {assets.info.model?.context && (
             <Suspense fallback={null}>
@@ -86,6 +113,17 @@ export default function AnatomyViewer({ assets, highlight, view, ghosts, onPick,
             </Suspense>
           )}
           {pin && <PinLabel point={pin.point} label={pin.label} />}
+          {highlighter && (
+            <RegionTools
+              key={highlighter.base.uuid}
+              highlighter={highlighter}
+              assets={assets}
+              onFraming={onFraming}
+              plate={plate}
+              onPlate={onPlate}
+              onPlateSelect={onPlateSelect}
+            />
+          )}
           <CameraRig view={view} resetKey={resetKey} apiRef={cameraApi} />
         </Canvas>
       </div>
@@ -120,6 +158,63 @@ function PinLabel({ point, label }: { point: [number, number, number]; label: st
         <span className="pin-name">{label}</span>
       </div>
     </Html>
+  )
+}
+
+/** Frames a focused region once, and places the numbered references of an atlas plate. */
+function RegionTools({
+  highlighter,
+  assets,
+  onFraming,
+  plate,
+  onPlate,
+  onPlateSelect,
+}: {
+  highlighter: Highlighter
+  assets: ModuleAssets
+  onFraming?: (view: CameraView) => void
+  plate?: boolean
+  onPlate?: (anchors: PlateAnchor[]) => void
+  onPlateSelect?: (id: string) => void
+}) {
+  const size = useThree((s) => s.size)
+  const invalidate = useThree((s) => s.invalidate)
+  const [anchors, setAnchors] = useState<PlateAnchor[]>([])
+
+  useEffect(() => {
+    const meshes = highlighter.focusMeshes()
+    for (const m of meshes) m.updateWorldMatrix(true, false)
+    if (onFraming && assets.info.include) {
+      const keys = assets.content.structures.flatMap((s) => meshKeys(s.meshName))
+      const v = viewForMeshes(onSide(meshes, assets.info.side, keys), size.width / Math.max(size.height, 1))
+      if (v) onFraming(v)
+    }
+    // Measured once per model instance; the canvas size at that moment is good enough for framing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [highlighter])
+
+  useEffect(() => {
+    if (!plate) return
+    const placed = plateAnchors(assets.content.structures, highlighter.focusMeshes(), assets.info.side)
+    // Geometry has to be measured after the model is mounted; this runs once per instance and plate toggle.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setAnchors(placed)
+    onPlate?.(placed)
+    invalidate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [highlighter, plate])
+
+  if (!plate) return null
+  return (
+    <>
+      {anchors.map((a, i) => (
+        <Html key={a.id} position={a.point} zIndexRange={[2, 0]} wrapperClass="pin-wrap" center>
+          <button className="plate-mark mono" onClick={() => onPlateSelect?.(a.id)} aria-label={String(i + 1)}>
+            {i + 1}
+          </button>
+        </Html>
+      ))}
+    </>
   )
 }
 

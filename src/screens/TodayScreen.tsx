@@ -1,6 +1,7 @@
 import { getModuleInfo } from '../content/loader'
 import { useModule } from '../content/useModule'
 import { ArrowIcon } from '../components/Icons'
+import { OrionChart } from '../components/Celestial'
 import { Masthead } from '../components/Masthead'
 import { Meter } from '../components/bits'
 import { useT } from '../i18n'
@@ -96,6 +97,8 @@ export function TodayScreen() {
           </button>
         </div>
       </section>
+
+      <OrionChart className="frontispiece" />
     </main>
   )
 }

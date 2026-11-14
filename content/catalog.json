@@ -3,7 +3,7 @@
     {
       "id": "skeletal",
       "glyph": "bone",
-      "tint": "#9a7b45",
+      "tint": "#b08d57",
       "modules": [
         {
           "id": "skeleton",
@@ -16,7 +16,7 @@
     {
       "id": "muscular",
       "glyph": "muscle",
-      "tint": "#8c3b33",
+      "tint": "#8c4a3c",
       "modules": [
         {
           "id": "muscles",
@@ -29,7 +29,7 @@
     {
       "id": "cardiovascular",
       "glyph": "heart",
-      "tint": "#ad2f3c",
+      "tint": "#a0443c",
       "modules": [
         {
           "id": "heart",
@@ -48,7 +48,7 @@
     {
       "id": "respiratory",
       "glyph": "lungs",
-      "tint": "#4f7fa0",
+      "tint": "#b07a78",
       "modules": [
         {
           "id": "airways",
@@ -61,13 +61,20 @@
     {
       "id": "nervous",
       "glyph": "brain",
-      "tint": "#a67c12",
-      "modules": [{ "id": "brain", "status": "available", "contentFile": "brain", "model": { "file": "brain.glb" } }]
+      "tint": "#b8973c",
+      "modules": [
+        {
+          "id": "brain",
+          "status": "available",
+          "contentFile": "brain",
+          "model": { "file": "brain.glb" }
+        }
+      ]
     },
     {
       "id": "digestive",
       "glyph": "stomach",
-      "tint": "#6e7f3a",
+      "tint": "#7a8450",
       "modules": [
         {
           "id": "digestive",
@@ -80,7 +87,7 @@
     {
       "id": "urinary",
       "glyph": "kidney",
-      "tint": "#3b7a86",
+      "tint": "#8a6047",
       "modules": [
         {
           "id": "urinary",
@@ -93,13 +100,228 @@
     {
       "id": "reproductive",
       "glyph": "reproductive",
-      "tint": "#8c4e78",
+      "tint": "#85607a",
       "modules": [
         {
           "id": "reproductive",
           "status": "available",
           "contentFile": "reproductive",
           "model": { "file": "reproductive.glb", "context": "skeleton-context.glb" }
+        }
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "id": "head",
+      "modules": [
+        {
+          "id": "skull",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "frontal",
+            "parietal",
+            "temporal",
+            "occipital",
+            "sphenoid",
+            "ethmoid",
+            "nasal",
+            "zygomatic",
+            "maxilla",
+            "mandible",
+            "vomer",
+            "lacrimal",
+            "palatine",
+            "inferior-nasal-concha",
+            "hyoid"
+          ],
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        },
+        {
+          "id": "teeth",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "incisors",
+            "canines",
+            "premolars",
+            "molars"
+          ],
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        }
+      ]
+    },
+    {
+      "id": "back",
+      "modules": [
+        {
+          "id": "vertebral-column",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "cervical-vertebrae",
+            "atlas",
+            "axis",
+            "vertebra-prominens",
+            "thoracic-vertebrae",
+            "lumbar-vertebrae",
+            "sacrum",
+            "coccyx"
+          ],
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        }
+      ]
+    },
+    {
+      "id": "thorax",
+      "modules": [
+        {
+          "id": "thoracic-wall",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "sternum",
+            "manubrium",
+            "xiphoid-process",
+            "ribs",
+            "first-rib",
+            "floating-ribs",
+            "costal-cartilages",
+            "thoracic-vertebrae"
+          ],
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        }
+      ]
+    },
+    {
+      "id": "pelvis",
+      "modules": [
+        {
+          "id": "pelvis",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "hip-bone",
+            "sacrum",
+            "coccyx"
+          ],
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        }
+      ]
+    },
+    {
+      "id": "upper-limb",
+      "modules": [
+        {
+          "id": "shoulder-girdle",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "clavicle",
+            "scapula"
+          ],
+          "side": "l",
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        },
+        {
+          "id": "arm",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "humerus",
+            "medial-epicondyle",
+            "lateral-epicondyle"
+          ],
+          "side": "l",
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        },
+        {
+          "id": "forearm",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "radius",
+            "ulna"
+          ],
+          "side": "l",
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        },
+        {
+          "id": "hand",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "carpals",
+            "scaphoid",
+            "lunate",
+            "triquetral",
+            "pisiform",
+            "trapezium",
+            "trapezoid",
+            "capitate",
+            "hamate",
+            "metacarpals",
+            "phalanges"
+          ],
+          "side": "l",
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        }
+      ]
+    },
+    {
+      "id": "lower-limb",
+      "modules": [
+        {
+          "id": "thigh-knee",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "femur",
+            "patella"
+          ],
+          "side": "l",
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        },
+        {
+          "id": "leg",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "tibia",
+            "fibula"
+          ],
+          "side": "l",
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
+        },
+        {
+          "id": "foot",
+          "status": "available",
+          "contentFile": "skeleton",
+          "systemId": "skeletal",
+          "include": [
+            "tarsals",
+            "talus",
+            "calcaneus",
+            "navicular",
+            "cuboid",
+            "cuneiforms",
+            "metatarsals",
+            "foot-phalanges"
+          ],
+          "side": "l",
+          "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
         }
       ]
     }
