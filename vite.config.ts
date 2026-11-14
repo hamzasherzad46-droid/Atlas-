@@ -44,6 +44,16 @@ export default defineConfig(({ mode }) => {
             navigateFallback: `${base}index.html`,
             runtimeCaching: [
               {
+                // Plate images: cached the first time each plate is opened.
+                urlPattern: ({ url }) => url.pathname.startsWith(`${base}plates/`),
+                handler: 'CacheFirst',
+                options: {
+                  cacheName: 'atlas-plates',
+                  expiration: { maxEntries: 40 },
+                  cacheableResponse: { statuses: [200] },
+                },
+              },
+              {
                 // 3D models are large: cache each module's GLB the first time it is opened.
                 urlPattern: ({ url }) => url.pathname.startsWith(`${base}models/`),
                 handler: 'CacheFirst',

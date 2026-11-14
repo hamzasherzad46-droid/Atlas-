@@ -38,9 +38,13 @@ interface NavState {
   cards: CardsConfig | null
   /** Module detail page (inside the Atlas tab). */
   modulePage: string | null
+  /** Anatomical plate page (inside the Atlas tab). */
+  plate: string | null
   /** Full-screen 3D explore for a module. */
   explore: string | null
   credits: boolean
+  /** The mock exam (full screen). */
+  mock: boolean
   setTab(tab: Tab): void
   startSession(config: SessionConfig): void
   endSession(): void
@@ -48,7 +52,9 @@ interface NavState {
   endCards(): void
   openModule(id: string | null): void
   openExplore(id: string | null): void
+  openPlate(id: string | null): void
   setCredits(open: boolean): void
+  openMock(open: boolean): void
 }
 
 export const useNav = create<NavState>()((set) => ({
@@ -56,16 +62,20 @@ export const useNav = create<NavState>()((set) => ({
   session: null,
   cards: null,
   modulePage: null,
+  plate: null,
   explore: null,
   credits: false,
-  setTab: (tab) => set({ tab, modulePage: null }),
+  mock: false,
+  setTab: (tab) => set({ tab, modulePage: null, plate: null }),
   startSession: (session) => set({ session, cards: null }),
   endSession: () => set({ session: null }),
   startCards: (cards) => set({ cards, session: null }),
   endCards: () => set({ cards: null }),
-  openModule: (modulePage) => set({ modulePage, tab: 'atlas' }),
+  openModule: (modulePage) => set({ modulePage, plate: null, tab: 'atlas' }),
+  openPlate: (plate) => set({ plate, modulePage: null, tab: 'atlas' }),
   openExplore: (explore) => set({ explore }),
   setCredits: (credits) => set({ credits }),
+  openMock: (mock) => set({ mock }),
 }))
 
 export const PRACTICE_LENGTH = 12

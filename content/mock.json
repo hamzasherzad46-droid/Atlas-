@@ -1,0 +1,1346 @@
+{
+  "sets": [
+    {
+      "id": "foundation",
+      "questions": [
+        {
+          "id": "f01",
+          "topic": "Skeleton",
+          "q": "How many bones are there in the adult human skeleton?",
+          "options": [
+            "206",
+            "186",
+            "212",
+            "300"
+          ],
+          "explain": "A newborn has about 270–300 bony parts; many fuse during growth, leaving 206 in the adult."
+        },
+        {
+          "id": "f02",
+          "topic": "Skeleton",
+          "q": "Which is the longest bone in the body?",
+          "options": [
+            "Femur",
+            "Tibia",
+            "Humerus",
+            "Fibula"
+          ],
+          "explain": "The femur runs from the hip to the knee. It is also the strongest bone in the body."
+        },
+        {
+          "id": "f03",
+          "topic": "Skeleton",
+          "q": "Which part of the skull forms the protective case around the brain?",
+          "options": [
+            "Cranium",
+            "Mandible",
+            "Maxilla",
+            "Hyoid bone"
+          ],
+          "explain": "The cranium encloses the brain. The mandible and maxilla are the jaws, and the hyoid sits in the neck."
+        },
+        {
+          "id": "f04",
+          "topic": "Skeleton",
+          "q": "How many pairs of ribs are there?",
+          "options": [
+            "12",
+            "10",
+            "11",
+            "14"
+          ],
+          "explain": "Twelve pairs: seven true ribs, three false ribs and two floating ribs."
+        },
+        {
+          "id": "f05",
+          "topic": "Skeleton",
+          "q": "Which vertebrae are found in the neck?",
+          "options": [
+            "Cervical",
+            "Thoracic",
+            "Lumbar",
+            "Sacral"
+          ],
+          "explain": "There are seven cervical vertebrae, C1 to C7. C1 is the atlas and C2 is the axis."
+        },
+        {
+          "id": "f06",
+          "topic": "Skeleton",
+          "q": "What is the kneecap called?",
+          "options": [
+            "Patella",
+            "Calcaneus",
+            "Scapula",
+            "Clavicle"
+          ],
+          "explain": "The patella sits in the tendon of quadriceps femoris and improves its leverage over the knee."
+        },
+        {
+          "id": "f07",
+          "topic": "Skeleton",
+          "q": "Which bone is the collarbone?",
+          "options": [
+            "Clavicle",
+            "Scapula",
+            "Sternum",
+            "Humerus"
+          ],
+          "explain": "The clavicle links the upper limb to the trunk at the sternoclavicular joint."
+        },
+        {
+          "id": "f08",
+          "topic": "Skeleton",
+          "q": "What is the heel bone called?",
+          "options": [
+            "Calcaneus",
+            "Talus",
+            "Navicular",
+            "Cuboid"
+          ],
+          "explain": "The calcaneus is the largest tarsal bone; the calcaneal (Achilles) tendon attaches to it."
+        },
+        {
+          "id": "f09",
+          "topic": "Skeleton",
+          "q": "Where is the radius?",
+          "options": [
+            "On the thumb side of the forearm",
+            "On the little-finger side of the forearm",
+            "In the leg",
+            "In the thigh"
+          ],
+          "explain": "In the anatomical position the radius is lateral, on the thumb side; the ulna is medial."
+        },
+        {
+          "id": "f10",
+          "topic": "Joints",
+          "q": "What type of joint is the shoulder joint?",
+          "options": [
+            "Ball and socket",
+            "Hinge",
+            "Pivot",
+            "Saddle"
+          ],
+          "explain": "The head of the humerus fits the glenoid cavity of the scapula, giving the widest range of movement of any joint."
+        },
+        {
+          "id": "f11",
+          "topic": "Joints",
+          "q": "What type of joint is the elbow joint between the humerus and the ulna?",
+          "options": [
+            "Hinge",
+            "Ball and socket",
+            "Pivot",
+            "Plane"
+          ],
+          "explain": "A hinge joint allows flexion and extension only."
+        },
+        {
+          "id": "f12",
+          "topic": "Joints",
+          "q": "Which tissue joins muscle to bone?",
+          "options": [
+            "Tendon",
+            "Ligament",
+            "Cartilage",
+            "Bursa"
+          ],
+          "explain": "Tendons join muscle to bone. Ligaments join bone to bone."
+        },
+        {
+          "id": "f13",
+          "topic": "Muscles",
+          "q": "Which is the main muscle of breathing?",
+          "options": [
+            "Diaphragm",
+            "Pectoralis major",
+            "Rectus abdominis",
+            "Trapezius"
+          ],
+          "explain": "When the diaphragm contracts it flattens, the chest gets bigger and air is drawn into the lungs."
+        },
+        {
+          "id": "f14",
+          "topic": "Muscles",
+          "q": "Which muscle group straightens (extends) the knee?",
+          "options": [
+            "Quadriceps femoris",
+            "Hamstrings",
+            "Gastrocnemius",
+            "Adductors"
+          ],
+          "explain": "The four heads of quadriceps femoris pull on the patella and the patellar ligament to extend the knee."
+        },
+        {
+          "id": "f15",
+          "topic": "Muscles",
+          "q": "Which muscle bends the elbow and turns the palm upwards?",
+          "options": [
+            "Biceps brachii",
+            "Triceps brachii",
+            "Deltoid",
+            "Brachioradialis"
+          ],
+          "explain": "Biceps brachii flexes the elbow and is the strongest supinator of the forearm. Triceps straightens the elbow."
+        },
+        {
+          "id": "f16",
+          "topic": "Muscles",
+          "q": "Which muscle forms the rounded contour of the shoulder?",
+          "options": [
+            "Deltoid",
+            "Trapezius",
+            "Latissimus dorsi",
+            "Pectoralis minor"
+          ],
+          "explain": "The deltoid covers the shoulder joint and abducts the arm. It is a common site for injections."
+        },
+        {
+          "id": "f17",
+          "topic": "Muscles",
+          "q": "Which muscles form the calf?",
+          "options": [
+            "Gastrocnemius and soleus",
+            "Biceps femoris and semitendinosus",
+            "Tibialis anterior and fibularis longus",
+            "Sartorius and gracilis"
+          ],
+          "explain": "Gastrocnemius and soleus join the calcaneal (Achilles) tendon and point the foot down (plantarflexion)."
+        },
+        {
+          "id": "f18",
+          "topic": "Heart and vessels",
+          "q": "How many chambers does the human heart have?",
+          "options": [
+            "Four",
+            "Two",
+            "Three",
+            "Five"
+          ],
+          "explain": "Two atria receive blood and two ventricles pump it out."
+        },
+        {
+          "id": "f19",
+          "topic": "Heart and vessels",
+          "q": "Which chamber pumps oxygenated blood to the body?",
+          "options": [
+            "Left ventricle",
+            "Right ventricle",
+            "Left atrium",
+            "Right atrium"
+          ],
+          "explain": "The left ventricle pumps blood into the aorta. Its wall is the thickest of the four chambers."
+        },
+        {
+          "id": "f20",
+          "topic": "Heart and vessels",
+          "q": "Which vessels carry blood away from the heart?",
+          "options": [
+            "Arteries",
+            "Veins",
+            "Capillaries",
+            "Venules"
+          ],
+          "explain": "Arteries carry blood away from the heart; veins carry it back. This is true whether or not the blood is oxygenated."
+        },
+        {
+          "id": "f21",
+          "topic": "Heart and vessels",
+          "q": "Which vessels carry deoxygenated blood from the heart to the lungs?",
+          "options": [
+            "Pulmonary arteries",
+            "Pulmonary veins",
+            "Aorta",
+            "Superior vena cava"
+          ],
+          "explain": "The pulmonary arteries are the only arteries after birth that carry deoxygenated blood."
+        },
+        {
+          "id": "f22",
+          "topic": "Heart and vessels",
+          "q": "Which is the largest artery in the body?",
+          "options": [
+            "Aorta",
+            "Pulmonary trunk",
+            "Common carotid artery",
+            "Femoral artery"
+          ],
+          "explain": "The aorta leaves the left ventricle and carries oxygenated blood to the whole body."
+        },
+        {
+          "id": "f23",
+          "topic": "Heart and vessels",
+          "q": "Which vein returns blood from the lower body to the heart?",
+          "options": [
+            "Inferior vena cava",
+            "Superior vena cava",
+            "Pulmonary vein",
+            "Jugular vein"
+          ],
+          "explain": "The inferior vena cava drains the legs, pelvis and abdomen into the right atrium."
+        },
+        {
+          "id": "f24",
+          "topic": "Heart and vessels",
+          "q": "What is the natural pacemaker of the heart?",
+          "options": [
+            "Sinoatrial (SA) node",
+            "Atrioventricular (AV) node",
+            "Bundle of His",
+            "Purkinje fibres"
+          ],
+          "explain": "The SA node in the wall of the right atrium starts each heartbeat."
+        },
+        {
+          "id": "f25",
+          "topic": "Heart and vessels",
+          "q": "Where is the radial pulse felt?",
+          "options": [
+            "At the wrist, on the thumb side",
+            "In the neck",
+            "Behind the knee",
+            "On the top of the foot"
+          ],
+          "explain": "The radial artery lies just under the skin at the front of the wrist, lateral to the flexor tendons."
+        },
+        {
+          "id": "f26",
+          "topic": "Blood",
+          "q": "Which blood cells carry oxygen?",
+          "options": [
+            "Red blood cells",
+            "White blood cells",
+            "Platelets",
+            "Plasma cells"
+          ],
+          "explain": "Red blood cells (erythrocytes) are packed with haemoglobin, which binds oxygen."
+        },
+        {
+          "id": "f27",
+          "topic": "Blood",
+          "q": "Which part of the blood helps it to clot?",
+          "options": [
+            "Platelets",
+            "Red blood cells",
+            "Lymphocytes",
+            "Neutrophils"
+          ],
+          "explain": "Platelets stick together at a damaged vessel and start the clotting process."
+        },
+        {
+          "id": "f28",
+          "topic": "Breathing",
+          "q": "Where are gases exchanged in the lungs?",
+          "options": [
+            "Alveoli",
+            "Bronchi",
+            "Trachea",
+            "Pleura"
+          ],
+          "explain": "Oxygen and carbon dioxide cross the thin walls of the alveoli and the capillaries around them."
+        },
+        {
+          "id": "f29",
+          "topic": "Breathing",
+          "q": "What is the windpipe called?",
+          "options": [
+            "Trachea",
+            "Oesophagus",
+            "Larynx",
+            "Pharynx"
+          ],
+          "explain": "The trachea runs from the larynx to the main bronchi and is held open by C-shaped rings of cartilage."
+        },
+        {
+          "id": "f30",
+          "topic": "Breathing",
+          "q": "How many lobes does the right lung have?",
+          "options": [
+            "Three",
+            "Two",
+            "Four",
+            "One"
+          ],
+          "explain": "The right lung has upper, middle and lower lobes. The left lung has two, to make room for the heart."
+        },
+        {
+          "id": "f31",
+          "topic": "Breathing",
+          "q": "What is the voice box called?",
+          "options": [
+            "Larynx",
+            "Pharynx",
+            "Trachea",
+            "Epiglottis"
+          ],
+          "explain": "The larynx contains the vocal folds, which vibrate to make sound."
+        },
+        {
+          "id": "f32",
+          "topic": "Breathing",
+          "q": "Which flap covers the entrance to the larynx when you swallow?",
+          "options": [
+            "Epiglottis",
+            "Uvula",
+            "Soft palate",
+            "Tongue"
+          ],
+          "explain": "The epiglottis helps stop food and drink going down the wrong way into the airway."
+        },
+        {
+          "id": "f33",
+          "topic": "Digestion",
+          "q": "Which organ makes bile?",
+          "options": [
+            "Liver",
+            "Gallbladder",
+            "Pancreas",
+            "Spleen"
+          ],
+          "explain": "The liver makes bile; the gallbladder stores and concentrates it. Bile helps to digest fats."
+        },
+        {
+          "id": "f34",
+          "topic": "Digestion",
+          "q": "Where does most digestion and absorption of food take place?",
+          "options": [
+            "Small intestine",
+            "Stomach",
+            "Large intestine",
+            "Oesophagus"
+          ],
+          "explain": "The small intestine is about 6 metres long and its lining is folded into villi to absorb nutrients."
+        },
+        {
+          "id": "f35",
+          "topic": "Digestion",
+          "q": "Which tube carries food from the pharynx to the stomach?",
+          "options": [
+            "Oesophagus",
+            "Trachea",
+            "Duodenum",
+            "Ureter"
+          ],
+          "explain": "The oesophagus moves food down by waves of muscle contraction (peristalsis)."
+        },
+        {
+          "id": "f36",
+          "topic": "Digestion",
+          "q": "What is the first part of the small intestine?",
+          "options": [
+            "Duodenum",
+            "Jejunum",
+            "Ileum",
+            "Caecum"
+          ],
+          "explain": "The duodenum receives bile and pancreatic juice. It is followed by the jejunum and then the ileum."
+        },
+        {
+          "id": "f37",
+          "topic": "Digestion",
+          "q": "In which part of the abdomen is the appendix usually found?",
+          "options": [
+            "Right lower quadrant",
+            "Left lower quadrant",
+            "Right upper quadrant",
+            "Left upper quadrant"
+          ],
+          "explain": "The appendix hangs from the caecum in the right iliac fossa, so appendicitis pain settles in the right lower quadrant."
+        },
+        {
+          "id": "f38",
+          "topic": "Digestion",
+          "q": "In which part of the abdomen is the spleen?",
+          "options": [
+            "Left upper quadrant",
+            "Right upper quadrant",
+            "Left lower quadrant",
+            "Right lower quadrant"
+          ],
+          "explain": "The spleen lies under the left ribs 9 to 11, behind the stomach."
+        },
+        {
+          "id": "f39",
+          "topic": "Hormones",
+          "q": "Which organ makes insulin?",
+          "options": [
+            "Pancreas",
+            "Liver",
+            "Kidney",
+            "Adrenal gland"
+          ],
+          "explain": "Beta cells in the pancreatic islets (of Langerhans) make insulin, which lowers blood glucose."
+        },
+        {
+          "id": "f40",
+          "topic": "Hormones",
+          "q": "Which gland is often called the \"master gland\"?",
+          "options": [
+            "Pituitary gland",
+            "Thyroid gland",
+            "Adrenal gland",
+            "Pineal gland"
+          ],
+          "explain": "The pituitary gland, under the brain, controls many other endocrine glands. It is itself controlled by the hypothalamus."
+        },
+        {
+          "id": "f41",
+          "topic": "Hormones",
+          "q": "Where is the thyroid gland?",
+          "options": [
+            "At the front of the neck, below the larynx",
+            "On top of the kidneys",
+            "Inside the skull",
+            "Behind the stomach"
+          ],
+          "explain": "Its two lobes lie on either side of the trachea, joined by an isthmus in front of the upper tracheal rings."
+        },
+        {
+          "id": "f42",
+          "topic": "Urinary system",
+          "q": "Which organs filter the blood to make urine?",
+          "options": [
+            "Kidneys",
+            "Ureters",
+            "Bladder",
+            "Liver"
+          ],
+          "explain": "Each kidney has about a million nephrons that filter the blood."
+        },
+        {
+          "id": "f43",
+          "topic": "Urinary system",
+          "q": "Which tube carries urine from each kidney to the bladder?",
+          "options": [
+            "Ureter",
+            "Urethra",
+            "Renal pelvis",
+            "Vas deferens"
+          ],
+          "explain": "There are two ureters, one from each kidney. The single urethra carries urine out of the bladder."
+        },
+        {
+          "id": "f44",
+          "topic": "Urinary system",
+          "q": "What is the basic working unit of the kidney?",
+          "options": [
+            "Nephron",
+            "Neuron",
+            "Alveolus",
+            "Glomerulus"
+          ],
+          "explain": "The nephron filters the blood and adjusts what it filters. The glomerulus is only its filtering knot of capillaries."
+        },
+        {
+          "id": "f45",
+          "topic": "Nervous system",
+          "q": "Which part of the brain coordinates balance and smooth movement?",
+          "options": [
+            "Cerebellum",
+            "Cerebrum",
+            "Medulla oblongata",
+            "Hypothalamus"
+          ],
+          "explain": "The cerebellum sits at the back of the skull, under the cerebrum."
+        },
+        {
+          "id": "f46",
+          "topic": "Nervous system",
+          "q": "Which part of the brainstem contains the centres that control breathing and heart rate?",
+          "options": [
+            "Medulla oblongata",
+            "Cerebellum",
+            "Thalamus",
+            "Frontal lobe"
+          ],
+          "explain": "The medulla oblongata is the lowest part of the brainstem and joins the spinal cord."
+        },
+        {
+          "id": "f47",
+          "topic": "Nervous system",
+          "q": "How many pairs of cranial nerves are there?",
+          "options": [
+            "12",
+            "31",
+            "10",
+            "8"
+          ],
+          "explain": "Twelve pairs of cranial nerves leave the brain. Thirty-one pairs of spinal nerves leave the spinal cord."
+        },
+        {
+          "id": "f48",
+          "topic": "Nervous system",
+          "q": "How many pairs of spinal nerves are there?",
+          "options": [
+            "31",
+            "12",
+            "33",
+            "24"
+          ],
+          "explain": "8 cervical, 12 thoracic, 5 lumbar, 5 sacral and 1 coccygeal pair."
+        },
+        {
+          "id": "f49",
+          "topic": "Nervous system",
+          "q": "What is a nerve cell called?",
+          "options": [
+            "Neuron",
+            "Nephron",
+            "Osteocyte",
+            "Erythrocyte"
+          ],
+          "explain": "A neuron has a cell body, dendrites that receive signals and an axon that sends them on."
+        },
+        {
+          "id": "f50",
+          "topic": "Senses",
+          "q": "Which part of the eye controls how much light enters it?",
+          "options": [
+            "Iris",
+            "Lens",
+            "Retina",
+            "Cornea"
+          ],
+          "explain": "The iris changes the size of the pupil: smaller in bright light, larger in dim light."
+        },
+        {
+          "id": "f51",
+          "topic": "Senses",
+          "q": "Which layer of the eye contains the light-sensitive cells?",
+          "options": [
+            "Retina",
+            "Cornea",
+            "Sclera",
+            "Iris"
+          ],
+          "explain": "Rods and cones in the retina turn light into nerve signals carried by the optic nerve."
+        },
+        {
+          "id": "f52",
+          "topic": "Senses",
+          "q": "Which is the smallest bone in the body?",
+          "options": [
+            "Stapes",
+            "Malleus",
+            "Incus",
+            "Hyoid bone"
+          ],
+          "explain": "The stapes, in the middle ear, passes vibrations to the inner ear. It is about 3 mm long."
+        },
+        {
+          "id": "f53",
+          "topic": "Skin",
+          "q": "What is the largest organ of the body?",
+          "options": [
+            "Skin",
+            "Liver",
+            "Brain",
+            "Lungs"
+          ],
+          "explain": "In an adult the skin covers about 1.5 to 2 square metres. It protects the body, helps to control temperature and senses touch."
+        },
+        {
+          "id": "f54",
+          "topic": "Terms",
+          "q": "In the anatomical position, which way do the palms face?",
+          "options": [
+            "Forwards",
+            "Backwards",
+            "Towards the thighs",
+            "Downwards"
+          ],
+          "explain": "The body stands upright, facing forwards, arms by the sides, with the palms facing forwards."
+        },
+        {
+          "id": "f55",
+          "topic": "Terms",
+          "q": "What does \"proximal\" mean?",
+          "options": [
+            "Closer to the trunk or point of attachment",
+            "Further from the trunk or point of attachment",
+            "Towards the head",
+            "Towards the front"
+          ],
+          "explain": "The elbow is proximal to the wrist. The opposite is distal."
+        },
+        {
+          "id": "f56",
+          "topic": "Terms",
+          "q": "Which plane divides the body into left and right parts?",
+          "options": [
+            "Sagittal plane",
+            "Coronal (frontal) plane",
+            "Transverse (horizontal) plane",
+            "Oblique plane"
+          ],
+          "explain": "The median sagittal plane runs down the midline; the coronal plane divides front from back."
+        },
+        {
+          "id": "f57",
+          "topic": "Terms",
+          "q": "What does \"anterior\" mean?",
+          "options": [
+            "Towards the front",
+            "Towards the back",
+            "Towards the head",
+            "Towards the feet"
+          ],
+          "explain": "Anterior (ventral) means towards the front. The opposite is posterior (dorsal)."
+        }
+      ]
+    },
+    {
+      "id": "higher",
+      "questions": [
+        {
+          "id": "h01",
+          "topic": "Upper limb",
+          "q": "Which nerve is most at risk in a fracture of the surgical neck of the humerus?",
+          "options": [
+            "Axillary nerve",
+            "Radial nerve",
+            "Ulnar nerve",
+            "Median nerve"
+          ],
+          "explain": "The axillary nerve winds round the surgical neck. Damage weakens the deltoid and numbs the skin over it (the \"regimental badge\" area)."
+        },
+        {
+          "id": "h02",
+          "topic": "Upper limb",
+          "q": "A fracture of the shaft of the humerus causes wrist drop. Which nerve has been injured?",
+          "options": [
+            "Radial nerve",
+            "Axillary nerve",
+            "Median nerve",
+            "Musculocutaneous nerve"
+          ],
+          "explain": "The radial nerve runs in the radial groove on the back of the humerus and supplies the extensors of the wrist and fingers."
+        },
+        {
+          "id": "h03",
+          "topic": "Upper limb",
+          "q": "Which nerve passes through the carpal tunnel?",
+          "options": [
+            "Median nerve",
+            "Ulnar nerve",
+            "Radial nerve",
+            "Musculocutaneous nerve"
+          ],
+          "explain": "Compression of the median nerve in the carpal tunnel causes tingling in the thumb, index and middle fingers."
+        },
+        {
+          "id": "h04",
+          "topic": "Upper limb",
+          "q": "Which muscles make up the rotator cuff?",
+          "options": [
+            "Supraspinatus, infraspinatus, teres minor and subscapularis",
+            "Deltoid, supraspinatus, teres major and subscapularis",
+            "Infraspinatus, teres major, latissimus dorsi and supraspinatus",
+            "Pectoralis minor, subscapularis, teres minor and deltoid"
+          ],
+          "explain": "Remember \"SITS\". Their tendons blend with the capsule and hold the head of the humerus in the glenoid cavity."
+        },
+        {
+          "id": "h05",
+          "topic": "Upper limb",
+          "q": "Which rotator cuff muscle starts abduction of the arm?",
+          "options": [
+            "Supraspinatus",
+            "Infraspinatus",
+            "Teres minor",
+            "Subscapularis"
+          ],
+          "explain": "Supraspinatus starts abduction; the deltoid takes over after about the first 15 degrees."
+        },
+        {
+          "id": "h06",
+          "topic": "Upper limb",
+          "q": "Damage to the long thoracic nerve causes which sign?",
+          "options": [
+            "Winging of the scapula",
+            "Wrist drop",
+            "Claw hand",
+            "Foot drop"
+          ],
+          "explain": "The long thoracic nerve supplies serratus anterior, which holds the scapula against the chest wall."
+        },
+        {
+          "id": "h07",
+          "topic": "Upper limb",
+          "q": "A fall on the outstretched hand causes tenderness in the anatomical snuffbox. Which bone is most likely fractured?",
+          "options": [
+            "Scaphoid",
+            "Lunate",
+            "Trapezium",
+            "Hamate"
+          ],
+          "explain": "Its blood supply enters at the distal end, so a fracture through its waist can leave the proximal part without blood (avascular necrosis)."
+        },
+        {
+          "id": "h08",
+          "topic": "Upper limb",
+          "q": "Erb's palsy, with the arm in the \"waiter's tip\" position, follows injury to which roots of the brachial plexus?",
+          "options": [
+            "C5 and C6",
+            "C8 and T1",
+            "C7 alone",
+            "T2 and T3"
+          ],
+          "explain": "An injury to the upper roots (C5, C6) weakens the shoulder abductors, lateral rotators and elbow flexors. Injury to C8 and T1 is Klumpke's palsy."
+        },
+        {
+          "id": "h09",
+          "topic": "Lower limb",
+          "q": "In the femoral triangle, what is the order of structures from lateral to medial?",
+          "options": [
+            "Femoral nerve, artery, vein",
+            "Femoral artery, nerve, vein",
+            "Femoral vein, artery, nerve",
+            "Femoral nerve, vein, artery"
+          ],
+          "explain": "Remember \"NAVY\": nerve, artery, vein, then the empty space and lymphatics of the femoral canal."
+        },
+        {
+          "id": "h10",
+          "topic": "Lower limb",
+          "q": "Which nerve is at risk in a fracture of the neck of the fibula?",
+          "options": [
+            "Common fibular (peroneal) nerve",
+            "Tibial nerve",
+            "Sciatic nerve",
+            "Femoral nerve"
+          ],
+          "explain": "It winds round the neck of the fibula. Injury causes foot drop and numbness on the top of the foot."
+        },
+        {
+          "id": "h11",
+          "topic": "Lower limb",
+          "q": "Which ligament stops the tibia sliding forwards on the femur?",
+          "options": [
+            "Anterior cruciate ligament",
+            "Posterior cruciate ligament",
+            "Medial collateral ligament",
+            "Patellar ligament"
+          ],
+          "explain": "The anterior cruciate ligament is tested with the anterior drawer and Lachman tests."
+        },
+        {
+          "id": "h12",
+          "topic": "Lower limb",
+          "q": "Where does the great saphenous vein pass at the ankle?",
+          "options": [
+            "In front of the medial malleolus",
+            "Behind the lateral malleolus",
+            "Behind the medial malleolus",
+            "In front of the lateral malleolus"
+          ],
+          "explain": "It is reliably found in front of the medial malleolus, which is why it can be used for emergency venous access."
+        },
+        {
+          "id": "h13",
+          "topic": "Lower limb",
+          "q": "Where is the dorsalis pedis pulse felt?",
+          "options": [
+            "On the top of the foot, lateral to the tendon of extensor hallucis longus",
+            "Behind the medial malleolus",
+            "In the popliteal fossa",
+            "Behind the lateral malleolus"
+          ],
+          "explain": "The dorsalis pedis artery continues the anterior tibial artery onto the foot."
+        },
+        {
+          "id": "h14",
+          "topic": "Lower limb",
+          "q": "Where is the posterior tibial pulse felt?",
+          "options": [
+            "Behind the medial malleolus",
+            "Behind the lateral malleolus",
+            "In the popliteal fossa",
+            "On the top of the foot"
+          ],
+          "explain": "The posterior tibial artery passes behind the medial malleolus into the sole of the foot."
+        },
+        {
+          "id": "h15",
+          "topic": "Lower limb",
+          "q": "Which intramuscular injection site is preferred in adults because it lies away from the sciatic nerve and large vessels?",
+          "options": [
+            "Ventrogluteal site (gluteus medius)",
+            "The centre of the buttock (dorsogluteal site)",
+            "The medial thigh",
+            "The front of the forearm"
+          ],
+          "explain": "The ventrogluteal site is found using the greater trochanter, the anterior superior iliac spine and the iliac crest."
+        },
+        {
+          "id": "h16",
+          "topic": "Spine",
+          "q": "At what vertebral level does the spinal cord usually end in adults?",
+          "options": [
+            "L1–L2",
+            "T10",
+            "L4–L5",
+            "S2"
+          ],
+          "explain": "Below this the vertebral canal holds the cauda equina, which is why a lumbar puncture is done lower down."
+        },
+        {
+          "id": "h17",
+          "topic": "Spine",
+          "q": "Between which vertebrae is a lumbar puncture usually performed?",
+          "options": [
+            "L3–L4 or L4–L5",
+            "T12–L1",
+            "L1–L2",
+            "C7–T1"
+          ],
+          "explain": "A line joining the tops of the iliac crests crosses the L4 spinous process, a useful landmark."
+        },
+        {
+          "id": "h18",
+          "topic": "Thorax",
+          "q": "Which nerves supply the diaphragm?",
+          "options": [
+            "Phrenic nerves (C3–C5)",
+            "Vagus nerves",
+            "Intercostal nerves",
+            "Accessory nerves"
+          ],
+          "explain": "\"C3, 4 and 5 keep the diaphragm alive.\" A high cervical spinal injury can stop breathing."
+        },
+        {
+          "id": "h19",
+          "topic": "Thorax",
+          "q": "Through which opening and at what level does the inferior vena cava pass through the diaphragm?",
+          "options": [
+            "The central tendon, at T8",
+            "The oesophageal hiatus, at T10",
+            "The aortic hiatus, at T12",
+            "The sternocostal triangle, behind the xiphoid process"
+          ],
+          "explain": "Remember \"I 8 10 Eggs At 12\": inferior vena cava T8, oesophagus T10, aorta T12."
+        },
+        {
+          "id": "h20",
+          "topic": "Thorax",
+          "q": "At what vertebral level does the oesophagus pass through the diaphragm?",
+          "options": [
+            "T10",
+            "T8",
+            "T12",
+            "L1"
+          ],
+          "explain": "It passes through a sling of fibres from the right crus of the diaphragm."
+        },
+        {
+          "id": "h21",
+          "topic": "Thorax",
+          "q": "At what level does the trachea divide into the two main bronchi?",
+          "options": [
+            "T4–T5, at the level of the sternal angle",
+            "C6, at the level of the cricoid cartilage",
+            "T8",
+            "T10"
+          ],
+          "explain": "The sternal angle also marks the second costal cartilage and the beginning and end of the aortic arch."
+        },
+        {
+          "id": "h22",
+          "topic": "Thorax",
+          "q": "Why does an inhaled foreign body more often enter the right main bronchus?",
+          "options": [
+            "It is wider, shorter and more vertical than the left",
+            "It is narrower and longer than the left",
+            "It lies in front of the oesophagus",
+            "It has no cartilage rings"
+          ],
+          "explain": "The left main bronchus is longer and more horizontal because it passes under the aortic arch."
+        },
+        {
+          "id": "h23",
+          "topic": "Thorax",
+          "q": "In adults, where is the narrowest part of the larynx?",
+          "options": [
+            "Between the vocal folds (the rima glottidis)",
+            "At the laryngeal inlet",
+            "In the vestibule above the vestibular folds",
+            "Within the thyroid cartilage notch"
+          ],
+          "explain": "This is why an object too big to pass the vocal folds can block the airway completely."
+        },
+        {
+          "id": "h24",
+          "topic": "Heart and vessels",
+          "q": "Which valve lies between the left atrium and the left ventricle?",
+          "options": [
+            "Mitral (bicuspid) valve",
+            "Tricuspid valve",
+            "Aortic valve",
+            "Pulmonary valve"
+          ],
+          "explain": "The mitral valve has two cusps. The tricuspid valve, with three, lies between the right atrium and the right ventricle."
+        },
+        {
+          "id": "h25",
+          "topic": "Heart and vessels",
+          "q": "Where is the apex beat normally felt?",
+          "options": [
+            "Left fifth intercostal space, in the mid-clavicular line",
+            "Right second intercostal space, at the sternal edge",
+            "Left second intercostal space, at the sternal edge",
+            "Over the xiphoid process"
+          ],
+          "explain": "A displaced apex beat can be a sign of an enlarged heart."
+        },
+        {
+          "id": "h26",
+          "topic": "Heart and vessels",
+          "q": "Which artery most often supplies the sinoatrial node?",
+          "options": [
+            "Right coronary artery",
+            "Left anterior descending artery",
+            "Circumflex artery",
+            "Left main coronary artery"
+          ],
+          "explain": "In about 60% of people the sinoatrial nodal artery is a branch of the right coronary artery."
+        },
+        {
+          "id": "h27",
+          "topic": "Heart and vessels",
+          "q": "Which part of the conducting system delays the impulse between the atria and the ventricles?",
+          "options": [
+            "Atrioventricular (AV) node",
+            "Sinoatrial (SA) node",
+            "Purkinje fibres",
+            "Bundle branches"
+          ],
+          "explain": "The delay lets the atria finish emptying before the ventricles contract."
+        },
+        {
+          "id": "h28",
+          "topic": "Heart and vessels",
+          "q": "Which unpaired branch of the abdominal aorta supplies the stomach, liver and spleen?",
+          "options": [
+            "Coeliac trunk",
+            "Superior mesenteric artery",
+            "Inferior mesenteric artery",
+            "Renal artery"
+          ],
+          "explain": "The coeliac trunk leaves the aorta at T12 and divides into the left gastric, common hepatic and splenic arteries."
+        },
+        {
+          "id": "h29",
+          "topic": "Heart and vessels",
+          "q": "Which veins join to form the hepatic portal vein?",
+          "options": [
+            "The superior mesenteric and splenic veins",
+            "The inferior vena cava and the renal vein",
+            "The hepatic veins",
+            "The right and left gastric veins"
+          ],
+          "explain": "They join behind the neck of the pancreas. The portal vein carries blood from the gut to the liver."
+        },
+        {
+          "id": "h30",
+          "topic": "Heart and vessels",
+          "q": "Which artery is usually torn in an extradural haematoma after a blow to the side of the head (the pterion)?",
+          "options": [
+            "Middle meningeal artery",
+            "Middle cerebral artery",
+            "Basilar artery",
+            "Superficial temporal artery"
+          ],
+          "explain": "The skull is thin at the pterion and the artery runs just inside it, between the bone and the dura."
+        },
+        {
+          "id": "h31",
+          "topic": "Development",
+          "q": "In the fetus, the ductus arteriosus connects which two vessels?",
+          "options": [
+            "The pulmonary trunk and the aorta",
+            "The right and left atria",
+            "The umbilical vein and the inferior vena cava",
+            "The aorta and the inferior vena cava"
+          ],
+          "explain": "It lets blood bypass the lungs before birth. Afterwards it closes and becomes the ligamentum arteriosum."
+        },
+        {
+          "id": "h32",
+          "topic": "Development",
+          "q": "In the fetal heart, the foramen ovale lets blood pass from where to where?",
+          "options": [
+            "Right atrium to left atrium",
+            "Left atrium to right atrium",
+            "Right ventricle to left ventricle",
+            "Pulmonary trunk to aorta"
+          ],
+          "explain": "It closes at birth, when pressure in the left atrium rises, leaving the fossa ovalis."
+        },
+        {
+          "id": "h33",
+          "topic": "Lymphatics",
+          "q": "Where does the thoracic duct drain?",
+          "options": [
+            "Into the junction of the left internal jugular and left subclavian veins",
+            "Into the right atrium",
+            "Into the superior vena cava",
+            "Into the azygos vein"
+          ],
+          "explain": "It returns lymph from most of the body to the blood at the left venous angle."
+        },
+        {
+          "id": "h34",
+          "topic": "Lymphatics",
+          "q": "Which lymph nodes drain most of the lymph from the breast?",
+          "options": [
+            "Axillary lymph nodes",
+            "Inguinal lymph nodes",
+            "Deep cervical lymph nodes",
+            "Parasternal lymph nodes"
+          ],
+          "explain": "About 75% drains to the axillary nodes, the rest mainly to the parasternal nodes."
+        },
+        {
+          "id": "h35",
+          "topic": "Digestion",
+          "q": "What lies in the free edge of the lesser omentum?",
+          "options": [
+            "Hepatic portal vein, hepatic artery proper and bile duct",
+            "Splenic artery and vein",
+            "Superior mesenteric artery and vein",
+            "Inferior vena cava"
+          ],
+          "explain": "These form the portal triad. Pressing them between finger and thumb (Pringle's manoeuvre) controls bleeding from the liver."
+        },
+        {
+          "id": "h36",
+          "topic": "Digestion",
+          "q": "Where is McBurney's point?",
+          "options": [
+            "One-third of the way from the anterior superior iliac spine to the umbilicus",
+            "Halfway between the umbilicus and the pubic symphysis",
+            "At the tip of the ninth costal cartilage",
+            "Two-thirds of the way from the anterior superior iliac spine to the umbilicus"
+          ],
+          "explain": "It marks the usual position of the base of the appendix, where tenderness is greatest in appendicitis."
+        },
+        {
+          "id": "h37",
+          "topic": "Digestion",
+          "q": "Which cells in the stomach make hydrochloric acid and intrinsic factor?",
+          "options": [
+            "Parietal cells",
+            "Chief cells",
+            "G cells",
+            "Goblet cells"
+          ],
+          "explain": "Chief cells make pepsinogen and G cells make gastrin."
+        },
+        {
+          "id": "h38",
+          "topic": "Digestion",
+          "q": "Where is vitamin B12 mainly absorbed?",
+          "options": [
+            "Terminal ileum",
+            "Duodenum",
+            "Jejunum",
+            "Colon"
+          ],
+          "explain": "It is absorbed bound to intrinsic factor, so removing the terminal ileum can cause B12 deficiency."
+        },
+        {
+          "id": "h39",
+          "topic": "Hormones",
+          "q": "Which hormone do the beta cells of the pancreatic islets make?",
+          "options": [
+            "Insulin",
+            "Glucagon",
+            "Somatostatin",
+            "Gastrin"
+          ],
+          "explain": "Alpha cells make glucagon and delta cells make somatostatin."
+        },
+        {
+          "id": "h40",
+          "topic": "Urinary system",
+          "q": "Which part of the nephron reabsorbs most of the filtered water, sodium and glucose?",
+          "options": [
+            "Proximal convoluted tubule",
+            "Distal convoluted tubule",
+            "Collecting duct",
+            "Loop of Henle"
+          ],
+          "explain": "It reabsorbs about two-thirds of the filtered water and sodium, and normally all of the glucose."
+        },
+        {
+          "id": "h41",
+          "topic": "Urinary system",
+          "q": "Antidiuretic hormone (ADH) mainly acts on which part of the nephron?",
+          "options": [
+            "Collecting duct",
+            "Proximal convoluted tubule",
+            "Glomerulus",
+            "Ascending limb of the loop of Henle"
+          ],
+          "explain": "ADH inserts water channels (aquaporins) so more water is reabsorbed and the urine is more concentrated."
+        },
+        {
+          "id": "h42",
+          "topic": "Urinary system",
+          "q": "Why is the ureter at risk during a hysterectomy?",
+          "options": [
+            "It passes under the uterine artery",
+            "It passes over the uterine artery",
+            "It runs through the inguinal canal",
+            "It lies behind the rectum"
+          ],
+          "explain": "Remember \"water under the bridge\": the ureter (water) passes under the uterine artery (the bridge)."
+        },
+        {
+          "id": "h43",
+          "topic": "Urinary system",
+          "q": "Which is the longest part of the male urethra?",
+          "options": [
+            "Spongy (penile) urethra",
+            "Prostatic urethra",
+            "Membranous urethra",
+            "Preprostatic urethra"
+          ],
+          "explain": "The spongy urethra is about 15 cm long and runs through the corpus spongiosum."
+        },
+        {
+          "id": "h44",
+          "topic": "Nervous system",
+          "q": "Which cranial nerve supplies the muscles of facial expression?",
+          "options": [
+            "Facial nerve (VII)",
+            "Trigeminal nerve (V)",
+            "Hypoglossal nerve (XII)",
+            "Glossopharyngeal nerve (IX)"
+          ],
+          "explain": "Damage to the facial nerve, as in Bell's palsy, causes weakness of one side of the face."
+        },
+        {
+          "id": "h45",
+          "topic": "Nervous system",
+          "q": "When the tongue is stuck out it points towards the side of a nerve lesion. Which nerve is damaged?",
+          "options": [
+            "Hypoglossal nerve (XII)",
+            "Vagus nerve (X)",
+            "Glossopharyngeal nerve (IX)",
+            "Facial nerve (VII)"
+          ],
+          "explain": "The hypoglossal nerve supplies the muscles of the tongue. The healthy side pushes the tongue over to the weak side."
+        },
+        {
+          "id": "h46",
+          "topic": "Nervous system",
+          "q": "Which cranial nerve supplies the lateral rectus muscle of the eye?",
+          "options": [
+            "Abducens nerve (VI)",
+            "Oculomotor nerve (III)",
+            "Trochlear nerve (IV)",
+            "Optic nerve (II)"
+          ],
+          "explain": "Remember \"LR6 SO4\": lateral rectus by VI, superior oblique by IV, all the others by III."
+        },
+        {
+          "id": "h47",
+          "topic": "Nervous system",
+          "q": "Which muscle is supplied by the accessory nerve (XI)?",
+          "options": [
+            "Trapezius",
+            "Deltoid",
+            "Rhomboid major",
+            "Serratus anterior"
+          ],
+          "explain": "The accessory nerve supplies trapezius and sternocleidomastoid. It is tested by asking the patient to shrug."
+        },
+        {
+          "id": "h48",
+          "topic": "Nervous system",
+          "q": "Which area of the brain is needed to produce speech, usually in the left hemisphere?",
+          "options": [
+            "Broca's area (inferior frontal gyrus)",
+            "Wernicke's area",
+            "Primary visual cortex",
+            "Postcentral gyrus"
+          ],
+          "explain": "Damage here causes slow, effortful speech with good understanding (expressive aphasia)."
+        },
+        {
+          "id": "h49",
+          "topic": "Nervous system",
+          "q": "In which gyrus is the primary motor cortex?",
+          "options": [
+            "Precentral gyrus",
+            "Postcentral gyrus",
+            "Superior temporal gyrus",
+            "Cingulate gyrus"
+          ],
+          "explain": "The postcentral gyrus, just behind it, is the primary sensory cortex."
+        },
+        {
+          "id": "h50",
+          "topic": "Nervous system",
+          "q": "Which layer of the meninges lies directly on the brain?",
+          "options": [
+            "Pia mater",
+            "Arachnoid mater",
+            "Dura mater",
+            "Periosteum"
+          ],
+          "explain": "From outside in: dura, arachnoid, pia. Cerebrospinal fluid fills the subarachnoid space between the arachnoid and pia."
+        },
+        {
+          "id": "h51",
+          "topic": "Nervous system",
+          "q": "Where is most cerebrospinal fluid made?",
+          "options": [
+            "Choroid plexuses of the ventricles",
+            "Arachnoid granulations",
+            "Pia mater",
+            "Pineal gland"
+          ],
+          "explain": "It is reabsorbed into the venous sinuses through the arachnoid granulations."
+        },
+        {
+          "id": "h52",
+          "topic": "Nervous system",
+          "q": "Injury to the left recurrent laryngeal nerve causes hoarseness. Which structure does this nerve hook under?",
+          "options": [
+            "The arch of the aorta",
+            "The right subclavian artery",
+            "The left common carotid artery",
+            "The pulmonary trunk"
+          ],
+          "explain": "The right recurrent laryngeal nerve hooks under the right subclavian artery instead."
+        },
+        {
+          "id": "h53",
+          "topic": "Nervous system",
+          "q": "Drooping of the upper eyelid, a small pupil and loss of sweating on one side of the face (Horner's syndrome) result from damage to what?",
+          "options": [
+            "The sympathetic chain",
+            "The oculomotor nerve",
+            "The facial nerve",
+            "The optic chiasm"
+          ],
+          "explain": "The sympathetic supply to the eye and face can be cut, for example, by a tumour at the apex of the lung."
+        },
+        {
+          "id": "h54",
+          "topic": "Senses",
+          "q": "A pituitary tumour pressing on the optic chiasm typically causes what?",
+          "options": [
+            "Loss of both outer (temporal) halves of the visual field",
+            "Blindness in one eye",
+            "Loss of the same half of the visual field in both eyes",
+            "A blind spot in the centre of vision"
+          ],
+          "explain": "The fibres that cross at the chiasm come from the nasal halves of the retinas, which see the temporal fields (bitemporal hemianopia)."
+        }
+      ]
+    }
+  ]
+}

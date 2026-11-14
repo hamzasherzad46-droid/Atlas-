@@ -133,3 +133,44 @@ export interface Catalog {
   /** Focused regional modules built from the system modules' content and models. */
   regions?: RegionGroup[]
 }
+
+/** One arrow on an anatomical plate: the point it touches, as a percentage of the image. */
+export interface PlateLabel {
+  name: string
+  x: number
+  y: number
+  note: string
+}
+
+/** A historical anatomical plate with arrows added for Atlas (content/plates.json). English, like the anatomy content. */
+export interface Plate {
+  id: string
+  title: string
+  systemId: string
+  view: string
+  image: string
+  width: number
+  height: number
+  source: string
+  intro: string
+  labels: PlateLabel[]
+}
+
+export interface Plates {
+  plates: Plate[]
+}
+
+/** A mock-exam question (content/mock.json). The first option is the correct one; the app shuffles them. */
+export interface MockQuestion {
+  id: string
+  topic: string
+  q: string
+  options: string[]
+  explain: string
+}
+
+export type MockLevel = 'foundation' | 'higher'
+
+export interface MockBank {
+  sets: { id: MockLevel; questions: MockQuestion[] }[]
+}

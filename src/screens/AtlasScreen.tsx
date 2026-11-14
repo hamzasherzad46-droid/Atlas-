@@ -14,20 +14,23 @@ import { useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
 import { regionStats } from '../state/stats'
 import { Curriculum } from './Curriculum'
+import { PlateScreen, PlatesList } from './Plates'
 import { PracticeSheet } from './PracticeSheet'
 
-type AtlasView = 'regions' | 'systems' | 'curriculum'
+type AtlasView = 'regions' | 'systems' | 'plates' | 'curriculum'
 
 /**
- * The atlas, three ways in: focused regions (one part of the body at a time), whole systems,
- * and the full curriculum index. Each module row carries its body system's colour key.
+ * The atlas, four ways in: focused regions (one part of the body at a time), whole systems,
+ * labelled historical plates, and the full curriculum index. Rows carry their body system's colour key.
  */
 export function AtlasScreen() {
   const t = useT()
   const modulePage = useNav((s) => s.modulePage)
-  const [view, setView] = useState<AtlasView>('regions')
+  const plate = useNav((s) => s.plate)
+  const [view, setView] = useState<AtlasView>(plate ? 'plates' : 'regions')
   const [openCategory, setOpenCategory] = useState<string | null>(null)
   if (modulePage) return <ModuleScreen id={modulePage} />
+  if (plate) return <PlateScreen id={plate} />
 
   return (
     <main className="page">
@@ -37,7 +40,7 @@ export function AtlasScreen() {
         <p className="lede">{t('atlas.sub')}</p>
       </div>
       <div className="options atlas-views">
-        {(['regions', 'systems', 'curriculum'] as const).map((v) => (
+        {(['regions', 'systems', 'plates', 'curriculum'] as const).map((v) => (
           <button key={v} aria-pressed={view === v} onClick={() => setView(v)}>
             {t(`atlas.${v}`)}
           </button>
@@ -55,6 +58,7 @@ export function AtlasScreen() {
           {catalog.systems.flatMap((sys) => sys.modules.map((m) => <ModuleRow key={m.id} info={m} systemId={sys.id} sub={t.td(`system.${sys.id}`, '')} />))}
         </div>
       )}
+      {view === 'plates' && <PlatesList />}
       {view === 'curriculum' && <Curriculum open={openCategory} onOpen={setOpenCategory} />}
     </main>
   )

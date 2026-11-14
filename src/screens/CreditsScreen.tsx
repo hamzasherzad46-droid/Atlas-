@@ -67,6 +67,25 @@ export function CreditsScreen() {
         </section>
 
         <section className="sect">
+          <p className="label">{t('credits.plates')}</p>
+          <div className="sect-body rows" dir="ltr">
+            <div className="r">
+              <span className="r-main">
+                <span className="r-title credit">
+                  J. M. Bourgery and N. H. Jacob, Traité complet de l’anatomie de l’homme (Paris, 1831–1854); L. Hirschfeld and
+                  J.-B. Léveillé, Névrologie et esthésiologie (Paris, 1853); a lithograph by Émile Beau; a German anatomical chart
+                  of the late 19th century and a French atlas plate whose sources are not identified. Public domain by age.
+                </span>
+                <span className="r-sub">
+                  Changes for Atlas: video play marks removed from the photographs, images resized; numbered arrows, key and
+                  notes added. The original letters and numbers on the plates belong to their own keys.
+                </span>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section className="sect">
           <p className="label">{t('credits.fonts')}</p>
           <div className="sect-body rows" dir="ltr">
             <div className="r">

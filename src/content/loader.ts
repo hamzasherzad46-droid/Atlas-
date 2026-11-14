@@ -1,6 +1,6 @@
 import catalogJson from '../../content/catalog.json'
 import { publicUrl } from '../lib/paths'
-import type { Catalog, Curriculum, ModuleContent, ModuleInfo, PlaceholderModel } from './types'
+import type { Catalog, Curriculum, MockBank, ModuleContent, ModuleInfo, PlaceholderModel, Plates } from './types'
 
 export const catalog = catalogJson as Catalog
 
@@ -29,6 +29,22 @@ let curriculum: Promise<Curriculum> | null = null
 export function loadCurriculum(): Promise<Curriculum> {
   curriculum ??= loadJson<Curriculum>('curriculum')
   return curriculum
+}
+
+let plates: Promise<Plates> | null = null
+
+/** The anatomical plates and their arrows, loaded on demand. */
+export function loadPlates(): Promise<Plates> {
+  plates ??= loadJson<Plates>('plates')
+  return plates
+}
+
+let mock: Promise<MockBank> | null = null
+
+/** The mock-exam question banks, loaded on demand. */
+export function loadMock(): Promise<MockBank> {
+  mock ??= loadJson<MockBank>('mock')
+  return mock
 }
 
 const contentCache = new Map<string, Promise<ModuleContent>>()

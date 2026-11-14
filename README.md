@@ -46,6 +46,17 @@ apply there.
 - **Explore as a plate**: numbered references sit on real surface points of each structure (group structures such as
   "carpals" are only numbered where no member structure covers them), with a key, a pinned label and the camera's
   azimuth and altitude.
+- **Plates**: eleven labelled anatomical plates in the Atlas tab — ten 19th-century engravings (Bourgery and Jacob,
+  Hirschfeld and Léveillé, and others) and an original diagram of a molar in section. Each has numbered arrows
+  drawn from the margin to the structure, a key, a short note per structure and a "Test yourself" mode that hides
+  the names. Arrow positions were checked one by one against the image; only structures that can be identified
+  with confidence are labelled.
+- **Mock exams**: Foundation (57 questions) and Higher (54 questions) banks of multiple-choice questions, asked 15,
+  30 or 45 at a time with the options shuffled. Each answer is marked at once and explained; the results show the
+  score by topic and every question to look at again, and are kept with the exam history in Progress. Started from
+  Today.
+- **Sound**: synthesised in the browser, no audio files — a two-note bell for a correct answer and a closing chord
+  after a mock exam (Settings can turn sound off).
 - **Curriculum**: 282 topics in 21 categories (`content/curriculum.json`). 59 link to the modules that teach their core
   structures; the rest are marked in preparation — they need content (and often imagery) that isn't written yet.
 - **Tracks**: nursing, medicine, physiotherapy, dentistry, sports science — notes per structure where relevant.
@@ -71,6 +82,8 @@ All questions live in `/content`. Nothing is hard-coded in components.
 | `catalog.json` | Courses → modules: title, `status` (`available` / `coming-soon`), content file, model file + transform |
 | `skeleton.json` | Regions and structures |
 | `skeleton.placeholder.json` | Primitive stand-in shapes used until the GLB exists |
+| `plates.json` | Anatomical plates: image, view, source, and arrows (`x`/`y` in % of the image, `name`, `note`) |
+| `mock.json` | Mock-exam banks (`foundation`, `higher`): `topic`, `q`, four `options` (the first is correct; shown shuffled), `explain` |
 
 Each structure:
 

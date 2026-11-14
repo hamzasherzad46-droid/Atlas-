@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { acceptedAnswers, activeAnswer, applyKey, type KeyInput, emptyTyping, normalizeAnswer, revealedLetters, type TypingState } from './typing'
 import { meshMatchesKey, meshSide, mostSpecific } from './meshMatch'
 import { INTERVALS, isMissed, prioritise, updateRecord } from './srs'
+import { placeTags } from './plates'
+import { MOCK_LENGTHS, buildMock, topicScores } from './mock'
 
 function typeAll(text: string, answers: string[]) {
   let state: TypingState = emptyTyping
@@ -181,4 +183,61 @@ describe('spaced repetition', () => {
     expect(isMissed(updateRecord(undefined, 'perfect', 0, now))).toBe(false)
   })
 
+})
+
+describe('placeTags', () => {
+  it('puts each tag on the nearer side, at the height of its point', () => {
+    const tags = placeTags([{ x: 20, y: 30 }, { x: 80, y: 60 }], 4)
+    expect(tags).toEqual([
+      { i: 0, side: 'l', y: 30 },
+      { i: 1, side: 'r', y: 60 },
+    ])
+  })
+
+  it('keeps tags on one side at least the minimum gap apart, in the order of their points', () => {
+    const pts = [{ x: 10, y: 50 }, { x: 12, y: 51 }, { x: 14, y: 49 }, { x: 16, y: 50.5 }]
+    const tags = placeTags(pts, 5).sort((a, b) => a.y - b.y)
+    for (let k = 1; k < tags.length; k++) expect(tags[k].y - tags[k - 1].y).toBeGreaterThanOrEqual(5 - 1e-9)
+    expect(tags.map((t) => t.i)).toEqual([2, 0, 3, 1])
+  })
+
+  it('pulls a crowded column back inside the plate', () => {
+    const pts = Array.from({ length: 6 }, (_, i) => ({ x: 70, y: 95 + i * 0.1 }))
+    const tags = placeTags(pts, 5)
+    for (const t of tags) {
+      expect(t.y).toBeLessThanOrEqual(98 + 1e-9)
+      expect(t.y).toBeGreaterThanOrEqual(2)
+    }
+  })
+})
+
+describe('mock exams', () => {
+  const bank = Array.from({ length: 50 }, (_, i) => ({ id: `q${i}`, topic: i % 2 ? 'Odd' : 'Even', q: `Question ${i}?`, options: [`right ${i}`, 'a', 'b', 'c'], explain: 'Because.' }))
+  let seed = 7
+  const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646
+
+  it('asks the requested number of different questions', () => {
+    for (const n of MOCK_LENGTHS) {
+      const items = buildMock(bank, n, rand)
+      expect(items).toHaveLength(n)
+      expect(new Set(items.map((x) => x.id)).size).toBe(n)
+    }
+  })
+
+  it('keeps track of the correct option after shuffling', () => {
+    for (const it of buildMock(bank, 45, rand)) {
+      expect(it.options[it.correct]).toBe(`right ${it.id.slice(1)}`)
+      expect(new Set(it.options).size).toBe(4)
+    }
+  })
+
+  it('scores each topic and lists the weakest first', () => {
+    const items = buildMock(bank, 10, rand)
+    const answers = items.map((it) => (it.topic === 'Odd' ? it.correct : (it.correct + 1) % 4))
+    const scores = topicScores(items, answers)
+    expect(scores[0].topic).toBe('Even')
+    expect(scores[0].right).toBe(0)
+    expect(scores.find((s) => s.topic === 'Odd')?.right).toBe(scores.find((s) => s.topic === 'Odd')?.total)
+    expect(scores.reduce((n, s) => n + s.total, 0)).toBe(10)
+  })
 })

@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { acceptedAnswers, normalizeAnswer } from '../lib/typing'
 import { meshKeys, meshMatchesAny } from '../lib/meshMatch'
-import { TRACKS, type Catalog, type ModuleContent, type PlaceholderModel } from './types'
+import { TRACKS, type Catalog, type MockBank, type ModuleContent, type PlaceholderModel, type Plates } from './types'
 
 const dir = fileURLToPath(new URL('../../content', import.meta.url))
 const modelsDir = fileURLToPath(new URL('../../public/models', import.meta.url))
@@ -116,3 +116,67 @@ for (const m of modules) {
     })
   })
 }
+
+describe('anatomical plates', () => {
+  const { plates } = read<Plates>('plates.json')
+  const publicDir = fileURLToPath(new URL('../../public', import.meta.url))
+  const systems = new Set(catalog.systems.map((s) => s.id))
+
+  it('ids are unique and every plate image exists', () => {
+    expect(new Set(plates.map((p) => p.id)).size).toBe(plates.length)
+    for (const p of plates) {
+      expect(existsSync(join(publicDir, p.image)), p.image).toBe(true)
+      expect(systems.has(p.systemId), p.id).toBe(true)
+      for (const f of [p.title, p.view, p.source, p.intro]) expect(f.trim().length, p.id).toBeGreaterThan(0)
+    }
+  })
+
+  it('every arrow points inside its plate and has a name and a note', () => {
+    for (const p of plates) {
+      expect(p.labels.length, p.id).toBeGreaterThan(0)
+      expect(new Set(p.labels.map((l) => l.name)).size, `${p.id} repeats a name`).toBe(p.labels.length)
+      for (const l of p.labels) {
+        expect(l.x, `${p.id}: ${l.name}`).toBeGreaterThan(0)
+        expect(l.x, `${p.id}: ${l.name}`).toBeLessThan(100)
+        expect(l.y, `${p.id}: ${l.name}`).toBeGreaterThan(0)
+        expect(l.y, `${p.id}: ${l.name}`).toBeLessThan(100)
+        expect(l.name.trim(), p.id).toBe(l.name)
+        expect(l.note.trim().length, `${p.id}: ${l.name}`).toBeGreaterThan(10)
+        expect(/[.!?)]$/.test(l.note), `${p.id}: ${l.name} note ends with a full stop`).toBe(true)
+      }
+    }
+  })
+})
+
+describe('mock exam banks', () => {
+  const { sets } = read<MockBank>('mock.json')
+
+  it('has a Foundation and a Higher bank, each big enough for a 45-question mock', () => {
+    expect(sets.map((s) => s.id).sort()).toEqual(['foundation', 'higher'])
+    for (const s of sets) expect(s.questions.length, s.id).toBeGreaterThanOrEqual(45)
+  })
+
+  it('every question is complete, with four different options', () => {
+    const ids = new Set<string>()
+    for (const s of sets) {
+      for (const q of s.questions) {
+        expect(ids.has(q.id), q.id).toBe(false)
+        ids.add(q.id)
+        expect(q.options, q.id).toHaveLength(4)
+        expect(new Set(q.options.map((o) => o.toLowerCase())).size, `${q.id} repeats an option`).toBe(4)
+        for (const f of [q.topic, q.q, q.explain, ...q.options]) expect(f.trim(), q.id).toBe(f)
+        expect(/[?.)]$/.test(q.q), `${q.id} question ends with ? or .`).toBe(true)
+        expect(/[.!)]$/.test(q.explain), `${q.id} explanation ends with a full stop`).toBe(true)
+        // No American spellings in the bank.
+        for (const f of [q.q, q.explain, ...q.options]) {
+          expect(/\b(esophag|hemo|anemi|edema|fiber|center|color|pediatric|tumor\b|maneuver)/i.test(f), `${q.id}: ${f}`).toBe(false)
+        }
+      }
+    }
+  })
+
+  it('no question is repeated within or across banks', () => {
+    const texts = sets.flatMap((s) => s.questions.map((q) => q.q.toLowerCase()))
+    expect(new Set(texts).size).toBe(texts.length)
+  })
+})

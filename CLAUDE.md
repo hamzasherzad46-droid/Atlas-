@@ -28,7 +28,7 @@ Vite + React + TypeScript, three.js via @react-three/fiber + drei, Zustand, loca
 - Ask before adding paid services or non-permissively licensed dependencies.
 
 ## Licensing
-3D models from Z-Anatomy (CC BY-SA 4.0) / BodyParts3D (CC BY-SA 2.1 JP; the current skeleton is BodyParts3D 4.0 under CC BY 4.0). Keep the Credits screen attribution intact.
+3D models from Z-Anatomy (CC BY-SA 4.0) / BodyParts3D (CC BY-SA 2.1 JP; the current skeleton is BodyParts3D 4.0 under CC BY 4.0). Keep the Credits screen attribution intact. Anatomical plates must be public domain (e.g. 19th-century engravings) or drawn for Atlas; never add images from modern publishers.
 
 ## Done means
 Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to end.
@@ -38,9 +38,11 @@ Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to en
 - `content/<module>.json` — structures; optional `content/<module>.placeholder.json` — primitive stand-ins for modules without a GLB
 - `content/catalog.json` `regions` — focused regional modules (skull, forearm, hand…) that `include` structure ids from a system's content file and reuse its model
 - `content/curriculum.json` — every curriculum topic by category; `modules` only where an available module teaches the topic's core structures
+- `content/plates.json` + `public/plates/` — labelled anatomical plates (arrow points in % of the image; check every point against the image before adding one)
+- `content/mock.json` — mock-exam banks; first option is correct, the app shuffles
 - `public/models/skeleton.glb` — real BodyParts3D bones, built by `scripts/import-bodyparts3d.mjs` (see README "3D models")
 - `src/content/content.test.ts` — validates every content file (run `npm test` after editing content)
-- `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`
+- `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`, `plates.ts` (tag layout), `mock.ts`, `sound.ts` (synthesised sounds)
 - `src/state/` — Zustand stores: settings, progress (persisted), nav, quiz session
 - `src/viewer/` — 3D: `AnatomyViewer` (lazy chunk), `ModelInstance`, `highlight.ts`, `CameraRig`, `placeholder.ts`
-- `src/quiz/` — quiz screen, answer word, keyboard, summary; `src/screens/` — tabs
+- `src/quiz/` — quiz screen, answer word, keyboard, summary; `src/screens/` — tabs, `Plates.tsx`, `MockScreen.tsx`

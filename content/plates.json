@@ -1,0 +1,729 @@
+{
+  "plates": [
+    {
+      "id": "great-vessels",
+      "title": "The aorta and the venae cavae",
+      "systemId": "cardiovascular",
+      "view": "From behind, with the vertebral column removed",
+      "image": "plates/great-vessels.webp",
+      "width": 1200,
+      "height": 1665,
+      "source": "German anatomical chart, late 19th century (source not identified); labels in German",
+      "intro": "Seen from behind, so the patient’s left is on your left. The aorta (red) runs down to the left of the inferior vena cava (blue). The original labels read: “Die obere Hohlvene”, the superior vena cava; “Die untere Hohlvene”, the inferior vena cava; and “Die Aorta und ihre Hauptverzweigungen für Kopf und Rumpf”, the aorta and its main branches to the head and trunk.",
+      "labels": [
+        {
+          "name": "Aortic arch",
+          "x": 51.0,
+          "y": 30.0,
+          "note": "Begins and ends at the level of the sternal angle (T4). It arches over the left main bronchus and gives off the brachiocephalic trunk, the left common carotid and the left subclavian arteries."
+        },
+        {
+          "name": "Thoracic (descending) aorta",
+          "x": 47.0,
+          "y": 52.0,
+          "note": "Runs down on the left of the vertebral bodies and gives off the posterior intercostal arteries. It leaves the thorax through the aortic hiatus of the diaphragm at T12."
+        },
+        {
+          "name": "Abdominal aorta",
+          "x": 49.5,
+          "y": 70.2,
+          "note": "Runs from the aortic hiatus (T12) to its bifurcation in front of L4."
+        },
+        {
+          "name": "Renal artery",
+          "x": 44.0,
+          "y": 65.5,
+          "note": "Leaves the side of the aorta at about L1–L2. The right renal artery passes behind the inferior vena cava."
+        },
+        {
+          "name": "Common iliac artery",
+          "x": 43.9,
+          "y": 78.0,
+          "note": "One of the two end branches of the aorta. It divides into the external and internal iliac arteries in front of the sacroiliac joint."
+        },
+        {
+          "name": "Superior vena cava",
+          "x": 57.5,
+          "y": 32.8,
+          "note": "Formed by the two brachiocephalic veins behind the right first costal cartilage. It receives the azygos vein and empties into the right atrium."
+        },
+        {
+          "name": "Inferior vena cava",
+          "x": 54.5,
+          "y": 55.6,
+          "note": "Formed at L5 by the two common iliac veins and lies to the right of the aorta. It passes through the central tendon of the diaphragm at T8."
+        },
+        {
+          "name": "Rib",
+          "x": 68.0,
+          "y": 44.0,
+          "note": "Twelve pairs. Behind, each rib articulates with the thoracic vertebrae."
+        },
+        {
+          "name": "Scapula",
+          "x": 24.0,
+          "y": 38.0,
+          "note": "Seen from behind, with the spine of the scapula and the acromion at the shoulder."
+        },
+        {
+          "name": "Ilium",
+          "x": 31.0,
+          "y": 82.0,
+          "note": "The upper part of the hip bone. The top of the iliac crest is level with L4, the landmark for a lumbar puncture."
+        }
+      ]
+    },
+    {
+      "id": "heart-nerves",
+      "title": "The heart, the lungs and the cardiac plexus",
+      "systemId": "cardiovascular",
+      "view": "From the front, with the chest wall removed",
+      "image": "plates/heart-nerves.webp",
+      "width": 1200,
+      "height": 1876,
+      "source": "L. Hirschfeld and J.-B. Léveillé, Névrologie et esthésiologie (Paris, 1853), pl. 68",
+      "intro": "Seen from the front, so the patient’s right is on your left. The lungs are pulled aside to show the heart, and the nerves of the neck and heart are picked out in white. The original letters and numbers belong to the 1853 key.",
+      "labels": [
+        {
+          "name": "Trachea",
+          "x": 41.2,
+          "y": 47.1,
+          "note": "About 10–12 cm long and held open by C-shaped rings of cartilage. It divides into the two main bronchi at the level of the sternal angle (T4/T5)."
+        },
+        {
+          "name": "Cardiac plexus",
+          "x": 45.7,
+          "y": 60.8,
+          "note": "Sympathetic fibres and branches of the vagus nerves meet here, under the aortic arch, and spread over the heart. Sympathetic fibres speed the heart up; vagal fibres slow it down."
+        },
+        {
+          "name": "Heart",
+          "x": 49.7,
+          "y": 76.2,
+          "note": "From the front you see mainly the right ventricle. The apex lies in the left fifth intercostal space, in the mid-clavicular line."
+        },
+        {
+          "name": "Coronary arteries",
+          "x": 54.9,
+          "y": 71.0,
+          "note": "The first branches of the aorta. They supply the heart muscle itself, and a blockage causes a myocardial infarction (heart attack)."
+        },
+        {
+          "name": "Right lung",
+          "x": 21.3,
+          "y": 59.2,
+          "note": "Three lobes: upper, middle and lower."
+        },
+        {
+          "name": "Left lung",
+          "x": 70.4,
+          "y": 74.4,
+          "note": "Two lobes. The cardiac notch on its front border makes room for the heart."
+        },
+        {
+          "name": "Brachial plexus",
+          "x": 76.5,
+          "y": 55.0,
+          "note": "Formed by the anterior rami of C5–T1. It passes between the clavicle and the first rib into the axilla to supply the upper limb."
+        },
+        {
+          "name": "Diaphragm",
+          "x": 52.5,
+          "y": 85.3,
+          "note": "Separates the thorax from the abdomen. The heart rests on its central tendon, to which the fibrous pericardium is attached."
+        }
+      ]
+    },
+    {
+      "id": "vertebral-veins",
+      "title": "The veins of the vertebral column",
+      "systemId": "cardiovascular",
+      "view": "Three figures: from the front (left), from the right side (middle) and from behind (right)",
+      "image": "plates/vertebral-veins.webp",
+      "width": 1200,
+      "height": 1650,
+      "source": "J. M. Bourgery and N. H. Jacob, Traité complet de l’anatomie de l’homme (Paris, 1831–1854), pl. 76",
+      "intro": "In the left figure the vertebral bodies have been removed to show the veins inside the vertebral canal. The middle figure shows the column from the side with the great vessels in front of it.",
+      "labels": [
+        {
+          "name": "Left brachiocephalic vein",
+          "x": 23.8,
+          "y": 23.3,
+          "note": "Longer than the right one. It crosses behind the manubrium to join the right brachiocephalic vein and form the superior vena cava."
+        },
+        {
+          "name": "Superior vena cava",
+          "x": 14.8,
+          "y": 27.5,
+          "note": "Drains the head, neck, upper limbs and chest wall into the right atrium."
+        },
+        {
+          "name": "Aortic arch",
+          "x": 22.5,
+          "y": 27.0,
+          "note": "Lies behind the manubrium and gives off the brachiocephalic trunk, the left common carotid and the left subclavian arteries."
+        },
+        {
+          "name": "Rib",
+          "x": 11.0,
+          "y": 41.0,
+          "note": "The intercostal vein, artery and nerve run in the groove under the lower border of each rib, in that order from above down."
+        },
+        {
+          "name": "Internal vertebral venous plexus",
+          "x": 18.5,
+          "y": 52.0,
+          "note": "Veins without valves in the epidural space of the vertebral canal (Batson’s plexus). Blood can flow either way in them, which is one route by which prostate and breast cancers spread to the spine."
+        },
+        {
+          "name": "Azygos vein",
+          "x": 49.7,
+          "y": 44.5,
+          "note": "Runs up the right side of the vertebral bodies collecting the posterior intercostal veins, then arches over the right main bronchus at T4 to join the superior vena cava."
+        },
+        {
+          "name": "Aorta",
+          "x": 54.9,
+          "y": 52.7,
+          "note": "The descending aorta lies against the vertebral bodies and gives off the posterior intercostal arteries."
+        },
+        {
+          "name": "Inferior vena cava",
+          "x": 59.0,
+          "y": 70.0,
+          "note": "The largest vein in the body. It carries blood from the lower limbs and abdomen to the right atrium."
+        },
+        {
+          "name": "Sacrum and coccyx",
+          "x": 40.0,
+          "y": 84.0,
+          "note": "Five fused sacral vertebrae with the small coccyx below. The sacral canal continues the vertebral canal."
+        },
+        {
+          "name": "Vertebral venous plexus",
+          "x": 76.0,
+          "y": 40.0,
+          "note": "Seen from behind: a network along the whole vertebral column that connects with the veins of the skull, chest, abdomen and pelvis."
+        }
+      ]
+    },
+    {
+      "id": "neck-lymphatics",
+      "title": "The lymph nodes of the neck and axilla",
+      "systemId": "cardiovascular",
+      "view": "The left side of the neck and chest, from the front, with the head turned to the right",
+      "image": "plates/neck-lymphatics.webp",
+      "width": 1200,
+      "height": 1973,
+      "source": "French lithograph, vol. 2, pl. 50; drawn and lithographed by Émile Beau (19th century)",
+      "intro": "Lymph nodes and lymph vessels are drawn in white. The middle of the clavicle has been cut away to open the space where the great veins of the neck meet.",
+      "labels": [
+        {
+          "name": "Internal jugular vein",
+          "x": 32.5,
+          "y": 26.0,
+          "note": "Drains the brain, face and neck. It runs in the carotid sheath with the common carotid artery and the vagus nerve."
+        },
+        {
+          "name": "Common carotid artery",
+          "x": 29.6,
+          "y": 38.3,
+          "note": "Divides at the upper border of the thyroid cartilage (C4) into the internal and external carotid arteries. Its pulse is felt beside the larynx."
+        },
+        {
+          "name": "Deep cervical lymph nodes",
+          "x": 43.5,
+          "y": 36.1,
+          "note": "A chain along the internal jugular vein. All the lymph of the head and neck passes through them; these are the nodes felt when the neck is examined."
+        },
+        {
+          "name": "Left venous angle",
+          "x": 32.5,
+          "y": 44.5,
+          "note": "Where the internal jugular and subclavian veins join to form the brachiocephalic vein. The thoracic duct empties here, returning lymph to the blood."
+        },
+        {
+          "name": "Subclavian vein",
+          "x": 44.2,
+          "y": 54.8,
+          "note": "Continues the axillary vein from the outer border of the first rib. A common site for central venous catheters."
+        },
+        {
+          "name": "Subclavian artery",
+          "x": 47.5,
+          "y": 50.9,
+          "note": "Arches over the first rib behind the clavicle and becomes the axillary artery at the rib’s outer border."
+        },
+        {
+          "name": "Clavicle (cut)",
+          "x": 59.5,
+          "y": 52.5,
+          "note": "Its middle part has been removed to show the vessels and lymph nodes behind it."
+        },
+        {
+          "name": "Axillary lymph nodes",
+          "x": 62.8,
+          "y": 70.7,
+          "note": "Receive the lymph of the upper limb and of most of the breast (about 75%). They are checked in breast cancer."
+        },
+        {
+          "name": "Pectoralis major",
+          "x": 20.0,
+          "y": 72.0,
+          "note": "Adducts and medially rotates the arm. Its lower border forms the front wall of the axilla."
+        }
+      ]
+    },
+    {
+      "id": "axilla",
+      "title": "The axilla (armpit)",
+      "systemId": "muscular",
+      "view": "The right axilla from the front, with the arm raised and the pectoral muscles cut",
+      "image": "plates/axilla.webp",
+      "width": 1200,
+      "height": 1606,
+      "source": "J. M. Bourgery and N. H. Jacob, Traité complet de l’anatomie de l’homme (Paris, 1831–1854), vol. 5, pl. 38",
+      "intro": "The arm is raised to the upper left. The pectoral muscles have been cut and turned aside to open the axilla, showing the large vein and the nerves passing to the arm.",
+      "labels": [
+        {
+          "name": "Brachial plexus",
+          "x": 40.0,
+          "y": 42.5,
+          "note": "Its cords surround the axillary artery and give the main nerves of the upper limb: musculocutaneous, median, ulnar, radial and axillary."
+        },
+        {
+          "name": "Axillary vein",
+          "x": 55.0,
+          "y": 51.0,
+          "note": "Formed by the basilic and brachial veins at the lower border of teres major. It becomes the subclavian vein at the outer border of the first rib."
+        },
+        {
+          "name": "Pectoralis major (cut)",
+          "x": 68.0,
+          "y": 66.0,
+          "note": "The front wall of the axilla, cut and turned aside to open it."
+        },
+        {
+          "name": "Serratus anterior",
+          "x": 46.0,
+          "y": 78.0,
+          "note": "The inner wall of the axilla; it holds the scapula against the chest wall. Damage to its nerve, the long thoracic nerve, causes a “winged” scapula."
+        }
+      ]
+    },
+    {
+      "id": "lateral-chest",
+      "title": "The side of the chest wall",
+      "systemId": "muscular",
+      "view": "The side of the trunk, front to the right, with the arm cut off at the shoulder",
+      "image": "plates/lateral-chest.webp",
+      "width": 1200,
+      "height": 1645,
+      "source": "J. M. Bourgery and N. H. Jacob, Traité complet de l’anatomie de l’homme (Paris, 1831–1854), vol. 5, pl. 52",
+      "intro": "The patient faces to the right. The arm has been cut across near the shoulder so that the side of the chest can be seen, with its muscles, ribs and nerves.",
+      "labels": [
+        {
+          "name": "Humerus (arm cut across)",
+          "x": 30.0,
+          "y": 22.8,
+          "note": "The arm has been cut across at the shoulder to open the side of the chest."
+        },
+        {
+          "name": "Brachial plexus",
+          "x": 40.5,
+          "y": 28.7,
+          "note": "Leaves the neck behind the clavicle and enters the axilla to supply the upper limb (C5–T1)."
+        },
+        {
+          "name": "Serratus anterior",
+          "x": 45.0,
+          "y": 41.0,
+          "note": "Arises by finger-like slips from the upper eight or nine ribs and inserts on the medial border of the scapula. It pulls the scapula forward, as in a punch."
+        },
+        {
+          "name": "Rib",
+          "x": 62.0,
+          "y": 42.0,
+          "note": "Twelve pairs. The first seven reach the sternum through their own cartilages (true ribs)."
+        },
+        {
+          "name": "Intercostal muscles",
+          "x": 62.0,
+          "y": 44.7,
+          "note": "External, internal and innermost layers fill each intercostal space. The external intercostals lift the ribs when you breathe in."
+        },
+        {
+          "name": "Lateral cutaneous branches of the intercostal nerves",
+          "x": 36.6,
+          "y": 41.7,
+          "note": "Emerge in the mid-axillary line to supply the skin of the side of the chest. A chest drain goes in here, just above a rib, to avoid the nerve and vessels under the rib above."
+        }
+      ]
+    },
+    {
+      "id": "diaphragm",
+      "title": "The diaphragm and the back wall of the abdomen",
+      "systemId": "muscular",
+      "view": "From the front, with the front of the chest and abdomen and the organs removed",
+      "image": "plates/diaphragm.webp",
+      "width": 1200,
+      "height": 1850,
+      "source": "J. M. Bourgery and N. H. Jacob, Traité complet de l’anatomie de l’homme (Paris, 1831–1854), pl. 78",
+      "intro": "Seen from the front, so the patient’s right is on your left. With the organs taken out you can see the two domes of the diaphragm, its crura on the lumbar spine, and the muscles of the back wall of the abdomen.",
+      "labels": [
+        {
+          "name": "Clavicle",
+          "x": 62.0,
+          "y": 22.4,
+          "note": "The only bony link between the upper limb and the trunk, and one of the most often fractured bones."
+        },
+        {
+          "name": "Ribs and intercostal muscles",
+          "x": 36.0,
+          "y": 31.0,
+          "note": "The inside of the back of the chest wall, with the ribs and the muscles between them."
+        },
+        {
+          "name": "Thoracic vertebral column",
+          "x": 49.0,
+          "y": 31.0,
+          "note": "Twelve thoracic vertebrae, each carrying a pair of ribs."
+        },
+        {
+          "name": "Diaphragm (right dome)",
+          "x": 37.0,
+          "y": 49.0,
+          "note": "The right dome sits higher than the left because the liver lies beneath it. When the diaphragm contracts the domes flatten and air is drawn in. Phrenic nerves, C3–C5."
+        },
+        {
+          "name": "Central tendon",
+          "x": 34.5,
+          "y": 44.5,
+          "note": "The fibrous centre of the diaphragm. The inferior vena cava passes through it at T8."
+        },
+        {
+          "name": "Crura of the diaphragm",
+          "x": 48.5,
+          "y": 60.0,
+          "note": "Tendinous origins on the lumbar vertebrae: the right crus (L1–L3) is longer than the left (L1–L2). They form the aortic hiatus at T12, and the right crus surrounds the oesophageal hiatus at T10."
+        },
+        {
+          "name": "Psoas major",
+          "x": 56.2,
+          "y": 64.0,
+          "note": "From the bodies and transverse processes of T12–L5 to the lesser trochanter of the femur, together with iliacus. The main flexor of the hip."
+        },
+        {
+          "name": "Iliacus",
+          "x": 33.0,
+          "y": 74.0,
+          "note": "Fills the iliac fossa and joins psoas major (as iliopsoas) on the lesser trochanter. Femoral nerve."
+        },
+        {
+          "name": "Lumbar vertebral bodies",
+          "x": 50.0,
+          "y": 69.5,
+          "note": "Five large lumbar vertebrae carry the weight of the upper body."
+        },
+        {
+          "name": "Lateral abdominal wall (cut)",
+          "x": 23.0,
+          "y": 64.0,
+          "note": "Three muscle layers, from outside in: external oblique, internal oblique and transversus abdominis."
+        }
+      ]
+    },
+    {
+      "id": "vagus-lungs",
+      "title": "The airways, the vagus nerves and the coeliac plexus",
+      "systemId": "respiratory",
+      "view": "From the front, with the heart removed and the lungs opened",
+      "image": "plates/vagus-lungs.webp",
+      "width": 1200,
+      "height": 1895,
+      "source": "J. M. Bourgery and N. H. Jacob, Traité complet de l’anatomie de l’homme (Paris, 1831–1854), vol. 3",
+      "intro": "Seen from the front, so the patient’s right is on your left. The heart has been taken out to show the trachea dividing, the bronchi branching inside the lungs, and the vagus nerves running down on the oesophagus to the stomach.",
+      "labels": [
+        {
+          "name": "Trachea",
+          "x": 51.5,
+          "y": 42.0,
+          "note": "Held open by C-shaped rings of cartilage that are open at the back, where the trachea lies against the oesophagus."
+        },
+        {
+          "name": "Right main bronchus",
+          "x": 41.0,
+          "y": 53.5,
+          "note": "Shorter, wider and more vertical than the left, so an inhaled object is more likely to lodge on the right."
+        },
+        {
+          "name": "Left main bronchus",
+          "x": 60.0,
+          "y": 53.2,
+          "note": "Longer and more horizontal than the right. It passes under the aortic arch and in front of the oesophagus."
+        },
+        {
+          "name": "Segmental bronchi (right lung)",
+          "x": 29.0,
+          "y": 59.0,
+          "note": "Each lung is divided into bronchopulmonary segments, each with its own bronchus and artery. A diseased segment can be removed on its own."
+        },
+        {
+          "name": "Left lung",
+          "x": 73.0,
+          "y": 64.0,
+          "note": "Two lobes, upper and lower; the right lung has three."
+        },
+        {
+          "name": "Oesophagus and vagal plexus",
+          "x": 54.0,
+          "y": 64.0,
+          "note": "The two vagus nerves form a plexus on the oesophagus and leave the thorax as the anterior and posterior vagal trunks through the oesophageal hiatus at T10."
+        },
+        {
+          "name": "Stomach",
+          "x": 70.0,
+          "y": 84.0,
+          "note": "Its parasympathetic supply comes from the vagal trunks, which increase acid secretion and movement."
+        },
+        {
+          "name": "Coeliac plexus",
+          "x": 47.0,
+          "y": 88.0,
+          "note": "The largest autonomic plexus, around the coeliac trunk. It receives the greater and lesser splanchnic nerves and branches of the vagus."
+        }
+      ]
+    },
+    {
+      "id": "neck-section",
+      "title": "The neck cut across",
+      "systemId": "nervous",
+      "view": "A horizontal section at the level of the vocal folds, front at the top",
+      "image": "plates/neck-section.webp",
+      "width": 1200,
+      "height": 861,
+      "source": "19th-century French atlas plate (source not identified)",
+      "intro": "Look at the oval section at the bottom of the plate. The front of the neck is at the top: larynx, then pharynx, then the cervical vertebra with the spinal cord, then the muscles of the back of the neck.",
+      "labels": [
+        {
+          "name": "Larynx (vocal folds)",
+          "x": 33.6,
+          "y": 56.0,
+          "note": "The slit between the vocal folds is the rima glottidis, the narrowest part of the adult airway."
+        },
+        {
+          "name": "Laryngopharynx",
+          "x": 33.6,
+          "y": 59.8,
+          "note": "The lowest part of the pharynx, behind the larynx. It continues as the oesophagus at C6."
+        },
+        {
+          "name": "Cervical vertebral body",
+          "x": 33.8,
+          "y": 66.0,
+          "note": "Small and broad compared with the lumbar vertebrae."
+        },
+        {
+          "name": "Vertebral artery",
+          "x": 28.6,
+          "y": 67.3,
+          "note": "Runs up through the transverse foramina of C6 to C1 and enters the skull to supply the brainstem and the back of the brain."
+        },
+        {
+          "name": "Spinal cord",
+          "x": 33.9,
+          "y": 71.3,
+          "note": "Lies in the vertebral canal, wrapped in its meninges. At this level it is enlarged to give the nerves of the upper limb."
+        },
+        {
+          "name": "Sternocleidomastoid",
+          "x": 25.0,
+          "y": 59.0,
+          "note": "Turns the head to the opposite side. Supplied by the accessory nerve (cranial nerve XI)."
+        },
+        {
+          "name": "Muscles of the back of the neck",
+          "x": 30.0,
+          "y": 80.0,
+          "note": "Deep extensor muscles that hold the head upright."
+        }
+      ]
+    },
+    {
+      "id": "foot-and-sections",
+      "title": "The sole of the foot; the thigh and leg cut across",
+      "systemId": "muscular",
+      "view": "Left: the sole of the foot. Right: sections of the thigh (top) and leg (bottom), front at the top, medial side on the right",
+      "image": "plates/foot-and-sections.webp",
+      "width": 1200,
+      "height": 1707,
+      "source": "J. M. Bourgery and N. H. Jacob, Traité complet de l’anatomie de l’homme (Paris, 1831–1854), pl. 157",
+      "intro": "In both sections the front is at the top. In the thigh, the sciatic nerve lies behind the femur; in the leg, the tibia is in front and on the medial side, the fibula behind it on the lateral side.",
+      "labels": [
+        {
+          "name": "Plantar aponeurosis",
+          "x": 15.0,
+          "y": 48.0,
+          "note": "A thick fibrous sheet from the calcaneal tuberosity to the toes that supports the longitudinal arch. Inflamed in plantar fasciitis (heel pain on the first steps of the day)."
+        },
+        {
+          "name": "Abductor hallucis",
+          "x": 8.0,
+          "y": 40.0,
+          "note": "Along the medial border of the sole. It abducts the big toe and supports the medial arch. Medial plantar nerve."
+        },
+        {
+          "name": "Abductor digiti minimi",
+          "x": 33.0,
+          "y": 54.0,
+          "note": "Along the lateral border of the sole. Lateral plantar nerve."
+        },
+        {
+          "name": "Heel fat pad",
+          "x": 5.5,
+          "y": 25.0,
+          "note": "Fat packed in fibrous compartments that cushions the heel as it strikes the ground."
+        },
+        {
+          "name": "Femur",
+          "x": 57.0,
+          "y": 25.0,
+          "note": "The longest and strongest bone in the body. The marrow cavity is in the centre of the shaft."
+        },
+        {
+          "name": "Quadriceps femoris",
+          "x": 55.0,
+          "y": 13.0,
+          "note": "Four heads at the front of the thigh that extend the knee. Femoral nerve (L2–L4)."
+        },
+        {
+          "name": "Sciatic nerve",
+          "x": 59.5,
+          "y": 38.0,
+          "note": "The largest nerve in the body (L4–S3). It runs down the back of the thigh and divides above the knee into the tibial and common fibular nerves."
+        },
+        {
+          "name": "Femoral vessels",
+          "x": 76.5,
+          "y": 22.0,
+          "note": "At mid-thigh they lie in the adductor canal, under sartorius, on their way to the back of the knee."
+        },
+        {
+          "name": "Hamstrings",
+          "x": 55.0,
+          "y": 46.0,
+          "note": "Biceps femoris, semitendinosus and semimembranosus: they flex the knee and extend the hip. Sciatic nerve."
+        },
+        {
+          "name": "Skin and subcutaneous fat",
+          "x": 33.6,
+          "y": 30.0,
+          "note": "The outer layers of the limb, with the deep fascia beneath them."
+        },
+        {
+          "name": "Tibia",
+          "x": 73.0,
+          "y": 66.0,
+          "note": "The weight-bearing bone of the leg. Its front surface lies just under the skin: the shin."
+        },
+        {
+          "name": "Fibula",
+          "x": 57.5,
+          "y": 75.5,
+          "note": "The thin lateral bone, mainly for muscle attachment and the ankle joint."
+        },
+        {
+          "name": "Anterior tibial vessels",
+          "x": 59.5,
+          "y": 71.5,
+          "note": "Run on the interosseous membrane with the deep fibular nerve. The artery continues on the foot as the dorsalis pedis artery."
+        },
+        {
+          "name": "Tibial nerve",
+          "x": 68.3,
+          "y": 76.4,
+          "note": "Runs with the posterior tibial vessels behind the deep calf muscles. It supplies the muscles of the calf and the sole."
+        },
+        {
+          "name": "Anterior compartment muscles",
+          "x": 61.0,
+          "y": 66.0,
+          "note": "Tibialis anterior and the toe extensors: they dorsiflex the foot. Deep fibular nerve; weakness causes foot drop."
+        },
+        {
+          "name": "Soleus and gastrocnemius",
+          "x": 60.0,
+          "y": 87.0,
+          "note": "The calf muscles (triceps surae): they plantarflex the foot through the calcaneal (Achilles) tendon. Tibial nerve."
+        }
+      ]
+    },
+    {
+      "id": "tooth",
+      "title": "A molar tooth in section",
+      "systemId": "digestive",
+      "view": "A lower molar cut lengthways, crown at the top; a diagram, not to scale",
+      "image": "plates/tooth.svg",
+      "width": 1200,
+      "height": 1500,
+      "source": "Drawn for Atlas",
+      "intro": "A lower molar has two roots. The crown is covered by enamel and the roots by cementum; dentine forms the bulk of the tooth around the pulp, and the periodontal ligament holds the roots in their sockets of alveolar bone.",
+      "labels": [
+        {
+          "name": "Enamel",
+          "x": 37.5,
+          "y": 19.33,
+          "note": "The hardest tissue in the body, about 96% mineral (hydroxyapatite). It has no living cells, so once lost it cannot grow back."
+        },
+        {
+          "name": "Dentine",
+          "x": 46.67,
+          "y": 28.67,
+          "note": "Forms the bulk of the tooth under the enamel and cementum. It is crossed by tiny tubules that carry sensation, which is why exposed dentine is sensitive."
+        },
+        {
+          "name": "Pulp chamber",
+          "x": 50.0,
+          "y": 41.33,
+          "note": "Soft tissue with nerves, blood vessels and the cells (odontoblasts) that make dentine. Inflammation of the pulp (pulpitis) causes toothache."
+        },
+        {
+          "name": "Root canal",
+          "x": 59.92,
+          "y": 66.67,
+          "note": "Continues the pulp down each root to an opening at the tip. In root canal treatment the infected pulp is removed and the canal is filled."
+        },
+        {
+          "name": "Gingiva (gum)",
+          "x": 25.0,
+          "y": 50.13,
+          "note": "Covers the alveolar bone and seals around the neck of the tooth. Healthy gum is firm and pale pink; bleeding is an early sign of gingivitis."
+        },
+        {
+          "name": "Cementum",
+          "x": 35.82,
+          "y": 76.1,
+          "note": "A thin layer of bone-like tissue covering the root. The fibres of the periodontal ligament are anchored in it."
+        },
+        {
+          "name": "Periodontal ligament",
+          "x": 66.87,
+          "y": 69.66,
+          "note": "Collagen fibres that hold the tooth in its socket, cushion the force of biting and sense pressure."
+        },
+        {
+          "name": "Alveolar bone",
+          "x": 27.5,
+          "y": 77.33,
+          "note": "The part of the jaw that forms the tooth sockets. It is lost in advanced gum disease (periodontitis), which loosens the teeth."
+        },
+        {
+          "name": "Nerve and blood vessels",
+          "x": 60.25,
+          "y": 84.53,
+          "note": "Enter the pulp through the opening at the tip of each root (the apical foramen). In the lower jaw they come from the inferior alveolar nerve and artery."
+        }
+      ]
+    }
+  ]
+}

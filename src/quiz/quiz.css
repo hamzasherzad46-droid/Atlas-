@@ -600,3 +600,156 @@
   /* No fill mode: visible by default, so a stalled animation can never hide it. */
   animation: fade-in var(--fast) var(--ease);
 }
+
+/* ---------- Mock exam ---------- */
+.mock {
+  z-index: 22;
+}
+
+.mock .page {
+  padding-bottom: calc(var(--safe-bottom) + 40px);
+}
+
+.mock-last {
+  margin-top: 10px;
+  color: var(--ink-2);
+}
+
+.mock-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px var(--pad) calc(var(--safe-bottom) + 28px);
+}
+
+.mock-topic {
+  margin-bottom: 8px;
+}
+
+.mock-q {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.mock-options {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mock-option {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  width: 100%;
+  min-height: 52px;
+  padding: 13px 4px;
+  border-top: 1px solid var(--rule);
+  font-size: 17px;
+  line-height: 1.4;
+  text-align: start;
+  color: var(--ink);
+  transition: color var(--fast) linear, opacity var(--mid) var(--ease);
+}
+
+.mock-options li:last-child .mock-option {
+  border-bottom: 1px solid var(--rule);
+}
+
+.mock-option:active:not(:disabled) {
+  background: var(--paper-2);
+}
+
+.mock-option:disabled {
+  cursor: default;
+}
+
+.mock-letter {
+  flex-shrink: 0;
+  width: 16px;
+  color: var(--accent);
+}
+
+.mock-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.mock-option svg {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.mock-option.right {
+  color: var(--good);
+}
+
+.mock-option.right .mock-letter {
+  color: var(--good);
+}
+
+.mock-option.wrong {
+  color: var(--bad);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.mock-option.wrong .mock-letter {
+  color: var(--bad);
+}
+
+.mock-option.dim {
+  opacity: 0.4;
+}
+
+.mock-feedback {
+  margin-top: 18px;
+  animation: rise var(--mid) var(--ease) both;
+}
+
+.mock-why {
+  margin-top: 10px;
+}
+
+.mock-why p:last-child {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.mock-next {
+  margin-top: 22px;
+}
+
+.mock-review {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mock-review li {
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.mock-review li:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+.mock-review-q {
+  margin-bottom: 6px;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.mock-review .small {
+  margin-top: 3px;
+}
+
+.mock-review-why {
+  margin-top: 8px !important;
+  color: var(--ink-2);
+}

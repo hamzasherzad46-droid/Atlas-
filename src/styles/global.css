@@ -641,7 +641,8 @@ button.go.quiet:active {
 
 /* Clinical note: a copper rule in the margin. */
 .note {
-  padding: 2px 0 2px 12px;
+  padding-block: 2px;
+  padding-inline: 12px 0;
   border-inline-start: 1px solid var(--copper);
   font-size: 14px;
   line-height: 1.5;
