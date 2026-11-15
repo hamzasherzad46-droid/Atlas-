@@ -37,12 +37,13 @@ Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to en
 - `content/catalog.json` — courses → modules (status, content file, model file + transform)
 - `content/<module>.json` — structures; optional `content/<module>.placeholder.json` — primitive stand-ins for modules without a GLB
 - `content/catalog.json` `regions` — focused regional modules (skull, forearm, hand…) that `include` structure ids from a system's content file and reuse its model
-- `content/curriculum.json` — every curriculum topic by category; `modules` only where an available module teaches the topic's core structures
+- `content/curriculum.json` — every curriculum topic by category, each with `summary` and `points` (study notes, British spelling); `modules` only where an available module teaches the topic's core structures
 - `content/plates.json` + `public/plates/` — labelled anatomical plates (arrow points in % of the image; check every point against the image before adding one)
 - `content/mock.json` — mock-exam banks; first option is correct, the app shuffles
 - `public/models/skeleton.glb` — real BodyParts3D bones, built by `scripts/import-bodyparts3d.mjs` (see README "3D models")
+- `public/models/body-*.glb` — whole-body layers (skin, muscles, arteries, veins, nervous, glands) from `scripts/layers/*.json`; layer list in `src/lib/bodyLayers.ts`
 - `src/content/content.test.ts` — validates every content file (run `npm test` after editing content)
 - `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`, `plates.ts` (tag layout), `mock.ts`, `sound.ts` (synthesised sounds)
 - `src/state/` — Zustand stores: settings, progress (persisted), nav, quiz session
-- `src/viewer/` — 3D: `AnatomyViewer` (lazy chunk), `ModelInstance`, `highlight.ts`, `CameraRig`, `placeholder.ts`
-- `src/quiz/` — quiz screen, answer word, keyboard, summary; `src/screens/` — tabs, `Plates.tsx`, `MockScreen.tsx`
+- `src/viewer/` — 3D: `AnatomyViewer` and `BodyViewer` (lazy chunks), `ModelInstance`, `highlight.ts`, `CameraRig`, `parts.tsx` (lights, pinned label), `placeholder.ts`
+- `src/quiz/` — quiz screen, answer word, keyboard, summary; `src/screens/` — tabs, `Plates.tsx`, `MockScreen.tsx`, `BodyScreen.tsx`, `TopicScreen.tsx`

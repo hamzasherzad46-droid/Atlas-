@@ -47,7 +47,8 @@ export function CreditsScreen() {
                 </a>
                 <span className="r-sub">
                   Changes for Atlas: structures selected, grouped and renamed per body system; the medial and lateral epicondyles
-                  separated from the humerus; an approximate coccyx added (BodyParts3D has no coccyx mesh); meshes simplified and
+                  separated from the humerus; an approximate coccyx added (BodyParts3D has no coccyx mesh); whole-body layers (skin,
+                  all muscles, arteries, veins, nervous system, glands and eyes) built from the full data set; meshes simplified and
                   compressed.
                 </span>
               </span>

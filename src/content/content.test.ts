@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { acceptedAnswers, normalizeAnswer } from '../lib/typing'
 import { meshKeys, meshMatchesAny } from '../lib/meshMatch'
-import { TRACKS, type Catalog, type MockBank, type ModuleContent, type PlaceholderModel, type Plates } from './types'
+import { TRACKS, type Catalog, type Curriculum, type MockBank, type ModuleContent, type PlaceholderModel, type Plates } from './types'
 
 const dir = fileURLToPath(new URL('../../content', import.meta.url))
 const modelsDir = fileURLToPath(new URL('../../public/models', import.meta.url))
@@ -178,5 +178,41 @@ describe('mock exam banks', () => {
   it('no question is repeated within or across banks', () => {
     const texts = sets.flatMap((s) => s.questions.map((q) => q.q.toLowerCase()))
     expect(new Set(texts).size).toBe(texts.length)
+  })
+})
+
+describe('curriculum study notes', () => {
+  const { categories } = read<Curriculum>('curriculum.json')
+  const allModules = new Set([...catalog.systems.flatMap((s) => s.modules), ...(catalog.regions ?? []).flatMap((g) => g.modules)].filter((m) => m.status === 'available').map((m) => m.id))
+  // American spellings that would be inconsistent with the rest of Atlas.
+  const AMERICAN = /\b(esophag|hemo(?!rrhag)|hema(?!t)|anemi|edema|fiber|center|color|pediatric|orthoped|gynecol|anesthe|aging|behavior|labor\b|tumor\b|maneuver|organiz|fertiliz|specializ|recogniz|localiz|hematopo|analyz)/i
+
+  it('every topic has a summary and at least four key points', () => {
+    let n = 0
+    for (const c of categories) {
+      expect(new Set(c.topics.map((t) => t.title)).size, c.id).toBe(c.topics.length)
+      for (const t of c.topics) {
+        n++
+        expect(t.summary?.trim().length, t.title).toBeGreaterThan(10)
+        expect(t.points?.length, t.title).toBeGreaterThanOrEqual(4)
+        for (const s of [t.summary, ...t.points]) {
+          expect(s.trim(), t.title).toBe(s)
+          expect(/[.)]$/.test(s), `${t.title}: "${s.slice(-30)}" ends with a full stop`).toBe(true)
+          expect(/ {2}/.test(s), `${t.title}: double space`).toBe(false)
+        }
+      }
+    }
+    expect(n).toBe(282)
+  })
+
+  it('uses British spelling throughout', () => {
+    for (const c of categories) {
+      expect(AMERICAN.test(c.title), c.title).toBe(false)
+      for (const t of c.topics) for (const s of [t.title, t.summary, ...t.points]) expect(AMERICAN.test(s), `${t.title}: ${s}`).toBe(false)
+    }
+  })
+
+  it('links only to modules that exist', () => {
+    for (const c of categories) for (const t of c.topics) for (const id of t.modules ?? []) expect(allModules.has(id), `${t.title}: ${id}`).toBe(true)
   })
 })

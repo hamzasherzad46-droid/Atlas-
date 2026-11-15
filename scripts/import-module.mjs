@@ -6,7 +6,8 @@
  *     [--fit-cameras content/<module>.json]
  *
  * The spec lists which BodyParts3D parts to include, as case-insensitive regular expressions
- * matched against the whole part name. Mesh names are generated: side words move to a suffix
+ * matched against the whole part name, and/or whole BodyParts3D systems (`"systems": ["venous"]`),
+ * minus `exclude` patterns. Mesh names are generated: side words move to a suffix
  * ("Left biceps brachii" → "biceps_brachii.l", "Anterior part of right superior temporal gyrus"
  * → "anterior_part_of_superior_temporal_gyrus.r"), duplicates get "_2", "_3"… after the side.
  * The original name and id are kept in each node's `extras`.
@@ -34,7 +35,11 @@ const contentFile = fitIdx >= 0 ? rest[fitIdx + 1] : null
 const extraIdx = rest.indexOf('--extra')
 const extraFile = extraIdx >= 0 ? rest[extraIdx + 1] : null
 const spec = JSON.parse(readFileSync(specFile, 'utf8'))
+spec.include ??= []
 const include = spec.include.map((s) => new RegExp(`^(?:${s})$`, 'i'))
+// Whole-body layers select by BodyParts3D system ("arterial", "venous", …), minus any `exclude` patterns.
+const systems = new Set(spec.systems ?? [])
+const exclude = (spec.exclude ?? []).map((s) => new RegExp(`^(?:${s})$`, 'i'))
 const minRadius = spec.minCameraDistance ?? 0.3
 
 export function slugAndSide(name) {
@@ -56,9 +61,10 @@ const used = new Map()
 const meshes = []
 const matchedPatterns = new Set()
 for (const p of atlas.parts) {
+  if (exclude.some((re) => re.test(p.name))) continue
   const hit = include.findIndex((re) => re.test(p.name))
-  if (hit < 0) continue
-  matchedPatterns.add(hit)
+  if (hit < 0 && !systems.has(p.system)) continue
+  if (hit >= 0) matchedPatterns.add(hit)
   let name = slugAndSide(p.name)
   const n = (used.get(name) ?? 0) + 1
   used.set(name, n)

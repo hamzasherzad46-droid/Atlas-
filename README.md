@@ -57,8 +57,16 @@ apply there.
   Today.
 - **Sound**: synthesised in the browser, no audio files — a two-note bell for a correct answer and a closing chord
   after a mock exam (Settings can turn sound off).
-- **Curriculum**: 282 topics in 21 categories (`content/curriculum.json`). 59 link to the modules that teach their core
-  structures; the rest are marked in preparation — they need content (and often imagery) that isn't written yet.
+- **The body in 3D** (Today or Atlas): the whole BodyParts3D body in seven layers — skin, every muscle (442 meshes),
+  bones, organs (heart, airways, digestive, urinary and reproductive organs, glands and eyes), arteries (639 meshes),
+  veins (395 meshes) and the brain and nerves. Each layer loads only when switched on. Four views: Layers (peel from
+  skin to bone), X-ray (skin and muscles see-through), Separate bones (pull the skeleton apart with a slider) and Cut
+  (a transverse, coronal or sagittal section that moves with a slider). Tap any part to name it; parts that a module
+  teaches show its notes and link to it; Isolate shows the part alone. BodyParts3D has no spinal or limb nerves, so
+  the nerve layer shows the brain and the nerves of the eye.
+- **Curriculum**: 282 topics in 21 categories (`content/curriculum.json`), each with a short definition and four or
+  more key points at university level, in British spelling. 59 also link to the 3D modules that teach their core
+  structures, and regional and systemic topics link to the 3D body.
 - **Tracks**: nursing, medicine, physiotherapy, dentistry, sports science — notes per structure where relevant.
 - **Languages**: English, French, German, Arabic (right-to-left), Russian, Chinese, Korean for the whole UI.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
@@ -130,6 +138,26 @@ Changes from the source data, all made by `scripts/import-bodyparts3d.mjs`:
   be highlighted. The split is a sphere around the most medial or lateral point of the distal humerus.
 - **The coccyx is approximate.** BodyParts3D has no coccyx mesh, so the script adds a smooth, tapered
   shape at the sacrum's apex. Replace it with a Z-Anatomy coccyx when you can.
+
+### Whole-body layers
+
+The body viewer's layers are built from whole BodyParts3D systems (`scripts/layers/<layer>.json`, using `systems` and
+`exclude` instead of name patterns) and reuse the organ modules' own models:
+
+```bash
+for l in skin muscles arteries veins nervous glands; do
+  node scripts/import-module.mjs /tmp/bp3d/package/model scripts/layers/$l.json /tmp/body-$l-raw.glb
+done
+SIMPLIFY_RATIO=0.5 SIMPLIFY_ERROR=0.002 scripts/convert-model.sh /tmp/body-skin-raw.glb body-skin
+SIMPLIFY_RATIO=0.3 SIMPLIFY_ERROR=0.01 scripts/convert-model.sh /tmp/body-muscles-raw.glb body-muscles
+SIMPLIFY_RATIO=0.4 SIMPLIFY_ERROR=0.006 scripts/convert-model.sh /tmp/body-arteries-raw.glb body-arteries
+SIMPLIFY_RATIO=0.4 SIMPLIFY_ERROR=0.006 scripts/convert-model.sh /tmp/body-veins-raw.glb body-veins
+SIMPLIFY_RATIO=0.4 SIMPLIFY_ERROR=0.008 scripts/convert-model.sh /tmp/body-nervous-raw.glb body-nervous
+SIMPLIFY_RATIO=0.4 SIMPLIFY_ERROR=0.006 scripts/convert-model.sh /tmp/body-glands-raw.glb body-glands
+```
+
+The veins exclude BodyParts3D's "hepatovenous segment" volumes (liver segments, not vessels). The layers come to about
+5 MB in all and are cached the first time each is opened.
 
 ### Building the other system models
 

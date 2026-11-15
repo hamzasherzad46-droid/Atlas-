@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { getModuleInfo, loadCurriculum } from '../content/loader'
+import { loadCurriculum } from '../content/loader'
 import type { Curriculum as CurriculumData } from '../content/types'
 import { ArrowIcon } from '../components/Icons'
 import { useT } from '../i18n'
-import { tintVars } from '../lib/tint'
 import { useNav } from '../state/nav'
 
 /**
- * Every topic in the curriculum, by category. Categories open one at a time; a topic that an
- * available module teaches links to it, everything else is marked as in preparation.
+ * Every topic in the curriculum, by category. Categories open one at a time; each topic opens its
+ * study page, and topics taught by an available 3D module are marked.
  */
 export function Curriculum({ open, onOpen }: { open: string | null; onOpen(id: string | null): void }) {
   const t = useT()
-  const openModule = useNav((s) => s.openModule)
+  const openTopic = useNav((s) => s.openTopic)
   const [data, setData] = useState<CurriculumData | null>(null)
 
   useEffect(() => {
@@ -33,7 +32,6 @@ export function Curriculum({ open, onOpen }: { open: string | null; onOpen(id: s
       <div className="rows">
         {data.categories.map((c) => {
           const isOpen = open === c.id
-          const available = c.topics.filter((x) => x.modules?.length).length
           return (
             <div key={c.id} className="curriculum-cat">
               <button className="r" aria-expanded={isOpen} onClick={() => onOpen(isOpen ? null : c.id)}>
@@ -43,7 +41,6 @@ export function Curriculum({ open, onOpen }: { open: string | null; onOpen(id: s
                   </span>
                 </span>
                 <span className="r-value">
-                  {available ? `${available}/` : ''}
                   {c.topics.length}
                 </span>
                 <span className="mono fold" aria-hidden>
@@ -52,27 +49,19 @@ export function Curriculum({ open, onOpen }: { open: string | null; onOpen(id: s
               </button>
               {isOpen && (
                 <ul className="topics" lang="en">
-                  {c.topics.map((topic) =>
-                    topic.modules?.length ? (
-                      <li key={topic.title}>
+                  {c.topics.map((topic, index) => (
+                    <li key={topic.title}>
+                      <button className="topic-open" dir="ltr" onClick={() => openTopic({ cat: c.id, index })}>
                         <span className="topic-title">{topic.title}</span>
-                        <span className="topic-links">
-                          {topic.modules.map((id) => (
-                            <button key={id} className="topic-link sys" style={tintVars(getModuleInfo(id)?.systemId)} onClick={() => openModule(id)}>
-                              <span className="swatch" aria-hidden />
-                              {t.td(`module.${id}`, id)}
-                              <ArrowIcon size={12} />
-                            </button>
-                          ))}
-                        </span>
-                      </li>
-                    ) : (
-                      <li key={topic.title} className="in-prep">
-                        <span className="topic-title">{topic.title}</span>
-                        <span className="mono">{t('common.soon')}</span>
-                      </li>
-                    ),
-                  )}
+                        {topic.modules?.length ? (
+                          <span className="mono topic-3d" aria-label={t('topic.has3d')}>
+                            3D
+                          </span>
+                        ) : null}
+                        <ArrowIcon size={12} />
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>

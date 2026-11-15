@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => {
                 handler: 'CacheFirst',
                 options: {
                   cacheName: 'atlas-models',
-                  expiration: { maxEntries: 20 },
+                  expiration: { maxEntries: 30 },
                   cacheableResponse: { statuses: [200] },
                 },
               },

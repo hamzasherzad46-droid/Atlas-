@@ -14,13 +14,15 @@ interface Props {
   resetKey: number
   apiRef?: Ref<CameraApi>
   durationMs?: number
+  /** Furthest zoom out, in metres (the whole body needs more room than one module). */
+  maxDistance?: number
 }
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 const round = (v: THREE.Vector3) => v.toArray().map((n) => Math.round(n * 1000) / 1000) as [number, number, number]
 
 /** Orbit controls (drag/pinch) plus smooth camera moves to each question's framing. */
-export function CameraRig({ view, resetKey, apiRef, durationMs = 1000 }: Props) {
+export function CameraRig({ view, resetKey, apiRef, durationMs = 1000, maxDistance = 4 }: Props) {
   const camera = useThree((s) => s.camera)
   const invalidate = useThree((s) => s.invalidate)
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
@@ -81,7 +83,7 @@ export function CameraRig({ view, resetKey, apiRef, durationMs = 1000 }: Props) 
       rotateSpeed={0.7}
       zoomSpeed={0.8}
       minDistance={0.12}
-      maxDistance={4}
+      maxDistance={maxDistance}
     />
   )
 }

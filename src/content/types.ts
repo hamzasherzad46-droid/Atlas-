@@ -114,7 +114,11 @@ export interface BodySystem {
 /** The full curriculum (content/curriculum.json). Topic titles are English, like the anatomy content. */
 export interface CurriculumTopic {
   title: string
-  /** Available modules that teach this topic's core structures; absent while the topic is in preparation. */
+  /** One or two sentences: what the topic is. */
+  summary: string
+  /** The key facts, one sentence each. */
+  points: string[]
+  /** Available modules that teach this topic's core structures in 3D. */
   modules?: string[]
 }
 

@@ -20,6 +20,7 @@ export function TodayScreen() {
   const { name, lastSession, dailyGoal } = useSettings()
   const openExplore = useNav((s) => s.openExplore)
   const openMock = useNav((s) => s.openMock)
+  const openBody = useNav((s) => s.openBody)
   const moduleId = lastSession?.moduleId ?? defaultModuleId
   const info = getModuleInfo(moduleId)
   const { assets } = useModule(moduleId)
@@ -94,6 +95,13 @@ export function TodayScreen() {
           <button className="r" disabled={!mistakes} onClick={() => void startReview(moduleId)}>
             <span className="r-main r-title">{t('today.mistakes')}</span>
             <span className={`r-value${mistakes ? ' bad' : ''}`}>{mistakes}</span>
+            <ArrowIcon />
+          </button>
+          <button className="r" onClick={() => openBody(true)}>
+            <span className="r-main">
+              <span className="r-title">{t('body.title')}</span>
+              <span className="r-sub">{t('body.sub')}</span>
+            </span>
             <ArrowIcon />
           </button>
           <button className="r" onClick={() => openMock(true)}>

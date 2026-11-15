@@ -4,6 +4,7 @@ import { Toasts } from './components/bits'
 import { applyLang, useT } from './i18n'
 import { QuizScreen } from './quiz/QuizScreen'
 import { AtlasScreen } from './screens/AtlasScreen'
+import { BodyScreen } from './screens/BodyScreen'
 import { CreditsScreen } from './screens/CreditsScreen'
 import { ExploreScreen } from './screens/ExploreScreen'
 import { FlashcardScreen } from './screens/FlashcardScreen'
@@ -50,13 +51,13 @@ export default function App() {
   const theme = useSettings((s) => s.theme)
   const lang = useSettings((s) => s.lang)
   const onboarded = useSettings((s) => s.onboarded)
-  const { tab, session, cards, explore, credits, mock } = useNav()
+  const { tab, session, cards, explore, credits, mock, body } = useNav()
 
   useEffect(() => applyTheme(theme), [theme])
   useEffect(() => applyLang(lang), [lang])
 
   const Screen = SCREENS[tab]
-  const overlay = session || cards || explore || mock
+  const overlay = session || cards || explore || mock || body
   return (
     <>
       <div className="app" hidden={!!overlay}>
@@ -68,6 +69,7 @@ export default function App() {
       {session && <QuizScreen config={session} />}
       {cards && <FlashcardScreen config={cards} />}
       {mock && !session && !cards && <MockScreen />}
+      {body && !session && !cards && !explore && <BodyScreen />}
       {!onboarded && <OnboardingScreen />}
       <StudyPlanWatcher />
       <Toasts />

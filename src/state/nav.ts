@@ -40,11 +40,15 @@ interface NavState {
   modulePage: string | null
   /** Anatomical plate page (inside the Atlas tab). */
   plate: string | null
+  /** A curriculum topic's study page (inside the Atlas tab). */
+  topic: { cat: string; index: number } | null
   /** Full-screen 3D explore for a module. */
   explore: string | null
   credits: boolean
   /** The mock exam (full screen). */
   mock: boolean
+  /** The whole body in 3D (full screen). */
+  body: boolean
   setTab(tab: Tab): void
   startSession(config: SessionConfig): void
   endSession(): void
@@ -53,8 +57,10 @@ interface NavState {
   openModule(id: string | null): void
   openExplore(id: string | null): void
   openPlate(id: string | null): void
+  openTopic(topic: { cat: string; index: number } | null): void
   setCredits(open: boolean): void
   openMock(open: boolean): void
+  openBody(open: boolean): void
 }
 
 export const useNav = create<NavState>()((set) => ({
@@ -63,19 +69,23 @@ export const useNav = create<NavState>()((set) => ({
   cards: null,
   modulePage: null,
   plate: null,
+  topic: null,
   explore: null,
   credits: false,
   mock: false,
-  setTab: (tab) => set({ tab, modulePage: null, plate: null }),
+  body: false,
+  setTab: (tab) => set({ tab, modulePage: null, plate: null, topic: null }),
   startSession: (session) => set({ session, cards: null }),
   endSession: () => set({ session: null }),
   startCards: (cards) => set({ cards, session: null }),
   endCards: () => set({ cards: null }),
-  openModule: (modulePage) => set({ modulePage, plate: null, tab: 'atlas' }),
-  openPlate: (plate) => set({ plate, modulePage: null, tab: 'atlas' }),
+  openModule: (modulePage) => set({ modulePage, plate: null, topic: null, tab: 'atlas' }),
+  openPlate: (plate) => set({ plate, modulePage: null, topic: null, tab: 'atlas' }),
+  openTopic: (topic) => set({ topic, modulePage: null, plate: null, tab: 'atlas' }),
   openExplore: (explore) => set({ explore }),
   setCredits: (credits) => set({ credits }),
   openMock: (mock) => set({ mock }),
+  openBody: (body) => set({ body }),
 }))
 
 export const PRACTICE_LENGTH = 12

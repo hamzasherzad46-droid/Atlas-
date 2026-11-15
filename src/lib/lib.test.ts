@@ -4,6 +4,12 @@ import { meshMatchesKey, meshSide, mostSpecific } from './meshMatch'
 import { INTERVALS, isMissed, prioritise, updateRecord } from './srs'
 import { placeTags } from './plates'
 import { MOCK_LENGTHS, buildMock, topicScores } from './mock'
+import { BODY_LAYERS, CUT_RANGE, EXPLODE_MAX, EXPLODE_ORIGIN, cutPlane, displayName, explodeOffset } from './bodyLayers'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const modelsDir = fileURLToPath(new URL('../../public/models', import.meta.url))
 
 function typeAll(text: string, answers: string[]) {
   let state: TypingState = emptyTyping
@@ -239,5 +245,37 @@ describe('mock exams', () => {
     expect(scores[0].right).toBe(0)
     expect(scores.find((s) => s.topic === 'Odd')?.right).toBe(scores.find((s) => s.topic === 'Odd')?.total)
     expect(scores.reduce((n, s) => n + s.total, 0)).toBe(10)
+  })
+})
+
+describe('whole-body model', () => {
+  it('names BodyParts3D parts readably, in British spelling, with the side at the end', () => {
+    expect(displayName('Long head of left biceps brachii')).toBe('Long head of biceps brachii (left)')
+    expect(displayName('Set of anterior intercostal veins')).toBe('Anterior intercostal veins')
+    expect(displayName('Esophagus')).toBe('Oesophagus')
+    expect(displayName('celiac trunk')).toBe('Coeliac trunk')
+    expect(displayName('Ileocecal junction')).toBe('Ileocaecal junction')
+    expect(displayName('Right femoral vein')).toBe('Femoral vein (right)')
+  })
+
+  it('moves bones straight out from the middle of the skeleton, proportionally', () => {
+    expect(explodeOffset(EXPLODE_ORIGIN, 1)).toEqual([0, 0, 0])
+    const [x, y, z] = explodeOffset([0.2, 1.66, 0], 1)
+    expect(x).toBeCloseTo(0.2 * EXPLODE_MAX)
+    expect(y).toBeCloseTo(0.8 * EXPLODE_MAX)
+    expect(z).toBe(0)
+    expect(explodeOffset([0.2, 1.66, 0], 0)).toEqual([0, 0, 0])
+  })
+
+  it('cuts across the whole body in each plane', () => {
+    expect(cutPlane('transverse', 0)).toEqual({ normal: [0, -1, 0], constant: CUT_RANGE.transverse[0] })
+    expect(cutPlane('transverse', 1).constant).toBeCloseTo(CUT_RANGE.transverse[1])
+    expect(cutPlane('sagittal', 0.5).constant).toBeCloseTo(0)
+    expect(cutPlane('coronal', 2).constant).toBeCloseTo(CUT_RANGE.coronal[1])
+  })
+
+  it('every layer file exists, and organs reuse the module models', () => {
+    for (const l of BODY_LAYERS) for (const p of l.parts) expect(existsSync(join(modelsDir, p.file)), p.file).toBe(true)
+    expect(BODY_LAYERS.map((l) => l.id)).toEqual(['skin', 'muscles', 'skeleton', 'organs', 'arteries', 'veins', 'nervous'])
   })
 })

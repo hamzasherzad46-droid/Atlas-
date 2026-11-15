@@ -16,6 +16,7 @@ import { regionStats } from '../state/stats'
 import { Curriculum } from './Curriculum'
 import { PlateScreen, PlatesList } from './Plates'
 import { PracticeSheet } from './PracticeSheet'
+import { TopicScreen } from './TopicScreen'
 
 type AtlasView = 'regions' | 'systems' | 'plates' | 'curriculum'
 
@@ -27,10 +28,13 @@ export function AtlasScreen() {
   const t = useT()
   const modulePage = useNav((s) => s.modulePage)
   const plate = useNav((s) => s.plate)
-  const [view, setView] = useState<AtlasView>(plate ? 'plates' : 'regions')
+  const openBody = useNav((s) => s.openBody)
+  const topic = useNav((s) => s.topic)
+  const [view, setView] = useState<AtlasView>(plate ? 'plates' : topic ? 'curriculum' : 'regions')
   const [openCategory, setOpenCategory] = useState<string | null>(null)
   if (modulePage) return <ModuleScreen id={modulePage} />
   if (plate) return <PlateScreen id={plate} />
+  if (topic) return <TopicScreen key={`${topic.cat}:${topic.index}`} cat={topic.cat} index={topic.index} />
 
   return (
     <main className="page">
@@ -39,6 +43,12 @@ export function AtlasScreen() {
         <h1 className="display">{t('atlas.title')}</h1>
         <p className="lede">{t('atlas.sub')}</p>
       </div>
+      <button className="go atlas-body" onClick={() => openBody(true)}>
+        <span>
+          {t('body.title')} <span className="go-sub">· {t('body.short')}</span>
+        </span>
+        <ArrowIcon />
+      </button>
       <div className="options atlas-views">
         {(['regions', 'systems', 'plates', 'curriculum'] as const).map((v) => (
           <button key={v} aria-pressed={view === v} onClick={() => setView(v)}>
