@@ -38,8 +38,12 @@ describe('question order', () => {
       expect(ids).toHaveLength(12)
       expect(new Set(ids).size).toBe(12)
       const regions = ids.map((id) => byId(id).region)
-      // With five regions in the skeleton, the same region never comes twice in a row.
-      for (let i = 1; i < regions.length; i++) expect(regions[i], ids.join(',')).not.toBe(regions[i - 1])
+      // The same region never comes twice in a row unless it can't be helped: when more than half
+      // of the questions drawn come from one region, some repeats are unavoidable, and no more are made.
+      const most = Math.max(...[...new Set(regions)].map((r) => regions.filter((x) => x === r).length))
+      const unavoidable = Math.max(0, 2 * most - regions.length - 1)
+      const repeats = regions.filter((r, i) => i > 0 && r === regions[i - 1]).length
+      expect(repeats, ids.join(',')).toBe(unavoidable)
     }
   })
 
