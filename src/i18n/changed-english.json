@@ -20,6 +20,7 @@
     "practice.region": "“Region” became “Questions from” (a part of the module, not a regional module).",
     "progress.exams": "“Exams” became “Timed and mock exams”.",
     "progress.noExams": "“No exams yet.” became “No timed or mock exams yet.”",
-    "you.timer": "“Default answer timer” became “Default time per answer”."
+    "you.timer": "“Default answer timer” became “Default time per answer”.",
+    "credits.privacyText": "Now explains accounts: without one, progress stays on the device; signed in, email and progress are stored in Google Firebase."
   }
 }

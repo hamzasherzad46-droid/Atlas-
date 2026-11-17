@@ -44,4 +44,6 @@ export const appStorage: KeyValueStore = new LocalKeyValueStore()
 export const STORAGE_KEYS = {
   settings: 'atlas:settings:v1',
   progress: 'atlas:progress:v1',
+  /** Account sync state on this device (device id, last sync); not the account itself. */
+  account: 'atlas:account:v1',
 } as const

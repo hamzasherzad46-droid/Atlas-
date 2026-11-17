@@ -6,7 +6,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (49)
+### Missing: shown in English (95)
 
 | Key | English |
 | --- | --- |
@@ -17,6 +17,52 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.mistakesSub` | Answered wrongly: {n} |
 | `cards.end` | End flashcards |
 | `mock.end` | Leave the mock exam |
+| `account.title` | Account |
+| `account.lede` | Sign in to keep your progress on all your devices. Atlas works the same without an account. |
+| `account.google` | Continue with Google |
+| `account.withEmail` | Sign in with email |
+| `account.orEmail` | Or with email |
+| `account.email` | Email |
+| `account.password` | Password |
+| `account.signInTitle` | Sign in |
+| `account.createTitle` | Create an account |
+| `account.signIn` | Sign in |
+| `account.create` | Create account |
+| `account.toCreate` | New here? Create an account |
+| `account.toSignIn` | Already have an account? Sign in |
+| `account.forgot` | Forgotten password? |
+| `account.resetSent` | If there is an account for {email}, we’ve sent it a link to choose a new password. |
+| `account.needEmail` | Enter your email address first. |
+| `account.signedInAs` | Signed in as |
+| `account.checking` | Checking your account… |
+| `account.syncedAt` | Synced at {time} |
+| `account.syncing` | Syncing… |
+| `account.notSynced` | Not synced yet. |
+| `account.offline` | Offline. Your progress will sync when you’re back online. |
+| `account.syncError` | Couldn’t sync just now. Atlas will try again. |
+| `account.signOut` | Sign out |
+| `account.signOutNote` | Your progress stays in your account and is cleared from this device. |
+| `account.signOutUnsynced` | Some progress hasn’t synced yet. Tap again to sign out anyway and lose it on this device. |
+| `account.delete` | Delete account |
+| `account.deleteTitle` | Delete your account |
+| `account.deleteText` | This erases your account and all the progress saved in it, on every device, and clears this device. It can’t be undone. |
+| `account.deletePassword` | Enter your password to confirm. |
+| `account.deleteGoogle` | You’ll be asked to confirm with Google. |
+| `account.deleteGo` | Delete my account |
+| `account.deleted` | Your account has been deleted. |
+| `account.privacy` | Your email address and your progress (with your course, daily goal and name) are stored in Google Firebase. You can delete your account in Settings at any time. |
+| `account.resetEverywhere` | Also erases it in your account, on all your devices. |
+| `account.err.email` | That doesn’t look like an email address. |
+| `account.err.credentials` | Email or password not recognised. |
+| `account.err.missingPassword` | Enter your password. |
+| `account.err.inUse` | There is already an account with this email. Sign in instead. |
+| `account.err.weak` | Choose a password of at least 6 characters. |
+| `account.err.tooMany` | Too many attempts. Wait a few minutes and try again. |
+| `account.err.offline` | You’re offline. Connect to the internet and try again. |
+| `account.err.popup` | The sign-in window was blocked. Allow pop-ups for this site and try again. |
+| `account.err.recent` | For your security, confirm it’s you and try again. |
+| `account.err.setup` | Sign-in isn’t available right now. Please try again later. |
+| `account.err.unknown` | Something went wrong. Please try again. |
 | `search.open` | Search |
 | `search.title` | Search |
 | `search.label` | Search Atlas |
@@ -60,7 +106,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `module.running-muscles` | Muscles of running |
 | `module.sports-injury-muscles` | Often injured in sport |
 
-### English changed since it was translated (20)
+### English changed since it was translated (21)
 
 | Key | Current English | Change | Current translation |
 | --- | --- | --- | --- |
@@ -84,6 +130,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | Aucun examen pour l’instant. |
 | `you.track` | Course | “Study track” became “Course”. | Filière |
 | `you.timer` | Default time per answer | “Default answer timer” became “Default time per answer”. | Chrono par défaut |
+| `credits.privacyText` | No ads and no tracking. Without an account, your progress stays on this device. If you sign in, your email address and your progress (with your course, daily goal and name) are stored in Google Firebase so they follow you to your other devices. You can delete your account in Settings at any time. | Now explains accounts: without one, progress stays on the device; signed in, email and progress are stored in Google Firebase. | Pas de publicité, pas de pistage, pas de compte. Votre progression reste sur cet appareil. |
 
 ### Identical to English (9): check whether this is intended
 
@@ -101,7 +148,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (49)
+### Missing: shown in English (95)
 
 | Key | English |
 | --- | --- |
@@ -112,6 +159,52 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.mistakesSub` | Answered wrongly: {n} |
 | `cards.end` | End flashcards |
 | `mock.end` | Leave the mock exam |
+| `account.title` | Account |
+| `account.lede` | Sign in to keep your progress on all your devices. Atlas works the same without an account. |
+| `account.google` | Continue with Google |
+| `account.withEmail` | Sign in with email |
+| `account.orEmail` | Or with email |
+| `account.email` | Email |
+| `account.password` | Password |
+| `account.signInTitle` | Sign in |
+| `account.createTitle` | Create an account |
+| `account.signIn` | Sign in |
+| `account.create` | Create account |
+| `account.toCreate` | New here? Create an account |
+| `account.toSignIn` | Already have an account? Sign in |
+| `account.forgot` | Forgotten password? |
+| `account.resetSent` | If there is an account for {email}, we’ve sent it a link to choose a new password. |
+| `account.needEmail` | Enter your email address first. |
+| `account.signedInAs` | Signed in as |
+| `account.checking` | Checking your account… |
+| `account.syncedAt` | Synced at {time} |
+| `account.syncing` | Syncing… |
+| `account.notSynced` | Not synced yet. |
+| `account.offline` | Offline. Your progress will sync when you’re back online. |
+| `account.syncError` | Couldn’t sync just now. Atlas will try again. |
+| `account.signOut` | Sign out |
+| `account.signOutNote` | Your progress stays in your account and is cleared from this device. |
+| `account.signOutUnsynced` | Some progress hasn’t synced yet. Tap again to sign out anyway and lose it on this device. |
+| `account.delete` | Delete account |
+| `account.deleteTitle` | Delete your account |
+| `account.deleteText` | This erases your account and all the progress saved in it, on every device, and clears this device. It can’t be undone. |
+| `account.deletePassword` | Enter your password to confirm. |
+| `account.deleteGoogle` | You’ll be asked to confirm with Google. |
+| `account.deleteGo` | Delete my account |
+| `account.deleted` | Your account has been deleted. |
+| `account.privacy` | Your email address and your progress (with your course, daily goal and name) are stored in Google Firebase. You can delete your account in Settings at any time. |
+| `account.resetEverywhere` | Also erases it in your account, on all your devices. |
+| `account.err.email` | That doesn’t look like an email address. |
+| `account.err.credentials` | Email or password not recognised. |
+| `account.err.missingPassword` | Enter your password. |
+| `account.err.inUse` | There is already an account with this email. Sign in instead. |
+| `account.err.weak` | Choose a password of at least 6 characters. |
+| `account.err.tooMany` | Too many attempts. Wait a few minutes and try again. |
+| `account.err.offline` | You’re offline. Connect to the internet and try again. |
+| `account.err.popup` | The sign-in window was blocked. Allow pop-ups for this site and try again. |
+| `account.err.recent` | For your security, confirm it’s you and try again. |
+| `account.err.setup` | Sign-in isn’t available right now. Please try again later. |
+| `account.err.unknown` | Something went wrong. Please try again. |
 | `search.open` | Search |
 | `search.title` | Search |
 | `search.label` | Search Atlas |
@@ -155,7 +248,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `module.running-muscles` | Muscles of running |
 | `module.sports-injury-muscles` | Often injured in sport |
 
-### English changed since it was translated (20)
+### English changed since it was translated (21)
 
 | Key | Current English | Change | Current translation |
 | --- | --- | --- | --- |
@@ -179,6 +272,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | Noch keine Prüfungen. |
 | `you.track` | Course | “Study track” became “Course”. | Studienrichtung |
 | `you.timer` | Default time per answer | “Default answer timer” became “Default time per answer”. | Standard-Antwort-Timer |
+| `credits.privacyText` | No ads and no tracking. Without an account, your progress stays on this device. If you sign in, your email address and your progress (with your course, daily goal and name) are stored in Google Firebase so they follow you to your other devices. You can delete your account in Settings at any time. | Now explains accounts: without one, progress stays on the device; signed in, email and progress are stored in Google Firebase. | Keine Werbung, kein Tracking, kein Konto. Dein Fortschritt bleibt auf diesem Gerät. |
 
 ### Identical to English (7): check whether this is intended
 
@@ -194,7 +288,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (49)
+### Missing: shown in English (95)
 
 | Key | English |
 | --- | --- |
@@ -205,6 +299,52 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.mistakesSub` | Answered wrongly: {n} |
 | `cards.end` | End flashcards |
 | `mock.end` | Leave the mock exam |
+| `account.title` | Account |
+| `account.lede` | Sign in to keep your progress on all your devices. Atlas works the same without an account. |
+| `account.google` | Continue with Google |
+| `account.withEmail` | Sign in with email |
+| `account.orEmail` | Or with email |
+| `account.email` | Email |
+| `account.password` | Password |
+| `account.signInTitle` | Sign in |
+| `account.createTitle` | Create an account |
+| `account.signIn` | Sign in |
+| `account.create` | Create account |
+| `account.toCreate` | New here? Create an account |
+| `account.toSignIn` | Already have an account? Sign in |
+| `account.forgot` | Forgotten password? |
+| `account.resetSent` | If there is an account for {email}, we’ve sent it a link to choose a new password. |
+| `account.needEmail` | Enter your email address first. |
+| `account.signedInAs` | Signed in as |
+| `account.checking` | Checking your account… |
+| `account.syncedAt` | Synced at {time} |
+| `account.syncing` | Syncing… |
+| `account.notSynced` | Not synced yet. |
+| `account.offline` | Offline. Your progress will sync when you’re back online. |
+| `account.syncError` | Couldn’t sync just now. Atlas will try again. |
+| `account.signOut` | Sign out |
+| `account.signOutNote` | Your progress stays in your account and is cleared from this device. |
+| `account.signOutUnsynced` | Some progress hasn’t synced yet. Tap again to sign out anyway and lose it on this device. |
+| `account.delete` | Delete account |
+| `account.deleteTitle` | Delete your account |
+| `account.deleteText` | This erases your account and all the progress saved in it, on every device, and clears this device. It can’t be undone. |
+| `account.deletePassword` | Enter your password to confirm. |
+| `account.deleteGoogle` | You’ll be asked to confirm with Google. |
+| `account.deleteGo` | Delete my account |
+| `account.deleted` | Your account has been deleted. |
+| `account.privacy` | Your email address and your progress (with your course, daily goal and name) are stored in Google Firebase. You can delete your account in Settings at any time. |
+| `account.resetEverywhere` | Also erases it in your account, on all your devices. |
+| `account.err.email` | That doesn’t look like an email address. |
+| `account.err.credentials` | Email or password not recognised. |
+| `account.err.missingPassword` | Enter your password. |
+| `account.err.inUse` | There is already an account with this email. Sign in instead. |
+| `account.err.weak` | Choose a password of at least 6 characters. |
+| `account.err.tooMany` | Too many attempts. Wait a few minutes and try again. |
+| `account.err.offline` | You’re offline. Connect to the internet and try again. |
+| `account.err.popup` | The sign-in window was blocked. Allow pop-ups for this site and try again. |
+| `account.err.recent` | For your security, confirm it’s you and try again. |
+| `account.err.setup` | Sign-in isn’t available right now. Please try again later. |
+| `account.err.unknown` | Something went wrong. Please try again. |
 | `search.open` | Search |
 | `search.title` | Search |
 | `search.label` | Search Atlas |
@@ -248,7 +388,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `module.running-muscles` | Muscles of running |
 | `module.sports-injury-muscles` | Often injured in sport |
 
-### English changed since it was translated (20)
+### English changed since it was translated (21)
 
 | Key | Current English | Change | Current translation |
 | --- | --- | --- | --- |
@@ -272,6 +412,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | لا اختبارات بعد. |
 | `you.track` | Course | “Study track” became “Course”. | مسار الدراسة |
 | `you.timer` | Default time per answer | “Default answer timer” became “Default time per answer”. | مؤقّت الإجابة الافتراضي |
+| `credits.privacyText` | No ads and no tracking. Without an account, your progress stays on this device. If you sign in, your email address and your progress (with your course, daily goal and name) are stored in Google Firebase so they follow you to your other devices. You can delete your account in Settings at any time. | Now explains accounts: without one, progress stays on the device; signed in, email and progress are stored in Google Firebase. | بلا إعلانات ولا تتبّع ولا حسابات. يبقى تقدّمك على هذا الجهاز فقط. |
 
 ### Identical to English (1): check whether this is intended
 
@@ -281,7 +422,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (49)
+### Missing: shown in English (95)
 
 | Key | English |
 | --- | --- |
@@ -292,6 +433,52 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.mistakesSub` | Answered wrongly: {n} |
 | `cards.end` | End flashcards |
 | `mock.end` | Leave the mock exam |
+| `account.title` | Account |
+| `account.lede` | Sign in to keep your progress on all your devices. Atlas works the same without an account. |
+| `account.google` | Continue with Google |
+| `account.withEmail` | Sign in with email |
+| `account.orEmail` | Or with email |
+| `account.email` | Email |
+| `account.password` | Password |
+| `account.signInTitle` | Sign in |
+| `account.createTitle` | Create an account |
+| `account.signIn` | Sign in |
+| `account.create` | Create account |
+| `account.toCreate` | New here? Create an account |
+| `account.toSignIn` | Already have an account? Sign in |
+| `account.forgot` | Forgotten password? |
+| `account.resetSent` | If there is an account for {email}, we’ve sent it a link to choose a new password. |
+| `account.needEmail` | Enter your email address first. |
+| `account.signedInAs` | Signed in as |
+| `account.checking` | Checking your account… |
+| `account.syncedAt` | Synced at {time} |
+| `account.syncing` | Syncing… |
+| `account.notSynced` | Not synced yet. |
+| `account.offline` | Offline. Your progress will sync when you’re back online. |
+| `account.syncError` | Couldn’t sync just now. Atlas will try again. |
+| `account.signOut` | Sign out |
+| `account.signOutNote` | Your progress stays in your account and is cleared from this device. |
+| `account.signOutUnsynced` | Some progress hasn’t synced yet. Tap again to sign out anyway and lose it on this device. |
+| `account.delete` | Delete account |
+| `account.deleteTitle` | Delete your account |
+| `account.deleteText` | This erases your account and all the progress saved in it, on every device, and clears this device. It can’t be undone. |
+| `account.deletePassword` | Enter your password to confirm. |
+| `account.deleteGoogle` | You’ll be asked to confirm with Google. |
+| `account.deleteGo` | Delete my account |
+| `account.deleted` | Your account has been deleted. |
+| `account.privacy` | Your email address and your progress (with your course, daily goal and name) are stored in Google Firebase. You can delete your account in Settings at any time. |
+| `account.resetEverywhere` | Also erases it in your account, on all your devices. |
+| `account.err.email` | That doesn’t look like an email address. |
+| `account.err.credentials` | Email or password not recognised. |
+| `account.err.missingPassword` | Enter your password. |
+| `account.err.inUse` | There is already an account with this email. Sign in instead. |
+| `account.err.weak` | Choose a password of at least 6 characters. |
+| `account.err.tooMany` | Too many attempts. Wait a few minutes and try again. |
+| `account.err.offline` | You’re offline. Connect to the internet and try again. |
+| `account.err.popup` | The sign-in window was blocked. Allow pop-ups for this site and try again. |
+| `account.err.recent` | For your security, confirm it’s you and try again. |
+| `account.err.setup` | Sign-in isn’t available right now. Please try again later. |
+| `account.err.unknown` | Something went wrong. Please try again. |
 | `search.open` | Search |
 | `search.title` | Search |
 | `search.label` | Search Atlas |
@@ -335,7 +522,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `module.running-muscles` | Muscles of running |
 | `module.sports-injury-muscles` | Often injured in sport |
 
-### English changed since it was translated (20)
+### English changed since it was translated (21)
 
 | Key | Current English | Change | Current translation |
 | --- | --- | --- | --- |
@@ -359,6 +546,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | Экзаменов пока нет. |
 | `you.track` | Course | “Study track” became “Course”. | Направление |
 | `you.timer` | Default time per answer | “Default answer timer” became “Default time per answer”. | Таймер по умолчанию |
+| `credits.privacyText` | No ads and no tracking. Without an account, your progress stays on this device. If you sign in, your email address and your progress (with your course, daily goal and name) are stored in Google Firebase so they follow you to your other devices. You can delete your account in Settings at any time. | Now explains accounts: without one, progress stays on the device; signed in, email and progress are stored in Google Firebase. | Без рекламы, слежки и аккаунтов. Ваш прогресс хранится только на этом устройстве. |
 
 ### Identical to English (2): check whether this is intended
 
@@ -369,7 +557,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (49)
+### Missing: shown in English (95)
 
 | Key | English |
 | --- | --- |
@@ -380,6 +568,52 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.mistakesSub` | Answered wrongly: {n} |
 | `cards.end` | End flashcards |
 | `mock.end` | Leave the mock exam |
+| `account.title` | Account |
+| `account.lede` | Sign in to keep your progress on all your devices. Atlas works the same without an account. |
+| `account.google` | Continue with Google |
+| `account.withEmail` | Sign in with email |
+| `account.orEmail` | Or with email |
+| `account.email` | Email |
+| `account.password` | Password |
+| `account.signInTitle` | Sign in |
+| `account.createTitle` | Create an account |
+| `account.signIn` | Sign in |
+| `account.create` | Create account |
+| `account.toCreate` | New here? Create an account |
+| `account.toSignIn` | Already have an account? Sign in |
+| `account.forgot` | Forgotten password? |
+| `account.resetSent` | If there is an account for {email}, we’ve sent it a link to choose a new password. |
+| `account.needEmail` | Enter your email address first. |
+| `account.signedInAs` | Signed in as |
+| `account.checking` | Checking your account… |
+| `account.syncedAt` | Synced at {time} |
+| `account.syncing` | Syncing… |
+| `account.notSynced` | Not synced yet. |
+| `account.offline` | Offline. Your progress will sync when you’re back online. |
+| `account.syncError` | Couldn’t sync just now. Atlas will try again. |
+| `account.signOut` | Sign out |
+| `account.signOutNote` | Your progress stays in your account and is cleared from this device. |
+| `account.signOutUnsynced` | Some progress hasn’t synced yet. Tap again to sign out anyway and lose it on this device. |
+| `account.delete` | Delete account |
+| `account.deleteTitle` | Delete your account |
+| `account.deleteText` | This erases your account and all the progress saved in it, on every device, and clears this device. It can’t be undone. |
+| `account.deletePassword` | Enter your password to confirm. |
+| `account.deleteGoogle` | You’ll be asked to confirm with Google. |
+| `account.deleteGo` | Delete my account |
+| `account.deleted` | Your account has been deleted. |
+| `account.privacy` | Your email address and your progress (with your course, daily goal and name) are stored in Google Firebase. You can delete your account in Settings at any time. |
+| `account.resetEverywhere` | Also erases it in your account, on all your devices. |
+| `account.err.email` | That doesn’t look like an email address. |
+| `account.err.credentials` | Email or password not recognised. |
+| `account.err.missingPassword` | Enter your password. |
+| `account.err.inUse` | There is already an account with this email. Sign in instead. |
+| `account.err.weak` | Choose a password of at least 6 characters. |
+| `account.err.tooMany` | Too many attempts. Wait a few minutes and try again. |
+| `account.err.offline` | You’re offline. Connect to the internet and try again. |
+| `account.err.popup` | The sign-in window was blocked. Allow pop-ups for this site and try again. |
+| `account.err.recent` | For your security, confirm it’s you and try again. |
+| `account.err.setup` | Sign-in isn’t available right now. Please try again later. |
+| `account.err.unknown` | Something went wrong. Please try again. |
 | `search.open` | Search |
 | `search.title` | Search |
 | `search.label` | Search Atlas |
@@ -423,7 +657,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `module.running-muscles` | Muscles of running |
 | `module.sports-injury-muscles` | Often injured in sport |
 
-### English changed since it was translated (20)
+### English changed since it was translated (21)
 
 | Key | Current English | Change | Current translation |
 | --- | --- | --- | --- |
@@ -447,6 +681,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | 暂无测验。 |
 | `you.track` | Course | “Study track” became “Course”. | 学习方向 |
 | `you.timer` | Default time per answer | “Default answer timer” became “Default time per answer”. | 默认答题计时 |
+| `credits.privacyText` | No ads and no tracking. Without an account, your progress stays on this device. If you sign in, your email address and your progress (with your course, daily goal and name) are stored in Google Firebase so they follow you to your other devices. You can delete your account in Settings at any time. | Now explains accounts: without one, progress stays on the device; signed in, email and progress are stored in Google Firebase. | 没有广告、没有追踪、无需账号。你的进度只保存在本设备上。 |
 
 ### Identical to English (0): check whether this is intended
 
@@ -454,7 +689,7 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (49)
+### Missing: shown in English (95)
 
 | Key | English |
 | --- | --- |
@@ -465,6 +700,52 @@ None.
 | `mod.mistakesSub` | Answered wrongly: {n} |
 | `cards.end` | End flashcards |
 | `mock.end` | Leave the mock exam |
+| `account.title` | Account |
+| `account.lede` | Sign in to keep your progress on all your devices. Atlas works the same without an account. |
+| `account.google` | Continue with Google |
+| `account.withEmail` | Sign in with email |
+| `account.orEmail` | Or with email |
+| `account.email` | Email |
+| `account.password` | Password |
+| `account.signInTitle` | Sign in |
+| `account.createTitle` | Create an account |
+| `account.signIn` | Sign in |
+| `account.create` | Create account |
+| `account.toCreate` | New here? Create an account |
+| `account.toSignIn` | Already have an account? Sign in |
+| `account.forgot` | Forgotten password? |
+| `account.resetSent` | If there is an account for {email}, we’ve sent it a link to choose a new password. |
+| `account.needEmail` | Enter your email address first. |
+| `account.signedInAs` | Signed in as |
+| `account.checking` | Checking your account… |
+| `account.syncedAt` | Synced at {time} |
+| `account.syncing` | Syncing… |
+| `account.notSynced` | Not synced yet. |
+| `account.offline` | Offline. Your progress will sync when you’re back online. |
+| `account.syncError` | Couldn’t sync just now. Atlas will try again. |
+| `account.signOut` | Sign out |
+| `account.signOutNote` | Your progress stays in your account and is cleared from this device. |
+| `account.signOutUnsynced` | Some progress hasn’t synced yet. Tap again to sign out anyway and lose it on this device. |
+| `account.delete` | Delete account |
+| `account.deleteTitle` | Delete your account |
+| `account.deleteText` | This erases your account and all the progress saved in it, on every device, and clears this device. It can’t be undone. |
+| `account.deletePassword` | Enter your password to confirm. |
+| `account.deleteGoogle` | You’ll be asked to confirm with Google. |
+| `account.deleteGo` | Delete my account |
+| `account.deleted` | Your account has been deleted. |
+| `account.privacy` | Your email address and your progress (with your course, daily goal and name) are stored in Google Firebase. You can delete your account in Settings at any time. |
+| `account.resetEverywhere` | Also erases it in your account, on all your devices. |
+| `account.err.email` | That doesn’t look like an email address. |
+| `account.err.credentials` | Email or password not recognised. |
+| `account.err.missingPassword` | Enter your password. |
+| `account.err.inUse` | There is already an account with this email. Sign in instead. |
+| `account.err.weak` | Choose a password of at least 6 characters. |
+| `account.err.tooMany` | Too many attempts. Wait a few minutes and try again. |
+| `account.err.offline` | You’re offline. Connect to the internet and try again. |
+| `account.err.popup` | The sign-in window was blocked. Allow pop-ups for this site and try again. |
+| `account.err.recent` | For your security, confirm it’s you and try again. |
+| `account.err.setup` | Sign-in isn’t available right now. Please try again later. |
+| `account.err.unknown` | Something went wrong. Please try again. |
 | `search.open` | Search |
 | `search.title` | Search |
 | `search.label` | Search Atlas |
@@ -508,7 +789,7 @@ None.
 | `module.running-muscles` | Muscles of running |
 | `module.sports-injury-muscles` | Often injured in sport |
 
-### English changed since it was translated (20)
+### English changed since it was translated (21)
 
 | Key | Current English | Change | Current translation |
 | --- | --- | --- | --- |
@@ -532,6 +813,7 @@ None.
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | 아직 본 시험이 없어요. |
 | `you.track` | Course | “Study track” became “Course”. | 전공 |
 | `you.timer` | Default time per answer | “Default answer timer” became “Default time per answer”. | 기본 답변 타이머 |
+| `credits.privacyText` | No ads and no tracking. Without an account, your progress stays on this device. If you sign in, your email address and your progress (with your course, daily goal and name) are stored in Google Firebase so they follow you to your other devices. You can delete your account in Settings at any time. | Now explains accounts: without one, progress stays on the device; signed in, email and progress are stored in Google Firebase. | 광고, 추적, 계정이 없어요. 진도는 이 기기에만 저장돼요. |
 
 ### Identical to English (1): check whether this is intended
 

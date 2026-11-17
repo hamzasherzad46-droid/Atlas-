@@ -21,6 +21,7 @@
     "@fontsource/libre-caslon-text": "^5.3.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
+    "firebase": "^13.4.0",
     "react": "~19.3.1",
     "react-dom": "~19.3.1",
     "three": "^0.187.0",

@@ -40,8 +40,13 @@ interface SettingsState {
   answerTimer: number
   onboarded: boolean
   lastSession: LastSession | null
+  /** When course, daily goal or name last changed on this device (0: never); the newest change wins across devices. */
+  profileChangedAt: number
   set(patch: Partial<Omit<SettingsState, 'set'>>): void
 }
+
+/** The settings that follow a signed-in student to their other devices. */
+export const PROFILE_KEYS = ['track', 'dailyGoal', 'name'] as const
 
 export const useSettings = create<SettingsState>()(
   persist(
@@ -55,7 +60,9 @@ export const useSettings = create<SettingsState>()(
       answerTimer: 0,
       onboarded: false,
       lastSession: null,
-      set: (patch) => set(patch),
+      profileChangedAt: 0,
+      set: (patch) =>
+        set((s) => (PROFILE_KEYS.some((k) => k in patch && patch[k] !== s[k]) ? { ...patch, profileChangedAt: Date.now() } : patch)),
     }),
     {
       name: STORAGE_KEYS.settings,
