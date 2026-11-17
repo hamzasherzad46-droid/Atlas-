@@ -43,7 +43,9 @@ Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to en
 - `content/mock.json` — mock-exam banks; first option is correct, the app shuffles
 - `public/models/skeleton.glb` — real BodyParts3D bones, built by `scripts/import-bodyparts3d.mjs` (see README "3D models")
 - `public/models/body-*.glb` — whole-body layers (skin, muscles, arteries, veins, nervous, glands) from `scripts/layers/*.json`; layer list in `src/lib/bodyLayers.ts`
-- `src/content/content.test.ts` — validates every content file (run `npm test` after editing content)
+- `src/content/content.test.ts` — validates every content file (run `npm test` after editing content); `consistency.test.ts` — one name, Latin name and answer set per structure, no answer shared by two structures
+- Spelling: `npm test` runs cspell first (British English, `cspell.config.json`): content, `en.ts`, README, NAVIGATION, CLAUDE. Word lists: `cspell-words.txt` (anatomy, Latin, eponyms), `cspell-answer-words.txt` (typed answers only), `cspell-dev-words.txt` (docs only). `src/content/spelling.test.ts`: synonyms may be American, display text may not. Never add a word just to pass; if unsure, list it in `CONTENT-REVIEW.md`
+- `CONTENT-REVIEW.md` — content questions for a clinician or anatomist (TA2 names, questioned synonyms, mock nuances, note coverage); nothing in it was changed silently
 - `TRANSLATION-REVIEW.md` — generated list of missing or out-of-date translations (`npm run i18n:report`); `npm test` fails if it is stale. Don't edit the six other languages without a native speaker
 - `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`, `plates.ts` (tag layout), `mock.ts`, `sound.ts` (synthesised sounds), `search.ts` (spelling-tolerant search; index built by `src/content/searchIndex.ts`)
 - `src/state/` — Zustand stores: settings, progress (persisted), nav (a history of views: open screens with `go`/the `open*` actions, leave them with `goBack()`, never by resetting fields), quiz session; `browserBack.ts` keeps browser history in step
