@@ -4,32 +4,23 @@ import type { DayActivity } from '../lib/assignments'
 import { dayKey } from '../lib/dates'
 import { appStorage, STORAGE_KEYS } from '../lib/storage'
 import { updateRecord, type Outcome, type StructureRecord } from '../lib/srs'
+import type { AssessmentResult, CardRecord } from '../lib/syncMerge'
 
 export { dayKey }
 export type { DayActivity }
 
-export interface AssessmentResult {
-  at: number
-  moduleId: string
-  total: number
-  correct: number
-  durationMs: number
-  missed: string[]
-}
-
-/** Flashcards use their own Leitner boxes so they don't inflate quiz mastery. */
-export interface CardRecord {
-  box: number
-  dueAt: number
-  seen: number
-}
+/** Flashcards use their own Leitner boxes so they don't inflate quiz mastery (CardRecord). */
+export type { AssessmentResult, CardRecord }
 
 const CARD_INTERVALS = [0, 5 * 60_000, 24 * 3600_000, 3 * 24 * 3600_000, 7 * 24 * 3600_000, 21 * 24 * 3600_000]
 
 interface ProgressState {
   records: Record<string, StructureRecord>
   cards: Record<string, CardRecord>
+  /** This device's daily activity. */
   days: Record<string, DayActivity>
+  /** Daily activity from the account's other devices, added up (filled by sync; empty when signed out). */
+  otherDays: Record<string, DayActivity>
   assessments: AssessmentResult[]
   xp: number
   /** Assignment instance key → time claimed. */
@@ -56,6 +47,7 @@ export const useProgress = create<ProgressState>()(
       records: {},
       cards: {},
       days: {},
+      otherDays: {},
       assessments: [],
       xp: 0,
       claimed: {},
@@ -87,7 +79,7 @@ export const useProgress = create<ProgressState>()(
         set((s) =>
           s.claimed[key] ? s : { claimed: { ...s.claimed, [key]: Date.now() }, xp: s.xp + xp, days: withDay(s.days, null, (d) => ({ xp: d.xp + xp })) },
         ),
-      reset: () => set({ records: {}, cards: {}, days: {}, assessments: [], xp: 0, claimed: {} }),
+      reset: () => set({ records: {}, cards: {}, days: {}, otherDays: {}, assessments: [], xp: 0, claimed: {} }),
     }),
     {
       name: STORAGE_KEYS.progress,

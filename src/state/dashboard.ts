@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
 import { allModules } from '../content/loader'
 import type { ModuleContent } from '../content/types'
-import { evaluateAssignments, type AssignmentStatus } from '../lib/assignments'
+import { evaluateAssignments, type AssignmentStatus, type DayActivity } from '../lib/assignments'
 import { isMissed } from '../lib/srs'
+import { sumDays } from '../lib/syncMerge'
 import { currentStreak, weekStrip } from '../lib/streak'
 import { levelFromXp, type LevelInfo } from '../lib/xp'
 import { useProgress, type CardRecord } from './progress'
@@ -10,8 +11,15 @@ import { useSettings } from './settings'
 
 const systemOf = (moduleId: string) => allModules.find((m) => m.id === moduleId)?.systemId
 
-export function useActiveDays(): Set<string> {
+/** Daily activity on every device: this one's plus the account's other devices' (when signed in). */
+export function useAllDays(): Record<string, DayActivity> {
   const days = useProgress((s) => s.days)
+  const otherDays = useProgress((s) => s.otherDays)
+  return useMemo(() => (Object.keys(otherDays).length ? sumDays([days, otherDays]) : days), [days, otherDays])
+}
+
+export function useActiveDays(): Set<string> {
+  const days = useAllDays()
   return useMemo(() => new Set(Object.entries(days).filter(([, d]) => d.answered + d.cards > 0).map(([k]) => k)), [days])
 }
 
@@ -26,7 +34,7 @@ export function useLevel(): LevelInfo & { xp: number } {
 }
 
 export function useAssignments(): AssignmentStatus[] {
-  const days = useProgress((s) => s.days)
+  const days = useAllDays()
   const records = useProgress((s) => s.records)
   const assessments = useProgress((s) => s.assessments)
   const dailyGoal = useSettings((s) => s.dailyGoal)

@@ -8,7 +8,7 @@ import { useT } from '../i18n'
 import type { Period } from '../lib/dates'
 import { formatClock, pct, sentence } from '../lib/format'
 import { defaultModuleId, startReview } from '../state/actions'
-import { useAssignments, useStreak } from '../state/dashboard'
+import { useAllDays, useAssignments, useStreak } from '../state/dashboard'
 import { useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
 import { mostMissed } from '../state/stats'
@@ -18,7 +18,8 @@ export function ProgressScreen() {
   const t = useT()
   const moduleId = useSettings((s) => s.lastSession?.moduleId ?? defaultModuleId)
   const { assets } = useModule(moduleId)
-  const { records, days, assessments } = useProgress()
+  const { records, assessments } = useProgress()
+  const days = useAllDays()
   const { streak } = useStreak()
   const weak = assets ? mostMissed(assets.content, records, 5) : []
   const date = new Intl.DateTimeFormat(t.lang, { day: 'numeric', month: 'short' })

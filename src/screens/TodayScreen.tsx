@@ -12,7 +12,7 @@ import { useT } from '../i18n'
 import { pct } from '../lib/format'
 import { tintVars } from '../lib/tint'
 import { startAssessment, startCards, startPractice, startReview } from '../state/actions'
-import { dueCards, missedCount } from '../state/dashboard'
+import { dueCards, missedCount, useAllDays } from '../state/dashboard'
 import { useNav } from '../state/nav'
 import { dayKey, useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
@@ -34,7 +34,8 @@ export function TodayScreen() {
   const moduleId = continueModuleId(course, lastSession?.moduleId, exists)
   const info = getModuleInfo(moduleId)
   const { assets } = useModule(moduleId)
-  const { records, cards, days } = useProgress()
+  const { records, cards } = useProgress()
+  const days = useAllDays()
   const now = new Date()
   const answered = days[dayKey(now)]?.answered ?? 0
 
