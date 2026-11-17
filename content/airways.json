@@ -27,7 +27,7 @@
     {
       "id": "thyroid-cartilage",
       "name": "thyroid cartilage",
-      "synonyms": ["adams apple"],
+      "synonyms": [],
       "latinName": "cartilago thyroidea",
       "definition": "The largest cartilage of the larynx, shaped like an open book facing forward.",
       "function": "Shields the vocal cords and anchors them at the front.",
@@ -149,7 +149,7 @@
     {
       "id": "bronchial-tree",
       "name": "bronchial tree",
-      "synonyms": ["airway tree"],
+      "synonyms": [],
       "latinName": "arbor bronchialis",
       "definition": "Branching airways that divide about 23 times from the main bronchi down to the smallest bronchioles.",
       "function": "Distributes air to every part of the lungs.",

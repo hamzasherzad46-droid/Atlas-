@@ -28,7 +28,7 @@
     {
       "id": "precentral-gyrus",
       "name": "precentral gyrus",
-      "synonyms": ["primary motor cortex", "motor cortex"],
+      "synonyms": ["primary motor cortex"],
       "latinName": "gyrus precentralis",
       "definition": "Strip of cortex running from top to side of each hemisphere just in front of the central sulcus.",
       "function": "Sends the commands that move the opposite side of the body.",
@@ -82,7 +82,7 @@
     {
       "id": "postcentral-gyrus",
       "name": "postcentral gyrus",
-      "synonyms": ["primary somatosensory cortex", "somatosensory cortex"],
+      "synonyms": ["primary somatosensory cortex"],
       "latinName": "gyrus postcentralis",
       "definition": "Strip of cortex just behind the central sulcus.",
       "function": "Receives touch, pain and position sense from the opposite side of the body.",
@@ -323,7 +323,7 @@
     {
       "id": "cerebellum",
       "name": "cerebellum",
-      "synonyms": ["little brain"],
+      "synonyms": [],
       "latinName": "cerebellum",
       "definition": "Rounded, finely folded structure behind the brainstem, under the occipital lobes.",
       "function": "Coordinates movement, balance and posture and fine-tunes timing.",

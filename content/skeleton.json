@@ -67,7 +67,7 @@
     {
       "id": "occipital",
       "name": "occipital bone",
-      "synonyms": ["occipital", "occiput"],
+      "synonyms": ["occipital"],
       "latinName": "os occipitale",
       "definition": "Forms the back and base of the skull around the opening for the spinal cord.",
       "function": "Forms the back and base of the skull and joins the skull to the spine.",
@@ -181,7 +181,7 @@
     {
       "id": "mandible",
       "name": "mandible",
-      "synonyms": ["jaw", "jawbone", "lower jaw", "lower jawbone"],
+      "synonyms": ["jawbone", "lower jaw", "lower jawbone"],
       "latinName": "mandibula",
       "definition": "The only movable bone of the skull; it holds the lower teeth.",
       "function": "Holds the lower teeth and moves at the temporomandibular joints for chewing and speech.",
@@ -355,7 +355,7 @@
     {
       "id": "scapula",
       "name": "scapula",
-      "synonyms": ["shoulder blade", "shoulderblade"],
+      "synonyms": ["shoulder blade"],
       "latinName": "scapula",
       "definition": "Flat triangular bone on the upper back that forms the back of the shoulder.",
       "function": "Provides the socket of the shoulder joint and anchors the rotator cuff and other shoulder muscles.",
@@ -526,7 +526,7 @@
     {
       "id": "hip-bone",
       "name": "hip bone",
-      "synonyms": ["pelvis", "pelvic bone", "innominate bone", "coxal bone", "os coxae"],
+      "synonyms": ["pelvic bone", "innominate bone", "coxal bone", "os coxae"],
       "latinName": "os coxae",
       "definition": "Large paired bone made of the ilium, ischium and pubis, forming the side wall of the bony pelvic ring.",
       "function": "Forms the hip socket, supports the trunk and protects the pelvic organs.",
@@ -871,7 +871,7 @@
     {
       "id": "inferior-nasal-concha",
       "name": "inferior nasal concha",
-      "synonyms": ["inferior turbinate", "turbinate"],
+      "synonyms": ["inferior turbinate"],
       "latinName": "concha nasalis inferior",
       "definition": "Scroll-shaped bone on the side wall of each nasal cavity.",
       "function": "Swirls and warms incoming air and keeps the lining moist.",

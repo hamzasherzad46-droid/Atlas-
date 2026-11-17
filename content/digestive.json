@@ -27,7 +27,7 @@
     {
       "id": "salivary-glands",
       "name": "salivary glands",
-      "synonyms": ["salivary gland", "submandibular gland", "sublingual gland"],
+      "synonyms": ["salivary gland"],
       "latinName": "glandulae salivariae",
       "definition": "Glands under the jaw and under the tongue that drain into the mouth.",
       "function": "Produce saliva, which moistens food, starts starch digestion and protects the teeth.",
