@@ -36,17 +36,24 @@ apply there.
   intermediate / advanced); optional per-question timer (30/20/10 s; time-out = miss); exams with a whole-test
   clock and per-answer timer. Feedback shows the verdict, the Latin name, what the structure does and a track note.
 - **Flashcards**: what it does, why it's there, and a note for your track; swipe to grade; own spaced repetition.
-- **Four tabs**: Today (resume your module, today's goal, due flashcards and mistakes), Atlas (regions, systems and
-  the full curriculum; each module offers Learn — Explore in 3D, Flashcards — and Test — Spelling, Multiple choice,
-  Identify on the model, Timed exam; practice options sit behind one link), Progress (activity, days in a row, study
-  plan, weak spots, exams) and Settings.
+- **Four tabs**: Today (the course home: continue where you left off, today's study, Learn, Test, the course's
+  modules and topics), All content (the body in 3D, short course modules, regions, systems, plates, the mock exam
+  and every curriculum topic, all on one page), Progress (activity, days in a row, study plan, weak spots, timed and
+  mock exams) and Settings. Each module page shows Learn (Explore in 3D, Flashcards), its test settings in view
+  (questions from, difficulty, structures, time per answer) and Test (Spelling quiz, Multiple choice, Identify on the
+  model), then Timed exam and Fix mistakes.
+- **Search**: one search from the magnifier on every tab, over structures (name, other names, Latin), modules,
+  topics, plates and mock-exam topics. British and American spellings find each other and small typos are
+  forgiven; a structure result opens in 3D, selected and in view.
+- **Navigation**: Back always returns to the previous screen, and the phone's back gesture does the same; every
+  full-screen view has its Back or Close button top left. Click paths, checks and exceptions: `NAVIGATION.md`.
 - **Focused regions**: Skull and hyoid, Teeth, Vertebral column, Thoracic wall, Bony pelvis, Shoulder girdle, Arm,
   Forearm, Wrist and hand, Thigh and knee, Leg, Ankle and foot. Each is defined in `catalog.json` as a list of
   structures from the skeleton; the rest of the skeleton stays faint and untappable, and limbs are framed on one side.
 - **Explore as a plate**: numbered references sit on real surface points of each structure (group structures such as
   "carpals" are only numbered where no member structure covers them), with a key, a pinned label and the camera's
   azimuth and altitude.
-- **Plates**: eleven labelled anatomical plates in the Atlas tab — ten 19th-century engravings (Bourgery and Jacob,
+- **Plates**: eleven labelled anatomical plates in All content (and each course's on Today) — ten 19th-century engravings (Bourgery and Jacob,
   Hirschfeld and Léveillé, and others) and an original diagram of a molar in section. Each has numbered arrows
   drawn from the margin to the structure, a key, a short note per structure and a "Test yourself" mode that hides
   the names. Arrow positions were checked one by one against the image; only structures that can be identified
@@ -54,7 +61,7 @@ apply there.
 - **Mock exams**: Foundation (57 questions) and Higher (54 questions) banks of multiple-choice questions, asked 15,
   30 or 45 at a time with the options shuffled. Each answer is marked at once and explained; the results show the
   score by topic and every question to look at again, and are kept with the exam history in Progress. Started from
-  Today.
+  Today or All content, from the course's topics or all of them, or on one topic from search.
 - **Sound**: synthesised in the browser, no audio files — a two-note bell for a correct answer and a closing chord
   after a mock exam (Settings can turn sound off).
 - **The body in 3D** (Today or Atlas): the whole BodyParts3D body in seven layers — skin, every muscle (442 meshes),
@@ -240,13 +247,14 @@ src/
   state/     Zustand: settings + progress (persisted via storage interface), nav, quiz session
   viewer/    AnatomyViewer (lazy chunk with three.js), ModelInstance, Highlighter, CameraRig, placeholder builder
   quiz/      QuizScreen, AnswerWord, Keyboard, SessionSummary
-  screens/   one per tab, the practice options sheet, Explore, Flashcards, Onboarding and Credits
+  screens/   one per tab, Explore, Flashcards, Mock exam, Body, Search, Change course, Onboarding and Credits
+  components/ masthead, tab bar, ScreenBar (the top bar of every full-screen view), icons
 ```
 
 - **Storage**: everything persisted goes through `appStorage` in `src/lib/storage.ts`
   (`getItem` / `setItem` / `removeItem`, sync or async). Swap in a backend implementation there.
 - **Performance**: three.js and R3F (~270 KB gzipped) load only when a 3D view opens; first load is
-  ~82 KB gzipped JS. Pixel ratio capped at 2; the canvas renders on demand, not every frame. The ghost
+  ~139 KB gzipped JS (the app, every UI language and the catalogue) and ~8 KB CSS. Pixel ratio capped at 2; the canvas renders on demand, not every frame. The ghost
   carousel is a second canvas at half resolution that renders only when the question changes.
 - **Highlight**: every mesh gets a shared translucent bone material; matched meshes get a red
   emissive material plus a Fresnel "glow shell" (small custom shader).

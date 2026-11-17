@@ -45,7 +45,9 @@ Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to en
 - `public/models/body-*.glb` — whole-body layers (skin, muscles, arteries, veins, nervous, glands) from `scripts/layers/*.json`; layer list in `src/lib/bodyLayers.ts`
 - `src/content/content.test.ts` — validates every content file (run `npm test` after editing content)
 - `TRANSLATION-REVIEW.md` — generated list of missing or out-of-date translations (`npm run i18n:report`); `npm test` fails if it is stale. Don't edit the six other languages without a native speaker
-- `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`, `plates.ts` (tag layout), `mock.ts`, `sound.ts` (synthesised sounds)
-- `src/state/` — Zustand stores: settings, progress (persisted), nav, quiz session
+- `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`, `plates.ts` (tag layout), `mock.ts`, `sound.ts` (synthesised sounds), `search.ts` (spelling-tolerant search; index built by `src/content/searchIndex.ts`)
+- `src/state/` — Zustand stores: settings, progress (persisted), nav (a history of views: open screens with `go`/the `open*` actions, leave them with `goBack()`, never by resetting fields), quiz session; `browserBack.ts` keeps browser history in step
+- `NAVIGATION.md` — click paths from Today, one name per feature, touch-target exceptions; `scripts/check-navigation.cjs` proves them (Playwright, dev server running). Every full-screen view uses `components/ScreenBar`
+- `src/styles/contrast.test.ts` — WCAG AA contrast of the colour tokens in both themes; change a token and `npm test` checks it
 - `src/viewer/` — 3D: `AnatomyViewer` and `BodyViewer` (lazy chunks), `ModelInstance`, `highlight.ts`, `CameraRig`, `parts.tsx` (lights, pinned label), `placeholder.ts`
 - `src/quiz/` — quiz screen, answer word, keyboard, summary; `src/screens/` — tabs, `Plates.tsx`, `MockScreen.tsx`, `BodyScreen.tsx`, `TopicScreen.tsx`
