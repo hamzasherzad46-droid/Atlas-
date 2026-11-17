@@ -6,10 +6,11 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (48)
+### Missing: shown in English (49)
 
 | Key | English |
 | --- | --- |
+| `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
@@ -100,10 +101,11 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (48)
+### Missing: shown in English (49)
 
 | Key | English |
 | --- | --- |
+| `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
@@ -192,10 +194,11 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (48)
+### Missing: shown in English (49)
 
 | Key | English |
 | --- | --- |
+| `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
@@ -278,10 +281,11 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (48)
+### Missing: shown in English (49)
 
 | Key | English |
 | --- | --- |
+| `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
@@ -365,10 +369,11 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (48)
+### Missing: shown in English (49)
 
 | Key | English |
 | --- | --- |
+| `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
@@ -449,10 +454,11 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (48)
+### Missing: shown in English (49)
 
 | Key | English |
 | --- | --- |
+| `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |

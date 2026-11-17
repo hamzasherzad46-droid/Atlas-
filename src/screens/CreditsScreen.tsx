@@ -1,5 +1,6 @@
 import { useT } from '../i18n'
 import { ScreenBar } from '../components/ScreenBar'
+import { StudyAidNotice } from '../components/StudyAidNotice'
 
 /** Required attribution for the 3D model sources. Keep this intact (licence text stays in English). */
 export function CreditsScreen() {
@@ -11,6 +12,7 @@ export function CreditsScreen() {
         <div className="titleblock">
           <h1 className="display">{t('credits.about')}</h1>
           <p className="lede">{t('credits.desc')}</p>
+          <StudyAidNotice />
         </div>
 
         <section className="sect">

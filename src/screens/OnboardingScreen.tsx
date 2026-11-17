@@ -5,6 +5,7 @@ import { CoursePicker } from '../components/CoursePicker'
 import { LANG_NAMES, useT } from '../i18n'
 import { LANGS, useSettings } from '../state/settings'
 import { Seal } from '../components/Celestial'
+import { StudyAidNotice } from '../components/StudyAidNotice'
 
 /** First run: the course first, then the language, then straight in. Everything can be changed later in Settings. */
 export function OnboardingScreen() {
@@ -45,6 +46,7 @@ export function OnboardingScreen() {
             {t('onb.start')}
             <ArrowIcon />
           </button>
+          <StudyAidNotice />
         </div>
       </main>
     </div>

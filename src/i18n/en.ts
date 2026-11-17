@@ -14,6 +14,7 @@ export const en = {
   'common.close': 'Close',
   'common.soon': 'In preparation',
   'common.loading': 'Loading…',
+  'common.studyAid': 'Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy.',
 
   'system.skeletal': 'Skeletal system',
   'system.muscular': 'Muscular system',

@@ -6,6 +6,7 @@ import { LANG_NAMES, useT } from '../i18n'
 import { useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { ANSWER_TIMERS, DAILY_GOALS, LANGS, useSettings } from '../state/settings'
+import { StudyAidNotice } from '../components/StudyAidNotice'
 
 /** Settings: one preference per line, label in the margin. */
 export function YouScreen() {
@@ -114,6 +115,7 @@ export function YouScreen() {
           </span>
         </button>
       </div>
+      <StudyAidNotice />
     </main>
   )
 }
