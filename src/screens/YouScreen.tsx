@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { TRACKS } from '../content/types'
 import { ArrowIcon } from '../components/Icons'
+import { CoursePicker } from '../components/CoursePicker'
 import { Masthead } from '../components/Masthead'
 import { LANG_NAMES, useT } from '../i18n'
 import { useNav } from '../state/nav'
@@ -34,14 +34,8 @@ export function YouScreen() {
       <section className="sect">
         <p className="label">{t('you.track')}</p>
         <div className="sect-body">
-          <div className="options">
-            {TRACKS.map((tr) => (
-              <button key={tr} aria-pressed={s.track === tr} onClick={() => s.set({ track: tr })}>
-                {t(`track.${tr}`)}
-              </button>
-            ))}
-          </div>
-          <p className="small option-help">{t(`trackHelp.${s.track}`)}</p>
+          <CoursePicker value={s.track} onPick={(id) => s.set({ track: id })} />
+          <p className="small option-help">{t('course.kept')}</p>
         </div>
       </section>
 

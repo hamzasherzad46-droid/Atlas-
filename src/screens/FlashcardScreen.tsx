@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type PointerEvent as RPointerEvent } from 'react'
+import { moduleTitle } from '../content/names'
 import { noteFor } from '../content/notes'
 import { useModule } from '../content/useModule'
 import { ArrowIcon, CheckIcon, CloseIcon } from '../components/Icons'
@@ -90,7 +91,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
             <Seal />
             <span className="wordmark">{t('app.name')}</span>
           </span>
-            <span className="mono">{t.td(`module.${config.moduleId}`, config.moduleId)}</span>
+            <span className="mono">{moduleTitle(t, config.moduleId)}</span>
           </header>
           <div className="titleblock">
             <p className="label">{t('cards.title')}</p>
@@ -180,7 +181,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
                 </p>
                 {note && (
                   <p className="note back-note">
-                    <span className="label">{t(`note.${note.track}`)}</span>
+                    <span className="label">{t.td(`note.${note.kind}`, note.kind)}</span>
                     <span className="note-text" dir="auto">
                       {note.text}
                     </span>

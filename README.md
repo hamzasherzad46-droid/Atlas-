@@ -67,7 +67,12 @@ apply there.
 - **Curriculum**: 282 topics in 21 categories (`content/curriculum.json`), each with a short definition and four or
   more key points at university level, in British spelling. 59 also link to the 3D modules that teach their core
   structures, and regional and systemic topics link to the 3D body.
-- **Tracks**: nursing, medicine, physiotherapy, dentistry, sports science — notes per structure where relevant.
+- **Courses** (`content/courses.json`): Nursing, Medicine, Physiotherapy, Dentistry and Sports science. The first
+  question on first run is "What are you studying?"; Today is the course's home page (continue where you left off,
+  today's study, learn, test, the course's modules and topics, and a link to all content), and "Change course" is one
+  tap from Today and keeps all progress. Each course has its own order of modules, focus modules (for example Nursing:
+  injection sites, pulse points, cannulation veins, central venous access, urinary tract and catheterisation), topics,
+  plates and mock-exam topics, and shows its own note on each structure first. A new course is JSON only.
 - **Languages**: English, French, German, Arabic (right-to-left), Russian, Chinese, Korean for the whole UI.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
 - **Design**: the observatory — an antique anatomical institution with an astronomical observatory. Obsidian and
@@ -90,6 +95,7 @@ All questions live in `/content`. Nothing is hard-coded in components.
 | `catalog.json` | Courses → modules: title, `status` (`available` / `coming-soon`), content file, model file + transform |
 | `skeleton.json` | Regions and structures |
 | `skeleton.placeholder.json` | Primitive stand-in shapes used until the GLB exists |
+| `courses.json` | Courses and their focus modules, in priority order (see "Courses" above) |
 | `plates.json` | Anatomical plates: image, view, source, and arrows (`x`/`y` in % of the image, `name`, `note`) |
 | `mock.json` | Mock-exam banks (`foundation`, `higher`): `topic`, `q`, four `options` (the first is correct; shown shuffled), `explain` |
 
@@ -100,7 +106,7 @@ Each structure:
   "id": "clavicle", "name": "clavicle", "synonyms": ["collarbone", "collar bone"],
   "latinName": "clavicula",
   "definition": "One sentence. Must not contain the answer — it is shown as a clue in learn mode.",
-  "nursingNote": "…", "medicineNote": "…",
+  "notes": { "nursing": "…", "medicine": "…" },
   "region": "upper-limb", "modelFile": "skeleton.glb",
   "meshName": "clavicle",
   "camera": { "position": [-0.2, 1.5, 0.6], "target": [-0.08, 1.41, 0.03] },

@@ -1,0 +1,6 @@
+{
+  "note": "UI strings whose English text changed after they were translated. Each listed key needs its translations checked by a native speaker; TRANSLATION-REVIEW.md lists them per language.",
+  "changed": {
+    "you.track": "“Study track” became “Course”."
+  }
+}

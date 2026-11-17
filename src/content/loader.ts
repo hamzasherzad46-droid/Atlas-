@@ -1,6 +1,8 @@
 import catalogJson from '../../content/catalog.json'
+import coursesJson from '../../content/courses.json'
+import { buildFocusModules, findCourse } from './courses'
 import { publicUrl } from '../lib/paths'
-import type { Catalog, Curriculum, MockBank, ModuleContent, ModuleInfo, PlaceholderModel, Plates } from './types'
+import type { Catalog, Course, Courses, Curriculum, MockBank, ModuleContent, ModuleInfo, PlaceholderModel, Plates } from './types'
 
 export const catalog = catalogJson as Catalog
 
@@ -8,14 +10,23 @@ export const systemModules: ModuleInfo[] = catalog.systems.flatMap((sys) => sys.
 
 export const regionModules: ModuleInfo[] = (catalog.regions ?? []).flatMap((g) => g.modules.map((m) => ({ ...m, group: g.id })))
 
-export const allModules: ModuleInfo[] = [...regionModules, ...systemModules]
+/** Courses and their focus modules (content/courses.json). */
+export const courses = coursesJson as Courses
+
+export const focusModules: ModuleInfo[] = buildFocusModules(courses, systemModules)
+
+export const allModules: ModuleInfo[] = [...focusModules, ...regionModules, ...systemModules]
+
+export function getCourse(id: string): Course {
+  return findCourse(courses, id)
+}
 
 export function getModuleInfo(id: string): ModuleInfo | undefined {
   return allModules.find((m) => m.id === id)
 }
 
 // Each module's JSON becomes its own lazily loaded chunk.
-const files = import.meta.glob<{ default: unknown }>(['../../content/*.json', '!../../content/catalog.json'])
+const files = import.meta.glob<{ default: unknown }>(['../../content/*.json', '!../../content/catalog.json', '!../../content/courses.json'])
 
 async function loadJson<T>(basename: string): Promise<T> {
   const loader = files[`../../content/${basename}.json`]

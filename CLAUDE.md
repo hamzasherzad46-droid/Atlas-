@@ -34,15 +34,17 @@ Vite + React + TypeScript, three.js via @react-three/fiber + drei, Zustand, loca
 Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to end.
 
 ## Where things live
-- `content/catalog.json` — courses → modules (status, content file, model file + transform)
+- `content/catalog.json` — body systems → modules (status, content file, model file + transform)
 - `content/<module>.json` — structures; optional `content/<module>.placeholder.json` — primitive stand-ins for modules without a GLB
 - `content/catalog.json` `regions` — focused regional modules (skull, forearm, hand…) that `include` structure ids from a system's content file and reuse its model
+- `content/courses.json` — the courses (the `track` setting): per course, in priority order, its modules (focus, system), regions, curriculum categories, featured topics, plates, mock-exam topics and note order; plus `focus` modules (small sets of structures from one module, built like regions). A new course is JSON only; `npm test` checks every reference. Never hard-code course content in components
 - `content/curriculum.json` — every curriculum topic by category, each with `summary` and `points` (study notes, British spelling); `modules` only where an available module teaches the topic's core structures
 - `content/plates.json` + `public/plates/` — labelled anatomical plates (arrow points in % of the image; check every point against the image before adding one)
 - `content/mock.json` — mock-exam banks; first option is correct, the app shuffles
 - `public/models/skeleton.glb` — real BodyParts3D bones, built by `scripts/import-bodyparts3d.mjs` (see README "3D models")
 - `public/models/body-*.glb` — whole-body layers (skin, muscles, arteries, veins, nervous, glands) from `scripts/layers/*.json`; layer list in `src/lib/bodyLayers.ts`
 - `src/content/content.test.ts` — validates every content file (run `npm test` after editing content)
+- `TRANSLATION-REVIEW.md` — generated list of missing or out-of-date translations (`npm run i18n:report`); `npm test` fails if it is stale. Don't edit the six other languages without a native speaker
 - `src/lib/` — pure logic: `typing.ts` (answer engine), `srs.ts` (spaced repetition), `meshMatch.ts`, `storage.ts`, `plates.ts` (tag layout), `mock.ts`, `sound.ts` (synthesised sounds)
 - `src/state/` — Zustand stores: settings, progress (persisted), nav, quiz session
 - `src/viewer/` — 3D: `AnatomyViewer` and `BodyViewer` (lazy chunks), `ModelInstance`, `highlight.ts`, `CameraRig`, `parts.tsx` (lights, pinned label), `placeholder.ts`

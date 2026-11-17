@@ -162,7 +162,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
       </p>
       {note && (
         <p className="note quiz-note">
-          <span className="label">{t(`note.${note.track}`)}</span>
+          <span className="label">{t.td(`note.${note.kind}`, note.kind)}</span>
           <span className="note-text" dir="auto">
             {note.text}
           </span>

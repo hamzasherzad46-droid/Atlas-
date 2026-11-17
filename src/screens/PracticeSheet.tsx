@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { moduleTitle } from '../content/names'
 import { createPortal } from 'react-dom'
 import { useModule } from '../content/useModule'
 import { ArrowIcon, BackIcon } from '../components/Icons'
@@ -24,7 +25,7 @@ export function PracticeSheet({ moduleId, onClose }: { moduleId: string; onClose
     <div className="overlay sheet" role="dialog" aria-label={t('mod.options')}>
       <main className="page">
         <button className="backlink" onClick={onClose}>
-          <BackIcon /> {t.td(`module.${moduleId}`, moduleId)}
+          <BackIcon /> {moduleTitle(t, moduleId)}
         </button>
         <div className="titleblock">
           <h1 className="display">{t('mod.options')}</h1>

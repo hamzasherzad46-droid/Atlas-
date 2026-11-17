@@ -1040,3 +1040,65 @@
   font-size: 15px;
   color: var(--ink);
 }
+
+/* ---------- Courses ---------- */
+.course-line {
+  padding: 2px 0 22px;
+}
+
+.course-line-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 4px;
+}
+
+.today-sublabel {
+  margin-top: 18px;
+  margin-bottom: 4px;
+}
+
+.today-all {
+  margin-top: 8px;
+  border-top: 1px solid var(--rule);
+}
+
+/* One large button per course: the title and a line about what the course emphasises. */
+.course-picker {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--rule);
+}
+
+.course-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 4px 14px 16px;
+  border-bottom: 1px solid var(--rule);
+  border-inline-start: 2px solid transparent;
+  text-align: start;
+}
+
+.course-choice[aria-checked='true'] {
+  border-inline-start-color: var(--accent);
+  background: var(--paper-2);
+}
+
+.course-choice-title {
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--ink);
+}
+
+.course-choice-sub {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.onb-lang {
+  margin-top: 8px;
+}

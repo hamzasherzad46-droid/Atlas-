@@ -5,6 +5,7 @@ import { applyLang, useT } from './i18n'
 import { QuizScreen } from './quiz/QuizScreen'
 import { AtlasScreen } from './screens/AtlasScreen'
 import { BodyScreen } from './screens/BodyScreen'
+import { CourseSheet } from './screens/CourseSheet'
 import { CreditsScreen } from './screens/CreditsScreen'
 import { ExploreScreen } from './screens/ExploreScreen'
 import { FlashcardScreen } from './screens/FlashcardScreen'
@@ -51,7 +52,7 @@ export default function App() {
   const theme = useSettings((s) => s.theme)
   const lang = useSettings((s) => s.lang)
   const onboarded = useSettings((s) => s.onboarded)
-  const { tab, session, cards, explore, credits, mock, body } = useNav()
+  const { tab, session, cards, explore, credits, mock, body, courses } = useNav()
 
   useEffect(() => applyTheme(theme), [theme])
   useEffect(() => applyLang(lang), [lang])
@@ -70,6 +71,7 @@ export default function App() {
       {cards && <FlashcardScreen config={cards} />}
       {mock && !session && !cards && <MockScreen />}
       {body && !session && !cards && !explore && <BodyScreen />}
+      {courses && <CourseSheet />}
       {!onboarded && <OnboardingScreen />}
       <StudyPlanWatcher />
       <Toasts />

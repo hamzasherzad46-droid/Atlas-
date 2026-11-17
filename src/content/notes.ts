@@ -1,11 +1,8 @@
-import { TRACKS, type Structure, type Track } from './types'
+import { noteForCourse } from './courses'
+import { getCourse } from './loader'
+import type { Structure } from './types'
 
-/** The note for the student's track, or the closest available one (medicine, then nursing, then any). */
-export function noteFor(s: Structure, track: Track): { track: Track; text: string } | null {
-  const order: Track[] = [track, 'medicine', 'nursing', ...TRACKS]
-  for (const t of order) {
-    const text = s.notes[t]
-    if (text) return { track: t, text }
-  }
-  return null
+/** The note for the student's course (its preferred note types first), or the closest available one. */
+export function noteFor(s: Structure, courseId: string): { kind: string; text: string } | null {
+  return noteForCourse(s, getCourse(courseId))
 }

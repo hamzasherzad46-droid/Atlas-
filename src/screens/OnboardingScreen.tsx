@@ -1,15 +1,16 @@
 import { useState } from 'react'
-import { TRACKS, type Track } from '../content/types'
+import { getCourse } from '../content/loader'
 import { ArrowIcon } from '../components/Icons'
+import { CoursePicker } from '../components/CoursePicker'
 import { LANG_NAMES, useT } from '../i18n'
 import { LANGS, useSettings } from '../state/settings'
-import { OrionChart, Seal } from '../components/Celestial'
+import { Seal } from '../components/Celestial'
 
-/** First run: language and study track, then straight in. Name and daily goal can be set later in Settings. */
+/** First run: the course first, then the language, then straight in. Everything can be changed later in Settings. */
 export function OnboardingScreen() {
   const t = useT()
   const s = useSettings()
-  const [track, setTrack] = useState<Track>(s.track)
+  const [track, setTrack] = useState<string>(getCourse(s.track).id)
 
   return (
     <div className="overlay onboarding">
@@ -20,14 +21,15 @@ export function OnboardingScreen() {
             <span className="wordmark">{t('app.name')}</span>
           </span>
         </header>
-        <OrionChart className="frontispiece onb-chart" />
+
         <div className="titleblock onb-title">
-          <p className="label">{t('onb.kicker')}</p>
-          <h1 className="display">{t('onb.title')}</h1>
+          <h1 className="display">{t('onb.track')}</h1>
           <p className="lede">{t('onb.sub')}</p>
         </div>
 
-        <section className="sect">
+        <CoursePicker value={track} onPick={setTrack} />
+
+        <section className="sect onb-lang">
           <p className="label">{t('onb.lang')}</p>
           <div className="sect-body options">
             {LANGS.map((l) => (
@@ -35,20 +37,6 @@ export function OnboardingScreen() {
                 {LANG_NAMES[l]}
               </button>
             ))}
-          </div>
-        </section>
-
-        <section className="sect">
-          <p className="label">{t('onb.track')}</p>
-          <div className="sect-body">
-            <div className="options">
-              {TRACKS.map((tr) => (
-                <button key={tr} aria-pressed={track === tr} onClick={() => setTrack(tr)}>
-                  {t(`track.${tr}`)}
-                </button>
-              ))}
-            </div>
-            <p className="small option-help">{t(`trackHelp.${track}`)}</p>
           </div>
         </section>
 

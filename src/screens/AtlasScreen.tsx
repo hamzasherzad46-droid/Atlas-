@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import { moduleTitle } from '../content/names'
 import { catalog, getModuleInfo, regionModules } from '../content/loader'
-import type { ModuleInfo } from '../content/types'
 import { useModule } from '../content/useModule'
 import { ArrowIcon, BackIcon } from '../components/Icons'
 import { Masthead } from '../components/Masthead'
@@ -15,6 +15,7 @@ import { useSettings } from '../state/settings'
 import { regionStats } from '../state/stats'
 import { Curriculum } from './Curriculum'
 import { PlateScreen, PlatesList } from './Plates'
+import { ModuleRow } from './ModuleRow'
 import { PracticeSheet } from './PracticeSheet'
 import { TopicScreen } from './TopicScreen'
 
@@ -59,41 +60,18 @@ export function AtlasScreen() {
       {view === 'regions' && (
         <div className="rows atlas-list">
           {regionModules.map((m) => (
-            <ModuleRow key={m.id} info={m} systemId={m.systemId ?? 'skeletal'} sub={t.td(`group.${m.group}`, '')} />
+            <ModuleRow key={m.id} info={m} sub={t.td(`group.${m.group}`, '')} />
           ))}
         </div>
       )}
       {view === 'systems' && (
         <div className="rows atlas-list">
-          {catalog.systems.flatMap((sys) => sys.modules.map((m) => <ModuleRow key={m.id} info={m} systemId={sys.id} sub={t.td(`system.${sys.id}`, '')} />))}
+          {catalog.systems.flatMap((sys) => sys.modules.map((m) => <ModuleRow key={m.id} info={{ ...m, systemId: sys.id }} sub={t.td(`system.${sys.id}`, '')} />))}
         </div>
       )}
       {view === 'plates' && <PlatesList />}
       {view === 'curriculum' && <Curriculum open={openCategory} onOpen={setOpenCategory} />}
     </main>
-  )
-}
-
-function ModuleRow({ info, systemId, sub }: { info: ModuleInfo; systemId: string; sub: string }) {
-  const t = useT()
-  const openModule = useNav((s) => s.openModule)
-  const available = info.status === 'available'
-  const { assets } = useModule(available ? info.id : null)
-  const records = useProgress((s) => s.records)
-  const stats = assets ? regionStats(assets.content, records) : []
-  const total = stats.reduce((n, r) => n + r.total, 0)
-  const mastered = stats.reduce((n, r) => n + r.mastered, 0)
-
-  return (
-    <button className="r sys" style={tintVars(systemId)} disabled={!available} onClick={() => openModule(info.id)}>
-      <span className="swatch" aria-hidden />
-      <span className="r-main">
-        <span className="r-title">{t.td(`module.${info.id}`, info.id)}</span>
-        <span className="r-sub">{available ? sub : t('common.soon')}</span>
-      </span>
-      {available && <span className="r-value">{pct(mastered, total)}%</span>}
-      {available && <ArrowIcon />}
-    </button>
   )
 }
 
@@ -123,7 +101,7 @@ function ModuleScreen({ id }: { id: string }) {
           <span className="swatch" aria-hidden />
           {info.group ? t.td(`group.${info.group}`, '') : t.td(`system.${info.systemId}`, '')}
         </p>
-        <h1 className="display">{t.td(`module.${id}`, id)}</h1>
+        <h1 className="display">{moduleTitle(t, id)}</h1>
         <p className="lede module-blurb">{t.td(`systemBlurb.${info.systemId}`, '')}</p>
         <p className="small module-stats num">
           {t('mod.seen', { a: seen, b: total })} · {t('atlas.mastered', { n: pct(mastered, total) })}

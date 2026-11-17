@@ -7,8 +7,8 @@ export interface CameraView {
   target: Vec3
 }
 
-export type Track = 'nursing' | 'medicine' | 'physio' | 'dentistry' | 'sports'
-export const TRACKS: Track[] = ['nursing', 'medicine', 'physio', 'dentistry', 'sports']
+/** A course id from content/courses.json (the student's `track` setting). */
+export type Track = string
 
 export interface Structure {
   id: string
@@ -21,8 +21,11 @@ export interface Structure {
   function: string
   /** Flashcard: why it is there (its purpose / design reason). */
   why: string
-  /** Notes per study track; at least one. Tracks without a note fall back to another track's note. */
-  notes: Partial<Record<Track, string>>
+  /**
+   * Notes for particular courses, keyed by note type (nursing, medicine, physio, dentistry, sports); at least one.
+   * Each course lists the note types it shows, in order; a structure without the first falls back to the next.
+   */
+  notes: Record<string, string>
   region: string
   /** GLB file in /public/models. Usually the module's model. */
   modelFile: string
@@ -94,6 +97,11 @@ export interface ModuleInfo {
   systemId?: string
   /** Region group id (e.g. `upper-limb`); set by the loader for regional modules. */
   group?: string
+  /** English title and description, for modules defined in content (course focus modules). */
+  title?: string
+  description?: string
+  /** A course focus module (content/courses.json), built like a regional module. */
+  focus?: boolean
 }
 
 /** A group of focused regional modules, e.g. the upper limb. Its name lives in the UI translations (group.<id>). */
@@ -177,4 +185,40 @@ export type MockLevel = 'foundation' | 'higher'
 
 export interface MockBank {
   sets: { id: MockLevel; questions: MockQuestion[] }[]
+}
+
+/** A small set of structures from one module, taught together for a course (content/courses.json). */
+export interface FocusModule {
+  id: string
+  title: string
+  description: string
+  /** The system module whose content and model it uses. */
+  from: string
+  include: string[]
+}
+
+/** A course (the student's `track`). Every list is in priority order. */
+export interface Course {
+  id: string
+  title: string
+  description: string
+  /** Note types to show, in order of preference (see Structure.notes). */
+  notes: string[]
+  /** Focus and system modules. */
+  modules: string[]
+  /** Regional modules. */
+  regions: string[]
+  /** Curriculum category ids. */
+  categories: string[]
+  /** Featured curriculum topic titles. */
+  topics: string[]
+  /** Plate ids. */
+  plates: string[]
+  /** Mock-exam question topics used for the course's mock exam. */
+  mockTopics: string[]
+}
+
+export interface Courses {
+  focus: FocusModule[]
+  courses: Course[]
 }

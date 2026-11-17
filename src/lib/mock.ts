@@ -21,6 +21,11 @@ function shuffle<T>(list: T[], rand: () => number): T[] {
   return a
 }
 
+/** The questions a mock draws from: a course's topics, or every topic when `topics` is null. */
+export function mockPool(bank: MockQuestion[], topics: string[] | null): MockQuestion[] {
+  return topics ? bank.filter((q) => topics.includes(q.topic)) : bank
+}
+
 /** Picks `length` different questions at random and shuffles each one's options. */
 export function buildMock(bank: MockQuestion[], length: number, rand: () => number = Math.random): MockItem[] {
   return shuffle(bank, rand)

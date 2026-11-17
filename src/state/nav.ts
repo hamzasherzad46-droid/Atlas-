@@ -49,6 +49,8 @@ interface NavState {
   mock: boolean
   /** The whole body in 3D (full screen). */
   body: boolean
+  /** The "Change course" sheet. */
+  courses: boolean
   setTab(tab: Tab): void
   startSession(config: SessionConfig): void
   endSession(): void
@@ -61,6 +63,7 @@ interface NavState {
   setCredits(open: boolean): void
   openMock(open: boolean): void
   openBody(open: boolean): void
+  openCourses(open: boolean): void
 }
 
 export const useNav = create<NavState>()((set) => ({
@@ -74,6 +77,7 @@ export const useNav = create<NavState>()((set) => ({
   credits: false,
   mock: false,
   body: false,
+  courses: false,
   setTab: (tab) => set({ tab, modulePage: null, plate: null, topic: null }),
   startSession: (session) => set({ session, cards: null }),
   endSession: () => set({ session: null }),
@@ -86,6 +90,7 @@ export const useNav = create<NavState>()((set) => ({
   setCredits: (credits) => set({ credits }),
   openMock: (mock) => set({ mock }),
   openBody: (body) => set({ body }),
+  openCourses: (courses) => set({ courses }),
 }))
 
 export const PRACTICE_LENGTH = 12

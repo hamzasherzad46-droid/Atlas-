@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { moduleTitle } from '../content/names'
 import { noteFor } from '../content/notes'
 import type { CameraView, Structure } from '../content/types'
 import { useModule } from '../content/useModule'
@@ -91,7 +92,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
     <div className="overlay explore">
       <header className="explore-head">
         <button className="backlink" onClick={() => openExplore(null)}>
-          <BackIcon /> {t.td(`module.${moduleId}`, moduleId)}
+          <BackIcon /> {moduleTitle(t, moduleId)}
         </button>
         {plateOffered && (
           <button className="mono explore-toggle" aria-pressed={labels} onClick={() => setLabels((v) => !v)}>
@@ -149,7 +150,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
             </p>
             {note && (
               <p className="note">
-                <span className="label">{t(`note.${note.track}`)}</span>
+                <span className="label">{t.td(`note.${note.kind}`, note.kind)}</span>
                 <span className="note-text" dir="auto">
                   {note.text}
                 </span>

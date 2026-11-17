@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { moduleTitle } from '../content/names'
 import { useT } from '../i18n'
 import { formatClock, sentence } from '../lib/format'
 import { Meter } from '../components/bits'
@@ -47,7 +48,7 @@ export function SessionSummary() {
     startSession({ kind: 'review', moduleId: config.moduleId, mode: 'learn', region: null, ids: missed, length: missed.length, answerTimer: 0 })
 
   const ratio = total ? score / total : 0
-  const moduleName = t.td(`module.${config.moduleId}`, config.moduleId)
+  const moduleName = moduleTitle(t, config.moduleId)
   return (
     <div className="quiz summary">
       <div className="summary-inner">

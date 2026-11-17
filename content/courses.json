@@ -1,0 +1,158 @@
+{
+  "note": "Courses (the student's `track` setting). Each course lists, in priority order, the modules (focus, system and regional), curriculum categories, featured topics, plates and mock-exam topics that matter most for it, and the order in which structure notes are shown. Focus modules are small sets of structures from one content file, built like regional modules. Adding a course needs JSON only; `npm test` checks every reference.",
+  "focus": [
+    {
+      "id": "injection-sites",
+      "title": "Injection sites",
+      "description": "The deltoid, ventrogluteal (gluteus medius) and vastus lateralis sites; rectus femoris is an alternative thigh site.",
+      "from": "muscles",
+      "include": ["deltoid", "gluteus-medius", "vastus-lateralis", "rectus-femoris"]
+    },
+    {
+      "id": "pulse-points",
+      "title": "Pulse points",
+      "description": "Where a pulse is felt: carotid, brachial, radial, femoral, popliteal, posterior tibial and dorsalis pedis.",
+      "from": "vessels",
+      "include": ["common-carotid", "brachial-artery", "radial-artery", "femoral-artery", "popliteal-artery", "posterior-tibial-artery", "dorsalis-pedis"]
+    },
+    {
+      "id": "cannulation-veins",
+      "title": "Cannulation veins",
+      "description": "The superficial veins of the upper limb used for cannulas and blood samples.",
+      "from": "vessels",
+      "include": ["cephalic-vein", "basilic-vein", "median-cubital-vein"]
+    },
+    {
+      "id": "central-venous-access",
+      "title": "Central venous access",
+      "description": "The large veins used for central lines: internal jugular, subclavian and femoral.",
+      "from": "vessels",
+      "include": ["internal-jugular", "subclavian-vein", "femoral-vein"]
+    },
+    {
+      "id": "urinary-catheterisation",
+      "title": "Urinary tract and catheterisation",
+      "description": "Kidney, ureter, bladder and urethra. The 3D model is male, so the female urethra is not shown.",
+      "from": "urinary",
+      "include": ["kidney", "ureter", "urinary-bladder", "urethra"]
+    },
+    {
+      "id": "larynx",
+      "title": "Larynx",
+      "description": "The cartilages of the larynx and the epiglottis that guards it.",
+      "from": "airways",
+      "include": ["epiglottis", "thyroid-cartilage", "cricoid-cartilage", "arytenoid-cartilages"]
+    },
+    {
+      "id": "mouth",
+      "title": "Tongue and salivary glands",
+      "description": "The tongue and the submandibular and sublingual salivary glands (the 3D model has no parotid gland).",
+      "from": "digestive",
+      "include": ["tongue", "salivary-glands"]
+    },
+    {
+      "id": "suprahyoid-muscles",
+      "title": "Suprahyoid muscles",
+      "description": "Digastric and mylohyoid, which raise the hyoid and support the floor of the mouth.",
+      "from": "muscles",
+      "include": ["digastric", "mylohyoid"]
+    },
+    {
+      "id": "rotator-cuff-muscles",
+      "title": "Rotator cuff",
+      "description": "Supraspinatus, infraspinatus, teres minor and subscapularis, which hold the head of the humerus in its socket.",
+      "from": "muscles",
+      "include": ["supraspinatus", "infraspinatus", "teres-minor", "subscapularis"]
+    },
+    {
+      "id": "hip-muscles",
+      "title": "Muscles of the hip",
+      "description": "The gluteal muscles, piriformis, tensor fasciae latae and iliopsoas.",
+      "from": "muscles",
+      "include": ["gluteus-maximus", "gluteus-medius", "gluteus-minimus", "piriformis", "tensor-fasciae-latae", "iliopsoas"]
+    },
+    {
+      "id": "knee-muscles",
+      "title": "Muscles that cross the knee",
+      "description": "The quadriceps and hamstrings, with sartorius and gracilis.",
+      "from": "muscles",
+      "include": ["rectus-femoris", "vastus-lateralis", "vastus-medialis", "vastus-intermedius", "biceps-femoris", "semitendinosus", "semimembranosus", "sartorius", "gracilis"]
+    },
+    {
+      "id": "running-muscles",
+      "title": "Muscles of running",
+      "description": "The main muscles that drive the hip, knee and ankle in running.",
+      "from": "muscles",
+      "include": ["gluteus-maximus", "iliopsoas", "rectus-femoris", "vastus-lateralis", "biceps-femoris", "gastrocnemius", "soleus", "tibialis-anterior"]
+    },
+    {
+      "id": "sports-injury-muscles",
+      "title": "Often injured in sport",
+      "description": "Hamstring (biceps femoris), adductor longus, rectus femoris and gastrocnemius strains, and supraspinatus tendon problems.",
+      "from": "muscles",
+      "include": ["biceps-femoris", "adductor-longus", "rectus-femoris", "gastrocnemius", "supraspinatus"]
+    }
+  ],
+  "courses": [
+    {
+      "id": "nursing",
+      "title": "Nursing",
+      "description": "Injection, pulse and cannulation sites, and patient safety.",
+      "notes": ["nursing", "medicine"],
+      "modules": ["injection-sites", "pulse-points", "cannulation-veins", "central-venous-access", "urinary-catheterisation", "heart", "vessels", "airways", "muscles", "skeleton", "urinary", "digestive", "brain", "reproductive"],
+      "regions": ["arm", "forearm", "hand", "thigh-knee", "thoracic-wall", "pelvis", "leg", "foot", "shoulder-girdle", "vertebral-column", "skull", "teeth"],
+      "categories": ["foundations", "systemic", "regional", "organisation", "clinical", "sub-regional", "histology", "embryology", "neuro", "imaging"],
+      "topics": ["Vascular Access Anatomy", "Surface Landmark Palpation", "Anatomical Position", "Terms of Location and Direction", "Cardiovascular System", "Respiratory System", "Urinary System", "Integumentary System", "Lymphatic Drainage Pathways", "Dermatomes and Myotomes", "Body Cavities and Membranes", "Paediatric Anatomy", "Geriatric Anatomy"],
+      "plates": ["great-vessels", "heart-nerves", "axilla", "neck-lymphatics", "lateral-chest", "vagus-lungs", "diaphragm"],
+      "mockTopics": ["Heart and vessels", "Breathing", "Urinary system", "Terms", "Skin", "Blood", "Digestion", "Upper limb", "Lower limb", "Muscles", "Skeleton", "Nervous system", "Lymphatics"]
+    },
+    {
+      "id": "medicine",
+      "title": "Medicine",
+      "description": "Latin names, finer landmarks and clinical correlations.",
+      "notes": ["medicine", "nursing"],
+      "modules": ["skeleton", "muscles", "heart", "vessels", "airways", "brain", "digestive", "urinary", "reproductive", "pulse-points", "central-venous-access", "larynx"],
+      "regions": ["skull", "teeth", "vertebral-column", "thoracic-wall", "pelvis", "shoulder-girdle", "arm", "forearm", "hand", "thigh-knee", "leg", "foot"],
+      "categories": ["foundations", "divisions", "regional", "sub-regional", "systemic", "systemic-sub", "neuro", "neuro-modules", "advanced-neuro", "clinical", "imaging", "imaging-extra", "histology", "embryology", "embryology-modules", "organisation", "development", "branches", "laboratory", "history-ethics", "comparative"],
+      "topics": ["Clinical Anatomy", "Anatomical Nomenclature and Terminologia Anatomica", "Surgical Anatomy", "Radiological Anatomy", "Cross-Sectional Imaging", "Cranial Nerves", "Ascending and Descending Tracts", "Neurovascular Territory Mapping", "Mediastinum", "Inguinal Region", "Clinical Correlation Studies"],
+      "plates": ["great-vessels", "heart-nerves", "vertebral-veins", "neck-lymphatics", "axilla", "lateral-chest", "diaphragm", "vagus-lungs", "neck-section", "foot-and-sections", "tooth"],
+      "mockTopics": ["Upper limb", "Lower limb", "Spine", "Thorax", "Heart and vessels", "Breathing", "Digestion", "Urinary system", "Nervous system", "Senses", "Hormones", "Development", "Lymphatics", "Skeleton", "Joints", "Muscles", "Blood", "Skin", "Terms"]
+    },
+    {
+      "id": "physio",
+      "title": "Physiotherapy",
+      "description": "Movement, assessment and rehabilitation.",
+      "notes": ["physio", "sports", "medicine", "nursing"],
+      "modules": ["rotator-cuff-muscles", "hip-muscles", "knee-muscles", "muscles", "skeleton", "brain", "airways", "heart", "vessels"],
+      "regions": ["shoulder-girdle", "arm", "forearm", "hand", "vertebral-column", "pelvis", "thigh-knee", "leg", "foot", "thoracic-wall"],
+      "categories": ["foundations", "organisation", "regional", "sub-regional", "systemic", "clinical", "neuro", "branches", "histology"],
+      "topics": ["Terms of Movement", "Kinesiology", "Joint Classification and Biomechanics", "Biomechanics and Kinesiology", "Dermatomes and Myotomes", "Rehabilitation Anatomy", "Back", "Upper Limb", "Lower Limb", "Gluteal Region", "Thigh", "Leg", "Ankle and Foot", "Somatic Innervation Pathways", "Pyramidal System"],
+      "plates": ["foot-and-sections", "axilla", "lateral-chest", "diaphragm"],
+      "mockTopics": ["Muscles", "Joints", "Upper limb", "Lower limb", "Spine", "Skeleton", "Nervous system", "Terms", "Breathing"]
+    },
+    {
+      "id": "dentistry",
+      "title": "Dentistry",
+      "description": "Skull, jaw and the structures of the mouth.",
+      "notes": ["dentistry", "medicine", "nursing"],
+      "modules": ["mouth", "suprahyoid-muscles", "larynx", "skeleton", "digestive", "airways", "muscles", "brain", "vessels"],
+      "regions": ["skull", "teeth", "vertebral-column", "thoracic-wall"],
+      "categories": ["branches", "sub-regional", "embryology-modules", "embryology", "neuro", "histology", "foundations", "regional", "systemic"],
+      "topics": ["Dental Anatomy", "Oral Anatomy", "Oral Cavity", "Temporal and Infratemporal Fossae", "Pterygopalatine Fossa", "Craniofacial Development", "Pharyngeal Arches", "Cranial Nerves", "Scalp and Face", "Nasal Cavity and Paranasal Sinuses", "Pharynx", "Larynx", "Head", "Neck"],
+      "plates": ["tooth", "neck-section", "neck-lymphatics", "heart-nerves"],
+      "mockTopics": ["Skeleton", "Senses", "Nervous system", "Digestion", "Development", "Heart and vessels", "Breathing", "Terms"]
+    },
+    {
+      "id": "sports",
+      "title": "Sports science",
+      "description": "Performance, loading and sports injuries.",
+      "notes": ["sports", "physio", "medicine", "nursing"],
+      "modules": ["running-muscles", "sports-injury-muscles", "knee-muscles", "hip-muscles", "rotator-cuff-muscles", "muscles", "skeleton", "heart", "airways", "vessels"],
+      "regions": ["thigh-knee", "leg", "foot", "shoulder-girdle", "arm", "pelvis", "vertebral-column", "forearm", "hand"],
+      "categories": ["systemic", "regional", "organisation", "clinical", "sub-regional", "histology", "foundations", "systemic-sub"],
+      "topics": ["Sports Anatomy", "Kinesiology", "Biomechanics and Kinesiology", "Muscle Tissue", "Muscular System", "Haemodynamics", "Respiratory System", "Cardiovascular System", "Trauma Anatomy", "Rehabilitation Anatomy", "Joint Classification and Biomechanics", "Lower Limb", "Thigh", "Leg"],
+      "plates": ["foot-and-sections", "diaphragm", "lateral-chest", "great-vessels"],
+      "mockTopics": ["Muscles", "Joints", "Lower limb", "Upper limb", "Heart and vessels", "Breathing", "Skeleton", "Spine"]
+    }
+  ]
+}

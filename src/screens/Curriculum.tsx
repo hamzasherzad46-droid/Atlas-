@@ -9,7 +9,7 @@ import { useNav } from '../state/nav'
  * Every topic in the curriculum, by category. Categories open one at a time; each topic opens its
  * study page, and topics taught by an available 3D module are marked.
  */
-export function Curriculum({ open, onOpen }: { open: string | null; onOpen(id: string | null): void }) {
+export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen(id: string | null): void; only?: string[] }) {
   const t = useT()
   const openTopic = useNav((s) => s.openTopic)
   const [data, setData] = useState<CurriculumData | null>(null)
@@ -23,14 +23,16 @@ export function Curriculum({ open, onOpen }: { open: string | null; onOpen(id: s
   }, [])
 
   if (!data) return <p className="empty">{t('common.loading')}</p>
+  // A course shows its own categories, in its order; otherwise every category.
+  const categories = only ? only.flatMap((id) => data.categories.filter((c) => c.id === id)) : data.categories
   const total = data.categories.reduce((n, c) => n + c.topics.length, 0)
   const ready = data.categories.reduce((n, c) => n + c.topics.filter((x) => x.modules?.length).length, 0)
 
   return (
     <div className="curriculum">
-      <p className="mono curriculum-count">{t('curriculum.count', { a: ready, b: total })}</p>
+      {!only && <p className="mono curriculum-count">{t('curriculum.count', { a: ready, b: total })}</p>}
       <div className="rows">
-        {data.categories.map((c) => {
+        {categories.map((c) => {
           const isOpen = open === c.id
           return (
             <div key={c.id} className="curriculum-cat">

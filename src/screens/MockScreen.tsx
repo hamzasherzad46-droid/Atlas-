@@ -1,17 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { loadMock } from '../content/loader'
+import { getCourse, loadMock } from '../content/loader'
+import { courseTitle } from '../content/names'
 import type { MockBank, MockLevel } from '../content/types'
 import { Meter } from '../components/bits'
 import { ArrowIcon, BackIcon, CheckIcon, CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { formatClock, pct } from '../lib/format'
-import { buildMock, MOCK_LENGTHS, topicScores, type MockItem } from '../lib/mock'
+import { buildMock, MOCK_LENGTHS, mockPool, topicScores, type MockItem } from '../lib/mock'
 import { playSound } from '../lib/sound'
 import { useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
+import { useSettings } from '../state/settings'
 import '../quiz/quiz.css'
 
 const LETTERS = ['A', 'B', 'C', 'D']
+
+/** Wall-clock time; only ever read in event handlers (starting and finishing a mock). */
+const clock = () => Date.now()
 
 /**
  * A mock exam of 15, 30 or 45 multiple-choice questions at Foundation or Higher level.
@@ -24,6 +29,10 @@ export function MockScreen() {
   const [bank, setBank] = useState<MockBank | null>(null)
   const [level, setLevel] = useState<MockLevel>('foundation')
   const [length, setLength] = useState<number>(15)
+  // By default a mock draws on the student's course topics; "All topics" uses the whole bank.
+  const [scope, setScope] = useState<'course' | 'all'>('course')
+  const course = getCourse(useSettings((s) => s.track))
+  const topics = scope === 'course' ? course.mockTopics : null
   const [items, setItems] = useState<MockItem[] | null>(null)
   const [answers, setAnswers] = useState<(number | null)[]>([])
   const [index, setIndex] = useState(0)
@@ -41,11 +50,11 @@ export function MockScreen() {
   const start = () => {
     const set = bank?.sets.find((s) => s.id === level)
     if (!set) return
-    const list = buildMock(set.questions, length)
+    const list = buildMock(mockPool(set.questions, topics), length)
     setItems(list)
     setAnswers(list.map(() => null))
     setIndex(0)
-    setStartedAt(Date.now())
+    setStartedAt(clock())
     setFinishedAt(0)
   }
 
@@ -65,7 +74,24 @@ export function MockScreen() {
     playSound('mockFinish')
   }, [items, answers, level, startedAt])
 
-  if (!items) return <MockSetup bank={bank} level={level} setLevel={setLevel} length={length} setLength={setLength} onStart={start} onClose={() => openMock(false)} />
+  if (!items) {
+    const available = mockPool(bank?.sets.find((s) => s.id === level)?.questions ?? [], topics).length
+    return (
+      <MockSetup
+        bank={bank}
+        level={level}
+        setLevel={setLevel}
+        length={length}
+        setLength={setLength}
+        scope={scope}
+        setScope={setScope}
+        courseName={courseTitle(t, course)}
+        available={available}
+        onStart={start}
+        onClose={() => openMock(false)}
+      />
+    )
+  }
   if (finishedAt) return <MockResults items={items} answers={answers} level={level} ms={finishedAt - startedAt} onAgain={() => setItems(null)} onClose={() => openMock(false)} />
 
   const choose = (k: number) => {
@@ -98,6 +124,10 @@ function MockSetup(props: {
   setLevel(l: MockLevel): void
   length: number
   setLength(n: number): void
+  scope: 'course' | 'all'
+  setScope(s: 'course' | 'all'): void
+  courseName: string
+  available: number
   onStart(): void
   onClose(): void
 }) {
@@ -137,16 +167,31 @@ function MockSetup(props: {
         </section>
 
         <section className="sect">
+          <p className="label">{t('mock.from')}</p>
+          <div className="sect-body">
+            <div className="options">
+              <button aria-pressed={props.scope === 'course'} onClick={() => props.setScope('course')}>
+                {t('mock.courseTopics')}: {props.courseName}
+              </button>
+              <button aria-pressed={props.scope === 'all'} onClick={() => props.setScope('all')}>
+                {t('mock.allTopics')}
+              </button>
+            </div>
+            <p className="small option-help num">{t('mock.available', { n: props.available })}</p>
+          </div>
+        </section>
+
+        <section className="sect">
           <p className="label">{t('mock.length')}</p>
           <div className="sect-body">
             <div className="options">
               {MOCK_LENGTHS.map((n) => (
-                <button key={n} className="num" aria-pressed={length === n} onClick={() => props.setLength(n)}>
+                <button key={n} className="num" aria-pressed={length === n} disabled={n > props.available} onClick={() => props.setLength(n)}>
                   {n}
                 </button>
               ))}
             </div>
-            <p className="small option-help">{t('mock.minutes', { n: length })}</p>
+            <p className="small option-help">{t('mock.minutes', { n: Math.min(length, props.available) })}</p>
           </div>
         </section>
 

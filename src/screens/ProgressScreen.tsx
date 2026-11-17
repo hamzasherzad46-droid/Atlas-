@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { moduleTitle } from '../content/names'
 import { CheckIcon } from '../components/Icons'
 import { Heatmap } from '../components/bits'
 import { Masthead } from '../components/Masthead'
@@ -42,7 +43,7 @@ export function ProgressScreen() {
       <section className="sect">
         <p className="label">{t('today.weak')}</p>
         <div className="sect-body">
-          <p className="tiny weak-module">{t.td(`module.${moduleId}`, moduleId)}</p>
+          <p className="tiny weak-module">{moduleTitle(t, moduleId)}</p>
           {weak.length === 0 ? (
             <p className="empty">{t('today.noWeak')}</p>
           ) : (
@@ -74,7 +75,7 @@ export function ProgressScreen() {
                     <span className="r-title num">
                       {a.correct}/{a.total} · {pct(a.correct, a.total)}%
                     </span>
-                    <span className="r-sub">{t.td(`module.${a.moduleId}`, a.moduleId)}</span>
+                    <span className="r-sub">{moduleTitle(t, a.moduleId)}</span>
                   </span>
                   <span className="r-value">
                     {date.format(a.at)} · {formatClock(a.durationMs)}
