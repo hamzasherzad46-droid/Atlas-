@@ -23,6 +23,7 @@ import { applyTheme, useSettings } from './state/settings'
 import { useToasts } from './state/toast'
 import './app.css'
 import { initAccount } from './account/account'
+import { startSync } from './account/sync'
 import { AccountScreen } from './screens/AccountScreen'
 
 const SCREENS = {
@@ -59,7 +60,10 @@ export default function App() {
   const { tab, session, cards, explore, credits, mock, body, courses, search, account } = useNav()
 
   useBrowserBack()
-  useEffect(() => initAccount(), [])
+  useEffect(() => {
+    startSync()
+    initAccount()
+  }, [])
   useEffect(() => applyTheme(theme), [theme])
   useEffect(() => applyLang(lang), [lang])
 

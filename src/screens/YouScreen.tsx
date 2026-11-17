@@ -4,16 +4,17 @@ import { CoursePicker } from '../components/CoursePicker'
 import { Masthead } from '../components/Masthead'
 import { LANG_NAMES, useT } from '../i18n'
 import { useNav } from '../state/nav'
-import { useProgress } from '../state/progress'
 import { ANSWER_TIMERS, DAILY_GOALS, OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { StudyAidNotice } from '../components/StudyAidNotice'
 import { AccountSection } from './AccountSection'
+import { useAccount } from '../account/account'
+import { resetProgress } from '../account/sync'
 
 /** Settings: one preference per line, label in the margin. */
 export function YouScreen() {
   const t = useT()
   const s = useSettings()
-  const reset = useProgress((p) => p.reset)
+  const signedIn = useAccount((a) => a.status === 'signedIn')
   const openCredits = useNav((n) => n.openCredits)
   const [confirming, setConfirming] = useState(false)
 
@@ -109,7 +110,7 @@ export function YouScreen() {
           className="r"
           onClick={() => {
             if (!confirming) return setConfirming(true)
-            reset()
+            resetProgress()
             setConfirming(false)
           }}
           onBlur={() => setConfirming(false)}
@@ -117,6 +118,7 @@ export function YouScreen() {
           <span className="r-main">
             <span className="r-title bad">{confirming ? t('you.resetConfirm') : t('you.reset')}</span>
             {confirming && <span className="r-sub">{t('you.cantUndo')}</span>}
+            {confirming && signedIn && <span className="r-sub">{t('account.resetEverywhere')}</span>}
           </span>
         </button>
       </div>

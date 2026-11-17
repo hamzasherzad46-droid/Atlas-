@@ -73,13 +73,15 @@ export async function signOutUser() {
 
 /**
  * Read the account's document, combine it with this device inside a transaction (so two devices
- * syncing at once can't overwrite each other) and write the result. `combine` may run more than once.
+ * syncing at once can't overwrite each other) and write the result, unless `combine` returns null
+ * (nothing changed). `combine` may run more than once.
  */
-export async function syncDoc(uid: string, combine: (remote: unknown) => object): Promise<void> {
+export async function syncDoc(uid: string, combine: (remote: unknown) => object | null): Promise<void> {
   const ref = doc(db, 'users', uid)
   await runTransaction(db, async (tx) => {
     const snap = await tx.get(ref)
-    tx.set(ref, combine(snap.exists() ? snap.data() : null))
+    const next = combine(snap.exists() ? snap.data() : null)
+    if (next) tx.set(ref, next)
   })
 }
 

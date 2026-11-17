@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { createPortal } from 'react-dom'
-import { deleteAccountAndClear, errorKey, sendPasswordReset, signInWithEmail, signInWithGoogle, useAccount } from '../account/account'
+import { errorKey, sendPasswordReset, signInWithEmail, signInWithGoogle, useAccount } from '../account/account'
+import { deleteAccountSynced } from '../account/sync'
 import { GoogleButton } from '../components/GoogleButton'
 import { ArrowIcon } from '../components/Icons'
 import { ScreenBar } from '../components/ScreenBar'
@@ -158,7 +159,7 @@ function DeleteAccount() {
 
   const confirm = async (e: FormEvent) => {
     e.preventDefault()
-    if (await run(() => deleteAccountAndClear(withPassword ? password : undefined))) {
+    if (await run(() => deleteAccountSynced(withPassword ? password : undefined))) {
       push({ kind: 'info', title: t('account.deleted') })
       goBack()
     }

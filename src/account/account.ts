@@ -12,7 +12,8 @@ import type { AccountUser } from './firebase'
  * only when needed (`loadFirebase`).
  */
 export type AccountStatus = 'unavailable' | 'loading' | 'signedOut' | 'signedIn'
-export type SyncState = 'idle' | 'syncing' | 'offline' | 'error'
+/** 'pending': a change is waiting to be sent (in a few seconds). */
+export type SyncState = 'idle' | 'pending' | 'syncing' | 'offline' | 'error'
 
 interface AccountState {
   status: AccountStatus

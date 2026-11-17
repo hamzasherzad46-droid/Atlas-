@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { errorKey, signInWithGoogle, signOutAndClear, useAccount } from '../account/account'
+import { errorKey, signInWithGoogle, useAccount } from '../account/account'
+import { signOutSynced } from '../account/sync'
 import { GoogleButton } from '../components/GoogleButton'
 import { ArrowIcon } from '../components/Icons'
 import { useT, type MessageKey } from '../i18n'
@@ -12,6 +13,8 @@ export function AccountSection() {
   const openAccount = useNav((n) => n.openAccount)
   const [error, setError] = useState<MessageKey | null>(null)
   const [busy, setBusy] = useState(false)
+  // Signing out while progress hasn't synced asks for a second tap.
+  const [unsynced, setUnsynced] = useState(false)
 
   if (status === 'unavailable') return null
 
@@ -28,7 +31,8 @@ export function AccountSection() {
     setBusy(true)
     setError(null)
     try {
-      await signOutAndClear()
+      const result = await signOutSynced(unsynced)
+      setUnsynced(result === 'unsynced')
     } catch (e) {
       setError(errorKey(e))
     } finally {
@@ -59,7 +63,7 @@ export function AccountSection() {
               <span className="r-main">
                 <span className="r-sub">{t('account.signedInAs')}</span>
                 <span className="r-title account-email">{user?.email}</span>
-                <span className="r-sub" aria-live="polite">
+                <span className="r-sub" aria-live="polite" data-synced-at={lastSyncedAt ?? 0}>
                   <SyncLine sync={sync} lastSyncedAt={lastSyncedAt} />
                 </span>
               </span>
@@ -67,7 +71,7 @@ export function AccountSection() {
             <button className="r" disabled={busy} onClick={() => void signOut()}>
               <span className="r-main">
                 <span className="r-title">{t('account.signOut')}</span>
-                <span className="r-sub">{t('account.signOutNote')}</span>
+                <span className={`r-sub${unsynced ? ' warn' : ''}`}>{t(unsynced ? 'account.signOutUnsynced' : 'account.signOutNote')}</span>
               </span>
             </button>
             <button className="r" onClick={() => openAccount('delete')}>
@@ -88,7 +92,7 @@ export function AccountSection() {
 
 function SyncLine({ sync, lastSyncedAt }: { sync: string; lastSyncedAt: number | null }) {
   const t = useT()
-  if (sync === 'syncing') return <>{t('account.syncing')}</>
+  if (sync === 'syncing' || sync === 'pending') return <>{t('account.syncing')}</>
   if (sync === 'offline') return <>{t('account.offline')}</>
   if (sync === 'error') return <>{t('account.syncError')}</>
   if (!lastSyncedAt) return <>{t('account.notSynced')}</>
