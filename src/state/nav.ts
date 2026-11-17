@@ -58,6 +58,8 @@ export interface View {
   courses: boolean
   /** Search (full screen). */
   search: boolean
+  /** Account: sign in (or create an account), or delete it. */
+  account: 'signin' | 'delete' | null
 }
 
 const HOME: View = {
@@ -74,10 +76,11 @@ const HOME: View = {
   body: false,
   courses: false,
   search: false,
+  account: null,
 }
 
 /** Opening a page inside a tab closes any full-screen view on top, so the page is what you see. */
-const NO_OVERLAYS: Partial<View> = { explore: null, exploreFocus: null, credits: false, mock: null, body: false, courses: false, search: false }
+const NO_OVERLAYS: Partial<View> = { explore: null, exploreFocus: null, credits: false, mock: null, body: false, courses: false, search: false, account: null }
 const NO_PAGES: Partial<View> = { modulePage: null, plate: null, topic: null }
 
 interface NavState extends View {
@@ -99,6 +102,7 @@ interface NavState extends View {
   openBody(): void
   openCourses(): void
   openSearch(): void
+  openAccount(mode: 'signin' | 'delete'): void
 }
 
 function viewOf(s: NavState): View {
@@ -136,6 +140,8 @@ export const useNav = create<NavState>()((set, get) => ({
   openBody: () => get().go({ ...NO_OVERLAYS, body: true }),
   openCourses: () => get().go({ courses: true }),
   openSearch: () => get().go({ ...NO_OVERLAYS, search: true }),
+  // Opens over whatever is showing (Settings, or onboarding on first run).
+  openAccount: (account) => get().go({ account }),
 }))
 
 /**

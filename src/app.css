@@ -1203,3 +1203,93 @@
 .onb-lang {
   margin-top: 8px;
 }
+
+/* ---------- Account ---------- */
+.account-screen {
+  z-index: 45;
+}
+
+.account-screen .page {
+  padding-bottom: calc(var(--safe-bottom) + 32px);
+}
+
+/* Google's own sign-in button colours (their branding requires them), in each theme. */
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid #8e918f;
+  border-radius: 4px;
+  background: #131314;
+  color: #e3e3e3;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+:root[data-theme='light'] .google-btn {
+  border-color: #747775;
+  background: #ffffff;
+  color: #1f1f1f;
+}
+
+.google-btn:disabled {
+  opacity: 0.5;
+}
+
+.account-lede {
+  margin-bottom: 14px;
+}
+
+.account-section .google-btn + .rows {
+  margin-top: 6px;
+}
+
+.account-form {
+  margin-top: 22px;
+}
+
+.account-or {
+  margin-bottom: 6px;
+}
+
+.account-field-label {
+  display: block;
+  margin-top: 12px;
+  color: var(--ink);
+}
+
+.account-submit {
+  margin-top: 22px;
+}
+
+.account-delete {
+  margin-top: 18px;
+  color: var(--bad);
+}
+
+.account-msg {
+  min-height: 1.4em;
+  margin-top: 12px;
+}
+
+.account-links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+}
+
+.account-privacy {
+  margin-top: 18px;
+}
+
+.account-email {
+  overflow-wrap: anywhere;
+}
+
+.onb-signin {
+  margin-top: 8px;
+}

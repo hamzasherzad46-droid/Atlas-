@@ -7,6 +7,7 @@ import { useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { ANSWER_TIMERS, DAILY_GOALS, OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { StudyAidNotice } from '../components/StudyAidNotice'
+import { AccountSection } from './AccountSection'
 
 /** Settings: one preference per line, label in the margin. */
 export function YouScreen() {
@@ -22,6 +23,8 @@ export function YouScreen() {
       <div className="titleblock">
         <h1 className="display">{t('tab.you')}</h1>
       </div>
+
+      <AccountSection />
 
       <section className="sect">
         <label className="label" htmlFor="you-name">

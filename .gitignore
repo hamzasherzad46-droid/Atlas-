@@ -5,3 +5,8 @@ dev-dist
 .DS_Store
 coverage
 dist-artifact
+
+# Firebase emulator logs
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

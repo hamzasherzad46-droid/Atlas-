@@ -6,10 +6,14 @@ import { LANG_NAMES, useT } from '../i18n'
 import { OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { Seal } from '../components/Celestial'
 import { StudyAidNotice } from '../components/StudyAidNotice'
+import { useAccount } from '../account/account'
+import { useNav } from '../state/nav'
 
 /** First run: the course first, then the language, then straight in. Everything can be changed later in Settings. */
 export function OnboardingScreen() {
   const t = useT()
+  const accounts = useAccount((a) => a.status !== 'unavailable')
+  const openAccount = useNav((n) => n.openAccount)
   const s = useSettings()
   const [track, setTrack] = useState<string>(getCourse(s.track).id)
 
@@ -48,6 +52,11 @@ export function OnboardingScreen() {
             {t('onb.start')}
             <ArrowIcon />
           </button>
+          {accounts && (
+            <button className="textlink onb-signin" onClick={() => openAccount('signin')}>
+              {t('account.toSignIn')}
+            </button>
+          )}
           <StudyAidNotice />
         </div>
       </main>

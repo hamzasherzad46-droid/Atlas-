@@ -22,6 +22,8 @@ import { useProgress } from './state/progress'
 import { applyTheme, useSettings } from './state/settings'
 import { useToasts } from './state/toast'
 import './app.css'
+import { initAccount } from './account/account'
+import { AccountScreen } from './screens/AccountScreen'
 
 const SCREENS = {
   today: TodayScreen,
@@ -54,9 +56,10 @@ export default function App() {
   const theme = useSettings((s) => s.theme)
   const lang = useSettings((s) => s.lang)
   const onboarded = useSettings((s) => s.onboarded)
-  const { tab, session, cards, explore, credits, mock, body, courses, search } = useNav()
+  const { tab, session, cards, explore, credits, mock, body, courses, search, account } = useNav()
 
   useBrowserBack()
+  useEffect(() => initAccount(), [])
   useEffect(() => applyTheme(theme), [theme])
   useEffect(() => applyLang(lang), [lang])
 
@@ -77,6 +80,7 @@ export default function App() {
       {search && !session && !cards && <SearchScreen />}
       {courses && <CourseSheet />}
       {!onboarded && <OnboardingScreen />}
+      {account && <AccountScreen mode={account} />}
       <StudyPlanWatcher />
       <Toasts />
     </>
