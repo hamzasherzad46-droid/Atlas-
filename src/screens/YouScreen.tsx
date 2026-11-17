@@ -12,7 +12,7 @@ export function YouScreen() {
   const t = useT()
   const s = useSettings()
   const reset = useProgress((p) => p.reset)
-  const setCredits = useNav((n) => n.setCredits)
+  const openCredits = useNav((n) => n.openCredits)
   const [confirming, setConfirming] = useState(false)
 
   return (
@@ -94,7 +94,7 @@ export function YouScreen() {
       </section>
 
       <div className="rows settings-end">
-        <button className="r" onClick={() => setCredits(true)}>
+        <button className="r" onClick={() => openCredits()}>
           <span className="r-main r-title">{t('you.about')}</span>
           <ArrowIcon />
         </button>

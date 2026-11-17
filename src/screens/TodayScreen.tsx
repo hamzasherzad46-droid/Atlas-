@@ -68,7 +68,7 @@ export function TodayScreen() {
         <p className="label">{t('course.your')}</p>
         <div className="course-line-row">
           <h2 className="title">{courseTitle(t, course)}</h2>
-          <button className="textlink" onClick={() => openCourses(true)}>
+          <button className="textlink" onClick={() => openCourses()}>
             {t('course.change')}
           </button>
         </div>
@@ -127,7 +127,7 @@ export function TodayScreen() {
         <div className="sect-body rows">
           <ActionRow title={t('mod.explore')} sub={forModule} onClick={() => openExplore(moduleId)} />
           <ActionRow title={t('mod.cards')} sub={forModule} onClick={() => startCards(moduleId)} />
-          <ActionRow title={t('body.title')} sub={t('body.sub')} onClick={() => openBody(true)} />
+          <ActionRow title={t('body.title')} sub={t('body.sub')} onClick={() => openBody()} />
         </div>
         <CoursePlates course={course} />
       </section>
@@ -139,7 +139,7 @@ export function TodayScreen() {
           <ActionRow title={t('format.choice')} sub={forModule} onClick={() => startPractice(moduleId, region, mode, undefined, null, 'choice')} />
           <ActionRow title={t('format.identify')} sub={forModule} onClick={() => startPractice(moduleId, region, mode, undefined, null, 'identify')} />
           <ActionRow title={t('mod.exam')} sub={forModule} onClick={() => startAssessment(moduleId)} />
-          <ActionRow title={t('today.mock')} sub={t('today.mockSub')} onClick={() => openMock(true)} />
+          <ActionRow title={t('today.mock')} sub={t('today.mockSub')} onClick={() => openMock()} />
         </div>
       </section>
 

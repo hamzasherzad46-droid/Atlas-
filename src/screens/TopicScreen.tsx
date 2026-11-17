@@ -5,7 +5,7 @@ import type { Curriculum } from '../content/types'
 import { ArrowIcon, BackIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { tintVars } from '../lib/tint'
-import { useNav } from '../state/nav'
+import { goBack, useNav } from '../state/nav'
 
 /** Categories whose topics are parts of the body, so the 3D body is a useful companion. */
 const BODY_CATEGORIES = new Set(['sub-regional', 'regional', 'systemic'])
@@ -32,8 +32,8 @@ export function TopicScreen({ cat, index }: { cat: string; index: number }) {
 
   return (
     <main className="page topic-page">
-      <button className="backlink" onClick={() => openTopic(null)}>
-        <BackIcon /> {t('atlas.curriculum')}
+      <button className="backlink" onClick={() => goBack()}>
+        <BackIcon /> {t('common.back')}
       </button>
 
       <div className="titleblock topic-titleblock" lang="en" dir="ltr">
@@ -66,7 +66,7 @@ export function TopicScreen({ cat, index }: { cat: string; index: number }) {
               </button>
             ))}
             {BODY_CATEGORIES.has(cat) && (
-              <button className="r" onClick={() => openBody(true)}>
+              <button className="r" onClick={() => openBody()}>
                 <span className="r-main r-title">{t('body.title')}</span>
                 <ArrowIcon />
               </button>

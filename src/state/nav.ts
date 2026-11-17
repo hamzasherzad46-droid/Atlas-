@@ -32,7 +32,8 @@ export interface CardsConfig {
   ids?: string[]
 }
 
-interface NavState {
+/** Everything that decides which screen is showing. Back restores the previous View. */
+export interface View {
   tab: Tab
   session: SessionConfig | null
   cards: CardsConfig | null
@@ -42,31 +43,24 @@ interface NavState {
   plate: string | null
   /** A curriculum topic's study page (inside the Atlas tab). */
   topic: { cat: string; index: number } | null
-  /** Full-screen 3D explore for a module. */
+  /** Full-screen 3D explore for a module, optionally opening on one structure. */
   explore: string | null
+  exploreFocus: string | null
   credits: boolean
-  /** The mock exam (full screen). */
-  mock: boolean
+  /**
+   * The mock exam (full screen), optionally limited to one question topic. `running` is the step from
+   * the setup into the questions, so Back from the questions returns to the setup.
+   */
+  mock: { topic: string | null; running?: boolean } | null
   /** The whole body in 3D (full screen). */
   body: boolean
   /** The "Change course" sheet. */
   courses: boolean
-  setTab(tab: Tab): void
-  startSession(config: SessionConfig): void
-  endSession(): void
-  startCards(config: CardsConfig): void
-  endCards(): void
-  openModule(id: string | null): void
-  openExplore(id: string | null): void
-  openPlate(id: string | null): void
-  openTopic(topic: { cat: string; index: number } | null): void
-  setCredits(open: boolean): void
-  openMock(open: boolean): void
-  openBody(open: boolean): void
-  openCourses(open: boolean): void
+  /** Search (full screen). */
+  search: boolean
 }
 
-export const useNav = create<NavState>()((set) => ({
+const HOME: View = {
   tab: 'today',
   session: null,
   cards: null,
@@ -74,24 +68,100 @@ export const useNav = create<NavState>()((set) => ({
   plate: null,
   topic: null,
   explore: null,
+  exploreFocus: null,
   credits: false,
-  mock: false,
+  mock: null,
   body: false,
   courses: false,
-  setTab: (tab) => set({ tab, modulePage: null, plate: null, topic: null }),
-  startSession: (session) => set({ session, cards: null }),
-  endSession: () => set({ session: null }),
-  startCards: (cards) => set({ cards, session: null }),
-  endCards: () => set({ cards: null }),
-  openModule: (modulePage) => set({ modulePage, plate: null, topic: null, tab: 'atlas' }),
-  openPlate: (plate) => set({ plate, modulePage: null, topic: null, tab: 'atlas' }),
-  openTopic: (topic) => set({ topic, modulePage: null, plate: null, tab: 'atlas' }),
-  openExplore: (explore) => set({ explore }),
-  setCredits: (credits) => set({ credits }),
-  openMock: (mock) => set({ mock }),
-  openBody: (body) => set({ body }),
-  openCourses: (courses) => set({ courses }),
+  search: false,
+}
+
+/** Opening a page inside a tab closes any full-screen view on top, so the page is what you see. */
+const NO_OVERLAYS: Partial<View> = { explore: null, exploreFocus: null, credits: false, mock: null, body: false, courses: false, search: false }
+const NO_PAGES: Partial<View> = { modulePage: null, plate: null, topic: null }
+
+interface NavState extends View {
+  /** Previous views, most recent last. */
+  history: View[]
+  /** Show a new view; Back returns to the current one. `replace` swaps the current view instead. */
+  go(patch: Partial<View>, replace?: boolean): void
+  /** Return to the previous view (Today if there is none). */
+  back(): void
+  setTab(tab: Tab): void
+  startSession(config: SessionConfig): void
+  startCards(config: CardsConfig): void
+  openModule(id: string): void
+  openExplore(id: string, structureId?: string): void
+  openPlate(id: string): void
+  openTopic(topic: { cat: string; index: number }): void
+  openCredits(): void
+  openMock(topic?: string | null): void
+  openBody(): void
+  openCourses(): void
+  openSearch(): void
+}
+
+function viewOf(s: NavState): View {
+  const v = {} as Record<keyof View, unknown>
+  for (const k of Object.keys(HOME) as (keyof View)[]) v[k] = s[k]
+  return v as unknown as View
+}
+
+export const useNav = create<NavState>()((set, get) => ({
+  ...HOME,
+  history: [],
+  go: (patch, replace = false) => {
+    const current = viewOf(get())
+    set({ ...patch, history: replace ? get().history : [...get().history, current] })
+  },
+  back: () => {
+    const h = get().history
+    if (!h.length) return set({ ...HOME })
+    set({ ...h[h.length - 1], history: h.slice(0, -1) })
+  },
+  setTab: (tab) => {
+    const s = get()
+    if (s.tab === tab && !s.modulePage && !s.plate && !s.topic) return
+    s.go({ tab, ...NO_PAGES, ...NO_OVERLAYS })
+  },
+  // A session started from inside another (the summary's "Fix mistakes") replaces it, so Back leaves the quiz.
+  startSession: (session) => get().go({ session, cards: null }, !!get().session),
+  startCards: (cards) => get().go({ cards, session: null }, !!get().cards),
+  openModule: (modulePage) => get().go({ ...NO_PAGES, ...NO_OVERLAYS, modulePage, tab: 'atlas' }),
+  openPlate: (plate) => get().go({ ...NO_PAGES, ...NO_OVERLAYS, plate, tab: 'atlas' }),
+  openTopic: (topic) => get().go({ ...NO_PAGES, ...NO_OVERLAYS, topic, tab: 'atlas' }),
+  openExplore: (explore, structureId) => get().go({ ...NO_OVERLAYS, explore, exploreFocus: structureId ?? null }),
+  openCredits: () => get().go({ ...NO_OVERLAYS, credits: true }),
+  openMock: (topic = null) => get().go({ ...NO_OVERLAYS, mock: { topic } }),
+  openBody: () => get().go({ ...NO_OVERLAYS, body: true }),
+  openCourses: () => get().go({ courses: true }),
+  openSearch: () => get().go({ ...NO_OVERLAYS, search: true }),
 }))
+
+/**
+ * Back, as every back and close button does it. When the app has added browser history entries,
+ * it goes back through the browser so the phone's back gesture and the button stay in step;
+ * the popstate listener (see `useBrowserBack`) then calls `back()`.
+ */
+export function goBack(steps = 1) {
+  const depth = typeof window !== 'undefined' ? browserDepth(window.history.state) : 0
+  if (depth >= steps && useNav.getState().history.length >= steps) window.history.go(-steps)
+  else for (let i = 0; i < steps; i++) useNav.getState().back()
+}
+
+/** Identifies this page load, so browser entries left from before a reload are not mistaken for ours. */
+export const NAV_SESSION = Math.random().toString(36).slice(2)
+
+export interface BrowserEntry {
+  atlasDepth: number
+  atlasSession: string
+}
+
+/** How deep the app's history was when this browser entry was added (0 for entries that aren't this load's). */
+export function browserDepth(state: unknown): number {
+  const s = state as Partial<BrowserEntry> | null
+  return s?.atlasSession === NAV_SESSION ? (s.atlasDepth ?? 0) : 0
+}
 
 export const PRACTICE_LENGTH = 12
 export const CARDS_LENGTH = 15

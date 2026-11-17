@@ -7,13 +7,14 @@ import { formatClock, sentence } from '../lib/format'
 import { meshKeys } from '../lib/meshMatch'
 import { activeAnswer, type KeyInput } from '../lib/typing'
 import { ArrowIcon, CheckIcon, CloseIcon } from '../components/Icons'
-import { useNav, type SessionConfig } from '../state/nav'
+import { goBack, type SessionConfig } from '../state/nav'
 import { useQuiz } from '../state/quiz'
 import { useSettings } from '../state/settings'
 import { AnswerWord } from './AnswerWord'
 import { Keyboard } from './Keyboard'
 import { SessionSummary } from './SessionSummary'
 import './quiz.css'
+import { ScreenBar } from '../components/ScreenBar'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -22,7 +23,6 @@ export const AUTO_ADVANCE_MS = 1400
 export function QuizScreen({ config }: { config: SessionConfig }) {
   const t = useT()
   const { assets, error } = useModule(config.moduleId)
-  const endSession = useNav((s) => s.endSession)
   const q = useQuiz()
   const track = useSettings((s) => s.track)
   // Index of the question whose auto-advance the student paused by tapping.
@@ -79,7 +79,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return
       const st = useQuiz.getState()
-      if (e.key === 'Escape') return endSession()
+      if (e.key === 'Escape') return goBack()
       if (st.config?.format === 'choice' || st.config?.format === 'identify') {
         if (e.key === 'Enter' && st.phase === 'done') st.next()
         else if (st.config.format === 'choice' && /^[1-4]$/.test(e.key) && st.choices[+e.key - 1]) st.choose(st.choices[+e.key - 1])
@@ -96,7 +96,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [endSession])
+  }, [])
 
   // Identify hides the answer until it's given.
   const highlight = useMemo(() => (current && (format !== 'identify' || done) ? meshKeys(current.meshName) : []), [current, format, done])
@@ -120,9 +120,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
       ? t('mod.exam')
       : config.kind === 'review'
         ? t('practice.review')
-        : format === 'type'
-          ? t('mod.practice')
-          : t(`format.${format}`)
+        : t(`format.${format}`)
   const tapped = format === 'identify' && q.picked ? q.byId[q.picked] : undefined
   const verdict =
     q.lastOutcome === 'perfect'
@@ -179,17 +177,18 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
 
   return (
     <div className="quiz">
-      <header className="quiz-top">
-        <button className="icon-btn" onClick={endSession} aria-label={t('quiz.end')}>
-          <CloseIcon />
-        </button>
-        <p className="mono quiz-count">
-          {kindLabel} · <bdi dir="ltr">{Math.min(q.index + 1, q.queue.length)} / {q.queue.length}</bdi>
-        </p>
-        <span className={`quiz-clock num${examLeft !== null && examLeft < 30_000 ? ' warn' : ''}`}>
-          {examLeft !== null ? formatClock(examLeft) : ''}
-        </span>
-      </header>
+      <ScreenBar
+        close
+        label={t('quiz.end')}
+        title={
+          <>
+            {kindLabel} · <bdi dir="ltr">{Math.min(q.index + 1, q.queue.length)} / {q.queue.length}</bdi>
+          </>
+        }
+        end={
+          <span className={`quiz-clock num${examLeft !== null && examLeft < 30_000 ? ' warn' : ''}`}>{examLeft !== null ? formatClock(examLeft) : ''}</span>
+        }
+      />
       <div className="quiz-progress" aria-hidden>
         <span style={{ width: `${(q.index / Math.max(q.queue.length, 1)) * 100}%` }} />
       </div>

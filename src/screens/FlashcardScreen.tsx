@@ -2,23 +2,22 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState, type PointerEvent
 import { moduleTitle } from '../content/names'
 import { noteFor } from '../content/notes'
 import { useModule } from '../content/useModule'
-import { ArrowIcon, CheckIcon, CloseIcon } from '../components/Icons'
+import { ArrowIcon, CheckIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { meshKeys } from '../lib/meshMatch'
 import { playSound } from '../lib/sound'
-import { CARDS_LENGTH, useNav, type CardsConfig } from '../state/nav'
+import { CARDS_LENGTH, goBack, type CardsConfig } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { buildDeck } from '../lib/deck'
 import { useSettings } from '../state/settings'
 import '../quiz/quiz.css'
 import { sentence } from '../lib/format'
-import { Seal } from '../components/Celestial'
+import { ScreenBar } from '../components/ScreenBar'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
 export function FlashcardScreen({ config }: { config: CardsConfig }) {
   const t = useT()
-  const endCards = useNav((s) => s.endCards)
   const track = useSettings((s) => s.track)
   const recordCard = useProgress((s) => s.recordCard)
   const { assets } = useModule(config.moduleId)
@@ -86,13 +85,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
     return (
       <div className="quiz summary">
         <div className="summary-inner">
-          <header className="masthead">
-            <span className="brand">
-            <Seal />
-            <span className="wordmark">{t('app.name')}</span>
-          </span>
-            <span className="mono">{moduleTitle(t, config.moduleId)}</span>
-          </header>
+          <ScreenBar close title={moduleTitle(t, config.moduleId)} />
           <div className="titleblock">
             <p className="label">{t('cards.title')}</p>
             <h1 className="display">{t('cards.done')}</h1>
@@ -108,7 +101,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
             </div>
           </div>
           <div className="summary-actions">
-            <button className="go" onClick={endCards}>
+            <button className="go" onClick={() => goBack()}>
               {t('common.done')}
               <ArrowIcon />
             </button>
@@ -122,13 +115,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
 
   return (
     <div className="quiz cards">
-      <header className="quiz-top">
-        <button className="icon-btn" onClick={endCards} aria-label={t('quiz.end')}>
-          <CloseIcon />
-        </button>
-        <p className="mono quiz-count">{t('cards.count', { a: index + 1, b: deck.length })}</p>
-        <span className="quiz-clock" />
-      </header>
+      <ScreenBar close label={t('cards.end')} title={t('cards.count', { a: index + 1, b: deck.length })} />
       <div className="quiz-progress" aria-hidden>
         <span style={{ width: `${(index / Math.max(deck.length, 1)) * 100}%` }} />
       </div>

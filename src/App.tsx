@@ -12,8 +12,10 @@ import { FlashcardScreen } from './screens/FlashcardScreen'
 import { MockScreen } from './screens/MockScreen'
 import { OnboardingScreen } from './screens/OnboardingScreen'
 import { ProgressScreen } from './screens/ProgressScreen'
+import { SearchScreen } from './screens/SearchScreen'
 import { TodayScreen } from './screens/TodayScreen'
 import { YouScreen } from './screens/YouScreen'
+import { useBrowserBack } from './state/browserBack'
 import { useAssignments } from './state/dashboard'
 import { useNav } from './state/nav'
 import { useProgress } from './state/progress'
@@ -52,13 +54,14 @@ export default function App() {
   const theme = useSettings((s) => s.theme)
   const lang = useSettings((s) => s.lang)
   const onboarded = useSettings((s) => s.onboarded)
-  const { tab, session, cards, explore, credits, mock, body, courses } = useNav()
+  const { tab, session, cards, explore, credits, mock, body, courses, search } = useNav()
 
+  useBrowserBack()
   useEffect(() => applyTheme(theme), [theme])
   useEffect(() => applyLang(lang), [lang])
 
   const Screen = SCREENS[tab]
-  const overlay = session || cards || explore || mock || body
+  const overlay = session || cards || explore || mock || body || search
   return (
     <>
       <div className="app" hidden={!!overlay}>
@@ -71,6 +74,7 @@ export default function App() {
       {cards && <FlashcardScreen config={cards} />}
       {mock && !session && !cards && <MockScreen />}
       {body && !session && !cards && !explore && <BodyScreen />}
+      {search && !session && !cards && <SearchScreen />}
       {courses && <CourseSheet />}
       {!onboarded && <OnboardingScreen />}
       <StudyPlanWatcher />

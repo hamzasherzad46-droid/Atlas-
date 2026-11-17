@@ -4,9 +4,9 @@ import { useT } from '../i18n'
 import { formatClock, sentence } from '../lib/format'
 import { Meter } from '../components/bits'
 import { ArrowIcon } from '../components/Icons'
-import { useNav } from '../state/nav'
+import { goBack, useNav } from '../state/nav'
 import { accuracyOf, useQuiz } from '../state/quiz'
-import { Seal } from '../components/Celestial'
+import { ScreenBar } from '../components/ScreenBar'
 
 /** Counts up to `to` for a satisfying tally. */
 function useCountUp(to: number, ms = 900) {
@@ -28,7 +28,7 @@ function useCountUp(to: number, ms = 900) {
 export function SessionSummary() {
   const t = useT()
   const q = useQuiz()
-  const { endSession, startSession } = useNav()
+  const startSession = useNav((s) => s.startSession)
   const config = q.config!
   const isAssessment = config.kind === 'assessment'
 
@@ -52,13 +52,7 @@ export function SessionSummary() {
   return (
     <div className="quiz summary">
       <div className="summary-inner">
-        <header className="masthead">
-          <span className="brand">
-            <Seal />
-            <span className="wordmark">{t('app.name')}</span>
-          </span>
-          <span className="mono">{moduleName}</span>
-        </header>
+        <ScreenBar close title={moduleName} />
 
         <div className="titleblock">
           <p className="label">{isAssessment ? t('summary.exam') : t('summary.session')}</p>
@@ -107,7 +101,7 @@ export function SessionSummary() {
               <ArrowIcon />
             </button>
           )}
-          <button className={`go${missed.length ? ' quiet' : ''}`} onClick={endSession}>
+          <button className={`go${missed.length ? ' quiet' : ''}`} onClick={() => goBack()}>
             {t('common.done')}
           </button>
         </div>

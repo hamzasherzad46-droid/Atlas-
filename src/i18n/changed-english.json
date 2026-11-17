@@ -1,6 +1,25 @@
 {
   "note": "UI strings whose English text changed after they were translated. Each listed key needs its translations checked by a native speaker; TRANSLATION-REVIEW.md lists them per language.",
   "changed": {
-    "you.track": "“Study track” became “Course”."
+    "you.track": "“Study track” became “Course”.",
+    "tab.atlas": "“Atlas” became “All content” (the tab and the page are now one list of everything).",
+    "atlas.title": "“Atlas” became “All content”.",
+    "atlas.sub": "New description of the All content page.",
+    "atlas.curriculum": "“Curriculum” became “Topics” (one name for curriculum topics everywhere).",
+    "format.type": "“Spelling” became “Spelling quiz”.",
+    "format.identify": "“Identify” became “Identify on the model”.",
+    "mod.exam": "“Exam” became “Timed exam”.",
+    "summary.exam": "“Exam complete” became “Timed exam complete”.",
+    "summary.fix": "“Fix these now” became “Fix mistakes” (one name for the feature).",
+    "today.mistakes": "“Mistakes to fix” became “Fix mistakes” (one name for the feature).",
+    "practice.start": "“Start practice” became “Start spelling quiz”.",
+    "today.resumeGo": "“Resume practice” became “Continue spelling quiz”.",
+    "practice.mode": "“Mode” became “Difficulty”.",
+    "practice.level": "“Level” became “Structures” (choose foundation, intermediate or advanced structures).",
+    "practice.timer": "“Answer timer” became “Time per answer”.",
+    "practice.region": "“Region” became “Questions from” (a part of the module, not a regional module).",
+    "progress.exams": "“Exams” became “Timed and mock exams”.",
+    "progress.noExams": "“No exams yet.” became “No timed or mock exams yet.”",
+    "you.timer": "“Default answer timer” became “Default time per answer”."
   }
 }

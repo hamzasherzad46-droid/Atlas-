@@ -25,7 +25,7 @@
   --paper-3: #2d2a25;
   --ink: #e8ddc5; /* aged ivory */
   --ink-2: #aba18c;
-  --ink-3: #7a7262;
+  --ink-3: #88806f; /* the faintest text that still meets WCAG AA (4.5:1) on obsidian */
   --rule: rgba(232, 221, 197, 0.14);
   --rule-brass: rgba(168, 138, 84, 0.55);
   --parchment: #d8c9a9;
@@ -54,12 +54,12 @@
   --paper-3: #d1c19f;
   --ink: #211f1b;
   --ink-2: #554c3d;
-  --ink-3: #887c64;
+  --ink-3: #69604e; /* the faintest text that still meets WCAG AA (4.5:1) on the page */
   --rule: rgba(33, 31, 27, 0.17);
   --rule-brass: rgba(125, 100, 53, 0.6);
   --parchment: #f1e8d4;
   --parchment-ink: #211f1b;
-  --accent: #7d6435;
+  --accent: #745d33; /* brass dark enough for text (4.5:1) */
   --accent-fill: #a88a54;
   --on-accent: #171614;
   --accent-wash: rgba(125, 100, 53, 0.1);
@@ -152,7 +152,7 @@ input {
 }
 
 :focus-visible {
-  outline: 1px solid var(--accent);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -358,6 +358,12 @@ a {
   text-align: start;
 }
 
+/* A row that does something is always at least a 44 px target, the first one included. */
+button.r,
+a.r {
+  min-height: 44px;
+}
+
 .rows > .r:first-child {
   border-top: 0;
   padding-top: 2px;
@@ -467,7 +473,9 @@ button.go.quiet:active {
 /* Inline text action, underlined. */
 .textlink {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
   gap: 6px;
   font-size: 15px;
   font-weight: 500;
@@ -503,12 +511,21 @@ button.go.quiet:active {
 }
 
 .options button {
-  min-height: 36px;
-  padding: 6px 0 4px;
+  position: relative;
+  min-height: 44px;
+  min-width: 28px;
+  padding: 10px 0 8px;
   font-size: 15px;
   color: var(--ink-2);
   border-bottom: 1px solid transparent;
   transition: color var(--fast) linear, border-color var(--fast) linear;
+}
+
+/* Each choice can be tapped across half the gap on either side, so every target is at least 44 px wide. */
+.options button::after {
+  content: '';
+  position: absolute;
+  inset: 0 -9px;
 }
 
 .options button[aria-pressed='true'] {
@@ -556,7 +573,7 @@ button.go.quiet:active {
 /* Text field: just an underline. */
 .field {
   width: 100%;
-  min-height: 40px;
+  min-height: 44px;
   padding: 6px 0;
   border: 0;
   border-bottom: 1px solid var(--ink-3);

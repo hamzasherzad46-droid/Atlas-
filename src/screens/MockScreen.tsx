@@ -3,36 +3,43 @@ import { getCourse, loadMock } from '../content/loader'
 import { courseTitle } from '../content/names'
 import type { MockBank, MockLevel } from '../content/types'
 import { Meter } from '../components/bits'
-import { ArrowIcon, BackIcon, CheckIcon, CloseIcon } from '../components/Icons'
+import { ArrowIcon, CheckIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { formatClock, pct } from '../lib/format'
-import { buildMock, MOCK_LENGTHS, mockPool, topicScores, type MockItem } from '../lib/mock'
+import { buildMock, mockLengths, mockPool, topicScores, type MockItem } from '../lib/mock'
 import { playSound } from '../lib/sound'
-import { useNav } from '../state/nav'
+import { goBack, useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
 import '../quiz/quiz.css'
+import { ScreenBar } from '../components/ScreenBar'
 
 const LETTERS = ['A', 'B', 'C', 'D']
 
 /** Wall-clock time; only ever read in event handlers (starting and finishing a mock). */
 const clock = () => Date.now()
 
+type MockScope = 'topic' | 'course' | 'all'
+
 /**
- * A mock exam of 15, 30 or 45 multiple-choice questions at Foundation or Higher level.
+ * A mock exam of 15, 30 or 45 multiple-choice questions (or all of a smaller pool) at Foundation
+ * or Higher level, drawn from the course's topics, every topic, or one topic opened from search.
  * Each answer is marked at once and explained; the results show the score by topic and
  * every question to look at again.
  */
 export function MockScreen() {
   const t = useT()
-  const openMock = useNav((s) => s.openMock)
   const [bank, setBank] = useState<MockBank | null>(null)
+  // Opened from search on one topic, the mock starts limited to that topic.
+  const topic = useNav((s) => s.mock?.topic ?? null)
+  // Starting is a step in the history, so Back (or the phone's back gesture) from the questions returns here.
+  const running = useNav((s) => !!s.mock?.running)
   const [level, setLevel] = useState<MockLevel>('foundation')
   const [length, setLength] = useState<number>(15)
   // By default a mock draws on the student's course topics; "All topics" uses the whole bank.
-  const [scope, setScope] = useState<'course' | 'all'>('course')
+  const [scope, setScope] = useState<MockScope>(topic ? 'topic' : 'course')
   const course = getCourse(useSettings((s) => s.track))
-  const topics = scope === 'course' ? course.mockTopics : null
+  const topics = scope === 'topic' && topic ? [topic] : scope === 'course' ? course.mockTopics : null
   const [items, setItems] = useState<MockItem[] | null>(null)
   const [answers, setAnswers] = useState<(number | null)[]>([])
   const [index, setIndex] = useState(0)
@@ -41,21 +48,28 @@ export function MockScreen() {
 
   useEffect(() => {
     let alive = true
-    void loadMock().then((b) => alive && setBank(b))
+    void loadMock().then((b) => {
+      if (!alive) return
+      setBank(b)
+      // A topic asked in only one level starts on that level.
+      if (topic && !b.sets.find((x) => x.id === 'foundation')?.questions.some((q) => q.topic === topic)) setLevel('higher')
+    })
     return () => {
       alive = false
     }
-  }, [])
+  }, [topic])
 
   const start = () => {
     const set = bank?.sets.find((s) => s.id === level)
     if (!set) return
-    const list = buildMock(mockPool(set.questions, topics), length)
+    const pool = mockPool(set.questions, topics)
+    const list = buildMock(pool, Math.min(length, pool.length))
     setItems(list)
     setAnswers(list.map(() => null))
     setIndex(0)
     setStartedAt(clock())
     setFinishedAt(0)
+    useNav.getState().go({ mock: { topic, running: true } })
   }
 
   const finish = useCallback(() => {
@@ -74,7 +88,7 @@ export function MockScreen() {
     playSound('mockFinish')
   }, [items, answers, level, startedAt])
 
-  if (!items) {
+  if (!items || !running) {
     const available = mockPool(bank?.sets.find((s) => s.id === level)?.questions ?? [], topics).length
     return (
       <MockSetup
@@ -85,14 +99,16 @@ export function MockScreen() {
         setLength={setLength}
         scope={scope}
         setScope={setScope}
+        topic={topic}
         courseName={courseTitle(t, course)}
         available={available}
         onStart={start}
-        onClose={() => openMock(false)}
+        onClose={() => goBack()}
       />
     )
   }
-  if (finishedAt) return <MockResults items={items} answers={answers} level={level} ms={finishedAt - startedAt} onAgain={() => setItems(null)} onClose={() => openMock(false)} />
+  // "Another mock exam" returns to the setup; Close leaves the mock exam.
+  if (finishedAt) return <MockResults items={items} answers={answers} level={level} ms={finishedAt - startedAt} onAgain={() => goBack()} onClose={() => goBack(2)} />
 
   const choose = (k: number) => {
     if (answers[index] !== null) return
@@ -111,7 +127,7 @@ export function MockScreen() {
       onChoose={choose}
       onNext={next}
       onClose={() => {
-        if (window.confirm(t('mock.leave'))) openMock(false)
+        if (window.confirm(t('mock.leave'))) goBack()
       }}
       t={t}
     />
@@ -124,8 +140,9 @@ function MockSetup(props: {
   setLevel(l: MockLevel): void
   length: number
   setLength(n: number): void
-  scope: 'course' | 'all'
-  setScope(s: 'course' | 'all'): void
+  scope: MockScope
+  setScope(s: MockScope): void
+  topic: string | null
   courseName: string
   available: number
   onStart(): void
@@ -134,14 +151,14 @@ function MockSetup(props: {
   const t = useT()
   const assessments = useProgress((s) => s.assessments)
   const { level, length } = props
+  const lengths = mockLengths(props.available)
+  const shown = Math.min(length, props.available)
   const last = assessments.find((a) => a.moduleId === `mock-${level}`)
 
   return (
     <div className="overlay mock">
       <main className="page">
-        <button className="backlink" onClick={props.onClose}>
-          <BackIcon /> {t('common.back')}
-        </button>
+        <ScreenBar onBack={props.onClose} />
         <div className="titleblock">
           <h1 className="display">{t('mock.title')}</h1>
           <p className="lede">{t('mock.lede')}</p>
@@ -170,6 +187,11 @@ function MockSetup(props: {
           <p className="label">{t('mock.from')}</p>
           <div className="sect-body">
             <div className="options">
+              {props.topic && (
+                <button aria-pressed={props.scope === 'topic'} onClick={() => props.setScope('topic')}>
+                  {t('mock.oneTopic')}: <span lang="en">{props.topic}</span>
+                </button>
+              )}
               <button aria-pressed={props.scope === 'course'} onClick={() => props.setScope('course')}>
                 {t('mock.courseTopics')}: {props.courseName}
               </button>
@@ -185,13 +207,13 @@ function MockSetup(props: {
           <p className="label">{t('mock.length')}</p>
           <div className="sect-body">
             <div className="options">
-              {MOCK_LENGTHS.map((n) => (
-                <button key={n} className="num" aria-pressed={length === n} disabled={n > props.available} onClick={() => props.setLength(n)}>
+              {lengths.map((n) => (
+                <button key={n} className="num" aria-pressed={shown === n} onClick={() => props.setLength(n)}>
                   {n}
                 </button>
               ))}
             </div>
-            <p className="small option-help">{t('mock.minutes', { n: Math.min(length, props.available) })}</p>
+            <p className="small option-help">{t('mock.minutes', { n: shown })}</p>
           </div>
         </section>
 
@@ -239,17 +261,16 @@ function MockQuestion(props: {
 
   return (
     <div className="quiz mock-quiz">
-      <div className="quiz-top">
-        <button className="icon-btn" aria-label={t('common.close')} onClick={props.onClose}>
-          <CloseIcon />
-        </button>
-        <span className="mono quiz-count">
+      <ScreenBar
+        close
+        label={t('mock.end')}
+        onBack={props.onClose}
+        title={
           <bdi dir="ltr">
             {index + 1} / {total}
           </bdi>
-        </span>
-        <span />
-      </div>
+        }
+      />
       <div className="quiz-progress">
         <span style={{ width: `${((index + (done ? 1 : 0)) / total) * 100}%` }} />
       </div>
@@ -311,6 +332,7 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
   return (
     <div className="overlay mock">
       <main className="page summary-inner">
+        <ScreenBar close onBack={props.onClose} title={t('mock.title')} />
         <div className="titleblock">
           <p className="label">{t('mock.resultLabel', { level: t(`mock.${props.level}`) })}</p>
           <p className="summary-score num">

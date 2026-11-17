@@ -49,11 +49,89 @@
 }
 
 /* ---------- Masthead ---------- */
+.masthead-end {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  margin-inline-end: -12px;
+}
+
 .masthead-track {
-  min-height: 32px;
+  min-height: 44px;
+  min-width: 0;
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.masthead-search {
+  color: var(--ink);
+}
+
+/* ---------- Search ---------- */
+.search-box {
+  padding: 18px 0 8px;
+}
+
+.search-field {
+  margin-top: 6px;
+  font-size: 18px;
+  min-height: 44px;
+}
+
+.search-hint,
+.search .empty {
+  margin-top: 12px;
+}
+
+.search-count {
+  margin-top: 8px;
+  color: var(--ink-3);
 }
 
 /* ---------- Shared ---------- */
+/* Top bar of every full-screen view: the way out is always top left, 44 × 44. */
+.screen-bar {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) minmax(44px, auto);
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  padding: 0 calc(var(--pad) - 12px);
+  flex-shrink: 0;
+}
+
+/* Inside a scrolling page the page already has the side padding and the top inset. */
+.page > .screen-bar,
+.summary-inner > .screen-bar {
+  margin: -10px -12px 0;
+  padding: 0;
+}
+
+.screen-bar-back {
+  color: var(--ink);
+}
+
+.screen-bar-h {
+  font: inherit;
+}
+
+.screen-bar-title {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ink-2);
+}
+
+.screen-bar-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 44px;
+}
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -77,8 +155,17 @@
 
 .toggle-row {
   align-items: center;
+  min-height: 44px;
   border-top: 0;
   padding: 2px 0;
+}
+
+/* Licence links are separate lines, so each gets a full-height target. */
+.credits a.r-sub {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 0;
 }
 
 /* ---------- Today ---------- */
@@ -139,20 +226,31 @@
   margin-top: 10px;
 }
 
-.module-go {
-  margin-top: 22px;
-}
-
-.module-options {
-  margin: 16px 0 10px;
-}
-
-.module-ways {
+.module-first {
   margin-top: 8px;
+}
+
+.module-settings-note {
+  margin-bottom: 4px;
+  color: var(--ink-2);
+}
+
+.module-setting {
+  padding: 10px 0 4px;
+}
+
+.module-setting-label {
+  margin-bottom: 6px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.module-tests {
+  margin-top: 14px;
   border-top: 1px solid var(--rule);
 }
 
-.module-ways > .r:first-child {
+.module-tests > .r:first-child {
   border-top: 0;
   padding-top: 12px;
 }
@@ -503,6 +601,7 @@
 
 /* A numbered reference sitting on the structure's surface. */
 .plate-mark {
+  position: relative;
   display: grid;
   place-items: center;
   min-width: 20px;
@@ -534,7 +633,7 @@
   align-items: baseline;
   gap: 8px;
   width: 100%;
-  min-height: 36px;
+  min-height: 44px;
   padding: 6px 0;
   border-top: 1px solid var(--rule);
   font-size: 14px;
@@ -555,10 +654,6 @@
 }
 
 /* ---------- Atlas views and the curriculum ---------- */
-.atlas-views {
-  margin: -8px 0 14px;
-}
-
 .curriculum-count {
   margin-bottom: 10px;
   color: var(--ink-2);
@@ -695,6 +790,14 @@
   fill: #7a5c2c;
 }
 
+/* The numbered marks stay small on the picture but take a 44 px tap. */
+.plate-mark::after,
+.plate-tag::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+}
+
 .plate-tag {
   position: absolute;
   z-index: 1;
@@ -789,7 +892,7 @@
   align-items: baseline;
   gap: 12px;
   width: 100%;
-  min-height: 40px;
+  min-height: 44px;
   padding: 8px 0;
   border-top: 1px solid var(--rule);
   font-size: 15px;
@@ -831,15 +934,6 @@
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
   z-index: 18;
-}
-
-.body-head {
-  border-bottom: 0;
-  padding: 0 calc(var(--pad) - 12px);
-}
-
-.body-title {
-  font-size: 21px;
 }
 
 .body-modes,
@@ -911,10 +1005,10 @@
   align-items: center;
   gap: 7px;
   flex-shrink: 0;
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 12px;
   border: 1px solid var(--rule);
-  border-radius: 18px;
+  border-radius: 22px;
   font-size: 14px;
   color: var(--ink-2);
   white-space: nowrap;
@@ -958,10 +1052,10 @@
 /* ---------- Curriculum topics ---------- */
 .topic-open {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   width: 100%;
-  min-height: 34px;
+  min-height: 44px;
   text-align: start;
 }
 

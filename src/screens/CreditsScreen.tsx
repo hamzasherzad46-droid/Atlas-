@@ -1,17 +1,13 @@
-import { BackIcon } from '../components/Icons'
 import { useT } from '../i18n'
-import { useNav } from '../state/nav'
+import { ScreenBar } from '../components/ScreenBar'
 
 /** Required attribution for the 3D model sources. Keep this intact (licence text stays in English). */
 export function CreditsScreen() {
   const t = useT()
-  const setCredits = useNav((s) => s.setCredits)
   return (
     <div className="overlay">
       <main className="page credits">
-        <button className="backlink" onClick={() => setCredits(false)}>
-          <BackIcon /> {t('common.back')}
-        </button>
+        <ScreenBar />
         <div className="titleblock">
           <h1 className="display">{t('credits.about')}</h1>
           <p className="lede">{t('credits.desc')}</p>

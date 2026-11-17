@@ -6,7 +6,7 @@ import { useT } from '../i18n'
 import { publicUrl } from '../lib/paths'
 import { placeTags } from '../lib/plates'
 import { tintVars } from '../lib/tint'
-import { useNav } from '../state/nav'
+import { goBack, useNav } from '../state/nav'
 
 function usePlates(): Plate[] | null {
   const [plates, setPlates] = useState<Plate[] | null>(null)
@@ -51,7 +51,6 @@ const TAG_PX = 24
  */
 export function PlateScreen({ id }: { id: string }) {
   const t = useT()
-  const openPlate = useNav((s) => s.openPlate)
   const plates = usePlates()
   const plate = plates?.find((p) => p.id === id) ?? null
   const [active, setActive] = useState<number | null>(null)
@@ -99,8 +98,8 @@ export function PlateScreen({ id }: { id: string }) {
 
   return (
     <main className="page plate-page sys" style={tintVars(plate.systemId)}>
-      <button className="backlink" onClick={() => openPlate(null)}>
-        <BackIcon /> {t('atlas.plates')}
+      <button className="backlink" onClick={() => goBack()}>
+        <BackIcon /> {t('common.back')}
       </button>
       <div className="titleblock plate-titleblock">
         <p className="label">

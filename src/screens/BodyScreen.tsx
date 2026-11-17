@@ -1,13 +1,14 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { catalog, loadContentFile } from '../content/loader'
 import type { Structure } from '../content/types'
-import { BackIcon, CloseIcon } from '../components/Icons'
+import { CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { BODY_LAYERS, displayName, type BodyMode, type CutAxis, type LayerId } from '../lib/bodyLayers'
 import { sentence } from '../lib/format'
 import { mostSpecific } from '../lib/meshMatch'
 import { useNav } from '../state/nav'
 import type { BodyPick, BodyViewerApi } from '../viewer/BodyViewer'
+import { ScreenBar } from '../components/ScreenBar'
 
 const BodyViewer = lazy(() => import('../viewer/BodyViewer'))
 
@@ -42,7 +43,7 @@ function useKnownStructures(): Known[] {
  */
 export function BodyScreen() {
   const t = useT()
-  const { openBody, openModule } = useNav()
+  const openModule = useNav((s) => s.openModule)
   const known = useKnownStructures()
   const [layers, setLayers] = useState<LayerId[]>(() => BODY_LAYERS.filter((l) => l.on).map((l) => l.id))
   const [mode, setMode] = useState<BodyMode>('xray')
@@ -79,13 +80,7 @@ export function BodyScreen() {
 
   return (
     <div className="overlay body-screen">
-      <header className="explore-head body-head">
-        <button className="icon-btn" aria-label={t('common.back')} onClick={() => openBody(false)}>
-          <BackIcon />
-        </button>
-        <h1 className="title body-title">{t('body.title')}</h1>
-        <span className="icon-btn" aria-hidden />
-      </header>
+      <ScreenBar title={<h1 className="screen-bar-h">{t('body.title')}</h1>} />
 
       <div className="options body-modes" role="group" aria-label={t('body.mode')}>
         {MODES.map((m) => (
@@ -197,7 +192,6 @@ export function BodyScreen() {
                 <button
                   className="textlink"
                   onClick={() => {
-                    openBody(false)
                     openModule(match.moduleId)
                   }}
                 >

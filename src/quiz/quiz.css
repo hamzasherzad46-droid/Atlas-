@@ -308,7 +308,7 @@
 
 @media (max-height: 680px) {
   .kb-key {
-    height: 38px;
+    height: 44px;
   }
   .kb {
     gap: 8px;
@@ -400,8 +400,8 @@
   --ink-2: #5d5240;
   --ink-3: #8a7d63;
   --rule: rgba(33, 31, 27, 0.16);
-  --copper: #84513a;
-  --good: #3e6a46;
+  --copper: #754a35;
+  --good: #395c3e;
   --bad: #8e2f2a;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;

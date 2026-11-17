@@ -38,3 +38,10 @@ export const CheckIcon = ({ size = 14 }: { size?: number }) => (
     <path d="m4.5 12.5 5 5L19.5 7" />
   </svg>
 )
+
+export const SearchIcon = ({ size = 18 }: { size?: number }) => (
+  <svg {...svg(size)}>
+    <circle cx="10.5" cy="10.5" r="6.5" />
+    <path d="M15.5 15.5 21 21" />
+  </svg>
+)

@@ -22,6 +22,15 @@ function shuffle<T>(list: T[], rand: () => number): T[] {
 }
 
 /** The questions a mock draws from: a course's topics, or every topic when `topics` is null. */
+/**
+ * The lengths offered for a pool of `available` questions: the standard lengths that fit, and the
+ * whole pool when it is smaller than the longest (so a single topic can still be sat).
+ */
+export function mockLengths(available: number): number[] {
+  const fit = MOCK_LENGTHS.filter((n) => n <= available) as number[]
+  return available > 0 && available < MOCK_LENGTHS[MOCK_LENGTHS.length - 1] && !fit.includes(available) ? [...fit, available] : fit
+}
+
 export function mockPool(bank: MockQuestion[], topics: string[] | null): MockQuestion[] {
   return topics ? bank.filter((q) => topics.includes(q.topic)) : bank
 }
