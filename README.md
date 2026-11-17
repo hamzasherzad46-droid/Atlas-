@@ -247,6 +247,65 @@ placed outward from the body as on an atlas plate. Any part of it hidden behind 
 
 The Draco decoder is served from `/draco` (copied from three.js), not from a CDN, so it works offline.
 
+## Accounts and sync
+
+Signing in is optional. With an account (email and password, or Google), a student's progress
+follows them to their other devices: structures learned, mistakes, flashcards, daily activity and
+streaks, timed and mock exam results, and their course, daily goal and name (theme and sound stay per
+device). Without one, everything stays on the device as before. Apple sign-in is not offered yet.
+
+- **How it merges** (`src/lib/syncMerge.ts`, tested): per structure the most recent result wins; per
+  flashcard the copy reviewed more often; exam results and finished study-plan items are all kept;
+  daily activity is kept per device and added up; course, goal and name: the latest change wins.
+  "Reset progress" erases the account's progress on every device.
+- **When it syncs** (`src/account/sync.ts`): on sign-in and when the app comes to the front, four
+  seconds after studying, when the app goes to the background, and when the connection returns. Each
+  sync is one Firestore transaction on the student's own document, `users/{uid}`; nothing is written
+  if nothing changed.
+- **Sign out** syncs, then clears the device (progress stays in the account). **Delete account**
+  (Settings) confirms with the password or Google, then erases the account and its document.
+- **Size**: Firebase (Auth and Firestore Lite, ~62 KB gzipped) loads only when a student opens Account
+  or is signed in. No Firebase Analytics.
+- **Without configuration** (no `VITE_FIREBASE_*` variables) the build has no accounts at all.
+
+### Setting it up (once)
+
+1. In the [Firebase console](https://console.firebase.google.com), add a project (Google Analytics:
+   off). The free Spark plan is enough; no billing is needed.
+2. Project settings → General → Your apps → add a **Web** app. Note `apiKey`, `authDomain`,
+   `projectId` and `appId` from its config. These are public by design (every Firebase web app ships
+   them), but they are kept out of the code.
+3. Authentication → Sign-in method: enable **Email/Password** and **Google**.
+4. Authentication → Settings → Authorised domains: add `hamzasherzad46-droid.github.io`.
+5. Firestore Database → Create database in production mode. Choose the location carefully (it cannot
+   be changed later), for example `europe-west2` (London).
+6. Firestore → Rules: replace them with the contents of `firestore.rules` and publish. (Or, with the
+   Firebase CLI: `firebase deploy --only firestore:rules --project <project-id>`.)
+7. GitHub → this repository → Settings → Secrets and variables → Actions → **Variables**: add
+   `FIREBASE_API_KEY`, `FIREBASE_AUTH_DOMAIN`, `FIREBASE_PROJECT_ID` and `FIREBASE_APP_ID`. The next
+   deploy (any push to `main`, or re-run "Publish to GitHub Pages") includes accounts.
+8. Recommended: in Google Cloud console → APIs & Services → Credentials, restrict the browser API key
+   to the site `https://hamzasherzad46-droid.github.io/*` (and `http://localhost:5173/*` for development).
+
+For local development against the real project, put the four values in `.env.local` as
+`VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID` and
+`VITE_FIREBASE_APP_ID` (not committed).
+
+### Testing with the Firebase emulators
+
+Needs Java and the Firebase CLI (`npm install -g firebase-tools`); not project dependencies.
+
+```bash
+firebase emulators:start --project demo-atlas --only auth,firestore   # uses firestore.rules
+VITE_FIREBASE_EMULATOR=true npx vite --port 5174                       # the app, signed in against the emulators
+node scripts/check-sync.cjs                                            # two devices, end to end (Playwright)
+```
+
+`scripts/check-sync.cjs` signs up on one device, studies, signs in on a second, and checks that
+progress, course and daily counts arrive and add up, offline changes sync later, sign-out clears the
+device, another account can neither read nor write the data, unexpected fields are refused, Reset
+erases the account's progress, and Delete account removes the account and its data.
+
 ## Architecture
 
 ```

@@ -79,8 +79,13 @@ function locate(p, [kind, name]) {
 async function fresh(p, opts = {}) {
   await p.goto(URL)
   await p.evaluate(
-    ([state, progress]) => {
+    async ([state, progress]) => {
       localStorage.clear()
+      // A Firebase session from an earlier path (builds with accounts) lives in IndexedDB.
+      await new Promise((done) => {
+        const req = indexedDB.deleteDatabase('firebaseLocalStorageDb')
+        req.onsuccess = req.onerror = req.onblocked = () => done()
+      })
       localStorage.setItem('atlas:settings:v1', JSON.stringify({ state, version: 3 }))
       if (progress) localStorage.setItem('atlas:progress:v1', JSON.stringify(progress))
     },
@@ -264,6 +269,55 @@ async function audit(p) {
     }
     if (!ok) failed++
     console.log(`\nBack on the first press after a reload: ${ok ? 'yes' : 'NO'}`)
+  }
+
+  // Builds with accounts (Firebase configured, e.g. the emulators): the account screens.
+  await fresh(p)
+  await p.locator('nav').getByRole('button', { name: 'Settings', exact: true }).click()
+  const accounts = await p.getByRole('button', { name: 'Continue with Google' }).isVisible()
+  if (!accounts) console.log('\nAccounts: not in this build (no Firebase config), so no account screens to check.')
+  else if (!ONLY) {
+    console.log('\n| Account screen | Taps from Today | Path | Arrives | Back returns |')
+    console.log('|---|---|---|---|---|')
+    note('Settings (signed out)', await audit(p))
+    let arrived = false
+    let backOk = false
+    try {
+      await p.getByRole('button', { name: /^Sign in with email/ }).click()
+      await p.getByRole('heading', { name: 'Sign in' }).waitFor()
+      arrived = true
+      note('Sign in', await audit(p))
+      await p.getByRole('button', { name: 'Back', exact: true }).first().click()
+      backOk = await p.getByRole('heading', { name: 'Settings' }).isVisible()
+    } catch (e) {
+      errors.push(`sign in: ${e.message.split('\n')[0]}`)
+    }
+    if (!arrived || !backOk) failed++
+    console.log(`| Sign in with email | 2 | tab “Settings” → “Sign in with email” | ${arrived ? 'yes' : 'NO'} | ${backOk ? 'yes' : 'NO'} |`)
+
+    arrived = false
+    backOk = false
+    try {
+      await p.getByRole('button', { name: /^Sign in with email/ }).click()
+      await p.getByRole('button', { name: 'New here? Create an account' }).click()
+      await p.getByLabel('Email', { exact: true }).fill(`nav-${Date.now()}@example.com`)
+      await p.getByLabel('Password', { exact: true }).fill('anatomy-123')
+      await p.getByRole('button', { name: 'Create account', exact: true }).click()
+      await p.getByText('Signed in as').waitFor({ timeout: 15000 })
+      note('Settings (signed in)', await audit(p))
+      await p.getByRole('button', { name: /^Delete account/ }).click()
+      await p.getByRole('heading', { name: 'Delete your account' }).waitFor()
+      arrived = true
+      note('Delete account', await audit(p))
+      await p.getByRole('button', { name: 'Back', exact: true }).first().click()
+      backOk = await p.getByText('Signed in as').isVisible()
+      await p.getByRole('button', { name: /^Sign out/ }).click()
+      await p.getByRole('button', { name: 'Continue with Google' }).waitFor({ timeout: 15000 })
+    } catch (e) {
+      errors.push(`delete account: ${e.message.split('\n')[0]}`)
+    }
+    if (!arrived || !backOk) failed++
+    console.log(`| Delete account (signed in) | 2 | tab “Settings” → “Delete account” | ${arrived ? 'yes' : 'NO'} | ${backOk ? 'yes' : 'NO'} |`)
   }
 
   console.log('\nControls without a name or smaller than 44 × 44 px:')

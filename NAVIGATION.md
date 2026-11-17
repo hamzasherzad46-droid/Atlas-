@@ -20,7 +20,7 @@ screen by `scripts/check-navigation.cjs` (output below).
   adds a browser history entry for each, so the in-app Back, the browser's back button and the phone's
   back gesture all do the same thing. Back from a search result returns to the same results.
 - **The way out is always in the same place.** Every full-screen view (search, quiz, flashcards,
-  Explore in 3D, the body in 3D, mock exam, results, credits, *Change course*) has its button at the top
+  Explore in 3D, the body in 3D, mock exam, results, credits, *Change course*, *Account*) has its button at the top
   left, 44 × 44 px: ← *Back* for a page, × *Close* for something in progress (a quiz, cards, a mock exam).
   Pages inside a tab (module, plate, topic) have ← *Back* at the top.
 - **Nothing hidden behind a link.** The module page shows its test settings (questions from, difficulty,
@@ -45,6 +45,7 @@ screen by `scripts/check-navigation.cjs` (output below).
 | Hint level in a quiz (Learn, Medium, Hard) | Difficulty |
 | Foundation, intermediate or advanced structures | Structures |
 | Seconds allowed for each answer | Time per answer |
+| Keep progress on all your devices | Account (Settings): Sign in, Sign out, Delete account |
 
 Changed English labels are listed in `src/i18n/changed-english.json`, and `TRANSLATION-REVIEW.md`
 lists them for each of the other six languages for a native speaker to update.
@@ -79,6 +80,15 @@ screen the student came from (Today, or the screen before for 2-tap paths).
 | Progress | 1 | tab “Progress” | yes | n/a (tab) |
 | Settings | 1 | tab “Settings” | yes | n/a (tab) |
 | About and credits | 2 | tab “Settings” → “About and credits” | yes | yes |
+
+When the build has accounts (Firebase configured), Settings starts with *Account*:
+
+| Account screen | Taps from Today | Path |
+|---|---|---|
+| Sign in with email (or create an account) | 2 | tab “Settings” → “Sign in with email” |
+| Continue with Google | 2 | tab “Settings” → “Continue with Google” (Google's window) |
+| Delete account (signed in) | 2 | tab “Settings” → “Delete account” |
+| Sign in on first run | 1 | onboarding → “Already have an account? Sign in” |
 
 Specific items outside the student's course:
 
@@ -127,9 +137,12 @@ Also in this part:
 npm run dev                              # in one terminal
 node scripts/check-navigation.cjs        # needs Playwright installed (not a project dependency)
 ONLY="Mock" node scripts/check-navigation.cjs   # just the paths whose name matches
+# With accounts: run the Firebase emulators and the app in emulator mode (README "Accounts and sync"),
+# then: node scripts/check-navigation.cjs http://localhost:5174/
 ```
 
-Output of the last run:
+Output of the last run, on a build with accounts (the emulators). The same run on a build without
+accounts (as deployed until Firebase is configured) also ended "All checks passed."
 
 ```
 | Screen | Taps from Today | Path | Arrives | Back returns |
@@ -168,6 +181,11 @@ Output of the last run:
 | “lymphatics” | Mock exam on one topic | 2 | yes | yes (browser back) |
 
 Back on the first press after a reload: yes
+
+| Account screen | Taps from Today | Path | Arrives | Back returns |
+|---|---|---|---|---|
+| Sign in with email | 2 | tab “Settings” → “Sign in with email” | yes | yes |
+| Delete account (signed in) | 2 | tab “Settings” → “Delete account” | yes | yes |
 
 Controls without a name or smaller than 44 × 44 px:
 none
