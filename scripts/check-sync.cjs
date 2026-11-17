@@ -54,7 +54,9 @@ async function device(browser, name) {
 
 const tab = (p, name) => p.locator('nav').getByRole('button', { name, exact: true }).click()
 
+/** Sign in on this device; returns the time it started (a sync after that time includes the sign-in). */
 async function signIn(p, create) {
+  const started = await p.evaluate(() => Date.now())
   await tab(p, 'Settings')
   await p.getByRole('button', { name: /^Sign in with email/ }).click()
   if (create) await p.getByRole('button', { name: 'New here? Create an account' }).click()
@@ -62,11 +64,12 @@ async function signIn(p, create) {
   await p.getByLabel('Password', { exact: true }).fill(PASSWORD)
   await p.getByRole('button', { name: create ? 'Create account' : 'Sign in', exact: true }).click()
   await p.getByText('Signed in as').waitFor({ timeout: 15000 })
+  return started
 }
 
 /** Wait for a sync that finished after everything done so far (the line carries the exact time). */
-async function synced(p) {
-  const since = await p.evaluate(() => Date.now())
+async function synced(p, after) {
+  const since = after ?? (await p.evaluate(() => Date.now()))
   await tab(p, 'Settings')
   await p.waitForFunction((t) => Number(document.querySelector('[data-synced-at]')?.getAttribute('data-synced-at')) > t && /^Synced at/.test(document.querySelector('[data-synced-at]')?.textContent ?? ''), since, { timeout: 30000 })
 }
@@ -119,8 +122,8 @@ const localRecords = (p) => p.evaluate(() => Object.keys(JSON.parse(localStorage
 
   // 2. Device B: sign in; progress, course and today's count arrive.
   const B = await device(browser, 'B')
-  await signIn(B.p, false)
-  await synced(B.p)
+  const bSignedIn = await signIn(B.p, false)
+  await synced(B.p, bSignedIn)
   check('Second device gets the course', (await course(B.p)).trim() === 'Medicine', await course(B.p))
   check('Second device gets the progress', (await localRecords(B.p)) === aQuestions, `${await localRecords(B.p)} structures`)
   check("Second device shows the first device's study today", (await goal(B.p)) === `${aQuestions} / 20`, await goal(B.p))
@@ -203,7 +206,52 @@ const localRecords = (p) => p.evaluate(() => Object.keys(JSON.parse(localStorage
   const refused = await B.p.getByText('Email or password not recognised.').waitFor({ timeout: 10000 }).then(() => true, () => false)
   check('A deleted account can no longer sign in', refused)
 
-  const errors = [...A.p.errors, ...B.p.errors]
+  // 9. Google sign-in through Google's window (the emulator's stand-in), then delete with Google's confirmation.
+  // The window needs Google's script loader from apis.google.com; without that host it is skipped, not passed.
+  const G = await device(browser, 'G')
+  // Asked from the browser, which is what loads it (and uses the machine's proxy, if any).
+  const reachable = await G.p.evaluate(() => fetch('https://apis.google.com/js/api.js', { mode: 'no-cors' }).then(() => true, () => false))
+  if (!reachable) console.log('| Google sign-in window | skipped | apis.google.com is not reachable from this machine |')
+  else {
+    const googleWindow = async (pick) => {
+      const popup = await G.p.waitForEvent('popup')
+      await popup.waitForLoadState()
+      await pick(popup)
+      await popup.waitForEvent('close', { timeout: 15000 }).catch(() => {})
+    }
+    await tab(G.p, 'Settings')
+    await Promise.all([
+      googleWindow(async (w) => {
+        await w.getByRole('button', { name: /Add new account/ }).click()
+        await w.getByRole('button', { name: /Auto-generate user information/ }).click()
+        await w.getByRole('button', { name: /Sign in with Google\.com/ }).click()
+      }),
+      G.p.getByRole('button', { name: 'Continue with Google' }).click(),
+    ])
+    const signedIn = await G.p.getByText('Signed in as').waitFor({ timeout: 15000 }).then(() => true, () => false)
+    const gEmail = signedIn ? (await G.p.locator('.account-email').first().textContent()).trim() : ''
+    check('Google sign-in through the window', signedIn, gEmail)
+    const gQuestions = await quiz(G.p)
+    await synced(G.p)
+    docs = await accountDocs()
+    const gUid = Object.entries(docs).find(([, f]) => mapSize(f.records) === gQuestions && f.profile)?.[0]
+    check("A Google account's progress syncs", !!gUid, `${gQuestions} structures`)
+    await tab(G.p, 'Settings')
+    await G.p.getByRole('button', { name: /^Delete account/ }).click()
+    await G.p.getByText('You’ll be asked to confirm with Google.').waitFor()
+    await Promise.all([
+      googleWindow(async (w) => {
+        // The emulator lists the accounts signed in before; confirm with the same one.
+        await w.getByText(gEmail, { exact: false }).first().click()
+      }),
+      G.p.getByRole('button', { name: 'Delete my account' }).click(),
+    ])
+    const out = await G.p.getByRole('button', { name: 'Continue with Google' }).waitFor({ timeout: 15000 }).then(() => true, () => false)
+    docs = await accountDocs()
+    check('Delete account confirmed through the Google window', out && !!gUid && !docs[gUid], out ? 'signed out, data gone' : 'still signed in')
+  }
+
+  const errors = [...A.p.errors, ...B.p.errors, ...G.p.errors]
   check('No errors in either device', errors.length === 0, errors.slice(0, 3).join('; '))
   await browser.close()
   console.log(`\n${failed ? `FAILED (${failed})` : 'All checks passed.'}`)

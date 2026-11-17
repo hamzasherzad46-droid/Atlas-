@@ -304,7 +304,9 @@ node scripts/check-sync.cjs                                            # two dev
 `scripts/check-sync.cjs` signs up on one device, studies, signs in on a second, and checks that
 progress, course and daily counts arrive and add up, offline changes sync later, sign-out clears the
 device, another account can neither read nor write the data, unexpected fields are refused, Reset
-erases the account's progress, and Delete account removes the account and its data.
+erases the account's progress, and Delete account removes the account and its data. It also signs in
+through Google's window (the emulator's stand-in) and deletes that account with Google's confirmation;
+that part needs the browser to reach `apis.google.com` and reports "skipped" if it can't.
 
 ## Architecture
 
