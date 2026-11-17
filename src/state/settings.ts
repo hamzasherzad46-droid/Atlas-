@@ -9,6 +9,17 @@ export type ThemePref = 'light' | 'dark' | 'system'
 export type QuizMode = 'learn' | 'medium' | 'hard'
 export type Lang = 'en' | 'fr' | 'de' | 'ar' | 'ru' | 'zh' | 'ko'
 export const LANGS: Lang[] = ['en', 'fr', 'de', 'ar', 'ru', 'zh', 'ko']
+
+/**
+ * The languages offered in the app. The other translations stay in the code but are hidden until a
+ * native speaker has reviewed them (TRANSLATION-REVIEW.md); add a language here to offer it again.
+ */
+export const OFFERED_LANGS: Lang[] = ['en']
+
+/** The language the app shows: the student's choice if it is offered, otherwise English. Their choice is kept. */
+export function shownLang(lang: Lang): Lang {
+  return OFFERED_LANGS.includes(lang) ? lang : 'en'
+}
 /** Seconds per question; 0 = off. */
 export const ANSWER_TIMERS = [0, 30, 20, 10] as const
 export const DAILY_GOALS = [10, 20, 40, 60] as const

@@ -5,7 +5,7 @@ import { Masthead } from '../components/Masthead'
 import { LANG_NAMES, useT } from '../i18n'
 import { useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
-import { ANSWER_TIMERS, DAILY_GOALS, LANGS, useSettings } from '../state/settings'
+import { ANSWER_TIMERS, DAILY_GOALS, OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { StudyAidNotice } from '../components/StudyAidNotice'
 
 /** Settings: one preference per line, label in the margin. */
@@ -40,16 +40,18 @@ export function YouScreen() {
         </div>
       </section>
 
-      <section className="sect">
-        <p className="label">{t('you.language')}</p>
-        <div className="sect-body options">
-          {LANGS.map((l) => (
-            <button key={l} lang={l} aria-pressed={s.lang === l} onClick={() => s.set({ lang: l })}>
-              {LANG_NAMES[l]}
-            </button>
-          ))}
-        </div>
-      </section>
+      {OFFERED_LANGS.length > 1 && (
+        <section className="sect">
+          <p className="label">{t('you.language')}</p>
+          <div className="sect-body options">
+            {OFFERED_LANGS.map((l) => (
+              <button key={l} lang={l} aria-pressed={shownLang(s.lang) === l} onClick={() => s.set({ lang: l })}>
+                {LANG_NAMES[l]}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="sect">
         <p className="label">{t('you.theme')}</p>

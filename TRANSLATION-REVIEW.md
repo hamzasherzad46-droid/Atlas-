@@ -1,6 +1,6 @@
 # Translation review
 
-For native speakers of the six other UI languages. English (`src/i18n/en.ts`) is the source. Missing strings are shown in English in the app until they are translated.
+For native speakers of the six other UI languages. English (`src/i18n/en.ts`) is the source. These languages are hidden in the app until reviewed (`OFFERED_LANGS` in `src/state/settings.ts`); once offered, any string still missing is shown in English.
 
 This file is generated: run `npm run i18n:report` after changing UI strings. `npm test` fails if it is out of date, so nothing missing can go unnoticed. The anatomy content (structure names, notes, topics, plates and mock exams) is English by design and is not listed here.
 

@@ -3,7 +3,7 @@ import { getCourse } from '../content/loader'
 import { ArrowIcon } from '../components/Icons'
 import { CoursePicker } from '../components/CoursePicker'
 import { LANG_NAMES, useT } from '../i18n'
-import { LANGS, useSettings } from '../state/settings'
+import { OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { Seal } from '../components/Celestial'
 import { StudyAidNotice } from '../components/StudyAidNotice'
 
@@ -30,16 +30,18 @@ export function OnboardingScreen() {
 
         <CoursePicker value={track} onPick={setTrack} />
 
-        <section className="sect onb-lang">
-          <p className="label">{t('onb.lang')}</p>
-          <div className="sect-body options">
-            {LANGS.map((l) => (
-              <button key={l} lang={l} aria-pressed={s.lang === l} onClick={() => s.set({ lang: l })}>
-                {LANG_NAMES[l]}
-              </button>
-            ))}
-          </div>
-        </section>
+        {OFFERED_LANGS.length > 1 && (
+          <section className="sect onb-lang">
+            <p className="label">{t('onb.lang')}</p>
+            <div className="sect-body options">
+              {OFFERED_LANGS.map((l) => (
+                <button key={l} lang={l} aria-pressed={shownLang(s.lang) === l} onClick={() => s.set({ lang: l })}>
+                  {LANG_NAMES[l]}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="start-block">
           <button className="go" onClick={() => s.set({ track, onboarded: true })}>

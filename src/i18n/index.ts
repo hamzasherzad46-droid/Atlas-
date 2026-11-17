@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useSettings, type Lang } from '../state/settings'
+import { shownLang, useSettings, type Lang } from '../state/settings'
 import { en, type MessageKey } from './en'
 import { translations } from './translations'
 
@@ -34,14 +34,15 @@ export function translateDynamic(lang: Lang, key: string, fallback: string): str
 }
 
 export function useT() {
-  const lang = useSettings((s) => s.lang)
+  const lang = useSettings((s) => shownLang(s.lang))
   const t = useCallback((key: MessageKey, vars?: Vars) => translate(lang, key, vars), [lang])
   const td = useCallback((key: string, fallback: string) => translateDynamic(lang, key, fallback), [lang])
   return Object.assign(t, { lang, td })
 }
 
-/** Apply lang and text direction to <html>. */
-export function applyLang(lang: Lang) {
+/** Apply lang and text direction to <html> (for the language shown, which may not be the one saved). */
+export function applyLang(saved: Lang) {
+  const lang = shownLang(saved)
   document.documentElement.lang = lang
   document.documentElement.dir = RTL_LANGS.has(lang) ? 'rtl' : 'ltr'
 }

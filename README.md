@@ -80,7 +80,10 @@ apply there.
   tap from Today and keeps all progress. Each course has its own order of modules, focus modules (for example Nursing:
   injection sites, pulse points, cannulation veins, central venous access, urinary tract and catheterisation), topics,
   plates and mock-exam topics, and shows its own note on each structure first. A new course is JSON only.
-- **Languages**: English, French, German, Arabic (right-to-left), Russian, Chinese, Korean for the whole UI.
+- **Languages**: the interface is offered in English only for now. French, German, Arabic (right-to-left),
+  Russian, Chinese and Korean translations are in the code but hidden until a native speaker has reviewed
+  them (`TRANSLATION-REVIEW.md`); to offer one again, add it to `OFFERED_LANGS` in `src/state/settings.ts`.
+  A student who had chosen one sees English, and their choice comes back when the language does.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
 - **Design**: the observatory — an antique anatomical institution with an astronomical observatory. Obsidian and
   charcoal with aged-ivory Caslon type and brass instrument details (dark is the signature; light is a manuscript

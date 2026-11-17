@@ -6,6 +6,7 @@ import changedJson from './changed-english.json'
 import { en, type MessageKey } from './en'
 import { translate } from './index'
 import { translations } from './translations'
+import { LANGS, OFFERED_LANGS, shownLang } from '../state/settings'
 
 /** Keys that are intentionally the same in every language (brand, units, dev-only tools). */
 const UNTRANSLATED: MessageKey[] = ['app.name', 'explore.copy', 'explore.copied']
@@ -26,7 +27,7 @@ function buildReport(): string {
   const out: string[] = [
     '# Translation review',
     '',
-    'For native speakers of the six other UI languages. English (`src/i18n/en.ts`) is the source. Missing strings are shown in English in the app until they are translated.',
+    'For native speakers of the six other UI languages. English (`src/i18n/en.ts`) is the source. These languages are hidden in the app until reviewed (`OFFERED_LANGS` in `src/state/settings.ts`); once offered, any string still missing is shown in English.',
     '',
     'This file is generated: run `npm run i18n:report` after changing UI strings. `npm test` fails if it is out of date, so nothing missing can go unnoticed. The anatomy content (structure names, notes, topics, plates and mock exams) is English by design and is not listed here.',
     '',
@@ -80,5 +81,22 @@ describe('translations', () => {
     expect(translate('ar', 'mod.seen', { a: 3, b: 5 })).toMatch(/^شوهد [3٣] من [5٥]$/)
     expect(translate('fr', 'app.name')).toBe('Atlas')
     expect(translate('fr', 'course.change')).toBe(en['course.change'])
+  })
+})
+
+describe('offered languages', () => {
+  it('offers only English until the other translations are reviewed', () => {
+    expect(OFFERED_LANGS).toEqual(['en'])
+  })
+
+  it('shows English to a student who chose a language that is now hidden, and keeps their choice', () => {
+    expect(shownLang('fr')).toBe('en')
+    expect(shownLang('ar')).toBe('en')
+    expect(shownLang('en')).toBe('en')
+    expect(translate(shownLang('de'), 'tab.today')).toBe(en['tab.today'])
+  })
+
+  it('every offered language has its translations', () => {
+    for (const l of OFFERED_LANGS) expect(LANGS).toContain(l)
   })
 })
