@@ -65,7 +65,7 @@ or could be read two ways. A clinician may prefer to remove some.
 | `content/skeleton.json` | cervical / thoracic / lumbar vertebrae | “cervical spine”, “thoracic spine”, “lumbar spine” | Strictly the region of the spine (with discs and joints); in practice the usual clinical name for the vertebrae. |
 | `content/skeleton.json` | radius, ulna | “radial bone”, “ulnar bone” | Descriptive rather than standard terms; unambiguous. |
 | `content/skeleton.json` | tarsals | “ankle bones” | Dictionary sense of the tarsus, though the navicular, cuboid and cuneiforms are in the midfoot. |
-| `content/skeleton.json` | atlas, vertebra prominens | “c one”, “c seven” | The answer matcher removes digits, so a student typing “C1” or “C7” is not matched. Suggest teaching the matcher “C1”–“C7” (code change) and dropping these spelled-out forms. |
+| `content/skeleton.json` | atlas, vertebra prominens | “c one”, “c seven” | Answers are typed in letters only (the on-screen keyboard has no digits, and typed digits are ignored), so these spelled-out forms are how C1 and C7 can be given. Unusual, but intended. |
 | `content/muscles.json` | pectoralis major | “pecs” | Gym word; strictly both pectoral muscles. |
 | `content/muscles.json` | biceps brachii, triceps brachii | “biceps”, “triceps” | Conventional; biceps femoris and triceps surae also exist. |
 | `content/heart.json` | pulmonary trunk | “pulmonary artery” | Clinically the “main pulmonary artery”; the right and left pulmonary arteries are its branches. |
