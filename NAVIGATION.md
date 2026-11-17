@@ -1,5 +1,7 @@
 # Navigation
 
+<!-- cspell:ignore femr oesophagis esophagus -- deliberate misspellings and the American spelling, as search examples -->
+
 How a student gets to everything in Atlas, and the proof that it works. Checked on a 390 × 844 phone
 screen by `scripts/check-navigation.cjs` (output below).
 

@@ -474,7 +474,7 @@
         {
           "id": "f40",
           "topic": "Hormones",
-          "q": "Which gland is often called the \"master gland\"?",
+          "q": "Which gland is often called the “master gland”?",
           "options": [
             "Pituitary gland",
             "Thyroid gland",
@@ -654,7 +654,7 @@
         {
           "id": "f55",
           "topic": "Terms",
-          "q": "What does \"proximal\" mean?",
+          "q": "What does “proximal” mean?",
           "options": [
             "Closer to the trunk or point of attachment",
             "Further from the trunk or point of attachment",
@@ -678,7 +678,7 @@
         {
           "id": "f57",
           "topic": "Terms",
-          "q": "What does \"anterior\" mean?",
+          "q": "What does “anterior” mean?",
           "options": [
             "Towards the front",
             "Towards the back",
@@ -702,7 +702,7 @@
             "Ulnar nerve",
             "Median nerve"
           ],
-          "explain": "The axillary nerve winds round the surgical neck. Damage weakens the deltoid and numbs the skin over it (the \"regimental badge\" area)."
+          "explain": "The axillary nerve winds round the surgical neck. Damage weakens the deltoid and numbs the skin over it (the “regimental badge” area)."
         },
         {
           "id": "h02",
@@ -738,7 +738,7 @@
             "Infraspinatus, teres major, latissimus dorsi and supraspinatus",
             "Pectoralis minor, subscapularis, teres minor and deltoid"
           ],
-          "explain": "Remember \"SITS\". Their tendons blend with the capsule and hold the head of the humerus in the glenoid cavity."
+          "explain": "Remember “SITS”. Their tendons blend with the capsule and hold the head of the humerus in the glenoid cavity."
         },
         {
           "id": "h05",
@@ -779,14 +779,14 @@
         {
           "id": "h08",
           "topic": "Upper limb",
-          "q": "Erb's palsy, with the arm in the \"waiter's tip\" position, follows injury to which roots of the brachial plexus?",
+          "q": "Erb’s palsy, with the arm in the “waiter’s tip” position, follows injury to which roots of the brachial plexus?",
           "options": [
             "C5 and C6",
             "C8 and T1",
             "C7 alone",
             "T2 and T3"
           ],
-          "explain": "An injury to the upper roots (C5, C6) weakens the shoulder abductors, lateral rotators and elbow flexors. Injury to C8 and T1 is Klumpke's palsy."
+          "explain": "An injury to the upper roots (C5, C6) weakens the shoulder abductors, lateral rotators and elbow flexors. Injury to C8 and T1 is Klumpke’s palsy."
         },
         {
           "id": "h09",
@@ -798,7 +798,7 @@
             "Femoral vein, artery, nerve",
             "Femoral nerve, vein, artery"
           ],
-          "explain": "Remember \"NAVY\": nerve, artery, vein, then the empty space and lymphatics of the femoral canal."
+          "explain": "Remember “NAVY”: nerve, artery, vein, then the empty space and lymphatics of the femoral canal."
         },
         {
           "id": "h10",
@@ -906,7 +906,7 @@
             "Intercostal nerves",
             "Accessory nerves"
           ],
-          "explain": "\"C3, 4 and 5 keep the diaphragm alive.\" A high cervical spinal injury can stop breathing."
+          "explain": "“C3, 4 and 5 keep the diaphragm alive.” A high cervical spinal injury can stop breathing."
         },
         {
           "id": "h19",
@@ -918,7 +918,7 @@
             "The aortic hiatus, at T12",
             "The sternocostal triangle, behind the xiphoid process"
           ],
-          "explain": "Remember \"I 8 10 Eggs At 12\": inferior vena cava T8, oesophagus T10, aorta T12."
+          "explain": "Remember “I 8 10 Eggs At 12”: inferior vena cava T8, oesophagus T10, aorta T12."
         },
         {
           "id": "h20",
@@ -1110,12 +1110,12 @@
             "Superior mesenteric artery and vein",
             "Inferior vena cava"
           ],
-          "explain": "These form the portal triad. Pressing them between finger and thumb (Pringle's manoeuvre) controls bleeding from the liver."
+          "explain": "These form the portal triad. Pressing them between finger and thumb (Pringle’s manoeuvre) controls bleeding from the liver."
         },
         {
           "id": "h36",
           "topic": "Digestion",
-          "q": "Where is McBurney's point?",
+          "q": "Where is McBurney’s point?",
           "options": [
             "One-third of the way from the anterior superior iliac spine to the umbilicus",
             "Halfway between the umbilicus and the pubic symphysis",
@@ -1194,7 +1194,7 @@
             "It runs through the inguinal canal",
             "It lies behind the rectum"
           ],
-          "explain": "Remember \"water under the bridge\": the ureter (water) passes under the uterine artery (the bridge)."
+          "explain": "Remember “water under the bridge”: the ureter (water) passes under the uterine artery (the bridge)."
         },
         {
           "id": "h43",
@@ -1218,7 +1218,7 @@
             "Hypoglossal nerve (XII)",
             "Glossopharyngeal nerve (IX)"
           ],
-          "explain": "Damage to the facial nerve, as in Bell's palsy, causes weakness of one side of the face."
+          "explain": "Damage to the facial nerve, as in Bell’s palsy, causes weakness of one side of the face."
         },
         {
           "id": "h45",
@@ -1242,7 +1242,7 @@
             "Trochlear nerve (IV)",
             "Optic nerve (II)"
           ],
-          "explain": "Remember \"LR6 SO4\": lateral rectus by VI, superior oblique by IV, all the others by III."
+          "explain": "Remember “LR6 SO4”: lateral rectus by VI, superior oblique by IV, all the others by III."
         },
         {
           "id": "h47",
@@ -1261,8 +1261,8 @@
           "topic": "Nervous system",
           "q": "Which area of the brain is needed to produce speech, usually in the left hemisphere?",
           "options": [
-            "Broca's area (inferior frontal gyrus)",
-            "Wernicke's area",
+            "Broca’s area (inferior frontal gyrus)",
+            "Wernicke’s area",
             "Primary visual cortex",
             "Postcentral gyrus"
           ],
@@ -1319,7 +1319,7 @@
         {
           "id": "h53",
           "topic": "Nervous system",
-          "q": "Drooping of the upper eyelid, a small pupil and loss of sweating on one side of the face (Horner's syndrome) result from damage to what?",
+          "q": "Drooping of the upper eyelid, a small pupil and loss of sweating on one side of the face (Horner’s syndrome) result from damage to what?",
           "options": [
             "The sympathetic chain",
             "The oculomotor nerve",

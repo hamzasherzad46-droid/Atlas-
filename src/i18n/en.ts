@@ -104,7 +104,7 @@ export const en = {
   'today.greeting': '{g}, {name}.',
   'today.greetingAlone': '{g}.',
   'today.streakStart': 'Start a streak today',
-  'today.goal': "Today's goal",
+  'today.goal': 'Today’s goal',
   'today.answered': 'answered',
   'today.continue': 'Continue',
   'today.resumeGo': 'Continue spelling quiz',

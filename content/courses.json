@@ -1,5 +1,5 @@
 {
-  "note": "Courses (the student's `track` setting). Each course lists, in priority order, the modules (focus, system and regional), curriculum categories, featured topics, plates and mock-exam topics that matter most for it, and the order in which structure notes are shown. Focus modules are small sets of structures from one content file, built like regional modules. Adding a course needs JSON only; `npm test` checks every reference.",
+  "note": "Courses (the student’s `track` setting). Each course lists, in priority order, the modules (focus, system and regional), curriculum categories, featured topics, plates and mock-exam topics that matter most for it, and the order in which structure notes are shown. Focus modules are small sets of structures from one content file, built like regional modules. Adding a course needs JSON only; `npm test` checks every reference.",
   "focus": [
     {
       "id": "injection-sites",

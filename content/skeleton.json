@@ -15,7 +15,7 @@
       "latinName": "os frontale",
       "definition": "Forms the forehead and the roofs of the orbits.",
       "function": "Protects the front of the brain, forms the forehead and the roofs of the orbits, and anchors scalp muscles.",
-      "why": "A thick, curved front plate takes forward impacts so the brain's planning centres stay safe; its sinuses lighten the skull.",
+      "why": "A thick, curved front plate takes forward impacts so the brain’s planning centres stay safe; its sinuses lighten the skull.",
       "notes": {
         "nursing": "The anterior fontanelle lies where this bone meets the parietal bones; in infants a bulging fontanelle can signal raised intracranial pressure and a sunken one dehydration.",
         "medicine": "Contains the frontal sinuses; the supraorbital notch or foramen transmits the supraorbital nerve and vessels.",
@@ -33,7 +33,7 @@
       "synonyms": ["parietal", "parietal bones"],
       "latinName": "os parietale",
       "definition": "Paired bones forming the roof and upper sides of the cranium.",
-      "function": "Forms most of the roof and upper sides of the cranium, covering the brain's touch and spatial areas.",
+      "function": "Forms most of the roof and upper sides of the cranium, covering the brain’s touch and spatial areas.",
       "why": "Two plates meeting at sutures let the skull mould during birth and grow with the brain through childhood.",
       "notes": {
         "nursing": "Both fontanelles border these bones; palpate fontanelles with the infant calm and held upright.",
@@ -379,7 +379,7 @@
       "latinName": "humerus",
       "definition": "The long bone of the upper arm, from shoulder to elbow.",
       "function": "Links the shoulder to the elbow and anchors the major muscles of the arm.",
-      "why": "A long lever gives reach and power, and its rounded head allows the shoulder's wide range of motion.",
+      "why": "A long lever gives reach and power, and its rounded head allows the shoulder’s wide range of motion.",
       "notes": {
         "nursing": "The greater tubercle at its upper end is an intraosseous (IO) access site in emergencies.",
         "medicine": "Surgical neck fractures risk the axillary nerve; mid-shaft fractures risk the radial nerve in the radial groove.",
@@ -457,8 +457,8 @@
       "why": "Their arched arrangement cups the palm for grasping.",
       "notes": {
         "nursing": "The dorsal metacarpal veins on the back of the hand are common peripheral cannulation sites.",
-        "medicine": "A fracture of the fifth one's neck after punching is called a boxer's fracture.",
-        "sports": "A fracture of the fifth metacarpal neck (boxer's fracture) is typical after punching a hard object."
+        "medicine": "A fracture of the fifth one’s neck after punching is called a boxer’s fracture.",
+        "sports": "A fracture of the fifth metacarpal neck (boxer’s fracture) is typical after punching a hard object."
       },
       "region": "upper-limb",
       "modelFile": "skeleton.glb",
@@ -494,9 +494,9 @@
       "function": "Anchors the forearm flexor muscles.",
       "why": "It projects to give the flexors leverage at the elbow.",
       "notes": {
-        "nursing": "The ulnar nerve runs just behind it (the 'funny bone'); pad elbows when positioning patients to avoid nerve compression.",
-        "medicine": "Common origin of the forearm flexors; inflammation here is medial epicondylitis (golfer's elbow).",
-        "sports": "In young throwers, repeated stress on its growth plate causes 'little league elbow'."
+        "nursing": "The ulnar nerve runs just behind it (the “funny bone”); pad elbows when positioning patients to avoid nerve compression.",
+        "medicine": "Common origin of the forearm flexors; inflammation here is medial epicondylitis (golfer’s elbow).",
+        "sports": "In young throwers, repeated stress on its growth plate causes “little league elbow”."
       },
       "region": "upper-limb",
       "modelFile": "skeleton.glb",
@@ -575,7 +575,7 @@
         "nursing": "The knee-jerk reflex is tested by tapping the tendon just below this bone.",
         "medicine": "The largest sesamoid bone, embedded in the quadriceps tendon; it improves the leverage of knee extension.",
         "physio": "Patellofemoral pain is treated by strengthening the quadriceps and hip muscles.",
-        "sports": "Patellar tendinopathy (jumper's knee) affects athletes in jumping sports."
+        "sports": "Patellar tendinopathy (jumper’s knee) affects athletes in jumping sports."
       },
       "region": "lower-limb",
       "modelFile": "skeleton.glb",
@@ -594,7 +594,7 @@
       "notes": {
         "nursing": "Its upper front surface, 1–2 cm below and medial to the tibial tuberosity, is a common intraosseous (IO) access site, especially in children.",
         "medicine": "Its anteromedial surface lies just under the skin, so open fractures are common; its distal end forms the medial malleolus.",
-        "physio": "After a tibial fracture, progress walking aids according to the surgeon's weight-bearing instructions.",
+        "physio": "After a tibial fracture, progress walking aids according to the surgeon’s weight-bearing instructions.",
         "sports": "Runners get medial tibial stress syndrome (shin splints) and tibial stress fractures."
       },
       "region": "lower-limb",

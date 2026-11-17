@@ -7,7 +7,7 @@ iPhone and Android browsers and installs to the home screen.
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # logic + content validation
+npm test           # spelling (cspell, British English), then logic + content validation
 npm run lint
 npm run build && npm run preview   # production build with service worker
 ```
@@ -124,11 +124,17 @@ Each structure:
 - Answers and synonyms: lower-case letters and spaces only (that's what the keyboard has).
 - `meshName` may be a string or an array. Matching ignores case and punctuation and allows side or
   index suffixes, so `"humerus"` matches `Humerus.l`, `Humerus_R`, `humerus2`. (three's GLTFLoader
-  strips `.` from node names, so `Humerus.l` arrives as `Humerusl`; the matcher handles that.)
+  strips `.` from node names, so `Humerus.l` arrives as `Humerusl`; the matcher handles that.) <!-- cspell:ignore Humerusl -->
 - Coordinates are "atlas space": metres, Y up, the body faces +Z, feet at y = 0. So the body's
   **right** side is −X.
 - `npm test` validates every content file: required fields, typeable answers, no answer leaked in
   the definition, no answer shared by two structures, every `meshName` present in the placeholder.
+- **Spelling**: `npm test` first runs `cspell` over the content, the English interface strings and these
+  documents in British English (`cspell.config.json`); an unknown word fails the build. Anatomy, Latin and
+  eponyms come from the reviewed `cspell-words.txt`; abbreviations and short forms allowed only as typed
+  answers from `cspell-answer-words.txt`. `src/content/spelling.test.ts` lets answer synonyms be British or
+  American and keeps display text British (no -ize, center, gray…) with typographic apostrophes. Never add
+  a word to a list just to pass: check it, or list it in `CONTENT-REVIEW.md`.
 
 **Adding a module** (e.g. Heart): add `content/heart.json` (+ optional `heart.placeholder.json`), put
 `heart.glb` in `public/models`, and set the module to `"available"` in `catalog.json` with its

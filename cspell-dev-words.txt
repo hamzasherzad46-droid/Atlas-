@@ -1,0 +1,25 @@
+# Words used only in the developer documents (README.md, NAVIGATION.md, CLAUDE.md): software, file
+# formats, package names and project terms. Not allowed in content or the interface (see cspell.config.json).
+bodyparts
+cjs
+dagno
+DBCLS
+dedup
+delt
+dequantize
+drei
+fbx
+fiber
+GLB
+GLTF
+hepatovenous
+incl
+Monkeytype
+PWA
+srs
+typeable
+unrun
+untappable
+WCAG
+wordmark
+xzf

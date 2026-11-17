@@ -1,0 +1,28 @@
+# Words accepted only in answer synonyms (checked by src/content/spelling.test.ts), never in display text.
+# Each was checked by hand; if unsure about a word, list it in CONTENT-REVIEW.md instead.
+
+# Clinical abbreviations a student may type: inferior vena cava, left coronary artery, left circumflex,
+# sternocleidomastoid, tensor fasciae latae, internal carotid, inferior mesenteric, internal jugular vein.
+ivc
+lca
+lcx
+scm
+tfl
+ica
+ima
+ijv
+
+# Older or alternative names: sternomastoid (British clinical), sacrospinalis (older name of erector
+# spinae), coxal (hip) bone, the scalenes, corpora cavernosa (plural).
+sternomastoid
+sacrospinalis
+coxal
+scalenes
+corpora
+cavernosa
+
+# Short forms used in sport and physiotherapy.
+delt
+delts
+glute
+gastrocs
