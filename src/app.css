@@ -23,9 +23,9 @@
   align-items: center;
   justify-content: center;
   padding: 0 4px;
-  font-size: var(--fs-5);
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-label);
   color: var(--ink-2);
   white-space: nowrap;
   overflow: hidden;
@@ -35,7 +35,7 @@
 
 .tab[aria-current='page'] {
   color: var(--ink);
-  font-weight: 650;
+  font-weight: var(--fw-semibold);
 }
 
 .tab[aria-current='page']::before {
@@ -272,7 +272,7 @@
 .module-setting-label {
   margin-bottom: 8px;
   color: var(--ink);
-  font-weight: 500;
+  font-weight: var(--fw-medium);
 }
 
 .module-tests {
@@ -457,7 +457,7 @@
   inset-inline-end: var(--pad);
   top: 10px;
   z-index: 2;
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   text-decoration: underline;
   color: var(--ink-2);
 }
@@ -502,10 +502,10 @@
   padding: 2px 8px 4px;
   background: var(--paper-2);
   border: 1px solid var(--rule-brass);
-  font-family: var(--display);
   font-size: var(--fs-4);
   color: var(--ink);
   animation: fade-in var(--mid) var(--ease) both;
+  font-weight: var(--fw-medium);
 }
 
 .explore-panel {
@@ -526,7 +526,7 @@
 
 .explore-fn {
   font-size: var(--fs-4);
-  line-height: 1.5;
+  line-height: var(--lh-body);
 }
 
 .explore-panel .note {
@@ -629,7 +629,7 @@
   background: var(--paper);
   box-shadow: inset 0 0 0 1px var(--accent);
   color: var(--ink);
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   line-height: 1;
   cursor: pointer;
 }
@@ -654,7 +654,7 @@
   min-height: 44px;
   padding: 8px 0;
   border-top: 1px solid var(--rule);
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   text-align: start;
 }
 
@@ -666,7 +666,7 @@
 
 .plate-no {
   margin-inline-end: 12px;
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   color: var(--accent);
   vertical-align: 0.35em;
 }
@@ -710,7 +710,7 @@
 }
 
 .go-sub {
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   opacity: 0.75;
 }
 
@@ -829,10 +829,9 @@
   background: var(--plate-tag);
   box-shadow: inset 0 0 0 1px var(--plate-ink);
   color: var(--plate-ink);
-  font-family: var(--sans);
-  font-size: var(--fs-5);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums lining-nums;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
   line-height: 1;
 }
 
@@ -878,21 +877,20 @@
 
 .plate-name .plate-no {
   flex-shrink: 0;
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   color: var(--accent);
 }
 
 .plate-ask {
-  font-family: var(--serif);
-  font-style: italic;
   font-size: var(--fs-3);
   color: var(--ink-2);
+  font-weight: var(--fw-medium);
 }
 
 .plate-note {
   margin-top: 8px;
   font-size: var(--fs-4);
-  line-height: 1.55;
+  line-height: var(--lh-body);
   color: var(--ink-2);
 }
 
@@ -983,7 +981,7 @@
   z-index: 2;
   top: 10px;
   inset-inline-start: var(--pad);
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   color: var(--ink-2);
   pointer-events: none;
 }
@@ -1025,7 +1023,7 @@
   padding: 0 12px;
   border: 1px solid var(--rule);
   border-radius: var(--radius);
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   color: var(--ink-2);
   white-space: nowrap;
 }
@@ -1080,7 +1078,7 @@
 }
 
 .topic-3d {
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   color: var(--accent);
 }
 
@@ -1108,7 +1106,7 @@
   padding: 12px 0;
   border-top: 1px solid var(--rule);
   font-size: var(--fs-4);
-  line-height: 1.55;
+  line-height: var(--lh-body);
 }
 
 .topic-points li:first-child {
@@ -1120,7 +1118,7 @@
   flex-shrink: 0;
   min-width: 16px;
   padding-top: 4px;
-  font-size: var(--fs-5);
+  font-size: var(--fs-6);
   color: var(--accent);
 }
 
@@ -1163,9 +1161,9 @@
 }
 
 .course-line-title {
-  font-family: var(--display);
   font-size: var(--fs-3);
-  font-weight: 400;
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-section);
 }
 
 .course-line-sub {
@@ -1207,9 +1205,10 @@
 }
 
 .course-choice-title {
-  font-family: var(--display);
   font-size: var(--fs-3);
   color: var(--ink);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-section);
 }
 
 .course-choice-sub {
@@ -1245,7 +1244,7 @@
   background: #131314;
   color: #e3e3e3;
   font-size: var(--fs-4);
-  font-weight: 500;
+  font-weight: var(--fw-medium);
 }
 
 :root[data-theme='light'] .google-btn {

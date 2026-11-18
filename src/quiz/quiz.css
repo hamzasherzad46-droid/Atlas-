@@ -35,8 +35,8 @@
 }
 
 .quiz-clock {
-  font-size: var(--fs-5);
-  font-weight: 600;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-semibold);
   text-align: end;
   padding-inline-end: 4px;
 }
@@ -107,15 +107,27 @@
   margin-bottom: 8px;
 }
 
-/* The answer word. */
+/* The answer word: the hero of the quiz. */
 .answer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   min-height: 1.2em;
-  font-family: var(--display);
-  font-weight: 400;
-  line-height: 1.15;
+  font-size: var(--fs-1);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-title);
+  letter-spacing: var(--ls-answer);
+}
+
+/* A word that will not fit one line at full size steps down one size. */
+.answer-long {
+  font-size: var(--fs-2);
+}
+
+/* Each word stays whole; lines break between words. */
+.answer-word {
+  display: inline-flex;
+  white-space: nowrap;
 }
 
 .answer-ch {
@@ -216,9 +228,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--serif);
-  font-style: italic;
   font-size: var(--fs-4);
+  font-weight: var(--fw-medium);
 }
 
 .verdict.good {
@@ -239,8 +250,8 @@
 
 .quiz-def {
   max-width: 30em;
-  font-size: var(--fs-4);
-  line-height: 1.5;
+  font-size: var(--fs-5);
+  line-height: var(--lh-body);
   color: var(--ink-2);
 }
 
@@ -252,8 +263,8 @@
 
 /* Instruction: blue. */
 .quiz-hint {
-  font-size: var(--fs-5);
-  font-weight: 600;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-semibold);
   color: var(--info);
 }
 
@@ -293,7 +304,7 @@
   align-items: center;
   justify-content: center;
   font-size: var(--fs-3);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   text-transform: lowercase;
   color: var(--ink);
 }
@@ -301,15 +312,15 @@
 .kb-wide {
   flex: 0 1 13.5%;
   background: var(--key-alt);
-  font-size: var(--fs-5);
-  font-weight: 600;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-semibold);
   text-transform: none;
 }
 
 .kb-space {
   flex: 1 1 50%;
-  font-size: var(--fs-5);
-  font-weight: 500;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-medium);
   color: var(--ink-2);
 }
 
@@ -348,15 +359,16 @@
 }
 
 .summary-score {
-  font-family: var(--display);
-  font-size: var(--fs-hero);
-  line-height: 0.95;
-  font-weight: 400;
+  font-size: var(--fs-1);
+  line-height: var(--lh-title);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-title);
 }
 
 .summary-score .of {
-  font-size: 0.42em;
+  font-size: var(--fs-3);
   color: var(--ink-3);
+  font-weight: var(--fw-regular);
 }
 
 .summary .titleblock .lede {
@@ -447,9 +459,8 @@
 }
 
 .front-def {
-  font-family: var(--serif);
   font-size: var(--fs-3);
-  line-height: 1.45;
+  line-height: var(--lh-body);
 }
 
 .front-tap {
@@ -476,7 +487,7 @@
 
 .back-text {
   font-size: var(--fs-4);
-  line-height: 1.5;
+  line-height: var(--lh-body);
 }
 
 .back-note {
@@ -487,9 +498,9 @@
   position: absolute;
   top: 14px;
   inset-inline-end: 18px;
-  font-size: var(--fs-5);
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-caps);
   text-transform: uppercase;
 }
 
@@ -542,10 +553,10 @@
   min-height: 50px;
   padding: 8px 4px;
   border-top: 1px solid var(--rule);
-  font-family: var(--display);
   font-size: var(--fs-3);
   text-align: start;
   transition: color var(--fast) linear, opacity var(--mid) var(--ease);
+  font-weight: var(--fw-medium);
 }
 
 .choices li:last-child .choice-btn {
@@ -604,6 +615,8 @@
 .identify-name {
   margin: 2px 0 4px;
   font-size: var(--fs-1);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-title);
 }
 
 /* "Try again" after a wrong letter: it sits over the prompt line in amber, then fades. */
@@ -612,13 +625,12 @@
   top: 0;
   inset-inline: 0;
   background: var(--paper);
-  font-family: var(--serif);
-  font-style: italic;
   font-size: var(--fs-4);
   color: var(--warn);
   pointer-events: none;
   /* No fill mode: visible by default, so a stalled animation can never hide it. */
   animation: fade-in var(--fast) var(--ease);
+  font-weight: var(--fw-medium);
 }
 
 /* ---------- Mock exam ---------- */
@@ -646,11 +658,11 @@
 }
 
 .mock-q {
-  font-family: var(--serif);
-  font-weight: 400;
+  font-weight: var(--fw-semibold);
   font-size: var(--fs-2);
-  line-height: 1.35;
+  line-height: var(--lh-section);
   color: var(--ink);
+  letter-spacing: var(--ls-section);
 }
 
 .mock-options {
@@ -668,7 +680,7 @@
   padding: 12px 4px;
   border-top: 1px solid var(--rule);
   font-size: var(--fs-4);
-  line-height: 1.4;
+  line-height: var(--lh-snug);
   text-align: start;
   color: var(--ink);
   transition: color var(--fast) linear, opacity var(--mid) var(--ease);
@@ -735,7 +747,7 @@
 
 .mock-why p:last-child {
   font-size: var(--fs-4);
-  line-height: 1.55;
+  line-height: var(--lh-body);
 }
 
 .mock-next {
@@ -760,9 +772,9 @@
 
 .mock-review-q {
   margin-bottom: 8px;
-  font-family: var(--serif);
   font-size: var(--fs-4);
-  line-height: 1.4;
+  line-height: var(--lh-snug);
+  font-weight: var(--fw-medium);
 }
 
 .mock-review .small {

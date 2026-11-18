@@ -110,8 +110,7 @@ export function CreditsScreen() {
             <div className="r">
               <span className="r-main">
                 <span className="r-title credit">
-                  Source Serif 4, © 2014–2021 Adobe Systems Incorporated; Source Sans 3, © 2023 Adobe; both with Reserved Font Name
-                  ‘Source’, under the SIL Open Font License 1.1.
+                  Hanken Grotesk, © 2021 The Hanken Grotesk Project Authors, under the SIL Open Font License 1.1.
                 </span>
                 <a className="r-sub" href="https://openfontlicense.org" target="_blank" rel="noreferrer">
                   openfontlicense.org

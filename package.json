@@ -15,8 +15,7 @@
     "spell": "cspell --no-progress --show-suggestions"
   },
   "dependencies": {
-    "@fontsource-variable/source-sans-3": "^5.3.1",
-    "@fontsource-variable/source-serif-4": "^5.3.1",
+    "@fontsource-variable/hanken-grotesk": "^5.3.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "firebase": "^13.4.0",

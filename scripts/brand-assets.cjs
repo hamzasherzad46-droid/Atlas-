@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Every brand image, drawn from public/icons/icon.svg (the seal) and the bundled fonts:
- *   app icons (192, 512, maskable 512, Apple touch 180), a 32 px PNG favicon,
+ *   app icons (192, 512, maskable 512, Apple touch 180), a 32 px PNG favicon (these carry no text),
  *   iOS launch screens for current iPhones, and the 1200 x 630 share image (public/share.jpg).
  * The share image's engraving comes from scripts/engravings.py. Run after changing the seal:
  *   python3 scripts/engravings.py && node scripts/brand-assets.cjs
@@ -15,7 +15,7 @@ const pub = (...p) => path.join(ROOT, 'public', ...p)
 const dataUrl = (file, type) => `data:${type};base64,${fs.readFileSync(file).toString('base64')}`
 
 const SEAL = dataUrl(pub('icons', 'icon.svg'), 'image/svg+xml')
-const SERIF = dataUrl(path.join(ROOT, 'node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-opsz-normal.woff2'), 'font/woff2')
+const TYPEFACE = dataUrl(path.join(ROOT, 'node_modules/@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2'), 'font/woff2')
 const ENGRAVING = dataUrl(path.join(__dirname, 'brand', 'share-engraving.jpg'), 'image/jpeg')
 
 // The house colours (src/styles/global.css): obsidian, aged ivory, antique brass, dimmed parchment.
@@ -35,7 +35,8 @@ const IPHONES = [
   [375, 667, 2], // 8, SE (2nd and 3rd generation)
 ]
 
-const FONT = `@font-face { font-family: 'Source Serif 4'; src: url(${SERIF}) format('woff2'); font-weight: 200 900; }`
+// The app's one typeface (src/styles/global.css --font).
+const FONT = `@font-face { font-family: 'Hanken Grotesk'; src: url(${TYPEFACE}) format('woff2'); font-weight: 100 900; }`
 
 async function shoot(browser, html, width, height, out, scale = 1) {
   const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale })
@@ -53,15 +54,15 @@ const iconHtml = (size, pad = 0) =>
 const splashHtml = (w, h) => {
   const seal = Math.round(Math.min(w, h) * 0.3)
   return `<style>${FONT} body { margin:0; width:${w}px; height:${h}px; background:${C.obsidian}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:${Math.round(seal * 0.16)}px; }
-    .w { font-family:'Source Serif 4'; font-size:${Math.round(seal * 0.2)}px; letter-spacing:0.32em; margin-right:-0.32em; color:${C.ivory}; }</style>
+    .w { font-family:'Hanken Grotesk'; font-weight:600; font-size:${Math.round(seal * 0.17)}px; letter-spacing:0.2em; margin-right:-0.2em; color:${C.ivory}; }</style>
     <body><img src="${SEAL}" width="${seal}" height="${seal}" style="margin-top:-${Math.round(seal * 0.25)}px"><div class="w">ATLAS</div></body>`
 }
 
 const shareHtml = `<style>${FONT}
-  body { margin:0; width:1200px; height:630px; background:${C.obsidian}; display:grid; grid-template-columns: 1fr 520px; font-family:'Source Serif 4'; }
+  body { margin:0; width:1200px; height:630px; background:${C.obsidian}; display:grid; grid-template-columns: 1fr 520px; font-family:'Hanken Grotesk'; }
   .text { padding:72px 64px 64px 72px; display:flex; flex-direction:column; }
-  .mark { display:flex; align-items:center; gap:22px; color:${C.ivory}; font-size:40px; letter-spacing:0.32em; padding-bottom:28px; border-bottom:1px solid ${C.brass}99; }
-  .line { margin-top:auto; color:${C.ivory}; font-size:46px; line-height:1.18; font-weight:400; }
+  .mark { display:flex; align-items:center; gap:22px; color:${C.ivory}; font-size:34px; font-weight:600; letter-spacing:0.2em; padding-bottom:28px; border-bottom:1px solid ${C.brass}99; }
+  .line { margin-top:auto; color:${C.ivory}; font-size:46px; line-height:1.1; font-weight:600; letter-spacing:-0.02em; }
   .plate { background:${C.paper}; isolation:isolate; }
   .plate img { display:block; width:520px; height:630px; object-fit:cover; mix-blend-mode:multiply; }
 </style>

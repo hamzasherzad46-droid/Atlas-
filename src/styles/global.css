@@ -6,9 +6,9 @@
  * same house as a manuscript page. The only imagery is the real 19th-century
  * engraved plates, printed on the room's paper.
  *
- * Type: Source Serif 4 for titles and structure names (italic for Latin and for
- * notes in the margin); Source Sans 3 for everything read quickly, and numbers in
- * tabular figures. One scale (--fs-*), a 4 px grid (--s-*), 2 px corners.
+ * Type: one typeface, Hanken Grotesk, for everything; numbers in tabular figures;
+ * Latin names in the dimmer ink. One scale (--fs-1 to --fs-6: 34 / 26 / 20 / 17 /
+ * 15 / 13 px), weights, tracking and leading as tokens; a 4 px grid (--s-*), 2 px corners.
  *
  * Colour is placed, never spread:
  *   brass     the instrument: primary actions, progress, selection
@@ -93,19 +93,37 @@
   --plate-tag-on: #a88a54;
   --plate-tag-on-ink: #171614;
 
-  /* Type: Source Serif 4 for titles, structure names and Latin; Source Sans 3 for reading and numbers. */
-  --display: 'Source Serif 4 Variable', 'Iowan Old Style', Georgia, 'Noto Serif', serif;
-  --serif: 'Source Serif 4 Variable', 'Iowan Old Style', Georgia, 'Noto Serif', serif;
-  --sans: 'Source Sans 3 Variable', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans',
+  /* Type: one typeface, Hanken Grotesk, for everything. Its figures are all the same width, so
+     counts, clocks and scores line up (tabular-nums is set as well). */
+  --font: 'Hanken Grotesk Variable', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans',
     'Apple SD Gothic Neo', 'Noto Sans CJK SC', 'Geeza Pro', 'Noto Sans Arabic', sans-serif;
 
-  /* The type scale. Nothing else is used (the quiz word is sized to fit the screen, up to --fs-1). */
-  --fs-hero: 64px; /* the score on a results screen */
-  --fs-1: 34px; /* page titles */
-  --fs-2: 24px; /* section and structure titles */
-  --fs-3: 18px; /* lead text, large controls */
-  --fs-4: 16px; /* reading, rows, buttons */
-  --fs-5: 13px; /* captions, labels, counts */
+  /* The type scale. Nothing else is used anywhere. */
+  --fs-1: 34px; /* page titles, the quiz answer word, a results score */
+  --fs-2: 26px; /* structure and module names, section titles */
+  --fs-3: 20px; /* lead text, large controls, keyboard keys */
+  --fs-4: 17px; /* reading, rows, buttons */
+  --fs-5: 15px; /* secondary text: notes, row details, captions */
+  --fs-6: 13px; /* labels, counts, tabs (the smallest size) */
+
+  /* Weights. */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  /* Tracking. */
+  --ls-title: -0.02em; /* large titles */
+  --ls-section: -0.01em; /* section titles */
+  --ls-label: 0.01em; /* labels */
+  --ls-answer: 0.04em; /* the quiz answer word */
+  --ls-caps: 0.08em; /* the one tiny capitalised label a screen may have */
+  --ls-wordmark: 0.2em;
+
+  /* Leading. */
+  --lh-title: 1.1;
+  --lh-section: 1.2;
+  --lh-snug: 1.35;
+  --lh-body: 1.5;
 
   /* Spacing on a 4 px grid. */
   --s-1: 4px;
@@ -165,14 +183,15 @@ body,
 
 body {
   color: var(--ink);
-  font-family: var(--sans);
+  font-family: var(--font);
   font-size: var(--fs-4);
-  line-height: 1.5;
+  line-height: var(--lh-body);
   font-feature-settings: 'kern';
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
   overscroll-behavior: none;
+  font-weight: var(--fw-regular);
 }
 
 button {
@@ -216,76 +235,71 @@ a {
 
 /* ---------- Type ---------- */
 
-/* Titles: Source Serif at display size, as on a title page. */
+/* Page titles: large, tight and semibold. */
 .display {
-  font-family: var(--display);
   font-size: var(--fs-1);
-  line-height: 1.06;
-  font-weight: 400;
-  letter-spacing: -0.005em;
+  line-height: var(--lh-title);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-title);
 }
 
-/* Structure and module names. */
+/* Structure and module names, section titles. */
 .title {
-  font-family: var(--display);
   font-size: var(--fs-2);
-  line-height: 1.12;
-  font-weight: 400;
+  line-height: var(--lh-section);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-section);
 }
 
 .head {
   font-size: var(--fs-4);
-  line-height: 1.3;
-  font-weight: 600;
+  line-height: var(--lh-snug);
+  font-weight: var(--fw-semibold);
 }
 
 .lede {
   font-size: var(--fs-3);
-  line-height: 1.5;
-  font-weight: 400;
+  line-height: var(--lh-body);
+  font-weight: var(--fw-regular);
   color: var(--ink-2);
 }
 
 .small {
   font-size: var(--fs-5);
-  line-height: 1.45;
+  line-height: var(--lh-body);
   color: var(--ink-2);
 }
 
 .tiny {
-  font-size: var(--fs-5);
-  line-height: 1.4;
+  font-size: var(--fs-6);
+  line-height: var(--lh-body);
   color: var(--ink-2);
 }
 
-/* Marginal notes: serif italic, the way old atlases annotate. */
+/* Labels, including the notes hung in the margin: small, medium weight, sentence case. */
 .label {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: var(--fs-4);
-  line-height: 1.3;
-  font-weight: 400;
+  font-size: var(--fs-6);
+  line-height: var(--lh-snug);
+  font-weight: var(--fw-medium);
   color: var(--ink-2);
+  letter-spacing: var(--ls-label);
 }
 
 /* Figures that must line up: plate numbers, counts, clocks. Words never use this. */
 .figs {
-  font-family: var(--sans);
-  font-size: var(--fs-5);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums lining-nums;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
 }
 
-/* Latin nomenclature. */
+/* Latin nomenclature: the same face, in the dimmer ink. */
 .latin {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   color: var(--ink-2);
 }
 
 .num {
-  font-variant-numeric: tabular-nums lining-nums;
+  font-variant-numeric: tabular-nums;
 }
 
 .muted {
@@ -323,18 +337,17 @@ a {
 }
 
 .wordmark {
-  font-family: var(--display);
-  font-size: var(--fs-3);
-  font-weight: 400;
-  letter-spacing: 0.32em;
+  font-size: var(--fs-5);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wordmark);
   text-transform: uppercase;
   color: var(--ink);
 }
 
 .masthead-track {
   color: var(--ink-2);
-  font-size: var(--fs-5);
-  font-weight: 600;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-semibold);
 }
 
 /* Title block under the masthead. */
@@ -407,14 +420,14 @@ a.r {
 .r-title {
   display: block;
   font-size: var(--fs-4);
-  line-height: 1.35;
+  line-height: var(--lh-snug);
 }
 
 .r-sub {
   display: block;
   margin-top: 2px;
   font-size: var(--fs-5);
-  line-height: 1.4;
+  line-height: var(--lh-snug);
   color: var(--ink-2);
 }
 
@@ -422,11 +435,10 @@ a.r {
   flex-shrink: 0;
   /* "14 / 20" keeps its order in right-to-left languages; words still follow their own direction. */
   unicode-bidi: plaintext;
-  font-family: var(--sans);
   font-size: var(--fs-5);
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
   color: var(--ink-2);
-  font-variant-numeric: tabular-nums lining-nums;
+  font-variant-numeric: tabular-nums;
 }
 
 .r:disabled {
@@ -485,8 +497,7 @@ a.r {
   background: var(--accent-fill);
   color: var(--on-accent);
   font-size: var(--fs-4);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: var(--fw-semibold);
   transition: background-color var(--fast) var(--ease);
 }
 
@@ -513,7 +524,7 @@ a.r {
   min-width: 44px;
   gap: 8px;
   font-size: var(--fs-4);
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   text-decoration: underline;
   text-decoration-color: var(--rule-brass);
   text-underline-offset: 5px;
@@ -527,7 +538,7 @@ a.r {
   gap: 8px;
   min-height: 44px;
   font-size: var(--fs-5);
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   color: var(--ink-2);
 }
 
@@ -745,7 +756,7 @@ button.go.quiet:active:not(:disabled),
   padding-inline: 12px 0;
   border-inline-start: 1px solid var(--copper);
   font-size: var(--fs-5);
-  line-height: 1.5;
+  line-height: var(--lh-body);
   text-align: start;
 }
 

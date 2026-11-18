@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
 import type { QuizMode } from '../state/settings'
 import type { Outcome } from '../lib/srs'
 import { reducedMotion } from '../lib/motion'
@@ -14,7 +14,10 @@ interface Props {
   wrongCount: number
 }
 
-/** The large serif answer word: ghost letters (learn), a few letters among dashes (medium) or dashes (hard), filled in as you type. */
+/** Letters a word may have and still fit one line of a phone at the largest size (Hanken Grotesk, 0.04em tracking). */
+const LONGEST_AT_FULL_SIZE = 16
+
+/** The large answer word: ghost letters (learn), a few letters among dashes (medium) or dashes (hard), filled in as you type. */
 export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: Props) {
   const el = useRef<HTMLDivElement>(null)
 
@@ -27,34 +30,45 @@ export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: P
     )
   }, [wrongCount])
 
-  // Sized to fit the screen, between the two largest steps of the type scale (24 and 34 px).
-  const size = Math.max(24, Math.min(34, 520 / Math.max(answer.length, 1)))
   const shown = mode === 'medium' ? revealedLetters(answer) : null
   const state = done ? (outcome === 'failed' ? 'fail' : 'ok') : 'typing'
+  // The word is the hero at the largest size; it wraps between words, never inside one. A single
+  // word too long for one line at that size (sternocleidomastoid) steps down one size.
+  const words: { start: number; text: string }[] = []
+  let at = 0
+  for (const text of answer.split(' ')) {
+    words.push({ start: at, text })
+    at += text.length + 1
+  }
+  const long = Math.max(...words.map((w) => w.text.length)) > LONGEST_AT_FULL_SIZE
+
+  const letter = (ch: string, i: number) => {
+    const isTyped = i < typed.length
+    const caret = !done && i === typed.length
+    return (
+      <span key={i} className={`answer-ch ${isTyped || done ? 'typed' : mode === 'learn' || shown?.has(i) ? 'ghost' : 'dash'}${caret ? ' caret' : ''}`}>
+        {ch}
+      </span>
+    )
+  }
 
   return (
     <div
       ref={el}
-      className={`answer answer-${state}`}
+      className={`answer answer-${state}${long ? ' answer-long' : ''}`}
       dir="ltr"
-      style={{ fontSize: size }}
       aria-label={done ? answer : `${typed.length} of ${answer.length} letters typed`}
       aria-live="polite"
     >
-      {[...answer].map((ch, i) => {
-        const isTyped = i < typed.length
-        const caret = !done && i === typed.length
-        if (ch === ' ') return <span key={i} className={`answer-space${caret ? ' caret' : ''}`} />
-        return (
-          <span
-            key={i}
-            className={`answer-ch ${isTyped || done ? 'typed' : mode === 'learn' || shown?.has(i) ? 'ghost' : 'dash'}${caret ? ' caret' : ''}`}
-          >
-            {ch}
+      {words.map((w, n) => (
+        <Fragment key={w.start}>
+          {n > 0 && <span className={`answer-space${!done && typed.length === w.start - 1 ? ' caret' : ''}`} />}
+          <span className="answer-word">
+            {[...w.text].map((ch, k) => letter(ch, w.start + k))}
+            {n === words.length - 1 && !done && typed.length >= answer.length && <span className="answer-ch caret caret-end" />}
           </span>
-        )
-      })}
-      {!done && typed.length >= answer.length && <span className="answer-ch caret caret-end" />}
+        </Fragment>
+      ))}
     </div>
   )
 }
