@@ -2,7 +2,7 @@ import { useT } from '../i18n'
 import { useModelLoads } from '../state/modelLoads'
 
 /**
- * Stands in for a 3D model while it downloads: a line of text and a hairline brass meter that
+ * Stands in for a 3D model while it downloads: a line of text and a hairline accent meter that
  * fills with the real download, not a spinner. `always` shows it while the 3D viewer itself is being
  * fetched, before any model has started; `settling` keeps it (meter full) after the download, while
  * the model is being prepared for the screen.

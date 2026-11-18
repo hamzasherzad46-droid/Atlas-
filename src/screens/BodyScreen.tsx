@@ -148,7 +148,6 @@ export function BodyScreen() {
             aria-pressed={layers.includes(l.id)}
             disabled={separate && l.id !== 'skeleton'}
             onClick={() => toggle(l.id)}
-            style={{ ['--layer' as string]: l.parts[0].colour === 'bone' ? 'var(--bone, #e6dcc6)' : l.parts[0].colour }}
           >
             <span className="body-swatch" aria-hidden />
             {t(`layer.${l.id}`)}

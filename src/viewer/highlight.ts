@@ -1,114 +1,55 @@
 import * as THREE from 'three'
 import { meshMatchesAny } from '../lib/meshMatch'
+import { EdgeBuilder, fillMaterial, lineMaterial, solidMaterial, type GlPalette } from './hud'
 
-export const ACCENT = new THREE.Color('#7a2a30')
-
-export interface Palette {
-  bone: string
-  boneOpacity: number
-  /** Highlight colour: oxblood, lifted enough to read on ivory bone. */
-  accent: string
-}
-
-// Ivory bone on ivory paper needs a shade of separation, so the light-theme
-// bone is a little deeper than the page. The target turns burgundy-red and
-// also shows through anything in front of it (x-ray overlay), so hidden
-// structures stay findable.
-export const PALETTES: Record<'dark' | 'light', Palette> = {
-  dark: { bone: '#e6dcc6', boneOpacity: 0.92, accent: '#9e3a40' },
-  light: { bone: '#cdbf9f', boneOpacity: 0.95, accent: '#7a2a30' },
-}
-
-const GHOST_OPACITY = 0.1
 const noRaycast = () => {}
 
-/** Fresnel rim shell: a slightly inflated copy of the mesh that glows at its edges. */
-function makeGlowMaterial(): THREE.ShaderMaterial {
-  return new THREE.ShaderMaterial({
-    uniforms: {
-      color: { value: ACCENT.clone() },
-      intensity: { value: 0 },
-      thickness: { value: 0.0012 },
-    },
-    vertexShader: /* glsl */ `
-      uniform float thickness;
-      varying float vRim;
-      void main() {
-        vec3 n = normalize(normalMatrix * normal);
-        vec4 mv = modelViewMatrix * vec4(position + normal * thickness, 1.0);
-        vRim = 1.0 - abs(dot(n, normalize(-mv.xyz)));
-        gl_Position = projectionMatrix * mv;
-      }`,
-    fragmentShader: /* glsl */ `
-      uniform vec3 color;
-      uniform float intensity;
-      varying float vRim;
-      void main() {
-        gl_FragColor = vec4(color, pow(vRim, 3.0) * intensity);
-      }`,
-    transparent: true,
-    depthWrite: false,
-  })
-}
+/** Lines outside a focused region: a third as strong, so the region reads first. */
+const GHOST_LINES = 0.35
+/** How long a right answer's blue lasts on the target. */
+const FLASH_MS = 700
 
 /**
- * Owns the materials of one model instance. Dims every mesh and colours the
- * meshes matching `keys` red with an emissive glow. `progress` (0..1) fades
- * the highlight in so camera moves and colour changes feel like one motion.
+ * Owns the materials of one model instance, in the HUD style: every structure is drawn as fine
+ * edge lines over a barely-there surface, and the meshes matching `keys` become the one solid,
+ * softly lit object. `progress` (0..1) fades the target in so camera moves and the highlight feel
+ * like one motion; `flash()` turns it briefly blue after a right answer.
  */
 export class Highlighter {
-  readonly base: THREE.MeshStandardMaterial
-  readonly target: THREE.MeshStandardMaterial
-  readonly glow: THREE.ShaderMaterial
-  /** Drawn only where another bone is in front (GreaterDepth), so hidden parts of the target show through. */
-  readonly xray: THREE.MeshBasicMaterial
-  /** Bones outside a focused region: faint, behind everything, not tappable. */
-  readonly ghost: THREE.MeshStandardMaterial
+  readonly target: ReturnType<typeof solidMaterial>
+  private readonly fill: THREE.MeshBasicMaterial
+  private readonly ghostFill: THREE.MeshBasicMaterial
+  private readonly lines: THREE.LineBasicMaterial
+  private readonly ghostLines: THREE.LineBasicMaterial
+  private readonly edges: EdgeBuilder
   private meshes: THREE.Mesh[] = []
-  private glows: THREE.Mesh[] = []
+  private hits = new Set<THREE.Mesh>()
+  private palette: GlPalette
+  private flashFrom = -Infinity
 
   constructor(
     root: THREE.Object3D,
-    palette: Palette,
-    private withGlow = true,
-    /** Mesh keys of a focused region; everything else is ghosted. */
+    palette: GlPalette,
+    onProgress: () => void,
+    /** Mesh keys of a focused region; everything else is drawn fainter and can't be tapped. */
     private focus: string[] | null = null,
   ) {
-    this.base = new THREE.MeshStandardMaterial({
-      color: palette.bone,
-      roughness: 0.62,
-      metalness: 0,
-      transparent: true,
-      opacity: palette.boneOpacity,
-    })
-    this.target = new THREE.MeshStandardMaterial({
-      color: ACCENT,
-      emissive: ACCENT,
-      emissiveIntensity: 0,
-      roughness: 0.5,
-      metalness: 0,
-    })
-    this.ghost = new THREE.MeshStandardMaterial({
-      color: palette.bone,
-      roughness: 0.8,
-      transparent: true,
-      opacity: GHOST_OPACITY,
-      depthWrite: false,
-    })
-    this.glow = makeGlowMaterial()
-    this.xray = new THREE.MeshBasicMaterial({
-      color: ACCENT,
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-      depthFunc: THREE.GreaterDepth,
-    })
+    this.palette = palette
+    this.target = solidMaterial(palette)
+    this.fill = fillMaterial(palette)
+    this.ghostFill = fillMaterial(palette, 0.012)
+    this.lines = lineMaterial(palette)
+    this.ghostLines = lineMaterial(palette, GHOST_LINES)
     root.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) this.meshes.push(o as THREE.Mesh)
     })
+    // The focused region is drawn first.
+    const ordered = [...this.meshes].sort((a, b) => Number(!this.inFocus(a)) - Number(!this.inFocus(b)))
+    this.edges = new EdgeBuilder(ordered, (m) => (this.inFocus(m) ? this.lines : this.ghostLines), () => {
+      for (const m of this.hits) this.edges.lines.get(m)?.removeFromParent()
+      onProgress()
+    })
   }
-
-  private accent = ACCENT.clone()
 
   /** Meshes in the focused region (all meshes when there is no focus). */
   focusMeshes(): THREE.Mesh[] {
@@ -119,47 +60,64 @@ export class Highlighter {
     return !this.focus || meshMatchesAny(m.name, this.focus)
   }
 
-  setPalette(palette: Palette) {
-    this.base.color.set(palette.bone)
-    this.ghost.color.set(palette.bone)
-    this.base.opacity = palette.boneOpacity
-    this.accent.set(palette.accent)
-    this.target.emissive.copy(this.accent)
-    this.glow.uniforms.color.value.copy(this.accent)
-    this.xray.color.copy(this.accent)
+  setPalette(palette: GlPalette) {
+    this.palette = palette
+    this.target.color.set(palette.target)
+    this.target.userData.rim.value.set(palette.rim)
+    this.fill.color.set(palette.line)
+    this.ghostFill.color.set(palette.line)
+    this.lines.color.set(palette.line)
+    this.lines.opacity = palette.lineOpacity
+    this.ghostLines.color.set(palette.line)
+    this.ghostLines.opacity = palette.lineOpacity * GHOST_LINES
   }
 
   /** Returns the matched meshes. */
   apply(keys: string[]): THREE.Mesh[] {
-    for (const g of this.glows) g.removeFromParent()
-    this.glows = []
+    this.hits.clear()
     const matched: THREE.Mesh[] = []
     for (const m of this.meshes) {
       const hit = keys.length > 0 && meshMatchesAny(m.name, keys)
       const focused = this.inFocus(m)
-      m.material = hit ? this.target : focused ? this.base : this.ghost
+      m.material = hit ? this.target : focused ? this.fill : this.ghostFill
       m.renderOrder = hit ? 0 : focused ? 1 : 4
       m.raycast = focused ? THREE.Mesh.prototype.raycast : noRaycast
+      const lines = this.edges.lines.get(m)
       if (hit) {
         matched.push(m)
-        const overlays = this.withGlow ? [this.glow, this.xray] : [this.xray]
-        for (const mat of overlays) {
-          const g = new THREE.Mesh(m.geometry, mat)
-          g.raycast = () => {}
-          g.renderOrder = mat === this.xray ? 3 : 2
-          m.add(g)
-          this.glows.push(g)
-        }
-      }
+        this.hits.add(m)
+        lines?.removeFromParent()
+      } else if (lines && !lines.parent) m.add(lines)
     }
     return matched
   }
 
   setProgress(t: number) {
-    this.target.emissiveIntensity = 0.22 * t
-    this.target.color.copy(this.accent).lerp(this.base.color, 1 - t)
-    this.glow.uniforms.intensity.value = 0.7 * t
-    this.xray.opacity = 0.35 * t
+    this.target.transparent = t < 1
+    this.target.opacity = t
+    this.target.depthWrite = t >= 1
+  }
+
+  /** A right answer: the target turns blue for a moment. */
+  flash(now = performance.now()) {
+    this.flashFrom = now
+  }
+
+  /** Advances the flash; true while it is still changing (the canvas should draw again). */
+  tick(now = performance.now()): boolean {
+    const k = (now - this.flashFrom) / FLASH_MS
+    if (k < 0 || k > 1) {
+      if (k > 1 && this.flashFrom !== -Infinity) {
+        this.flashFrom = -Infinity
+        this.target.color.set(this.palette.target)
+        return true
+      }
+      return false
+    }
+    // Rises quickly, eases back to white.
+    const amount = k < 0.2 ? k / 0.2 : 1 - (k - 0.2) / 0.8
+    this.target.color.set(this.palette.target).lerp(new THREE.Color(this.palette.accent), Math.max(0, amount))
+    return true
   }
 
   /** Bounding box of the matched meshes, in root's parent space. */
@@ -170,11 +128,11 @@ export class Highlighter {
   }
 
   dispose() {
-    for (const g of this.glows) g.removeFromParent()
-    this.base.dispose()
-    this.ghost.dispose()
+    this.edges.dispose()
     this.target.dispose()
-    this.glow.dispose()
-    this.xray.dispose()
+    this.fill.dispose()
+    this.ghostFill.dispose()
+    this.lines.dispose()
+    this.ghostLines.dispose()
   }
 }

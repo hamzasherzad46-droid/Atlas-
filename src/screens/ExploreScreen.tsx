@@ -116,6 +116,8 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
               plate={plate}
               onPlate={onPlate}
               onPlateSelect={fromKey}
+              readouts
+              idle={selected || plate ? 'off' : 'sway'}
             />
           </Suspense>
         )}

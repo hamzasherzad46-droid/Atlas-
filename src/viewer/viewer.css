@@ -12,13 +12,12 @@
   z-index: 1;
 }
 
-/* Blurred, faded neighbours either side; clear in the middle where the current model sits. */
+/* The questions either side, as faint line drawings at the edges; clear in the middle where the current model sits. */
 .viewer-ghosts {
   position: absolute;
   inset: 0 -10%;
   z-index: 0;
-  filter: blur(7px);
-  opacity: 0.38;
+  opacity: var(--ghost-opacity);
   pointer-events: none;
   -webkit-mask-image: linear-gradient(to right, #000 0%, #000 18%, transparent 36%, transparent 64%, #000 82%, #000 100%);
   mask-image: linear-gradient(to right, #000 0%, #000 18%, transparent 36%, transparent 64%, #000 82%, #000 100%);
@@ -37,4 +36,70 @@
   text-align: center;
   color: var(--fg-2);
   font-size: var(--fs-5);
+}
+
+/* The instrument layer: a heading tape along the top, the bearing in the lower corner. */
+.viewer-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.tape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--tape-h);
+  overflow: hidden;
+  border-bottom: var(--hair) solid var(--line);
+}
+
+/* The strip's left edge sits at the tape's centre; the camera rig slides it by the bearing. */
+.tape-strip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  will-change: transform;
+}
+
+.tick {
+  position: absolute;
+  bottom: 0;
+  width: var(--hair);
+  height: var(--tick);
+  background: var(--fg-3);
+}
+
+.tick.major {
+  height: var(--tick-major);
+  background: var(--fg-2);
+}
+
+.tape-figure {
+  position: absolute;
+  bottom: calc(var(--tick-major) + var(--s-1));
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: var(--ls-label);
+  /* Tracking adds space after the last letter; shift back by half of it so figures sit over their tick. */
+  margin-left: calc(var(--ls-label) / 2);
+}
+
+.tape-index {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: var(--hair);
+  background: var(--accent);
+}
+
+.viewer-azel {
+  position: absolute;
+  left: var(--pad);
+  bottom: var(--s-3);
+  font-variant-numeric: tabular-nums;
 }

@@ -283,6 +283,12 @@ export const en = {
 
   'viewer.error': 'Couldn’t load the 3D model. Check your connection and try again.',
   'viewer.loading': 'Loading the 3D model',
+  'viewer.az': 'Az',
+  'viewer.el': 'El',
+  'viewer.north': 'N',
+  'viewer.east': 'E',
+  'viewer.south': 'S',
+  'viewer.west': 'W',
   'explore.help': 'Drag to turn. Pinch to zoom.',
   'explore.tap': 'Tap any structure to see what it is and what it does.',
   'explore.focus': 'Focus',

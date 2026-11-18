@@ -8,11 +8,12 @@ import { publicUrl } from '../lib/paths'
 import { trackLoads } from '../state/modelLoads'
 import { CameraRig } from './CameraRig'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
-import { ACCENT, PALETTES } from './highlight'
+import { EdgeBuilder, fillMaterial, glPalette, lineMaterial, pointMaterial, solidMaterial, surfaceArea, surfacePoints } from './hud'
 import { Lights, PinLabel } from './parts'
 import { viewForMeshes } from './plate'
 import { SCENE } from './scene'
 import { useResolvedTheme } from './useResolvedTheme'
+import { ViewerHud, type BearingReadout } from './ViewerHud'
 import './viewer.css'
 
 const DPR: [number, number] = [1, 2]
@@ -85,15 +86,15 @@ export default function BodyViewer(props: BodyViewerProps) {
   const modeView = props.mode === 'separate' ? SEPARATE_VIEW : props.mode === 'cut' ? CUT_VIEWS[props.axis] : BODY_HOME
   const view = focus && focus.mode === props.mode && focus.axis === props.axis ? focus.view : modeView
   const [resetKey, setResetKey] = useState(0)
+  const hud = useRef<BearingReadout>(null)
   const registry = useMemo(() => new Map<string, THREE.Mesh>(), [])
-  const accent = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.25, roughness: 0.5, side: THREE.DoubleSide }),
-    [],
-  )
+  // The selected part is the one solid object; colours come from the theme's tokens.
+  const accent = useMemo(() => solidMaterial(glPalette()), [])
   useEffect(() => () => accent.dispose(), [accent])
   useEffect(() => {
-    accent.color.set(PALETTES[theme].accent)
-    accent.emissive.set(PALETTES[theme].accent)
+    const p = glPalette()
+    accent.color.set(p.target)
+    accent.userData.rim.value.set(p.rim)
   }, [accent, theme])
 
   // A new plane whenever the cut moves; parts re-attach it to their materials.
@@ -149,12 +150,20 @@ export default function BodyViewer(props: BodyViewerProps) {
           <Lights />
           {shown.map((layer) => (
             <Suspense key={layer.id} fallback={<Loading id={layer.id} onLoading={props.onLoading} />}>
-              <Layer layer={layer} shared={shared} bone={PALETTES[theme].bone} />
+              <Layer layer={layer} shared={shared} theme={theme} />
             </Suspense>
           ))}
           {props.pin && <PinLabel point={props.pin.point} label={props.pin.label} />}
-          <CameraRig view={view} resetKey={resetKey} maxDistance={6} />
+          <CameraRig
+            view={view}
+            resetKey={resetKey}
+            maxDistance={6}
+            // The body turns slowly when left alone, but holds still while a part is selected or cut.
+            idle={props.selected || props.mode === 'cut' ? 'off' : 'turn'}
+            onBearing={(az, el) => hud.current?.set(az, el)}
+          />
         </Canvas>
+        <ViewerHud ref={hud} />
       </div>
     </BodyBoundary>
   )
@@ -168,25 +177,36 @@ function Loading({ id, onLoading }: { id: LayerId; onLoading: BodyViewerProps['o
   return null
 }
 
-function Layer({ layer, shared, bone }: { layer: BodyLayer; shared: Shared; bone: string }) {
+function Layer({ layer, shared, theme }: { layer: BodyLayer; shared: Shared; theme: 'dark' | 'light' }) {
   return (
     <>
       {layer.parts.map((part) => (
-        <Part key={part.file} layer={layer} part={part} shared={shared} bone={bone} />
+        <Part key={part.file} layer={layer} part={part} shared={shared} theme={theme} />
       ))}
     </>
   )
 }
 
-/** One model file of a layer: its own material, separation, cut, selection and isolation. */
-function Part({ layer, part, shared, bone }: { layer: BodyLayer; part: LayerPart; shared: Shared; bone: string }) {
+/** Points for a whole layer in X-ray mode, shared out over its meshes by surface area. */
+const POINT_BUDGET: Partial<Record<LayerId, number>> = { skin: 14000, muscles: 30000 }
+/** Dense whole-body layers draw fewer, stronger creases. */
+const EDGE_ANGLE: Partial<Record<LayerId, number>> = { muscles: 32, organs: 50, arteries: 30, veins: 30, nervous: 30 }
+/** Line strength per layer (1 = the theme's line opacity), so packed layers don't turn into a white mass. */
+const LINE_SCALE: Partial<Record<LayerId, number>> = { skin: 0.6, organs: 0.3, muscles: 0.8, arteries: 0.8, veins: 0.8, nervous: 0.8 }
+
+/**
+ * One model file of a layer, in the HUD style: fine lines (or, for the outer layers in X-ray mode,
+ * a faint point cloud) over a barely-there surface; the selected part is the one solid object.
+ * Separation, cut and isolation work on all of it.
+ */
+function Part({ layer, part, shared, theme }: { layer: BodyLayer; part: LayerPart; shared: Shared; theme: 'dark' | 'light' }) {
   const scene = useModelScene(part.file)
   const invalidate = useThree((s) => s.invalidate)
-  const material = useMemo(
-    () => new THREE.MeshStandardMaterial({ roughness: layer.id === 'skin' ? 0.7 : 0.55, metalness: 0 }),
-    [layer.id],
-  )
-  useEffect(() => () => material.dispose(), [material])
+  const mats = useMemo(() => {
+    const p = glPalette()
+    return { fill: fillMaterial(p, 0.025), lines: lineMaterial(p, LINE_SCALE[layer.id] ?? 1), points: pointMaterial(p, theme === 'light' ? 0.5 : 0.45, p.point, theme !== 'light') }
+  }, [layer.id, theme])
+  useEffect(() => () => Object.values(mats).forEach((m) => m.dispose()), [mats])
   const { root, meshes } = useMemo(() => {
     const r = scene.clone(true)
     const list: THREE.Mesh[] = []
@@ -211,11 +231,57 @@ function Part({ layer, part, shared, bone }: { layer: BodyLayer; part: LayerPart
   }, [meshes, layer.id, shared.registry])
 
   const { mode, amount, selected, isolated, plane, accent } = shared
+  const asPoints = mode === 'xray' && layer.xray < 0.5 && !!POINT_BUDGET[layer.id]
+
+  // Lines are built once per mesh (in time slices) the first time they are needed.
+  const [edges, setEdges] = useState<EdgeBuilder | null>(null)
   useEffect(() => {
-    styleMaterial(material, accent, part.colour === 'bone' ? bone : part.colour, mode === 'xray' ? layer.xray : 1, mode === 'cut' ? plane : null)
-    arrange(meshes, layer.id, { material, accent, selected, isolated, pickable: mode !== 'xray' || layer.xray >= 0.5, separate: mode === 'separate' ? amount : 0 })
+    if (asPoints || edges) return
+    // Created when lines are first shown; kept while the part is mounted.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEdges(new EdgeBuilder(meshes, () => mats.lines, invalidate, EDGE_ANGLE[layer.id]))
+  }, [asPoints, edges, meshes, mats.lines, invalidate, layer.id])
+  useEffect(() => () => edges?.dispose(), [edges])
+
+  // Points: each mesh's share of the layer's budget, by surface area.
+  const points = useMemo(() => {
+    if (!asPoints) return null
+    const budget = POINT_BUDGET[layer.id] ?? 0
+    const areas = meshes.map(surfaceArea)
+    const total = areas.reduce((a, b) => a + b, 0) || 1
+    return meshes.map((m, i) => {
+      const n = Math.max(0, Math.round((budget * areas[i]) / total))
+      if (!n) return null
+      const pts = new THREE.Points(surfacePoints(m, n), mats.points)
+      pts.raycast = () => {}
+      return pts
+    })
+  }, [asPoints, meshes, layer.id, mats.points])
+  useEffect(() => {
+    if (!points) return
+    points.forEach((p, i) => p && meshes[i].add(p))
     invalidate()
-  }, [mode, amount, selected, isolated, plane, accent, material, meshes, layer, part.colour, bone, invalidate])
+    return () => points.forEach((p) => p?.removeFromParent())
+  }, [points, meshes, invalidate])
+
+  useEffect(() => {
+    const clip = mode === 'cut' ? [plane] : null
+    for (const m of [mats.fill, mats.lines, mats.points, accent]) {
+      m.clippingPlanes = clip
+      m.needsUpdate = true
+    }
+    arrange(meshes, layer.id, {
+      fill: mats.fill,
+      accent,
+      selected,
+      isolated,
+      pickable: !asPoints,
+      points: asPoints,
+      lines: edges,
+      separate: mode === 'separate' ? amount : 0,
+    })
+    invalidate()
+  }, [mode, amount, selected, isolated, plane, accent, mats, meshes, layer.id, asPoints, edges, invalidate])
 
   const onClick = (e: ThreeEvent<MouseEvent>) => {
     if (e.delta > 8) return // a drag, not a tap
@@ -229,30 +295,29 @@ function Part({ layer, part, shared, bone }: { layer: BodyLayer; part: LayerPart
   return <primitive object={root} onClick={onClick} />
 }
 
-/** Colour, opacity and cut of a part's material (and of the shared selection material). */
-function styleMaterial(material: THREE.MeshStandardMaterial, accent: THREE.Material, colour: string, opacity: number, plane: THREE.Plane | null) {
-  material.color.set(colour)
-  material.opacity = opacity
-  material.transparent = opacity < 1
-  material.depthWrite = opacity >= 0.6
-  material.side = plane ? THREE.DoubleSide : THREE.FrontSide
-  material.clippingPlanes = plane ? [plane] : null
-  accent.clippingPlanes = plane ? [plane] : null
-  material.needsUpdate = true
-  accent.needsUpdate = true
-}
-
-/** Selection, isolation, tap targets and bone separation for the meshes of one part. */
+/** Selection, isolation, lines or points, tap targets and bone separation for the meshes of one part. */
 function arrange(
   meshes: THREE.Mesh[],
   layer: LayerId,
-  o: { material: THREE.Material; accent: THREE.Material; selected: BodyViewerProps['selected']; isolated: boolean; pickable: boolean; separate: number },
+  o: {
+    fill: THREE.Material
+    accent: THREE.Material
+    selected: BodyViewerProps['selected']
+    isolated: boolean
+    pickable: boolean
+    points: boolean
+    lines: EdgeBuilder | null
+    separate: number
+  },
 ) {
   for (const m of meshes) {
     const isSel = !!o.selected && o.selected.layer === layer && o.selected.meshName === m.name
-    m.material = isSel ? o.accent : o.material
+    m.material = isSel ? o.accent : o.fill
     m.visible = !o.isolated || isSel
-    // See-through layers can't be tapped, so taps reach what lies beneath.
+    const lines = o.lines?.lines.get(m)
+    if (lines) lines.visible = !isSel && !o.points
+    for (const c of m.children) if ((c as THREE.Points).isPoints) c.visible = !isSel
+    // Point-cloud layers can't be tapped, so taps reach what lies beneath.
     m.raycast = m.visible && (o.pickable || isSel) ? THREE.Mesh.prototype.raycast : noRaycast
     m.position.set(...explodeOffset(m.userData.centre as [number, number, number], o.separate))
   }

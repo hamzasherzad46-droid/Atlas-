@@ -224,6 +224,9 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
             ghosts={format === 'identify' ? undefined : { prev, next, index: q.index }}
             onPick={format === 'identify' && !done ? (mesh) => useQuiz.getState().tap(mesh) : undefined}
             onFraming={format === 'identify' ? setRegionView : undefined}
+            flash={done && q.lastOutcome !== 'failed' ? q.results.length : 0}
+            readouts
+            idle={format === 'identify' && !done ? 'off' : 'sway'}
           />
         </Suspense>
       </div>

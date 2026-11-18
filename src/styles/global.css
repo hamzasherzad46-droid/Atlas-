@@ -136,6 +136,12 @@
   --stagger: 20ms; /* between rows of a list as it appears */
 
   --tabbar-h: 56px;
+  /* The heading tape along the top of a 3D view. */
+  --tape-h: 2.125rem;
+  /* The neighbouring questions at the edges of the quiz view. */
+  --ghost-opacity: 0.3;
+  --tick: 5px;
+  --tick-major: 9px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }

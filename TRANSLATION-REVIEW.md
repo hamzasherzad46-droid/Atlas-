@@ -6,7 +6,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (103)
+### Missing: shown in English (109)
 
 | Key | English |
 | --- | --- |
@@ -21,6 +21,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
+| `viewer.az` | Az |
+| `viewer.el` | El |
+| `viewer.north` | N |
+| `viewer.east` | E |
+| `viewer.south` | S |
+| `viewer.west` | W |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -189,7 +195,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (103)
+### Missing: shown in English (109)
 
 | Key | English |
 | --- | --- |
@@ -204,6 +210,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
+| `viewer.az` | Az |
+| `viewer.el` | El |
+| `viewer.north` | N |
+| `viewer.east` | E |
+| `viewer.south` | S |
+| `viewer.west` | W |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -370,7 +382,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (103)
+### Missing: shown in English (109)
 
 | Key | English |
 | --- | --- |
@@ -385,6 +397,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
+| `viewer.az` | Az |
+| `viewer.el` | El |
+| `viewer.north` | N |
+| `viewer.east` | E |
+| `viewer.south` | S |
+| `viewer.west` | W |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -545,7 +563,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (103)
+### Missing: shown in English (109)
 
 | Key | English |
 | --- | --- |
@@ -560,6 +578,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
+| `viewer.az` | Az |
+| `viewer.el` | El |
+| `viewer.north` | N |
+| `viewer.east` | E |
+| `viewer.south` | S |
+| `viewer.west` | W |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -721,7 +745,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (103)
+### Missing: shown in English (109)
 
 | Key | English |
 | --- | --- |
@@ -736,6 +760,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
+| `viewer.az` | Az |
+| `viewer.el` | El |
+| `viewer.north` | N |
+| `viewer.east` | E |
+| `viewer.south` | S |
+| `viewer.west` | W |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -894,7 +924,7 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (103)
+### Missing: shown in English (109)
 
 | Key | English |
 | --- | --- |
@@ -909,6 +939,12 @@ None.
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
+| `viewer.az` | Az |
+| `viewer.el` | El |
+| `viewer.north` | N |
+| `viewer.east` | E |
+| `viewer.south` | S |
+| `viewer.west` | W |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |

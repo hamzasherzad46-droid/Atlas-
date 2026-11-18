@@ -15,6 +15,7 @@ import { CameraRig, type CameraApi } from './CameraRig'
 import { ContextModel, ModelInstance } from './ModelInstance'
 import { Lights, PinLabel } from './parts'
 import { SCENE } from './scene'
+import { ViewerHud, type BearingReadout } from './ViewerHud'
 import './viewer.css'
 import { translate } from '../i18n'
 import { shownLang, useSettings } from '../state/settings'
@@ -37,6 +38,12 @@ export interface AnatomyViewerProps {
   onPlate?: (anchors: PlateAnchor[]) => void
   /** A numbered reference was tapped. */
   onPlateSelect?: (id: string) => void
+  /** Changes on each right answer: the target turns blue for a moment. */
+  flash?: number
+  /** Heading tape and AZ/EL readout over the view. */
+  readouts?: boolean
+  /** The camera's idle motion (see CameraRig). */
+  idle?: 'turn' | 'sway' | 'off'
 }
 
 const DPR: [number, number] = [1, 2] // cap pixel ratio at 2 for mobile GPUs
@@ -54,7 +61,11 @@ export default function AnatomyViewer({
   plate,
   onPlate,
   onPlateSelect,
+  flash,
+  readouts,
+  idle = 'off',
 }: AnatomyViewerProps) {
+  const hud = useRef<BearingReadout>(null)
   const [resetKey, setResetKey] = useState(0)
   const [highlighter, setHighlighter] = useState<Highlighter | null>(null)
   // A focused region ghosts everything outside it.
@@ -88,7 +99,7 @@ export default function AnatomyViewer({
         >
           <Lights />
           <Suspense fallback={null}>
-            <ModelInstance assets={assets} highlight={highlight} onPick={onPick} focus={focus} onReady={setHighlighter} />
+            <ModelInstance assets={assets} highlight={highlight} onPick={onPick} focus={focus} onReady={setHighlighter} flash={flash} />
           </Suspense>
           {assets.info.model?.context && (
             <Suspense fallback={null}>
@@ -98,7 +109,7 @@ export default function AnatomyViewer({
           {pin && <PinLabel point={pin.point} label={pin.label} />}
           {highlighter && (
             <RegionTools
-              key={highlighter.base.uuid}
+              key={highlighter.target.uuid}
               highlighter={highlighter}
               assets={assets}
               onFraming={onFraming}
@@ -107,8 +118,9 @@ export default function AnatomyViewer({
               onPlateSelect={onPlateSelect}
             />
           )}
-          <CameraRig view={view} resetKey={resetKey} apiRef={cameraApi} />
+          <CameraRig view={view} resetKey={resetKey} apiRef={cameraApi} idle={idle} onBearing={readouts ? (az, el) => hud.current?.set(az, el) : undefined} />
         </Canvas>
+        {readouts && <ViewerHud ref={hud} />}
         <ModelLoading settling={!highlighter} />
       </div>
     </ViewerBoundary>
@@ -199,26 +211,29 @@ const GHOST_SLOT_X = 1.0
 const GHOST_HEIGHT = 0.85
 
 /**
- * Previous/next questions, drawn in a separate low-resolution canvas that only
- * renders when the question changes. CSS blurs and fades it, so it is cheap.
+ * Previous/next questions, drawn in a separate canvas that only renders when the question
+ * changes, faded by CSS at the edges of the view.
  */
 function GhostCarousel({ assets, prev, next, index }: { assets: ModuleAssets; prev?: Structure; next?: Structure; index: number }) {
   const el = useRef<HTMLDivElement>(null)
   // Slide in on every question change without remounting the canvas (no new WebGL context).
   useEffect(() => {
     if (reducedMotion()) return
-    el.current?.animate(
+    const e = el.current
+    if (!e) return
+    const css = getComputedStyle(e)
+    e.animate(
       [
         { opacity: 0, transform: 'translateX(4%)' },
-        { opacity: 0.38, transform: 'none' },
+        { opacity: css.opacity, transform: 'none' },
       ],
-      { duration: 250, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' },
+      { duration: parseFloat(css.getPropertyValue('--slow')) || 280, easing: css.getPropertyValue('--ease') || 'ease-out' },
     )
   }, [index])
   return (
     <div className="viewer-ghosts" ref={el} aria-hidden>
       <Canvas
-        dpr={0.5}
+        dpr={1}
         frameloop="demand"
         gl={{ antialias: false, alpha: true }}
         camera={{ fov: 30, position: [0, 0, 4] }}
@@ -243,7 +258,7 @@ function Ghost({ assets, structure, slot }: { assets: ModuleAssets; structure: S
   const rotated = new THREE.Vector3(...target).applyAxisAngle(new THREE.Vector3(0, 1, 0), -yaw).multiplyScalar(scale)
   return (
     <group position={[slot - rotated.x, -rotated.y, -rotated.z]} rotation={[0, -yaw, 0]} scale={scale}>
-      <ModelInstance assets={assets} highlight={meshKeys(structure.meshName)} glow={false} />
+      <ModelInstance assets={assets} highlight={meshKeys(structure.meshName)} />
     </group>
   )
 }

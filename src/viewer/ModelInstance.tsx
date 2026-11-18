@@ -8,7 +8,8 @@ import { publicUrl } from '../lib/paths'
 import { trackLoads } from '../state/modelLoads'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
 import { buildPlaceholder } from './placeholder'
-import { Highlighter, PALETTES } from './highlight'
+import { Highlighter } from './highlight'
+import { EdgeBuilder, glPalette, lineMaterial } from './hud'
 import { useResolvedTheme } from './useResolvedTheme'
 
 const DEG = Math.PI / 180
@@ -19,7 +20,6 @@ const MESHOPT = false
 interface InstanceProps {
   assets: ModuleAssets
   highlight: string[]
-  glow?: boolean
   /** Explore mode: report the tapped mesh name and the world-space point that was tapped. */
   onPick?: (meshName: string, point: [number, number, number]) => void
   onMatched?: (meshes: THREE.Mesh[]) => void
@@ -27,6 +27,8 @@ interface InstanceProps {
   focus?: string[]
   /** Hands over the instance's highlighter once its materials are set up (region framing, plate labels). */
   onReady?: (highlighter: Highlighter) => void
+  /** Increases on every right answer: the target turns briefly blue. */
+  flash?: number
 }
 
 /** Renders a module's model (GLB if present, otherwise primitives) with a highlight. */
@@ -70,17 +72,17 @@ function PlaceholderInstance(props: InstanceProps) {
   return <Highlighted key={root.uuid} root={root} {...props} />
 }
 
-function Highlighted({ root, highlight, glow = true, onPick, onMatched, focus, onReady }: InstanceProps & { root: THREE.Object3D }) {
+function Highlighted({ root, highlight, onPick, onMatched, focus, onReady, flash = 0 }: InstanceProps & { root: THREE.Object3D }) {
   const theme = useResolvedTheme()
   const invalidate = useThree((s) => s.invalidate)
-  const [highlighter] = useState(() => new Highlighter(root, PALETTES[theme], glow, focus?.length ? focus : null))
+  const [highlighter] = useState(() => new Highlighter(root, glPalette(), invalidate, focus?.length ? focus : null))
   const fade = useRef({ t: 1, from: 0 })
   const key = highlight.join('|')
 
   useEffect(() => () => highlighter.dispose(), [highlighter])
 
   useEffect(() => {
-    highlighter.setPalette(PALETTES[theme])
+    highlighter.setPalette(glPalette())
     invalidate()
   }, [highlighter, theme, invalidate])
 
@@ -95,15 +97,22 @@ function Highlighted({ root, highlight, glow = true, onPick, onMatched, focus, o
   }, [highlighter, key, invalidate])
 
   useEffect(() => {
+    if (!flash || reducedMotion()) return
+    highlighter.flash()
+    invalidate()
+  }, [flash, highlighter, invalidate])
+
+  useEffect(() => {
     onReady?.(highlighter)
     // Called once per instance.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [highlighter])
 
   useFrame(() => {
+    if (highlighter.tick()) invalidate()
     const f = fade.current
     if (f.t >= 1) return
-    // The highlight inks in over 250 ms (at once when the system asks for less motion).
+    // The target fills in over 250 ms (at once when the system asks for less motion).
     f.t = reducedMotion() ? 1 : Math.min(1, (performance.now() - f.from) / 250)
     highlighter.setProgress(1 - Math.pow(1 - f.t, 3))
     invalidate()
@@ -135,31 +144,30 @@ function EmbeddedContext({ file }: { file: string }) {
   return <ContextScene scene={gltf.scene} />
 }
 
+/** The backdrop drawn as faint lines only: no surface, not tappable. */
 function ContextScene({ scene }: { scene: THREE.Object3D }) {
   const theme = useResolvedTheme()
-  const root = useMemo(() => {
-    const clone = scene.clone(true)
-    const material = new THREE.MeshStandardMaterial({
-      color: PALETTES[theme].bone,
-      roughness: 0.8,
-      transparent: true,
-      opacity: theme === 'dark' ? 0.16 : 0.24,
-      depthWrite: false,
-    })
-    clone.traverse((o) => {
+  const invalidate = useThree((s) => s.invalidate)
+  const root = useMemo(() => scene.clone(true), [scene])
+  // A new material per theme; the edges themselves are cached, so redrawing them is immediate.
+  const lines = useMemo(() => (theme ? lineMaterial(glPalette(), 0.5) : null)!, [theme])
+  useEffect(() => {
+    const hidden = new THREE.MeshBasicMaterial({ visible: false })
+    const meshes: THREE.Mesh[] = []
+    root.traverse((o) => {
       const m = o as THREE.Mesh
       if (!m.isMesh) return
-      m.material = material
+      m.material = hidden
       m.renderOrder = -1
       m.raycast = () => {} // taps go to the module's own structures
+      meshes.push(m)
     })
-    return clone
-  }, [scene, theme])
-  useEffect(
-    () => () => {
-      root.traverse((o) => ((o as THREE.Mesh).material as THREE.Material | undefined)?.dispose?.())
-    },
-    [root],
-  )
+    const edges = new EdgeBuilder(meshes, () => lines, invalidate)
+    return () => {
+      edges.dispose()
+      hidden.dispose()
+    }
+  }, [root, lines, invalidate])
+  useEffect(() => () => lines.dispose(), [lines])
   return <primitive object={root} />
 }

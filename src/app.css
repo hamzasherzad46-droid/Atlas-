@@ -1031,12 +1031,12 @@
 .body-swatch {
   width: 9px;
   height: 9px;
-  transform: rotate(45deg);
-  border: 1px solid var(--layer);
+  border: var(--hair) solid currentColor;
 }
 
 .body-layer[aria-pressed='true'] .body-swatch {
-  background: var(--layer);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .body-panel {

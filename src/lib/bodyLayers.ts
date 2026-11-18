@@ -6,41 +6,38 @@ export type LayerId = 'skin' | 'muscles' | 'skeleton' | 'organs' | 'arteries' | 
 
 export interface LayerPart {
   file: string
-  /** Surface colour; `bone` uses the theme's bone colour. */
-  colour: string
 }
 
 export interface BodyLayer {
   id: LayerId
   parts: LayerPart[]
-  /** Opacity in X-ray mode (1 = solid). Outer layers become see-through. */
+  /** In X-ray mode, layers under 0.5 become a faint point cloud and can't be tapped (the outer layers). */
   xray: number
   /** Shown when the body viewer opens. */
   on: boolean
 }
 
 export const BODY_LAYERS: BodyLayer[] = [
-  { id: 'skin', parts: [{ file: 'body-skin.glb', colour: '#c9a689' }], xray: 0.1, on: true },
-  { id: 'muscles', parts: [{ file: 'body-muscles.glb', colour: '#8c4a3c' }], xray: 0.22, on: false },
-  { id: 'skeleton', parts: [{ file: 'skeleton-context.glb', colour: 'bone' }], xray: 0.9, on: true },
+  { id: 'skin', parts: [{ file: 'body-skin.glb' }], xray: 0.1, on: true },
+  { id: 'muscles', parts: [{ file: 'body-muscles.glb' }], xray: 0.22, on: false },
+  { id: 'skeleton', parts: [{ file: 'skeleton-context.glb' }], xray: 0.9, on: true },
   {
     id: 'organs',
     // The organ modules' own models, so a tapped organ finds its study notes; glands and eyes come from the body build.
     parts: [
-      { file: 'heart.glb', colour: '#a0443c' },
-      { file: 'airways.glb', colour: '#b07a78' },
-      { file: 'digestive.glb', colour: '#7a8450' },
-      { file: 'urinary.glb', colour: '#8a6047' },
-      { file: 'reproductive.glb', colour: '#85607a' },
-      { file: 'body-glands.glb', colour: '#a28a62' },
+      { file: 'heart.glb' },
+      { file: 'airways.glb' },
+      { file: 'digestive.glb' },
+      { file: 'urinary.glb' },
+      { file: 'reproductive.glb' },
+      { file: 'body-glands.glb' },
     ],
     xray: 1,
     on: true,
   },
-  // Arteries red, veins a dusky violet: the anatomical convention, kept within the house palette.
-  { id: 'arteries', parts: [{ file: 'body-arteries.glb', colour: '#a33a33' }], xray: 1, on: false },
-  { id: 'veins', parts: [{ file: 'body-veins.glb', colour: '#5e5874' }], xray: 1, on: false },
-  { id: 'nervous', parts: [{ file: 'body-nervous.glb', colour: '#cdb67a' }], xray: 1, on: false },
+  { id: 'arteries', parts: [{ file: 'body-arteries.glb' }], xray: 1, on: false },
+  { id: 'veins', parts: [{ file: 'body-veins.glb' }], xray: 1, on: false },
+  { id: 'nervous', parts: [{ file: 'body-nervous.glb' }], xray: 1, on: false },
 ]
 
 export type BodyMode = 'look' | 'xray' | 'separate' | 'cut'
