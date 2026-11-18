@@ -184,30 +184,104 @@
 
 /* ---------- Today ---------- */
 
-/* The date, and the greeting with the student's name: small, above the one thing that leads. */
-.today-date {
-  padding: var(--s-5) 0 var(--s-4);
+/* The instrument: the body edge to edge, the heading tape over it, a readout in each corner.
+   It takes the screen down to the module and its button, which sit just above the tab bar. */
+.today-hero {
+  position: relative;
+  margin-inline: calc(-1 * var(--pad));
+  height: max(var(--hero-min), calc(100svh - var(--safe-top) - var(--s-2) - var(--masthead-h) - var(--hero-dock) - var(--tabbar-h) - var(--safe-bottom)));
+  border-bottom: var(--hair) solid var(--line);
 }
 
-.today-date .small {
-  margin-top: var(--s-1);
+/* The page scrolls over the body: it never takes a touch. */
+.hero-viewer {
+  touch-action: auto;
+  pointer-events: none;
 }
 
-/* The one thing to do next: the module's cover, its name, progress and one brass button. */
+.hero-ro {
+  position: absolute;
+  z-index: 3;
+  text-shadow: var(--halo);
+}
+
+.hero-tl,
+.hero-tr {
+  top: calc(var(--tape-h) + var(--s-3));
+}
+
+.hero-bl,
+.hero-br {
+  bottom: var(--s-3);
+}
+
+.hero-tl,
+.hero-bl {
+  inset-inline-start: var(--pad);
+}
+
+.hero-tr,
+.hero-br {
+  inset-inline-end: var(--pad);
+}
+
+.ro-v.live {
+  color: var(--accent);
+}
+
+.hero-today {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The module to continue and the one button. */
 .resume {
-  padding: 0 0 var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-4) 0 var(--s-2);
 }
 
-.resume .label {
-  margin-bottom: var(--s-2);
+.resume-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  min-width: 0;
 }
 
+.resume-title {
+  min-width: 0;
+  font-size: var(--fs-3);
+  line-height: var(--lh-section);
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--ls-section);
+}
+
+.resume-count,
+.resume-meta,
+.resume-region {
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.resume-count,
 .resume-meta {
-  margin: var(--s-2) 0 var(--s-4);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .resume-go {
-  margin-top: var(--s-5);
+  margin-top: var(--s-2);
+}
+
+/* The date, and the greeting with the student's name, where the lists begin. */
+.today-date {
+  padding: var(--s-5) 0 0;
+}
+
+.today-date .tiny {
+  margin-top: var(--s-1);
+  color: var(--fg-2);
 }
 
 /* ---------- Atlas ---------- */

@@ -80,6 +80,7 @@
 
 .tape-figure {
   position: absolute;
+  text-shadow: var(--halo);
   bottom: calc(var(--tick-major) + var(--s-1));
   left: 50%;
   transform: translateX(-50%);
@@ -99,6 +100,7 @@
 
 .viewer-azel {
   position: absolute;
+  text-shadow: var(--halo);
   left: var(--pad);
   bottom: var(--s-3);
   font-variant-numeric: tabular-nums;

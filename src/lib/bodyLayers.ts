@@ -103,3 +103,6 @@ export function displayName(source: string): string {
   name = name.charAt(0).toUpperCase() + name.slice(1)
   return side ? `${name} (${side})` : name
 }
+
+/** The body on Today: its outline and its bones, drawn as point clouds. */
+export const HERO_MODELS = { skin: 'body-skin.glb', bones: 'skeleton-context.glb' }

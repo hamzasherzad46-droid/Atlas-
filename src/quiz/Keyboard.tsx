@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, type ReactNode } from 'react'
 import { BackspaceIcon, ReturnIcon } from '../components/Icons'
+import { motion } from '../lib/motion'
 import type { KeyInput } from '../lib/typing'
 import type { KeyFlash } from '../state/quiz'
 
@@ -14,7 +15,7 @@ interface Props {
   labels: { hint: string; skip: string; space: string }
 }
 
-/** Custom on-screen QWERTY keyboard. Keys darken when pressed; a wrong key flashes the error colour. */
+/** Custom on-screen QWERTY keyboard in hairlines. A key lights at once when pressed; a wrong key flashes the error colour. */
 export const Keyboard = memo(function Keyboard({ flash, onKey, onSkip, awaitingEnter, disabled, labels }: Props) {
   return (
     // Answers are typed in Latin letters, so the keyboard stays left-to-right in every language.
@@ -62,8 +63,8 @@ function Key({ id, label, aria, wide, space, accent, flash, onPress }: KeyProps)
             { background: 'var(--bad)', color: 'var(--bg)' },
             { background: 'var(--bg)', color: 'var(--fg)' },
           ]
-        : [{ background: 'var(--bg-3)' }, { background: 'var(--bg)' }],
-      { duration: wrong ? 250 : 150, easing: 'ease-out' },
+        : [{ background: 'var(--press)' }, { background: 'var(--bg)' }],
+      motion(wrong ? '--mid' : '--fast'),
     )
   }, [hit])
 

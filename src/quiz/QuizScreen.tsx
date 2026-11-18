@@ -66,19 +66,24 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
     return () => clearTimeout(tm)
   }, [done, paused, q.index, q.lastOutcome])
 
-  // Clocks: whole-exam limit and per-question timer.
-  const ticking = q.phase !== 'finished' && (q.endsAt !== null || q.qDeadline !== null)
+  // Clocks: the session's time readout every second; a whole-exam limit and a per-question timer
+  // every tenth of a second, so their lines move smoothly.
+  const running = q.phase !== 'finished' && q.startedAt > 0
+  const timed = q.endsAt !== null || q.qDeadline !== null
   useEffect(() => {
-    if (!ticking) return
-    const tm = setInterval(() => {
-      const st = useQuiz.getState()
-      const n = Date.now()
-      setNow(n)
-      if (st.endsAt && n >= st.endsAt) st.finish()
-      else if (st.qDeadline && n >= st.qDeadline) st.timeout()
-    }, 100)
+    if (!running) return
+    const tm = setInterval(
+      () => {
+        const st = useQuiz.getState()
+        const n = Date.now()
+        setNow(n)
+        if (st.endsAt && n >= st.endsAt) st.finish()
+        else if (st.qDeadline && n >= st.qDeadline) st.timeout()
+      },
+      timed ? 100 : 1000,
+    )
     return () => clearInterval(tm)
-  }, [ticking])
+  }, [running, timed])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -132,6 +137,8 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   const qLeft = q.qDeadline ? Math.max(0, q.qDeadline - now) : null
   const qFrac = qLeft !== null && config.answerTimer ? qLeft / (config.answerTimer * 1000) : null
   const note = noteFor(current, track)
+  // Readout figures: two digits, in the language's own numerals.
+  const two = (v: number) => new Intl.NumberFormat(t.locale, { minimumIntegerDigits: 2 }).format(v)
   const showDefinition = config.mode !== 'hard' || done
 
   const kindLabel =
@@ -199,14 +206,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
       <ScreenBar
         close
         label={t('quiz.end')}
-        title={
-          <>
-            {kindLabel} · <bdi dir="ltr">{Math.min(q.index + 1, q.queue.length)} / {q.queue.length}</bdi>
-          </>
-        }
-        end={
-          <span className={`quiz-clock num${examLeft !== null && examLeft < 30_000 ? ' warn' : ''}`}>{examLeft !== null ? formatClock(examLeft) : ''}</span>
-        }
+        title={kindLabel}
       />
       <div className="quiz-progress" aria-hidden>
         <span style={{ width: `${(q.index / Math.max(q.queue.length, 1)) * 100}%` }} />
@@ -215,7 +215,21 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
         {qFrac !== null && <span className={`timer-fill${qFrac < 0.3 ? ' low' : ''}`} style={{ transform: `scaleX(${qFrac})` }} />}
       </div>
 
-      <div className="quiz-viewer viewer-fade">
+      <div className="quiz-viewer">
+        {/* Instrument readouts: which target of how many, and the time (left, in a timed exam). */}
+        <div className="ro quiz-ro quiz-ro-start">
+          <span className="hud">{t('quiz.target')}</span>
+          <span className="ro-v" dir="ltr">
+            {two(Math.min(q.index + 1, q.queue.length))}
+            <small> / {two(q.queue.length)}</small>
+          </span>
+        </div>
+        <div className="ro ro-end quiz-ro quiz-ro-end">
+          <span className="hud">{examLeft !== null ? t('quiz.timeLeft') : t('summary.time')}</span>
+          <span className={`ro-v${examLeft !== null && examLeft < 30_000 ? ' live' : ''}`}>
+            {formatClock(examLeft ?? Math.max(0, now - q.startedAt))}
+          </span>
+        </div>
         <Suspense fallback={<ModelLoading always />}>
           <AnatomyViewer
             assets={assets}

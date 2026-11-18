@@ -48,7 +48,7 @@
 /* Session progress: a hairline across the full width. */
 .quiz-progress {
   position: relative;
-  height: 2px;
+  height: var(--hair);
   background: var(--line);
   flex-shrink: 0;
 }
@@ -61,9 +61,9 @@
   transition: width var(--slow) var(--ease);
 }
 
-/* Per-question countdown under it; amber when time is short. */
+/* Per-question countdown under it; the accent when time is short. */
 .timer-track {
-  height: 2px;
+  height: var(--hair);
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -88,23 +88,37 @@
   flex: 1 1 auto;
   min-height: 180px;
   position: relative;
+  border-bottom: var(--hair) solid var(--line);
 }
 
-.viewer-fade {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+/* TARGET and TIME in the upper corners, under the heading tape. */
+.quiz-ro {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--tape-h) + var(--s-3));
+  pointer-events: none;
+  text-shadow: var(--halo);
+}
+
+.quiz-ro-start {
+  inset-inline-start: var(--pad);
+}
+
+.quiz-ro-end {
+  inset-inline-end: var(--pad);
 }
 
 .quiz-answer {
   position: relative;
   flex-shrink: 0;
   min-height: 166px;
-  padding: 2px var(--pad) 12px;
+  padding: var(--s-3) var(--pad) var(--s-3);
   text-align: center;
 }
 
 .quiz-prompt {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
+  color: var(--fg-2);
 }
 
 /* The answer word: the hero of the quiz. */
@@ -142,28 +156,28 @@
   width: 0.28em;
 }
 
+/* Learn mode: the word is there to copy, in the secondary grey. */
 .answer-ch.ghost {
   color: var(--fg-2);
-  opacity: 0.55;
+  opacity: var(--ghost-letter);
 }
 
-/* A letter settles onto the line as it is typed: a short fade and a 2 px drop. */
+/* A typed letter fades in from 40 % over 120 ms. */
 .answer-ch.typed {
   color: var(--fg);
-  animation: settle var(--fast) var(--ease) both;
+  animation: letter-in var(--fast) var(--ease) both;
 }
 
-@keyframes settle {
+@keyframes letter-in {
   from {
-    opacity: 0.35;
-    transform: translateY(-2px);
+    opacity: 0.4;
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
+/* Letters still to type: a hairline underscore each. */
 .answer-ch.dash {
   color: transparent;
 }
@@ -171,20 +185,21 @@
 .answer-ch.dash::after {
   content: '';
   position: absolute;
-  inset-inline: 14%;
-  bottom: 0.14em;
-  height: 1.5px;
+  inset-inline: 12%;
+  bottom: 0.12em;
+  height: var(--hair);
   background: var(--fg-2);
 }
 
+/* A thin caret. */
 .caret::before {
   content: '';
   position: absolute;
-  left: -1px;
-  top: 0.1em;
-  bottom: 0.1em;
-  width: 2px;
-  background: var(--accent);
+  left: 0;
+  top: 0.12em;
+  bottom: 0.12em;
+  width: var(--hair);
+  background: var(--fg);
   animation: caret-blink 1.05s steps(1) infinite;
 }
 
@@ -193,7 +208,7 @@
   min-width: 0;
 }
 
-/* A right answer inks in verdigris; a missed one in the error colour. */
+/* A right answer turns the accent; a missed one the error colour. */
 .answer-ok .answer-ch,
 .answer-fail .answer-ch {
   transition: color var(--mid) var(--ease);
@@ -272,15 +287,15 @@
   margin-top: 8px;
 }
 
-/* ---------- Keyboard ---------- */
+/* ---------- Keyboard: black keys drawn in hairlines ---------- */
 .kb {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 8px 4px 12px;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-1) var(--s-3);
   background: var(--bg);
-  border-top: 1px solid var(--line);
+  border-top: var(--hair) solid var(--line);
   transition: opacity var(--mid) var(--ease);
 }
 
@@ -291,57 +306,60 @@
 .kb-row {
   display: flex;
   justify-content: center;
-  gap: 4px;
+  gap: var(--s-1);
 }
 
 .kb-key {
   flex: 0 1 9.3%;
-  height: 44px;
+  height: var(--key-h);
+  border: var(--hair) solid var(--line-strong);
   border-radius: var(--radius);
   background: var(--bg);
-  box-shadow: 0 1px 0 var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--fs-3);
-  font-weight: var(--fw-regular);
+  font-weight: var(--fw-light);
   text-transform: lowercase;
   color: var(--fg);
 }
 
+.kb-key:active {
+  background: var(--press);
+}
+
+/* Hint, Skip, Space and the two icon keys: words in the secondary grey. */
 .kb-wide {
   flex: 0 1 13.5%;
-  background: var(--bg);
   font-size: var(--fs-5);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-regular);
   text-transform: none;
+  color: var(--fg-2);
 }
 
 .kb-space {
   flex: 1 1 50%;
   font-size: var(--fs-5);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-regular);
   color: var(--fg-2);
 }
 
 /* Return when an answer is waiting to be confirmed. */
 .kb-accent {
+  border-color: var(--fg);
   background: var(--fg);
   color: var(--bg);
 }
 
 @media (min-width: 700px) {
   .kb-key {
-    height: 48px;
+    height: var(--tap);
   }
 }
 
 @media (max-height: 680px) {
-  .kb-key {
-    height: 44px;
-  }
   .kb {
-    gap: 8px;
+    gap: var(--s-1);
   }
   .quiz-answer {
     min-height: 128px;
@@ -354,38 +372,60 @@
 }
 
 .summary-inner {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 12px var(--pad) 48px;
+  min-height: 100%;
+  padding: var(--s-3) var(--pad) var(--s-6);
 }
 
+.summary-head {
+  padding: var(--s-5) 0 var(--s-5);
+}
+
+.summary-head .label {
+  color: var(--fg-2);
+}
+
+/* The score: the one big number. */
 .summary-score {
+  margin-top: var(--s-2);
   font-size: var(--fs-hero);
-  line-height: var(--lh-title);
-  font-weight: var(--fw-light);
   letter-spacing: var(--ls-hero);
 }
 
 .summary-score .of {
   font-size: var(--fs-2);
+  letter-spacing: var(--ls-title);
   color: var(--fg-2);
-  font-weight: var(--fw-light);
 }
 
-.summary .titleblock .lede {
+.summary-head .lede {
   margin-top: var(--s-3);
 }
 
-/* Accuracy and time: one small line under the score, not figures of their own. */
-.summary-line {
-  margin-top: var(--s-2);
+/* Accuracy, time and new structures: three cells between hairlines, edge to edge. */
+.summary-ro {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-inline: calc(-1 * var(--pad));
+  border-block: var(--hair) solid var(--line);
+}
+
+.summary-ro .ro {
+  padding: var(--s-4) var(--pad);
+}
+
+.summary-ro .ro + .ro {
+  border-inline-start: var(--hair) solid var(--line);
 }
 
 .summary-actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+  gap: var(--s-3);
+  margin-top: auto;
+  padding-top: var(--s-5);
 }
 
 /* ---------- Flashcards: an index card ---------- */

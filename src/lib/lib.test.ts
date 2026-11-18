@@ -4,7 +4,8 @@ import { meshMatchesKey, meshSide, mostSpecific } from './meshMatch'
 import { INTERVALS, isMissed, prioritise, updateRecord } from './srs'
 import { placeTags } from './plates'
 import { MOCK_LENGTHS, buildMock, topicScores } from './mock'
-import { BODY_LAYERS, CUT_RANGE, EXPLODE_MAX, EXPLODE_ORIGIN, cutPlane, displayName, explodeOffset } from './bodyLayers'
+import { BODY_LAYERS, CUT_RANGE, EXPLODE_MAX, EXPLODE_ORIGIN, HERO_MODELS, cutPlane, displayName, explodeOffset } from './bodyLayers'
+import { bearingText } from './format'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -277,5 +278,18 @@ describe('whole-body model', () => {
   it('every layer file exists, and organs reuse the module models', () => {
     for (const l of BODY_LAYERS) for (const p of l.parts) expect(existsSync(join(modelsDir, p.file)), p.file).toBe(true)
     expect(BODY_LAYERS.map((l) => l.id)).toEqual(['skin', 'muscles', 'skeleton', 'organs', 'arteries', 'veins', 'nervous'])
+  })
+})
+
+describe('3D readouts', () => {
+  it('writes the bearing as three-digit azimuth and signed two-digit elevation', () => {
+    expect(bearingText(30, 4, 'Az', 'El')).toBe('Az 030 · El +04')
+    expect(bearingText(0, 0, 'Az', 'El')).toBe('Az 000 · El +00')
+    expect(bearingText(359, -12, 'Az', 'El')).toBe('Az 359 · El −12')
+  })
+
+  it("Today's body uses model files that exist", () => {
+    const models = fileURLToPath(new URL('../../public/models/', import.meta.url))
+    for (const file of Object.values(HERO_MODELS)) expect(existsSync(join(models, file)), file).toBe(true)
   })
 })

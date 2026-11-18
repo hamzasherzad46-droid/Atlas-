@@ -134,12 +134,21 @@
   --mid: 200ms;
   --slow: 280ms;
   --stagger: 20ms; /* between rows of a list as it appears */
+  --count: 250ms; /* numbers counting up to their value */
 
   --tabbar-h: 56px;
+  --masthead-h: 52px;
+  /* Today: the body fills the screen down to the module and its button (the dock), never shorter than --hero-min. */
+  --hero-dock: 10.5rem;
+  --hero-min: 18rem;
   /* The heading tape along the top of a 3D view. */
   --tape-h: 2.125rem;
   /* The neighbouring questions at the edges of the quiz view. */
-  --ghost-opacity: 0.3;
+  --ghost-opacity: 0.2;
+  /* Learn mode's letters to copy. */
+  --ghost-letter: 0.55;
+  /* Readouts over a 3D view: a halo in the page colour keeps them legible over the line drawing. */
+  --halo: 0 0 3px var(--bg), 0 0 8px var(--bg);
   --tick: 5px;
   --tick-major: 9px;
   --safe-top: env(safe-area-inset-top, 0px);
@@ -348,6 +357,16 @@ a {
   color: var(--fg-2);
 }
 
+/* Read by screen readers, not shown. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* ---------- Page ---------- */
 .page {
   min-height: 100%;
@@ -363,7 +382,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: var(--s-3);
-  min-height: 52px;
+  min-height: var(--masthead-h);
   border-bottom: var(--hair) solid var(--line);
 }
 

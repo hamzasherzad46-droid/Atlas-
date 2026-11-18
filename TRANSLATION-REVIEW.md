@@ -6,18 +6,21 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (109)
+### Missing: shown in English (121)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
+| `quiz.target` | Target |
+| `quiz.timeLeft` | Time left |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
 | `mod.mistakesSub` | {n} to answer again |
 | `summary.result` | You got {a} of {b} right first time. |
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
+| `summary.new` | New |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
@@ -93,6 +96,15 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.change` | Change course |
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
+| `today.readouts` | Your study at a glance |
+| `today.streak` | Streak |
+| `today.dueShort` | Due |
+| `today.noAnswers` | No answers yet |
+| `today.count` | Today {a} / {b} |
+| `today.structures` | {n} structures |
+| `today.resume` | Resume |
+| `unit.day` | day |
+| `unit.days` | days |
 | `today.study` | Today’s study |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
@@ -156,7 +168,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.identifySub` | Tap the named structure on the model | “Find the named structure on the model and tap it” became “Tap the named structure on the model”. | Trouver la structure nommée sur le modèle et la toucher |
 | `summary.session` | Quiz finished | “Session complete” became “Quiz finished”. | Séance terminée |
 | `summary.exam` | Timed exam finished | “Timed exam complete” became “Timed exam finished”. | Examen terminé |
-| `summary.fix` | Fix mistakes | “Fix these now” became “Fix mistakes” (one name for the feature). | Les corriger maintenant |
+| `summary.fix` | Retry missed | “Fix these now” became “Fix mistakes” (one name for the feature). | Les corriger maintenant |
 | `cards.done` | Deck finished | “Deck complete” became “Deck finished”. | Paquet terminé |
 | `progress.exams` | Timed and mock exams | “Exams” became “Timed and mock exams”. | Examens |
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | Aucun examen pour l’instant. |
@@ -195,18 +207,21 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (109)
+### Missing: shown in English (121)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
+| `quiz.target` | Target |
+| `quiz.timeLeft` | Time left |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
 | `mod.mistakesSub` | {n} to answer again |
 | `summary.result` | You got {a} of {b} right first time. |
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
+| `summary.new` | New |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
@@ -282,6 +297,15 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.change` | Change course |
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
+| `today.readouts` | Your study at a glance |
+| `today.streak` | Streak |
+| `today.dueShort` | Due |
+| `today.noAnswers` | No answers yet |
+| `today.count` | Today {a} / {b} |
+| `today.structures` | {n} structures |
+| `today.resume` | Resume |
+| `unit.day` | day |
+| `unit.days` | days |
 | `today.study` | Today’s study |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
@@ -345,7 +369,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.identifySub` | Tap the named structure on the model | “Find the named structure on the model and tap it” became “Tap the named structure on the model”. | Die genannte Struktur am Modell finden und antippen |
 | `summary.session` | Quiz finished | “Session complete” became “Quiz finished”. | Sitzung beendet |
 | `summary.exam` | Timed exam finished | “Timed exam complete” became “Timed exam finished”. | Prüfung beendet |
-| `summary.fix` | Fix mistakes | “Fix these now” became “Fix mistakes” (one name for the feature). | Jetzt korrigieren |
+| `summary.fix` | Retry missed | “Fix these now” became “Fix mistakes” (one name for the feature). | Jetzt korrigieren |
 | `cards.done` | Deck finished | “Deck complete” became “Deck finished”. | Stapel fertig |
 | `progress.exams` | Timed and mock exams | “Exams” became “Timed and mock exams”. | Prüfungen |
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | Noch keine Prüfungen. |
@@ -382,18 +406,21 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (109)
+### Missing: shown in English (121)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
+| `quiz.target` | Target |
+| `quiz.timeLeft` | Time left |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
 | `mod.mistakesSub` | {n} to answer again |
 | `summary.result` | You got {a} of {b} right first time. |
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
+| `summary.new` | New |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
@@ -469,6 +496,15 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.change` | Change course |
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
+| `today.readouts` | Your study at a glance |
+| `today.streak` | Streak |
+| `today.dueShort` | Due |
+| `today.noAnswers` | No answers yet |
+| `today.count` | Today {a} / {b} |
+| `today.structures` | {n} structures |
+| `today.resume` | Resume |
+| `unit.day` | day |
+| `unit.days` | days |
 | `today.study` | Today’s study |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
@@ -532,7 +568,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.identifySub` | Tap the named structure on the model | “Find the named structure on the model and tap it” became “Tap the named structure on the model”. | ابحث عن التركيب المذكور على النموذج واضغط عليه |
 | `summary.session` | Quiz finished | “Session complete” became “Quiz finished”. | انتهت الجلسة |
 | `summary.exam` | Timed exam finished | “Timed exam complete” became “Timed exam finished”. | انتهى الاختبار |
-| `summary.fix` | Fix mistakes | “Fix these now” became “Fix mistakes” (one name for the feature). | صحّحها الآن |
+| `summary.fix` | Retry missed | “Fix these now” became “Fix mistakes” (one name for the feature). | صحّحها الآن |
 | `cards.done` | Deck finished | “Deck complete” became “Deck finished”. | اكتملت المجموعة |
 | `progress.exams` | Timed and mock exams | “Exams” became “Timed and mock exams”. | الاختبارات |
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | لا اختبارات بعد. |
@@ -563,18 +599,21 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (109)
+### Missing: shown in English (121)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
+| `quiz.target` | Target |
+| `quiz.timeLeft` | Time left |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
 | `mod.mistakesSub` | {n} to answer again |
 | `summary.result` | You got {a} of {b} right first time. |
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
+| `summary.new` | New |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
@@ -650,6 +689,15 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.change` | Change course |
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
+| `today.readouts` | Your study at a glance |
+| `today.streak` | Streak |
+| `today.dueShort` | Due |
+| `today.noAnswers` | No answers yet |
+| `today.count` | Today {a} / {b} |
+| `today.structures` | {n} structures |
+| `today.resume` | Resume |
+| `unit.day` | day |
+| `unit.days` | days |
 | `today.study` | Today’s study |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
@@ -713,7 +761,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.identifySub` | Tap the named structure on the model | “Find the named structure on the model and tap it” became “Tap the named structure on the model”. | Найдите названную структуру на модели и коснитесь её |
 | `summary.session` | Quiz finished | “Session complete” became “Quiz finished”. | Занятие завершено |
 | `summary.exam` | Timed exam finished | “Timed exam complete” became “Timed exam finished”. | Экзамен завершён |
-| `summary.fix` | Fix mistakes | “Fix these now” became “Fix mistakes” (one name for the feature). | Исправить сейчас |
+| `summary.fix` | Retry missed | “Fix these now” became “Fix mistakes” (one name for the feature). | Исправить сейчас |
 | `cards.done` | Deck finished | “Deck complete” became “Deck finished”. | Колода пройдена |
 | `progress.exams` | Timed and mock exams | “Exams” became “Timed and mock exams”. | Экзамены |
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | Экзаменов пока нет. |
@@ -745,18 +793,21 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (109)
+### Missing: shown in English (121)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
+| `quiz.target` | Target |
+| `quiz.timeLeft` | Time left |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
 | `mod.mistakesSub` | {n} to answer again |
 | `summary.result` | You got {a} of {b} right first time. |
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
+| `summary.new` | New |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
@@ -832,6 +883,15 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.change` | Change course |
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
+| `today.readouts` | Your study at a glance |
+| `today.streak` | Streak |
+| `today.dueShort` | Due |
+| `today.noAnswers` | No answers yet |
+| `today.count` | Today {a} / {b} |
+| `today.structures` | {n} structures |
+| `today.resume` | Resume |
+| `unit.day` | day |
+| `unit.days` | days |
 | `today.study` | Today’s study |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
@@ -895,7 +955,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mod.identifySub` | Tap the named structure on the model | “Find the named structure on the model and tap it” became “Tap the named structure on the model”. | 在模型上找到所给结构并点按 |
 | `summary.session` | Quiz finished | “Session complete” became “Quiz finished”. | 练习完成 |
 | `summary.exam` | Timed exam finished | “Timed exam complete” became “Timed exam finished”. | 测验完成 |
-| `summary.fix` | Fix mistakes | “Fix these now” became “Fix mistakes” (one name for the feature). | 现在纠正 |
+| `summary.fix` | Retry missed | “Fix these now” became “Fix mistakes” (one name for the feature). | 现在纠正 |
 | `cards.done` | Deck finished | “Deck complete” became “Deck finished”. | 本组完成 |
 | `progress.exams` | Timed and mock exams | “Exams” became “Timed and mock exams”. | 测验 |
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | 暂无测验。 |
@@ -924,18 +984,21 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (109)
+### Missing: shown in English (121)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
 | `atlas.focus` | Short modules |
+| `quiz.target` | Target |
+| `quiz.timeLeft` | Time left |
 | `mod.settingsNote` | These settings apply to the three tests below. |
 | `mod.more` | Exam and review |
 | `mod.mistakesSub` | {n} to answer again |
 | `summary.result` | You got {a} of {b} right first time. |
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
+| `summary.new` | New |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
@@ -1011,6 +1074,15 @@ None.
 | `course.change` | Change course |
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
+| `today.readouts` | Your study at a glance |
+| `today.streak` | Streak |
+| `today.dueShort` | Due |
+| `today.noAnswers` | No answers yet |
+| `today.count` | Today {a} / {b} |
+| `today.structures` | {n} structures |
+| `today.resume` | Resume |
+| `unit.day` | day |
+| `unit.days` | days |
 | `today.study` | Today’s study |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
@@ -1074,7 +1146,7 @@ None.
 | `mod.identifySub` | Tap the named structure on the model | “Find the named structure on the model and tap it” became “Tap the named structure on the model”. | 모델에서 이름의 구조를 찾아 누르세요 |
 | `summary.session` | Quiz finished | “Session complete” became “Quiz finished”. | 세션 완료 |
 | `summary.exam` | Timed exam finished | “Timed exam complete” became “Timed exam finished”. | 시험 완료 |
-| `summary.fix` | Fix mistakes | “Fix these now” became “Fix mistakes” (one name for the feature). | 지금 고치기 |
+| `summary.fix` | Retry missed | “Fix these now” became “Fix mistakes” (one name for the feature). | 지금 고치기 |
 | `cards.done` | Deck finished | “Deck complete” became “Deck finished”. | 카드 묶음 완료 |
 | `progress.exams` | Timed and mock exams | “Exams” became “Timed and mock exams”. | 시험 |
 | `progress.noExams` | No timed or mock exams yet. | “No exams yet.” became “No timed or mock exams yet.” | 아직 본 시험이 없어요. |

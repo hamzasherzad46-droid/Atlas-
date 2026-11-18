@@ -19,7 +19,7 @@ screen by `scripts/check-navigation.cjs` (output below).
   (*femr*, *oesophagis*). A result opens its page directly: a structure opens in 3D, selected and in view.
 - **A reload (or reopening the app within 12 hours) returns to the same screen**, with the same way back,
   and a search keeps its words. A quiz, deck or mock exam in progress is not reopened mid-question: the
-  screen it was started from comes back, where *Continue spelling quiz* picks it up. Each page keeps its own
+  screen it was started from comes back, where *Resume* picks it up. Each page keeps its own
   scroll position; a page opened anew starts at the top.
 - **Back goes to the previous screen**, not to a fixed parent. The app keeps a history of screens and
   adds a browser history entry for each, so the in-app Back, the browser's back button and the phone's

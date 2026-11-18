@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef } from 'react'
 import type { QuizMode } from '../state/settings'
 import type { Outcome } from '../lib/srs'
-import { reducedMotion } from '../lib/motion'
+import { motion, reducedMotion } from '../lib/motion'
 import { revealedLetters } from '../lib/typing'
 
 interface Props {
@@ -26,7 +26,7 @@ export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: P
     // A small horizontal shake, settling quickly: no bounce.
     el.current?.animate(
       [{ transform: 'none' }, { transform: 'translateX(-4px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-1px)' }, { transform: 'none' }],
-      { duration: 220, easing: 'ease-out' },
+      motion('--mid'),
     )
   }, [wrongCount])
 

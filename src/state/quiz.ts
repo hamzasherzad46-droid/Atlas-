@@ -56,6 +56,8 @@ interface QuizState {
   pool: Structure[]
   /** Multiple choice: the structure ids on offer for this question. */
   choices: string[]
+  /** Questions on structures the student had never answered before this session (for "New" on the results). */
+  unseen: string[]
   /** The choice made, or the structure tapped when identifying (null if a tap hit nothing named). */
   picked: string | null
   init(config: SessionConfig, structures: Structure[], pool?: Structure[]): void
@@ -173,6 +175,7 @@ const fresh = {
   endsAt: null,
   choices: [] as string[],
   picked: null as string | null,
+  unseen: [] as string[],
 }
 
 export const useQuiz = create<QuizState>()((set, get) => {
@@ -240,9 +243,11 @@ export const useQuiz = create<QuizState>()((set, get) => {
       // Answer choices may come from the wider pool, so their names and details must be known too.
       const byId = Object.fromEntries([...wider, ...structures].map((s) => [s.id, s]))
       set({ pool: wider })
-      const queue = buildQueue(config, structures, useProgress.getState().records)
+      const records = useProgress.getState().records
+      const queue = buildQueue(config, structures, records)
+      const unseen = queue.filter((id) => !records[id]?.attempts)
       const now = Date.now()
-      set({ ...fresh, config, byId, queue, startedAt: now, endsAt: config.timeLimitMs ? now + config.timeLimitMs : null })
+      set({ ...fresh, config, byId, queue, unseen, startedAt: now, endsAt: config.timeLimitMs ? now + config.timeLimitMs : null })
       loadQuestion(0)
       if (!queue.length) set({ phase: 'finished', finishedAt: now })
     },

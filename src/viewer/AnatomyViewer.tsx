@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import type { CameraView, Structure } from '../content/types'
 import type { ModuleAssets } from '../content/useModule'
 import { ModelLoading } from '../components/ModelLoading'
-import { reducedMotion } from '../lib/motion'
+import { motion, reducedMotion } from '../lib/motion'
 import { meshKeys } from '../lib/meshMatch'
 import type { Highlighter } from './highlight'
 import { onSide, plateAnchors, viewForMeshes, type PlateAnchor } from './plate'
@@ -221,13 +221,12 @@ function GhostCarousel({ assets, prev, next, index }: { assets: ModuleAssets; pr
     if (reducedMotion()) return
     const e = el.current
     if (!e) return
-    const css = getComputedStyle(e)
     e.animate(
       [
         { opacity: 0, transform: 'translateX(4%)' },
-        { opacity: css.opacity, transform: 'none' },
+        { opacity: getComputedStyle(e).opacity, transform: 'none' },
       ],
-      { duration: parseFloat(css.getPropertyValue('--slow')) || 280, easing: css.getPropertyValue('--ease') || 'ease-out' },
+      motion('--slow'),
     )
   }, [index])
   return (

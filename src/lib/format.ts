@@ -35,3 +35,9 @@ export function roman(n: number): string {
   }
   return out
 }
+
+/** "Az 030 · El +04": a 3D view's bearing, in whole degrees, as the readout shows it. */
+export function bearingText(az: number, el: number, azLabel: string, elLabel: string): string {
+  const sign = el < 0 ? '−' : '+'
+  return `${azLabel} ${String(az).padStart(3, '0')} · ${elLabel} ${sign}${String(Math.abs(el)).padStart(2, '0')}`
+}

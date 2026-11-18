@@ -270,19 +270,19 @@ async function audit(p) {
       await p.goBack()
       await p.waitForTimeout(500)
       ok = await onToday(p)
-      // A quiz interrupted by a reload reopens the screen it was started from, with Continue.
+      // A quiz interrupted by a reload reopens the screen it was started from, with Resume.
       await p.getByRole('button', { name: /^Start spelling quiz/ }).first().click()
       await p.getByRole('button', { name: 'End session' }).waitFor()
       await p.reload()
       await p.getByText('Your course', { exact: true }).waitFor()
-      interrupted = await p.getByRole('button', { name: /^Continue spelling quiz/ }).first().isVisible()
+      interrupted = await p.getByRole('button', { name: /^Resume/ }).first().isVisible()
     } catch (e) {
       errors.push(`after reload: ${e.message.split('\n')[0]}`)
     }
     if (!reopened || !ok || !interrupted) failed++
     console.log(`\nA reload reopens the open screen: ${reopened ? 'yes' : 'NO'}`)
     console.log(`Back on the first press after a reload: ${ok ? 'yes' : 'NO'}`)
-    console.log(`An interrupted quiz reopens where it was started, with Continue: ${interrupted ? 'yes' : 'NO'}`)
+    console.log(`An interrupted quiz reopens where it was started, with Resume: ${interrupted ? 'yes' : 'NO'}`)
   }
 
   // Builds with accounts (Firebase configured, e.g. the emulators): the account screens.

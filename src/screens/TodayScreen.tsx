@@ -1,29 +1,36 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { getCourse, getModuleInfo, loadCurriculum, loadPlates } from '../content/loader'
 import { continueModuleId } from '../content/courses'
 import { courseDescription, courseTitle, moduleTitle } from '../content/names'
 import type { Course, Curriculum as CurriculumData, Plate } from '../content/types'
 import { useModule } from '../content/useModule'
+import { CountUp } from '../components/CountUp'
 import { ChevronIcon } from '../components/Icons'
+import { ModelLoading } from '../components/ModelLoading'
 import { Masthead } from '../components/Masthead'
 import { Meter } from '../components/bits'
 import { useT } from '../i18n'
-import { pct } from '../lib/format'
+import { HERO_MODELS } from '../lib/bodyLayers'
+import { bearingText, pct } from '../lib/format'
 import { startAssessment, startCards, startPractice, startReview } from '../state/actions'
-import { dueCards, missedCount, useAllDays } from '../state/dashboard'
+import { dueCards, missedCount, useAllDays, useStreak } from '../state/dashboard'
 import { useNav } from '../state/nav'
 import { dayKey, useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
 import { regionStats } from '../state/stats'
 import { Curriculum } from './Curriculum'
 import { ModuleRow } from './ModuleRow'
+import { ViewerHud, type BearingReadout } from '../viewer/ViewerHud'
+
+const HeroBody = lazy(() => import('../viewer/HeroBody'))
 
 const exists = (id: string) => getModuleInfo(id)?.status === 'available'
 
 /**
- * Today is the home page of the student's course. One thing leads: the module to continue, with its
- * cover engraving and one brass button. Then, as quiet rows: today's study, learn, test, the course
- * (and Change course) with its modules, its topics, and a way into all content.
+ * Today is the home page of the student's course, laid out as an instrument: the body turning
+ * slowly with the student's real readouts around it (streak, cards due, accuracy, today's count),
+ * the module to continue and one outlined button. Below it, as quiet lists: today's study, learn,
+ * test, the course (and Change course) with its modules, its topics, and a way into all content.
  */
 export function TodayScreen() {
   const t = useT()
@@ -34,6 +41,7 @@ export function TodayScreen() {
   const { assets } = useModule(moduleId)
   const { records, cards } = useProgress()
   const days = useAllDays()
+  const { streak } = useStreak()
   const now = new Date()
   const answered = days[dayKey(now)]?.answered ?? 0
 
@@ -54,30 +62,84 @@ export function TodayScreen() {
   const goalDone = answered >= dailyGoal
   const forModule = moduleTitle(t, moduleId)
 
+  // Readouts, all from the student's own record: every flashcard due now, and first-time accuracy
+  // over every answer on every device.
+  const allDue = Object.values(cards).filter((c) => c.dueAt <= now.getTime()).length
+  const sums = Object.values(days).reduce((a, d) => ({ answered: a.answered + d.answered, correct: a.correct + d.correct }), { answered: 0, correct: 0 })
+
+  // The camera's bearing moves the tape and rewrites the AZ/EL line without re-rendering the page.
+  const tape = useRef<BearingReadout>(null)
+  const azel = useRef<HTMLSpanElement>(null)
+  const onBearing = useCallback(
+    (az: number, el: number) => {
+      tape.current?.set(az, el)
+      if (azel.current) azel.current.textContent = bearingText(az, el, t('viewer.az'), t('viewer.el'))
+    },
+    [t],
+  )
+
   return (
     <main className="page today">
       <Masthead />
 
-      <div className="today-date">
-        <p className="label">{dateLine}</p>
-        <p className="small">{name ? t('today.greeting', { g: greeting, name }) : t('today.greetingAlone', { g: greeting })}</p>
-      </div>
+      <section className="today-hero" aria-label={t('today.readouts')}>
+        <Suspense fallback={<ModelLoading always />}>
+          <HeroBody skin={HERO_MODELS.skin} bones={HERO_MODELS.bones} onBearing={onBearing} />
+        </Suspense>
+        <ViewerHud ref={tape} azel={false} />
+        <div className="ro hero-ro hero-tl">
+          <span className="hud">{t('today.streak')}</span>
+          <span className="ro-v">
+            <CountUp value={streak} format={t.n} />
+            <small> {streak === 1 ? t('unit.day') : t('unit.days')}</small>
+          </span>
+        </div>
+        <div className="ro ro-end hero-ro hero-tr">
+          <span className="hud">{t('today.dueShort')}</span>
+          <span className={`ro-v${allDue ? ' live' : ''}`}>
+            <CountUp value={allDue} format={t.n} />
+          </span>
+        </div>
+        <div className="ro hero-ro hero-bl">
+          <span className="hud">{t('summary.accuracy')}</span>
+          <span className="ro-v">
+            {sums.answered ? (
+              <>
+                <CountUp value={pct(sums.correct, sums.answered)} format={t.n} />
+                <small>%</small>
+              </>
+            ) : (
+              <span aria-label={t('today.noAnswers')}>—</span>
+            )}
+          </span>
+        </div>
+        <div className="ro ro-end hero-ro hero-br">
+          <span className="hud" ref={azel} aria-hidden />
+          <span className="small hero-today">{t('today.count', { a: Math.min(answered, dailyGoal), b: dailyGoal })}</span>
+        </div>
+      </section>
 
       <section className="resume">
-        <p className="label">
-          {resumed ? t('today.continueTitle') : t('today.startHere')}
-        </p>
-        <h2 className="display resume-title">{forModule}</h2>
-        <p className="small resume-meta num">
-          {region ? `${regionName} · ` : ''}
-          {t('atlas.mastered', { n: pct(mastered, total) })}
-        </p>
+        <div className="resume-row">
+          <p className="label">{resumed ? t('today.continueTitle') : t('today.startHere')}</p>
+          <p className="tiny resume-count">{t('today.structures', { n: total })}</p>
+        </div>
+        <div className="resume-row">
+          <h2 className="resume-title">{forModule}</h2>
+          <p className="small resume-meta">{t('atlas.mastered', { n: pct(mastered, total) })}</p>
+        </div>
+        {region && <p className="tiny resume-region">{regionName}</p>}
         <Meter value={mastered} max={Math.max(total, 1)} />
         <button className="go resume-go" onClick={() => startPractice(moduleId, region, mode)}>
-          {resumed ? t('today.resumeGo') : t('practice.start')}
+          {resumed ? t('today.resume') : t('practice.start')}
           <ChevronIcon />
         </button>
       </section>
+
+      <div className="today-date">
+        <p className="small">{name ? t('today.greeting', { g: greeting, name }) : t('today.greetingAlone', { g: greeting })}</p>
+        <p className="tiny">{dateLine}</p>
+      </div>
 
       <section className="sect">
         <p className="label">{t('today.study')}</p>

@@ -1,5 +1,6 @@
 import { useImperativeHandle, useRef, type Ref } from 'react'
 import { useT } from '../i18n'
+import { bearingText } from '../lib/format'
 
 export interface BearingReadout {
   set(az: number, el: number): void
@@ -14,7 +15,6 @@ const MARKS = Array.from({ length: (TO - FROM) / 5 + 1 }, (_, i) => FROM + i * 5
 const wrap = (d: number) => ((d % 360) + 360) % 360
 
 const pad3 = (n: number) => String(n).padStart(3, '0')
-const signed = (n: number) => `${n < 0 ? '−' : '+'}${String(Math.abs(n)).padStart(2, '0')}`
 
 /**
  * The instrument layer over a 3D view: a heading tape along the top edge and the camera's azimuth
@@ -32,7 +32,7 @@ export function ViewerHud({ ref, azel = true }: { ref: Ref<BearingReadout>; azel
   useImperativeHandle(ref, () => ({
     set(a: number, e: number) {
       if (strip.current) strip.current.style.transform = `translateX(${-(a - FROM) * PX_PER_DEG}px)`
-      if (text.current) text.current.textContent = `${az} ${pad3(a)} · ${el} ${signed(e)}`
+      if (text.current) text.current.textContent = bearingText(a, e, az, el)
     },
   }))
 
