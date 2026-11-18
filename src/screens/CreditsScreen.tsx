@@ -91,9 +91,9 @@ export function CreditsScreen() {
             <div className="r">
               <span className="r-main">
                 <span className="r-title credit">
-                  Typing: an Underwood typewriter, “Contact type” by pavlick (PDSounds), public domain. Right answer: a
-                  typewriter bell by _stubb (Freesound 406243), CC0. Wrong: a knock on wood by stephan (PDSounds), public
-                  domain. Flashcards: “Turning a page” by planish (PDSounds), public domain. All from Wikimedia Commons.
+                  Right answer: a typewriter bell by _stubb (Freesound 406243), CC0. Wrong: a knock on wood by stephan
+                  (PDSounds), public domain. Flashcards: “Turning a page” by planish (PDSounds), public domain. All from
+                  Wikimedia Commons. The typing click is made in the app.
                 </span>
                 <span className="r-sub">Changes for Atlas: one strike cut from each recording, filtered lightly and levelled.</span>
                 <a className="r-sub" href="https://commons.wikimedia.org/wiki/Category:PDSounds" target="_blank" rel="noreferrer">
