@@ -3,7 +3,8 @@ import { create } from 'zustand'
 import { allModules, getModuleInfo, loadCurriculum, loadMock, loadModuleContent, loadPlates, systemModules } from '../content/loader'
 import { moduleTitle } from '../content/names'
 import { buildSearchEntries, type SearchTarget } from '../content/searchIndex'
-import { ArrowIcon } from '../components/Icons'
+import { EmptyState } from '../components/Engraving'
+import { ChevronIcon } from '../components/Icons'
 import { ScreenBar } from '../components/ScreenBar'
 import { translateDynamic, useT } from '../i18n'
 import { sentence } from '../lib/format'
@@ -91,7 +92,7 @@ export function SearchScreen() {
           ) : !index ? (
             <p className="empty">{t('common.loading')}</p>
           ) : !hits.length ? (
-            <p className="empty">{t('search.none', { q: q.trim() })}</p>
+            <EmptyState art="neck">{t('search.none', { q: q.trim() })}</EmptyState>
           ) : (
             <p className="tiny num search-count">{t('search.count', { n: hits.length })}</p>
           )}
@@ -133,7 +134,7 @@ function Result({ hit, onOpen }: { hit: SearchHit<SearchTarget>; onOpen(): void 
           )}
         </span>
       </span>
-      <ArrowIcon />
+      <ChevronIcon />
     </button>
   )
 }

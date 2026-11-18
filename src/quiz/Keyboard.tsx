@@ -1,4 +1,5 @@
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useRef, type ReactNode } from 'react'
+import { BackspaceIcon, ReturnIcon } from '../components/Icons'
 import type { KeyInput } from '../lib/typing'
 import type { KeyFlash } from '../state/quiz'
 
@@ -22,15 +23,15 @@ export const Keyboard = memo(function Keyboard({ flash, onKey, onSkip, awaitingE
         <div className="kb-row" key={row}>
           {r === 2 && <Key id="hint" label={labels.hint} aria="Hint" wide flash={flash} onPress={() => onKey({ type: 'hint' })} />}
           {[...row].map((ch) => (
-            <Key key={ch} id={ch} label={ch} flash={flash} onPress={() => onKey({ type: 'char', char: ch })} />
+            <Key key={ch} id={ch} label={ch} aria={ch} flash={flash} onPress={() => onKey({ type: 'char', char: ch })} />
           ))}
-          {r === 2 && <Key id="backspace" label="⌫" aria="Backspace" wide flash={flash} onPress={() => onKey({ type: 'backspace' })} />}
+          {r === 2 && <Key id="backspace" label={<BackspaceIcon />} aria="Backspace" wide flash={flash} onPress={() => onKey({ type: 'backspace' })} />}
         </div>
       ))}
       <div className="kb-row">
         <Key id="skip" label={labels.skip} aria="Skip" wide flash={flash} onPress={onSkip} />
         <Key id=" " label={labels.space} aria="Space" space flash={flash} onPress={() => onKey({ type: 'char', char: ' ' })} />
-        <Key id="enter" label="↵" aria="Enter" wide accent={awaitingEnter} flash={flash} onPress={() => onKey({ type: 'enter' })} />
+        <Key id="enter" label={<ReturnIcon />} aria="Enter" wide accent={awaitingEnter} flash={flash} onPress={() => onKey({ type: 'enter' })} />
       </div>
     </div>
   )
@@ -38,8 +39,8 @@ export const Keyboard = memo(function Keyboard({ flash, onKey, onSkip, awaitingE
 
 interface KeyProps {
   id: string
-  label: string
-  aria?: string
+  label: ReactNode
+  aria: string
   wide?: boolean
   space?: boolean
   accent?: boolean
@@ -70,7 +71,7 @@ function Key({ id, label, aria, wide, space, accent, flash, onPress }: KeyProps)
       ref={el}
       type="button"
       className={`kb-key${wide ? ' kb-wide' : ''}${space ? ' kb-space' : ''}${accent ? ' kb-accent' : ''}`}
-      aria-label={aria ?? label}
+      aria-label={aria}
       // pointerdown feels instant on touch screens; preventDefault keeps focus off the button.
       onPointerDown={(e) => {
         e.preventDefault()

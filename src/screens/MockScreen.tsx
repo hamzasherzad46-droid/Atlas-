@@ -2,8 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { getCourse, loadMock } from '../content/loader'
 import { courseTitle } from '../content/names'
 import type { MockBank, MockLevel } from '../content/types'
-import { Meter } from '../components/bits'
-import { ArrowIcon, CheckIcon } from '../components/Icons'
+import { ChevronIcon, CheckIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { formatClock, pct } from '../lib/format'
 import { buildMock, mockLengths, mockPool, topicScores, type MockItem } from '../lib/mock'
@@ -220,7 +219,7 @@ function MockSetup(props: {
         <div className="start-block">
           <button className="go" disabled={!props.bank} onClick={props.onStart}>
             {t('mock.start')}
-            <ArrowIcon />
+            <ChevronIcon />
           </button>
         </div>
       </main>
@@ -311,7 +310,7 @@ function MockQuestion(props: {
             </div>
             <button ref={nextRef} className="go mock-next" onClick={props.onNext}>
               {index + 1 < total ? t('mock.next') : t('mock.finish')}
-              <ArrowIcon />
+              <ChevronIcon />
             </button>
           </div>
         )}
@@ -324,7 +323,6 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
   const t = useT()
   const { items, answers } = props
   const correct = items.filter((it, i) => answers[i] === it.correct).length
-  const ratio = items.length ? correct / items.length : 0
   const topics = topicScores(items, answers)
   const missed = items.map((it, i) => ({ it, a: answers[i] })).filter(({ it, a }) => a !== it.correct)
 
@@ -334,7 +332,7 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
         <ScreenBar close onBack={props.onClose} title={t('mock.title')} />
         <div className="titleblock">
           <p className="label">{t('mock.resultLabel', { level: t(`mock.${props.level}`) })}</p>
-          <p className="summary-score num">
+          <p className="summary-score num" aria-hidden>
             {correct}
             <span className="of">/{items.length}</span>
           </p>
@@ -342,18 +340,10 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
             {t('mock.result', { a: correct, b: items.length })}
             {missed.length > 0 && ` ${t('mock.toReview', { n: missed.length })}`}
           </p>
-        </div>
-        <Meter value={correct} max={Math.max(items.length, 1)} tone={ratio >= 0.7 ? 'good' : undefined} />
-
-        <div className="figures summary-figures">
-          <div>
-            <span className="figure">{pct(correct, items.length)}%</span>
-            <p className="label">{t('mock.score')}</p>
-          </div>
-          <div>
-            <span className="figure">{formatClock(props.ms)}</span>
-            <p className="label">{t('summary.time')}</p>
-          </div>
+          <p className="small summary-line num">
+            {t('mock.score')} {pct(correct, items.length)}%<span aria-hidden> · </span>
+            {t('summary.time')} {formatClock(props.ms)}
+          </p>
         </div>
 
         <section className="sect">
@@ -408,12 +398,12 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
         )}
 
         <div className="summary-actions">
-          <button className="go" onClick={props.onAgain}>
-            {t('mock.again')}
-            <ArrowIcon />
-          </button>
-          <button className="go quiet" onClick={props.onClose}>
+          <button className="go" onClick={props.onClose}>
             {t('common.done')}
+          </button>
+          <button className="go quiet" onClick={props.onAgain}>
+            {t('mock.again')}
+            <ChevronIcon />
           </button>
         </div>
       </main>

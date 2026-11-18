@@ -40,7 +40,7 @@ const PATHS = [
   { screen: 'Continue / start (spelling quiz)', taps: [['button', /^Start spelling quiz/]], expect: ['button', 'End session'], back: 'End session' },
   { screen: 'Flashcards due', taps: [['button', /^Flashcards due/]], expect: ['button', 'End flashcards'], back: 'End flashcards' },
   { screen: 'Fix mistakes', seedMistake: true, taps: [['button', /^Fix mistakes/]], expect: ['button', 'End session'], back: 'End session' },
-  { screen: 'Explore in 3D', taps: [['button', /^Explore in 3D/]], expect: ['text', 'Drag to rotate'], back: 'Back' },
+  { screen: 'Explore in 3D', taps: [['button', /^Explore in 3D/]], expect: ['text', 'Drag to turn'], back: 'Back' },
   { screen: 'Flashcards', taps: [['button', /^Flashcards Injection/, 'Flashcards']], expect: ['button', 'End flashcards'], back: 'End flashcards' },
   { screen: 'The body in 3D', taps: [['button', /^The body in 3D/]], expect: ['heading', 'The body in 3D'], back: 'Back' },
   { screen: 'Plate (course plate)', taps: [['button', /^The aorta and the venae cavae/]], expect: ['text', 'Test yourself'], back: 'Back' },

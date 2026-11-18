@@ -53,6 +53,14 @@ describe('content catalog', () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 
+  it('every cover engraving exists', () => {
+    const covers = fileURLToPath(new URL('../../public/plates/covers', import.meta.url))
+    const all = [...catalog.systems.flatMap((c) => c.modules), ...(catalog.regions ?? []).flatMap((g) => g.modules), ...coursesData.focus]
+    const used = all.filter((m) => m.cover)
+    expect(used.length).toBeGreaterThan(0)
+    for (const m of used) expect(existsSync(join(covers, `${m.cover}.webp`)), `${m.id}: ${m.cover}`).toBe(true)
+  })
+
   it('every available module has its content file', () => {
     const present = new Set(readdirSync(dir))
     for (const m of modules) {

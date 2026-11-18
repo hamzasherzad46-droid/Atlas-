@@ -6,7 +6,7 @@ import { useT } from '../i18n'
 import { formatClock, sentence } from '../lib/format'
 import { meshKeys } from '../lib/meshMatch'
 import { activeAnswer, type KeyInput } from '../lib/typing'
-import { ArrowIcon, CheckIcon, CloseIcon } from '../components/Icons'
+import { ChevronIcon, CheckIcon, CloseIcon } from '../components/Icons'
 import { goBack, type SessionConfig } from '../state/nav'
 import { useQuiz } from '../state/quiz'
 import { useSettings } from '../state/settings'
@@ -176,7 +176,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
       {paused && (
         <button className="textlink quiz-next" onClick={() => useQuiz.getState().next()}>
           {t('quiz.next')}
-          <ArrowIcon size={14} />
+          <ChevronIcon size={14} />
         </button>
       )}
     </div>

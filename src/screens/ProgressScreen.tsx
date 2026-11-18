@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { moduleTitle } from '../content/names'
 import { CheckIcon } from '../components/Icons'
 import { Heatmap } from '../components/bits'
+import { EmptyState } from '../components/Engraving'
 import { Masthead } from '../components/Masthead'
 import { useModule } from '../content/useModule'
 import { useT } from '../i18n'
@@ -22,7 +23,7 @@ export function ProgressScreen() {
   const days = useAllDays()
   const { streak } = useStreak()
   const weak = assets ? mostMissed(assets.content, records, 5) : []
-  const date = new Intl.DateTimeFormat(t.lang, { day: 'numeric', month: 'short' })
+  const date = new Intl.DateTimeFormat(t.locale, { day: 'numeric', month: 'short' })
 
   return (
     <main className="page">
@@ -46,7 +47,7 @@ export function ProgressScreen() {
         <div className="sect-body">
           <p className="tiny weak-module">{moduleTitle(t, moduleId)}</p>
           {weak.length === 0 ? (
-            <p className="empty">{t('today.noWeak')}</p>
+            <EmptyState art="ribcage">{t('today.noWeak')}</EmptyState>
           ) : (
             <div className="rows">
               {weak.map((w) => {

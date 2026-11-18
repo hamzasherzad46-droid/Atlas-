@@ -1,9 +1,9 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useMemo, useRef, useState } from 'react'
 import { moduleTitle } from '../content/names'
 import { noteFor } from '../content/notes'
 import type { CameraView, Structure } from '../content/types'
 import { useModule } from '../content/useModule'
-import { CloseIcon } from '../components/Icons'
+import { CloseIcon, LabelsIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { sentence } from '../lib/format'
 import { meshKeys, mostSpecific } from '../lib/meshMatch'
@@ -20,25 +20,6 @@ const OVERVIEW: CameraView = { position: [0.7, 1.05, 2.55], target: [0, 0.88, 0]
 /** Numbered references are offered only where they stay legible: focused regions and small modules. */
 const PLATE_LIMIT = 20
 
-/** Camera bearing around the model, like an instrument's azimuth and altitude scales. */
-function useBearing(camera: React.RefObject<CameraApi | null>) {
-  const [bearing, setBearing] = useState({ az: 0, alt: 0 })
-  useEffect(() => {
-    const tm = setInterval(() => {
-      const v = camera.current?.getView()
-      if (!v) return
-      const dx = v.position[0] - v.target[0]
-      const dy = v.position[1] - v.target[1]
-      const dz = v.position[2] - v.target[2]
-      const az = Math.round(((Math.atan2(dx, dz) * 180) / Math.PI + 360) % 360)
-      const alt = Math.round((Math.atan2(dy, Math.hypot(dx, dz)) * 180) / Math.PI)
-      setBearing((b) => (b.az === az && b.alt === alt ? b : { az, alt }))
-    }, 250)
-    return () => clearInterval(tm)
-  }, [camera])
-  return bearing
-}
-
 /** Explore a model like an atlas plate: rotate it, tap a structure or a number, read what it is. */
 export function ExploreScreen({ moduleId }: { moduleId: string }) {
   const t = useT()
@@ -52,7 +33,6 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
   const [labels, setLabels] = useState(true)
   const [copied, setCopied] = useState(false)
   const camera = useRef<CameraApi>(null)
-  const bearing = useBearing(camera)
 
   const structures = useMemo(() => assets?.content.structures ?? [], [assets])
   const plateOffered = structures.length > 0 && structures.length <= PLATE_LIMIT
@@ -114,7 +94,8 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
         end={
           plateOffered && (
             <button className="explore-toggle" aria-pressed={labels} onClick={() => setLabels((v) => !v)}>
-              {t('explore.labels')} <span aria-hidden>{labels ? '●' : '○'}</span>
+              <LabelsIcon on={labels} />
+              {t('explore.labels')}
             </button>
           )
         }
@@ -137,10 +118,6 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
             />
           </Suspense>
         )}
-        <p className="figs bearing" aria-hidden>
-          AZ {String(bearing.az).padStart(3, '0')}° · ALT {bearing.alt >= 0 ? '+' : '−'}
-          {String(Math.abs(bearing.alt)).padStart(2, '0')}°
-        </p>
         {!selected && <p className="tiny explore-help">{t('explore.help')}</p>}
         {import.meta.env.DEV && (
           <button className="dev-copy" onClick={() => void copyCamera()}>

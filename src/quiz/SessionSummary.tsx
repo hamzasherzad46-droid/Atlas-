@@ -1,29 +1,10 @@
-import { useEffect, useState } from 'react'
 import { moduleTitle } from '../content/names'
 import { useT } from '../i18n'
-import { formatClock, sentence } from '../lib/format'
-import { Meter } from '../components/bits'
-import { ArrowIcon } from '../components/Icons'
+import { formatClock, pct, sentence } from '../lib/format'
+import { ChevronIcon } from '../components/Icons'
 import { goBack, useNav } from '../state/nav'
 import { accuracyOf, useQuiz } from '../state/quiz'
 import { ScreenBar } from '../components/ScreenBar'
-
-/** Counts up to `to` for a satisfying tally. */
-function useCountUp(to: number, ms = 900) {
-  const [v, setV] = useState(0)
-  useEffect(() => {
-    const start = performance.now()
-    let raf = 0
-    const tick = (n: number) => {
-      const k = Math.min(1, (n - start) / ms)
-      setV(Math.round(to * (1 - Math.pow(1 - k, 3))))
-      if (k < 1) raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [to, ms])
-  return v
-}
 
 export function SessionSummary() {
   const t = useT()
@@ -42,38 +23,29 @@ export function SessionSummary() {
   for (const r of q.results) if (!firstTry.has(r.id)) firstTry.set(r.id, r.outcome === 'perfect')
   const score = isAssessment ? unique.length - missed.length : [...firstTry.values()].filter(Boolean).length
   const total = isAssessment ? unique.length : firstTry.size
-  const shownScore = useCountUp(score, 600)
 
   const review = () =>
     startSession({ kind: 'review', moduleId: config.moduleId, mode: 'learn', region: null, ids: missed, length: missed.length, answerTimer: 0 })
 
-  const ratio = total ? score / total : 0
   const moduleName = moduleTitle(t, config.moduleId)
   return (
     <div className="quiz summary">
       <div className="summary-inner">
         <ScreenBar close title={moduleName} />
 
-        <div className="titleblock">
+        <div className="titleblock summary-head">
           <p className="label">{isAssessment ? t('summary.exam') : t('summary.session')}</p>
-          <p className="summary-score num">
-            {shownScore}
+          <p className="summary-score num" aria-hidden>
+            {score}
             <span className="of">/{total}</span>
           </p>
           <p className="lede">{t(isAssessment ? 'summary.resultExam' : 'summary.result', { a: score, b: total })}</p>
-        </div>
-        <Meter value={score} max={Math.max(total, 1)} tone={ratio >= 0.8 ? 'good' : undefined} />
-
-        <div className="figures summary-figures">
-          <div>
+          <p className="small summary-line num">
             {/* Typing scores keystrokes; choice and identify score answers. */}
-            <span className="figure">{(config.format ?? 'type') === 'type' ? accuracyOf(q.keysCorrect, q.keysWrong) : total ? Math.round((score / total) * 100) : 0}%</span>
-            <p className="label">{t('summary.accuracy')}</p>
-          </div>
-          <div>
-            <span className="figure">{formatClock(q.finishedAt - q.startedAt)}</span>
-            <p className="label">{t('summary.time')}</p>
-          </div>
+            {t('summary.accuracy')} {(config.format ?? 'type') === 'type' ? accuracyOf(q.keysCorrect, q.keysWrong) : pct(score, total)}%
+            <span aria-hidden> · </span>
+            {t('summary.time')} {formatClock(q.finishedAt - q.startedAt)}
+          </p>
         </div>
 
         {missed.length > 0 && (
@@ -98,7 +70,7 @@ export function SessionSummary() {
           {missed.length > 0 && (
             <button className="go" onClick={review}>
               {t('summary.fix')}
-              <ArrowIcon />
+              <ChevronIcon />
             </button>
           )}
           <button className={`go${missed.length ? ' quiet' : ''}`} onClick={() => goBack()}>

@@ -1,7 +1,7 @@
 import type { ModuleInfo } from '../content/types'
 import { moduleTitle } from '../content/names'
 import { useModule } from '../content/useModule'
-import { ArrowIcon } from '../components/Icons'
+import { ChevronIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { pct } from '../lib/format'
 import { tintVars } from '../lib/tint'
@@ -30,7 +30,7 @@ export function ModuleRow({ info, sub }: { info: ModuleInfo; sub: string }) {
         <span className="r-sub">{sub}</span>
       </span>
       <span className="r-value">{pct(mastered, total)}%</span>
-      <ArrowIcon />
+      <ChevronIcon />
     </button>
   )
 }

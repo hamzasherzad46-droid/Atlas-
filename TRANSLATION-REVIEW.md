@@ -87,7 +87,6 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
 | `today.study` | Today’s study |
-| `today.forCourse` | For your course |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
 | `today.plates` | Plates for your course |
@@ -98,6 +97,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
 | `module.cannulation-veins` | Cannulation veins |
@@ -268,7 +268,6 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
 | `today.study` | Today’s study |
-| `today.forCourse` | For your course |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
 | `today.plates` | Plates for your course |
@@ -279,6 +278,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
 | `module.cannulation-veins` | Cannulation veins |
@@ -447,7 +447,6 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
 | `today.study` | Today’s study |
-| `today.forCourse` | For your course |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
 | `today.plates` | Plates for your course |
@@ -458,6 +457,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
 | `module.cannulation-veins` | Cannulation veins |
@@ -620,7 +620,6 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
 | `today.study` | Today’s study |
-| `today.forCourse` | For your course |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
 | `today.plates` | Plates for your course |
@@ -631,6 +630,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
 | `module.cannulation-veins` | Cannulation veins |
@@ -794,7 +794,6 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
 | `today.study` | Today’s study |
-| `today.forCourse` | For your course |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
 | `today.plates` | Plates for your course |
@@ -805,6 +804,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
 | `module.cannulation-veins` | Cannulation veins |
@@ -965,7 +965,6 @@ None.
 | `course.kept` | Your progress is kept when you change course. |
 | `today.continueTitle` | Continue where you left off |
 | `today.study` | Today’s study |
-| `today.forCourse` | For your course |
 | `today.topics` | Topics for your course |
 | `today.allTopics` | All topics in these categories |
 | `today.plates` | Plates for your course |
@@ -976,6 +975,7 @@ None.
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
 | `module.cannulation-veins` | Cannulation veins |

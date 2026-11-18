@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { loadCurriculum } from '../content/loader'
 import type { Curriculum as CurriculumData } from '../content/types'
-import { ArrowIcon } from '../components/Icons'
+import { ChevronIcon, DisclosureIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { useNav } from '../state/nav'
 
@@ -45,9 +45,7 @@ export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen
                 <span className="r-value">
                   {c.topics.length}
                 </span>
-                <span className="figs fold" aria-hidden>
-                  {isOpen ? '−' : '+'}
-                </span>
+                <DisclosureIcon open={isOpen} />
               </button>
               {isOpen && (
                 <ul className="topics" lang="en">
@@ -60,7 +58,7 @@ export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen
                             3D
                           </span>
                         ) : null}
-                        <ArrowIcon size={12} />
+                        <ChevronIcon size={14} />
                       </button>
                     </li>
                   ))}

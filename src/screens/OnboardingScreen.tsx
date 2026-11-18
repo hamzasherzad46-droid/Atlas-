@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { getCourse } from '../content/loader'
-import { ArrowIcon } from '../components/Icons'
+import { ChevronIcon } from '../components/Icons'
 import { CoursePicker } from '../components/CoursePicker'
 import { LANG_NAMES, useT } from '../i18n'
 import { OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
-import { Seal } from '../components/Celestial'
+import { Seal } from '../components/Seal'
 import { StudyAidNotice } from '../components/StudyAidNotice'
 import { useAccount } from '../account/account'
 import { useNav } from '../state/nav'
@@ -50,7 +50,7 @@ export function OnboardingScreen() {
         <div className="start-block">
           <button className="go" onClick={() => s.set({ track, onboarded: true })}>
             {t('onb.start')}
-            <ArrowIcon />
+            <ChevronIcon />
           </button>
           {accounts && (
             <button className="textlink onb-signin" onClick={() => openAccount('signin')}>

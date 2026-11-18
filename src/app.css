@@ -80,6 +80,20 @@
   min-height: 44px;
 }
 
+/* The field's clear button, drawn in the house line instead of the browser's blue cross. */
+.search-field::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: var(--ink-2);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='m6 6 12 12M18 6 6 18'/%3E%3C/svg%3E")
+    center / 16px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='m6 6 12 12M18 6 6 18'/%3E%3C/svg%3E")
+    center / 16px no-repeat;
+  cursor: pointer;
+}
+
 .search-hint,
 .search .empty {
   margin-top: 12px;
@@ -170,28 +184,35 @@
 
 /* ---------- Today ---------- */
 
-/* The one thing to do next: the current module, its progress, and Resume. */
+/* The date, and the greeting with the student's name: small, above the one thing that leads. */
+.today-date {
+  padding: var(--s-5) 0 var(--s-4);
+}
+
+.today-date .small {
+  margin-top: var(--s-1);
+}
+
+/* The one thing to do next: the module's cover, its name, progress and one brass button. */
 .resume {
-  padding: 4px 0 28px;
+  padding: 0 0 var(--s-6);
+}
+
+.resume-cover {
+  aspect-ratio: 5 / 2;
+  margin-bottom: var(--s-4);
 }
 
 .resume .label {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
 }
 
 .resume-meta {
-  margin: 4px 0 16px;
+  margin: var(--s-2) 0 var(--s-4);
 }
 
 .resume-go {
-  margin-top: 20px;
-}
-
-.resume-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  margin-top: 16px;
+  margin-top: var(--s-5);
 }
 
 /* ---------- Atlas ---------- */
@@ -211,6 +232,15 @@
 /* ---------- Module ---------- */
 .module-page .backlink {
   margin-top: 4px;
+}
+
+.module-cover {
+  margin-top: var(--s-2);
+}
+
+/* The spelling quiz is the module's one brass action, under the settings it uses. */
+.module-start {
+  margin-top: var(--s-5);
 }
 
 .module-titleblock {
@@ -530,18 +560,20 @@
   pointer-events: none;
 }
 
+/* A notice is a quiet strip of the room's charcoal under a hairline, never a coloured banner. */
 .toast {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 12px var(--pad);
-  background: var(--accent-fill);
-  color: var(--on-accent);
+  padding: var(--s-3) var(--pad);
+  background: var(--paper-2);
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule);
   animation: toast-in var(--mid) var(--ease) both;
 }
 
 .toast .label {
-  color: color-mix(in srgb, var(--on-accent) 75%, transparent);
+  color: var(--ink-2);
 }
 
 .toast-detail {
@@ -571,39 +603,18 @@
 
 /* ---------- Celestial ---------- */
 
-/* Orion as an engraved frontispiece: at the foot of Today, above the title on first run. */
-.frontispiece {
-  display: block;
-  margin: 40px auto 0;
-  color: var(--accent);
-  opacity: 0.7;
-}
-
-.onb-chart {
-  margin: 28px auto 0;
-  width: 112px;
-  height: auto;
-}
-
 /* ---------- Explore as an atlas plate ---------- */
 .explore-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
   min-height: 44px;
+  padding: 0 var(--s-2);
   color: var(--ink-2);
 }
 
 .explore-toggle[aria-pressed='true'] {
   color: var(--accent);
-}
-
-/* Camera bearing, read like an instrument's scales. */
-.bearing {
-  position: absolute;
-  z-index: 2;
-  top: 10px;
-  inset-inline-start: var(--pad);
-  color: var(--ink-3);
-  pointer-events: none;
-  direction: ltr;
 }
 
 /* A numbered reference sitting on the structure's surface. */
@@ -1145,16 +1156,24 @@
 }
 
 /* ---------- Courses ---------- */
-.course-line {
-  padding: 2px 0 24px;
-}
 
-.course-line-row {
+/* Today's course section opens with the course itself and Change course. */
+.course-line {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
-  margin: 4px 0 4px;
+  gap: var(--s-3);
+  margin-top: calc(var(--s-3) * -1);
+}
+
+.course-line-title {
+  font-family: var(--display);
+  font-size: var(--fs-3);
+  font-weight: 400;
+}
+
+.course-line-sub {
+  margin-bottom: var(--s-3);
 }
 
 .today-sublabel {
@@ -1295,4 +1314,66 @@
 
 .onb-signin {
   margin-top: 8px;
+}
+
+/* ---------- Engravings ---------- */
+
+/* A cover cut from one of the plates, printed on the room's paper (see components/Engraving). */
+.engraving {
+  position: relative;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--engraving-paper);
+  isolation: isolate;
+}
+
+.engraving img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity var(--slow) var(--ease);
+}
+
+.engraving img.in {
+  opacity: 1;
+}
+
+/* An empty state: a small print beside one helpful line. */
+.empty-state {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-2) 0;
+}
+
+.empty-art {
+  flex: 0 0 96px;
+  aspect-ratio: 1;
+}
+
+/* The catalogue's frontispiece, above the body in 3D. */
+.atlas-cover {
+  aspect-ratio: 5 / 2;
+  margin-bottom: var(--s-4);
+}
+
+/* ---------- Load errors ---------- */
+
+/* What went wrong and what to do, with one way to try again. */
+.load-error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-4);
+  max-width: 30em;
+  padding: var(--s-6) var(--pad);
+}
+
+.load-error .go {
+  width: auto;
+  min-width: 160px;
 }

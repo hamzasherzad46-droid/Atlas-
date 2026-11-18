@@ -19,12 +19,17 @@ export const LANG_NAMES: Record<Lang, string> = {
   ko: '한국어',
 }
 
+/** The locale for dates and numbers: Atlas's English is British ("Wednesday 18 November", "1,240"). */
+export function locale(lang: Lang): string {
+  return lang === 'en' ? 'en-GB' : lang
+}
+
 export function translate(lang: Lang, key: MessageKey, vars?: Vars): string {
   const text: string = translations[lang]?.[key] ?? en[key] ?? key
   if (!vars) return text
   return text.replace(/\{(\w+)\}/g, (_, k: string) => {
     const v = vars[k]
-    return v === undefined ? `{${k}}` : typeof v === 'number' ? new Intl.NumberFormat(lang).format(v) : v
+    return v === undefined ? `{${k}}` : typeof v === 'number' ? new Intl.NumberFormat(locale(lang)).format(v) : v
   })
 }
 
@@ -37,7 +42,7 @@ export function useT() {
   const lang = useSettings((s) => shownLang(s.lang))
   const t = useCallback((key: MessageKey, vars?: Vars) => translate(lang, key, vars), [lang])
   const td = useCallback((key: string, fallback: string) => translateDynamic(lang, key, fallback), [lang])
-  return Object.assign(t, { lang, td })
+  return Object.assign(t, { lang, locale: locale(lang), td })
 }
 
 /** Apply lang and text direction to <html> (for the language shown, which may not be the one saved). */

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowIcon } from '../components/Icons'
+import { ChevronIcon } from '../components/Icons'
 import { CoursePicker } from '../components/CoursePicker'
 import { Masthead } from '../components/Masthead'
 import { LANG_NAMES, useT } from '../i18n'
@@ -103,7 +103,7 @@ export function YouScreen() {
       <div className="rows settings-end">
         <button className="r" onClick={() => openCredits()}>
           <span className="r-main r-title">{t('you.about')}</span>
-          <ArrowIcon />
+          <ChevronIcon />
         </button>
         {/* In-page confirm: native confirm() is blocked in sandboxed hosts. */}
         <button

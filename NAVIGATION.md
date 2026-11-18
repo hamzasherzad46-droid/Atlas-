@@ -7,9 +7,10 @@ screen by `scripts/check-navigation.cjs` (output below).
 
 ## Rules
 
-- **Today is the course home.** Its sections, in order: the course and *Change course*, *Continue where
-  you left off* (or *Start here*), *Today's study*, *Learn*, *Test*, *For your course* (modules),
-  *Topics for your course*, and *All content*. What the course lists comes from `content/courses.json`.
+- **Today is the course home.** Its sections, in order: *Continue where you left off* (or *Start here*),
+  *Today's study*, *Learn*, *Test*, *Your course* (the course, *Change course* and its modules),
+  *Topics for your course*, and *All content*. The course name in the masthead also opens *Change course*.
+  What the course lists comes from `content/courses.json`.
 - **Every screen type is at most 2 taps from Today.** Typing in search is not counted as a tap.
 - **One search**, from the magnifier in the masthead of every tab (Today, All content, Progress,
   Settings). It finds structures by name, other names and Latin names; modules; curriculum topics;

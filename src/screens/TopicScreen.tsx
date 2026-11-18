@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { moduleTitle } from '../content/names'
 import { getModuleInfo, loadCurriculum } from '../content/loader'
 import type { Curriculum } from '../content/types'
-import { ArrowIcon, BackIcon } from '../components/Icons'
+import { ChevronIcon, BackIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { tintVars } from '../lib/tint'
 import { goBack, useNav } from '../state/nav'
@@ -62,13 +62,13 @@ export function TopicScreen({ cat, index }: { cat: string; index: number }) {
               <button key={id} className="r sys" style={tintVars(getModuleInfo(id)?.systemId)} onClick={() => openModule(id)}>
                 <span className="swatch" aria-hidden />
                 <span className="r-main r-title">{moduleTitle(t, id)}</span>
-                <ArrowIcon />
+                <ChevronIcon />
               </button>
             ))}
             {BODY_CATEGORIES.has(cat) && (
               <button className="r" onClick={() => openBody()}>
                 <span className="r-main r-title">{t('body.title')}</span>
-                <ArrowIcon />
+                <ChevronIcon />
               </button>
             )}
           </div>

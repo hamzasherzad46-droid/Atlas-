@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState, type PointerEvent
 import { moduleTitle } from '../content/names'
 import { noteFor } from '../content/notes'
 import { useModule } from '../content/useModule'
-import { ArrowIcon, CheckIcon } from '../components/Icons'
+import { CheckIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { meshKeys } from '../lib/meshMatch'
 import { playSound } from '../lib/sound'
@@ -97,21 +97,15 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
           <div className="titleblock">
             <p className="label">{t('cards.title')}</p>
             <h1 className="display">{t('cards.done')}</h1>
-          </div>
-          <div className="figures summary-figures">
-            <div>
-              <span className="figure good">{known}</span>
-              <p className="label">{t('cards.known')}</p>
-            </div>
-            <div>
-              <span className={`figure${again.length ? ' warn' : ''}`}>{again.length}</span>
-              <p className="label">{t('cards.revisit')}</p>
-            </div>
+            <p className="lede num">
+              {known} {t('cards.known')}
+              <span aria-hidden> · </span>
+              {again.length} {t('cards.revisit')}
+            </p>
           </div>
           <div className="summary-actions">
             <button className="go" onClick={() => goBack()}>
               {t('common.done')}
-              <ArrowIcon />
             </button>
           </div>
         </div>

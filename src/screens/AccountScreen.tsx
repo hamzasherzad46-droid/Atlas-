@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { errorKey, sendPasswordReset, signInWithEmail, signInWithGoogle, useAccount } from '../account/account'
 import { deleteAccountSynced } from '../account/sync'
 import { GoogleButton } from '../components/GoogleButton'
-import { ArrowIcon } from '../components/Icons'
+import { ChevronIcon } from '../components/Icons'
 import { ScreenBar } from '../components/ScreenBar'
 import { useT, type MessageKey } from '../i18n'
 import { goBack } from '../state/nav'
@@ -120,7 +120,7 @@ function SignIn() {
         />
         <button type="submit" className="go account-submit" disabled={busy}>
           {t(creating ? 'account.create' : 'account.signIn')}
-          <ArrowIcon />
+          <ChevronIcon />
         </button>
       </form>
 

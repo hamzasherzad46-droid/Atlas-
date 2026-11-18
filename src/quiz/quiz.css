@@ -341,11 +341,12 @@
 }
 
 .summary .titleblock .lede {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
-.summary-figures {
-  padding: 24px 0 24px;
+/* Accuracy and time: one small line under the score, not figures of their own. */
+.summary-line {
+  margin-top: var(--s-2);
 }
 
 .summary-actions {

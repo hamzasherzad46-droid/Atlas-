@@ -77,7 +77,8 @@ export function CreditsScreen() {
                 </span>
                 <span className="r-sub">
                   Changes for Atlas: video play marks removed from the photographs, images resized; numbered arrows, key and
-                  notes added. The original letters and numbers on the plates belong to their own keys.
+                  notes added. The original letters and numbers on the plates belong to their own keys. The module covers are
+                  details of these plates, printed in one ink with the hand colouring lifted out and one scan crease mended.
                 </span>
               </span>
             </div>
@@ -90,20 +91,12 @@ export function CreditsScreen() {
             <div className="r">
               <span className="r-main">
                 <span className="r-title credit">
-                  Libre Caslon Display, © 2012 The Libre Caslon Display Authors; Libre Caslon Text, © 2012 The Libre Caslon Text Project
-                  Authors; Libre Franklin, © 2020 The Libre Franklin Project Authors; DM Mono, © 2020 The DM Mono Project Authors. All
-                  under the SIL Open Font License 1.1.
+                  Source Serif 4, © 2014–2021 Adobe Systems Incorporated; Source Sans 3, © 2023 Adobe; both with Reserved Font Name
+                  ‘Source’, under the SIL Open Font License 1.1.
                 </span>
                 <a className="r-sub" href="https://openfontlicense.org" target="_blank" rel="noreferrer">
                   openfontlicense.org
                 </a>
-              </span>
-            </div>
-            <div className="r">
-              <span className="r-main">
-                <span className="r-title credit">
-                  Star chart: positions of the principal stars of Orion (J2000 right ascension and declination), drawn for Atlas.
-                </span>
               </span>
             </div>
           </div>

@@ -383,7 +383,6 @@ export const en = {
   'course.kept': 'Your progress is kept when you change course.',
   'today.continueTitle': 'Continue where you left off',
   'today.study': 'Today’s study',
-  'today.forCourse': 'For your course',
   'today.topics': 'Topics for your course',
   'today.allTopics': 'All topics in these categories',
   'today.plates': 'Plates for your course',
@@ -453,6 +452,7 @@ export const en = {
   'mock.low': 'Every expert started here. Read the explanations, then try again.',
   'body.short': 'every layer',
   'toast.assignment': 'Completed',
+  'today.forCourse': 'For your course',
 } as const
 
 export type MessageKey = keyof typeof en

@@ -2,7 +2,8 @@ import { useState, type ReactNode } from 'react'
 import { moduleTitle } from '../content/names'
 import { catalog, focusModules, getModuleInfo, regionModules } from '../content/loader'
 import { useModule } from '../content/useModule'
-import { ArrowIcon, BackIcon } from '../components/Icons'
+import { ChevronIcon, BackIcon } from '../components/Icons'
+import { Engraving } from '../components/Engraving'
 import { Masthead } from '../components/Masthead'
 import { Meter } from '../components/bits'
 import { useT } from '../i18n'
@@ -42,11 +43,12 @@ export function AtlasScreen() {
       <div className="titleblock">
         <h1 className="display">{t('atlas.title')}</h1>
       </div>
+      <Engraving name="lungs" className="atlas-cover" />
       <button className="go atlas-body" onClick={() => openBody()}>
         <span>
           {t('body.title')}
         </span>
-        <ArrowIcon />
+        <ChevronIcon />
       </button>
 
       <section className="sect">
@@ -89,7 +91,7 @@ export function AtlasScreen() {
               <span className="r-title">{t('today.mock')}</span>
               <span className="r-sub">{t('today.mockSub')}</span>
             </span>
-            <ArrowIcon />
+            <ChevronIcon />
           </button>
         </div>
       </section>
@@ -105,8 +107,9 @@ export function AtlasScreen() {
 }
 
 /**
- * A module: how far along you are, then every way to study it in view. The test settings sit above
- * the tests they apply to; nothing is hidden behind a link.
+ * A module: its cover engraving and how far along you are, then every way to study it in view. The
+ * test settings sit above the tests they apply to, and the spelling quiz is the one brass action;
+ * nothing is hidden behind a link.
  */
 function ModuleScreen({ id }: { id: string }) {
   const t = useT()
@@ -135,6 +138,7 @@ function ModuleScreen({ id }: { id: string }) {
         <BackIcon /> {t('common.back')}
       </button>
 
+      {info.cover && <Engraving name={info.cover} className="module-cover" />}
       <div className="titleblock module-titleblock">
         <p className="label">
           <span className="swatch" aria-hidden />
@@ -200,12 +204,15 @@ function ModuleScreen({ id }: { id: string }) {
             ))}
           </Setting>
 
+          <button className="go module-start" onClick={() => start('type')} disabled={!assets}>
+            {t('practice.start')}
+            <ChevronIcon />
+          </button>
+          <p className="tiny start-note">{t('practice.answerLang')}</p>
           <div className="rows module-tests">
-            <Way title={t('format.type')} sub={t('mod.practiceSub')} onClick={() => start('type')} disabled={!assets} />
             <Way title={t('format.choice')} sub={t('mod.choiceSub')} onClick={() => start('choice')} disabled={!assets} />
             <Way title={t('format.identify')} sub={t('mod.identifySub')} onClick={() => start('identify')} disabled={!assets} />
           </div>
-          <p className="tiny start-note">{t('practice.answerLang')}</p>
         </div>
       </section>
 
@@ -217,7 +224,7 @@ function ModuleScreen({ id }: { id: string }) {
             sub={t('mod.examSub', { n: ASSESSMENT_LENGTH, m: ASSESSMENT_TIME_MS / 60_000, s: ASSESSMENT_ANSWER_TIMER })}
             onClick={() => startAssessment(id)}
           />
-          <Way title={t('today.mistakes')} sub={t('mod.mistakesSub', { n: mistakes })} onClick={() => void startReview(id)} disabled={!mistakes} />
+          {mistakes > 0 && <Way title={t('today.mistakes')} sub={t('mod.mistakesSub', { n: mistakes })} onClick={() => void startReview(id)} />}
         </div>
       </section>
     </main>
@@ -231,7 +238,7 @@ function Way({ title, sub, onClick, disabled }: { title: string; sub: string; on
         <span className="r-title">{title}</span>
         <span className="r-sub num">{sub}</span>
       </span>
-      <ArrowIcon />
+      <ChevronIcon />
     </button>
   )
 }

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { errorKey, signInWithGoogle, useAccount } from '../account/account'
 import { signOutSynced } from '../account/sync'
 import { GoogleButton } from '../components/GoogleButton'
-import { ArrowIcon } from '../components/Icons'
+import { ChevronIcon } from '../components/Icons'
 import { useT, type MessageKey } from '../i18n'
 import { useNav } from '../state/nav'
 
@@ -53,7 +53,7 @@ export function AccountSection() {
             <div className="rows">
               <button className="r" onClick={() => openAccount('signin')}>
                 <span className="r-main r-title">{t('account.withEmail')}</span>
-                <ArrowIcon />
+                <ChevronIcon />
               </button>
             </div>
           </>
@@ -76,7 +76,7 @@ export function AccountSection() {
             </button>
             <button className="r" onClick={() => openAccount('delete')}>
               <span className="r-main r-title bad">{t('account.delete')}</span>
-              <ArrowIcon />
+              <ChevronIcon />
             </button>
           </div>
         )}
@@ -98,6 +98,6 @@ function SyncLine({ sync, lastSyncedAt }: { sync: string; lastSyncedAt: number |
   if (!lastSyncedAt) return <>{t('account.notSynced')}</>
   const when = new Date(lastSyncedAt)
   const today = when.toDateString() === new Date().toDateString()
-  const time = new Intl.DateTimeFormat(t.lang, today ? { hour: '2-digit', minute: '2-digit' } : { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(when)
+  const time = new Intl.DateTimeFormat(t.locale, today ? { hour: '2-digit', minute: '2-digit' } : { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(when)
   return <>{t('account.syncedAt', { time })}</>
 }

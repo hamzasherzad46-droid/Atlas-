@@ -4,8 +4,8 @@ import { continueModuleId } from '../content/courses'
 import { courseDescription, courseTitle, moduleTitle } from '../content/names'
 import type { Course, Curriculum as CurriculumData, Plate } from '../content/types'
 import { useModule } from '../content/useModule'
-import { ArrowIcon } from '../components/Icons'
-import { OrionChart } from '../components/Celestial'
+import { ChevronIcon } from '../components/Icons'
+import { Engraving } from '../components/Engraving'
 import { Masthead } from '../components/Masthead'
 import { Meter } from '../components/bits'
 import { useT } from '../i18n'
@@ -23,8 +23,9 @@ import { ModuleRow } from './ModuleRow'
 const exists = (id: string) => getModuleInfo(id)?.status === 'available'
 
 /**
- * Today is the home page of the student's course, in a fixed order: continue where you left off,
- * today's study, learn, test, the course's own modules and topics, and a way into all content.
+ * Today is the home page of the student's course. One thing leads: the module to continue, with its
+ * cover engraving and one brass button. Then, as quiet rows: today's study, learn, test, the course
+ * (and Change course) with its modules, its topics, and a way into all content.
  */
 export function TodayScreen() {
   const t = useT()
@@ -41,7 +42,7 @@ export function TodayScreen() {
 
   const hour = now.getHours()
   const greeting = t(hour < 12 ? 'today.morning' : hour < 18 ? 'today.afternoon' : 'today.evening')
-  const dateLine = new Intl.DateTimeFormat(t.lang, { weekday: 'long', day: 'numeric', month: 'long' }).format(now)
+  const dateLine = new Intl.DateTimeFormat(t.locale, { weekday: 'long', day: 'numeric', month: 'long' }).format(now)
 
   const content = assets?.content
   const stats = content ? regionStats(content, records) : []
@@ -60,28 +61,18 @@ export function TodayScreen() {
     <main className="page today">
       <Masthead />
 
-      <div className="titleblock">
+      <div className="today-date">
         <p className="label">{dateLine}</p>
-        <h1 className="display">{name ? t('today.greeting', { g: greeting, name }) : t('today.greetingAlone', { g: greeting })}</h1>
+        <p className="small">{name ? t('today.greeting', { g: greeting, name }) : t('today.greetingAlone', { g: greeting })}</p>
       </div>
 
-      <section className="course-line">
-        <p className="label">{t('course.your')}</p>
-        <div className="course-line-row">
-          <h2 className="title">{courseTitle(t, course)}</h2>
-          <button className="textlink" onClick={() => openCourses()}>
-            {t('course.change')}
-          </button>
-        </div>
-        <p className="small">{courseDescription(t, course)}</p>
-      </section>
-
       <section className="resume sys" style={tintVars(info?.systemId)}>
+        {info?.cover && <Engraving name={info.cover} className="resume-cover" />}
         <p className="label">
           <span className="swatch" aria-hidden />
           {resumed ? t('today.continueTitle') : t('today.startHere')}
         </p>
-        <h2 className="title">{forModule}</h2>
+        <h2 className="display resume-title">{forModule}</h2>
         <p className="small resume-meta num">
           {region ? `${regionName} · ` : ''}
           {t('atlas.mastered', { n: pct(mastered, total) })}
@@ -89,7 +80,7 @@ export function TodayScreen() {
         <Meter value={mastered} max={Math.max(total, 1)} tone="tint" />
         <button className="go resume-go" onClick={() => startPractice(moduleId, region, mode)}>
           {resumed ? t('today.resumeGo') : t('practice.start')}
-          <ArrowIcon />
+          <ChevronIcon />
         </button>
       </section>
 
@@ -111,16 +102,18 @@ export function TodayScreen() {
               <span className="r-sub">{forModule}</span>
             </span>
             <span className={`r-value${due ? ' warn' : ''}`}>{due}</span>
-            <ArrowIcon />
+            <ChevronIcon />
           </button>
-          <button className="r" disabled={!mistakes} onClick={() => void startReview(moduleId)}>
-            <span className="r-main">
-              <span className="r-title">{t('today.mistakes')}</span>
-              <span className="r-sub">{forModule}</span>
-            </span>
-            <span className={`r-value${mistakes ? ' bad' : ''}`}>{mistakes}</span>
-            <ArrowIcon />
-          </button>
+          {mistakes > 0 && (
+            <button className="r" onClick={() => void startReview(moduleId)}>
+              <span className="r-main">
+                <span className="r-title">{t('today.mistakes')}</span>
+                <span className="r-sub">{forModule}</span>
+              </span>
+              <span className="r-value bad">{mistakes}</span>
+              <ChevronIcon />
+            </button>
+          )}
         </div>
       </section>
 
@@ -146,14 +139,23 @@ export function TodayScreen() {
       </section>
 
       <section className="sect">
-        <p className="label">{t('today.forCourse')}</p>
-        <div className="sect-body rows atlas-list">
-          {[...course.modules, ...course.regions].map((id) => {
-            const m = getModuleInfo(id)
-            if (!m) return null
-            const sub = m.description ?? (m.group ? t.td(`group.${m.group}`, '') : t.td(`system.${m.systemId}`, ''))
-            return <ModuleRow key={id} info={m} sub={sub} />
-          })}
+        <p className="label">{t('course.your')}</p>
+        <div className="sect-body">
+          <div className="course-line">
+            <h2 className="course-line-title">{courseTitle(t, course)}</h2>
+            <button className="textlink" onClick={() => openCourses()}>
+              {t('course.change')}
+            </button>
+          </div>
+          <p className="small course-line-sub">{courseDescription(t, course)}</p>
+          <div className="rows atlas-list">
+            {[...course.modules, ...course.regions].map((id) => {
+              const m = getModuleInfo(id)
+              if (!m) return null
+              const sub = m.description ?? (m.group ? t.td(`group.${m.group}`, '') : t.td(`system.${m.systemId}`, ''))
+              return <ModuleRow key={id} info={m} sub={sub} />
+            })}
+          </div>
         </div>
       </section>
 
@@ -170,11 +172,9 @@ export function TodayScreen() {
             <span className="r-title">{t('today.allContent')}</span>
             <span className="r-sub">{t('today.allContentSub')}</span>
           </span>
-          <ArrowIcon />
+          <ChevronIcon />
         </button>
       </div>
-
-      <OrionChart className="frontispiece" />
     </main>
   )
 }
@@ -186,7 +186,7 @@ function ActionRow({ title, sub, onClick }: { title: string; sub: string; onClic
         <span className="r-title">{title}</span>
         <span className="r-sub">{sub}</span>
       </span>
-      <ArrowIcon />
+      <ChevronIcon />
     </button>
   )
 }
@@ -214,7 +214,7 @@ function CoursePlates({ course }: { course: Course }) {
             <span className="r-main r-title" dir="auto">
               {p.title}
             </span>
-            <ArrowIcon />
+            <ChevronIcon />
           </button>
         ))}
       </div>
@@ -249,7 +249,7 @@ function CourseTopics({ course }: { course: Course }) {
         {featured.map((f) => (
           <button key={f.title} className="r" dir="ltr" onClick={() => openTopic({ cat: f.cat, index: f.index })}>
             <span className="r-main r-title">{f.title}</span>
-            <ArrowIcon />
+            <ChevronIcon />
           </button>
         ))}
       </div>

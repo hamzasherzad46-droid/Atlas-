@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { loadPlates } from '../content/loader'
 import type { Plate } from '../content/types'
-import { ArrowIcon, BackIcon } from '../components/Icons'
+import { ChevronIcon, BackIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { publicUrl } from '../lib/paths'
 import { placeTags } from '../lib/plates'
@@ -35,7 +35,7 @@ export function PlatesList() {
             <span className="r-title" dir="auto">{p.title}</span>
             <span className="r-sub">{t('plate.arrows', { n: p.labels.length })}</span>
           </span>
-          <ArrowIcon />
+          <ChevronIcon />
         </button>
       ))}
     </div>
