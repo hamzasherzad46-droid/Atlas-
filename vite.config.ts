@@ -12,15 +12,20 @@ export default defineConfig(({ mode }) => {
     base,
     plugins: [
       react(),
+      // Link previews need an absolute image URL: the deployed address (ATLAS_SITE), else the base path.
+      {
+        name: 'atlas-site-url',
+        transformIndexHtml: (html: string) => html.replaceAll('%ATLAS_SITE%', process.env.ATLAS_SITE ?? base),
+      },
       // Sandboxed hosts only allow data: images, so drop the favicon links there.
       artifact && {
         name: 'atlas-artifact-html',
-        transformIndexHtml: (html: string) => html.replace(/\s*<link rel="(icon|apple-touch-icon)"[^>]*>/g, ''),
+        transformIndexHtml: (html: string) => html.replace(/\s*<link rel="(icon|apple-touch-icon|apple-touch-startup-image)"[^>]*>/g, ''),
       },
       !artifact &&
         VitePWA({
           registerType: 'autoUpdate',
-          includeAssets: ['icons/icon.svg', 'icons/apple-touch-icon.png'],
+          includeAssets: ['icons/icon.svg', 'icons/favicon-32.png', 'icons/apple-touch-icon.png'],
           manifest: {
             name: 'Atlas',
             short_name: 'Atlas',
@@ -41,6 +46,8 @@ export default defineConfig(({ mode }) => {
             // App shell, fonts, content chunks and the Draco decoder are precached,
             // so the app works offline after the first visit.
             globPatterns: ['**/*.{js,css,html,woff2,svg,png,wasm}'],
+            // iOS reads its launch screens when the app is added to the home screen; they need no offline copy.
+            globIgnores: ['splash/**'],
             navigateFallback: `${base}index.html`,
             runtimeCaching: [
               {

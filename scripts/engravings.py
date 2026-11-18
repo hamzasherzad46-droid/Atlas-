@@ -5,7 +5,8 @@ Cut the cover engravings from the plates in public/plates (all public domain, se
 Each cover is a 2:1 crop, its hand colouring lifted out (each pixel takes its lightest channel, so the
 red and blue washes go pale and the engraved line stays dark), set in greyscale on white and saved as
 a small WebP. The app prints it on the theme's paper colour (CSS multiply), so one file serves both
-themes.  Run: python3 scripts/engravings.py
+themes. It also cuts the engraving for the share image (scripts/brand/, used by brand-assets.cjs).
+Run: python3 scripts/engravings.py
 """
 from pathlib import Path
 
@@ -49,12 +50,17 @@ def mend(im: Image.Image, creases: list[tuple[int, int]]) -> Image.Image:
     return Image.fromarray(a.round().astype(np.uint8))
 
 
-def cover(plate: str, x0: float, x1: float, y0: float, lift: float) -> Image.Image:
+# The share image's engraving (1200 x 630 card, right-hand panel): taller than a cover.
+SHARE = ('heart-nerves', 0.02, 0.98, 0.03, 1.15)
+SHARE_SIZE = (1040, 1260)
+
+
+def cover(plate: str, x0: float, x1: float, y0: float, lift: float, size: tuple[int, int] = (WIDTH, WIDTH // 2)) -> Image.Image:
     im = mend(Image.open(PLATES / f'{plate}.webp').convert('RGB'), CREASES.get(plate, []))
     w, h = im.size
     left, right = round(x0 * w), round(x1 * w)
     top = round(y0 * h)
-    bottom = top + (right - left) // 2
+    bottom = top + round((right - left) * size[1] / size[0])
     if bottom > h:
         raise SystemExit(f'{plate}: crop runs off the bottom of the plate')
     r, g, b = im.crop((left, top, right, bottom)).split()
@@ -63,7 +69,7 @@ def cover(plate: str, x0: float, x1: float, y0: float, lift: float) -> Image.Ima
     if lift != 1:
         grey = grey.point(lambda v: round(255 * (v / 255) ** (1 / lift)))
     # A touch of smoothing keeps the paper's grain from costing kilobytes; the engraved line survives it.
-    return grey.filter(ImageFilter.GaussianBlur(0.5)).resize((WIDTH, WIDTH // 2), Image.LANCZOS)
+    return grey.filter(ImageFilter.GaussianBlur(0.5)).resize(size, Image.LANCZOS)
 
 
 def main() -> None:
@@ -72,6 +78,11 @@ def main() -> None:
         path = OUT / f'{name}.webp'
         cover(*spec).save(path, 'WEBP', quality=55, method=6)
         print(f'{path.relative_to(ROOT)}  {path.stat().st_size // 1024} KB')
+    # Not served: scripts/brand-assets.cjs prints it into the share image.
+    share = ROOT / 'scripts' / 'brand' / 'share-engraving.jpg'
+    share.parent.mkdir(exist_ok=True)
+    cover(*SHARE, size=SHARE_SIZE).save(share, quality=88, optimize=True)
+    print(f'{share.relative_to(ROOT)}  {share.stat().st_size // 1024} KB')
 
 
 if __name__ == '__main__':

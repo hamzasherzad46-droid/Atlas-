@@ -31,6 +31,7 @@ jobs:
       - run: npm run build
         env:
           ATLAS_BASE: /${{ github.event.repository.name }}/
+          ATLAS_SITE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
           # Accounts (Firebase web config, public by design): Settings → Secrets and variables →
           # Actions → Variables. Until all four are set the app has no accounts. See README "Accounts".
           VITE_FIREBASE_API_KEY: ${{ vars.FIREBASE_API_KEY }}

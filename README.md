@@ -89,6 +89,8 @@ apply there.
   (Source Serif 4 and Source Sans 3) and brass for the instrument (dark is the signature; light is a manuscript page),
   parchment flashcards, and details of the real 19th-century plates as module covers and empty states
   (`scripts/engravings.py` cuts them). The armillary-sphere seal appears only on the welcome screen and the app icon.
+  The app icons, the 32 px favicon, the iOS launch screens and the share image (`public/share.jpg`) are all drawn
+  from `public/icons/icon.svg` by `node scripts/brand-assets.cjs`.
 
 ### Known data gaps (BodyParts3D 4.0)
 
