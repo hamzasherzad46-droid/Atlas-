@@ -3,6 +3,7 @@ import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
 import { use, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import type { ModuleAssets } from '../content/useModule'
+import { reducedMotion } from '../lib/motion'
 import { publicUrl } from '../lib/paths'
 import { trackLoads } from '../state/modelLoads'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
@@ -102,7 +103,8 @@ function Highlighted({ root, highlight, glow = true, onPick, onMatched, focus, o
   useFrame(() => {
     const f = fade.current
     if (f.t >= 1) return
-    f.t = Math.min(1, (performance.now() - f.from) / 700)
+    // The highlight inks in over 250 ms (at once when the system asks for less motion).
+    f.t = reducedMotion() ? 1 : Math.min(1, (performance.now() - f.from) / 250)
     highlighter.setProgress(1 - Math.pow(1 - f.t, 3))
     invalidate()
   })

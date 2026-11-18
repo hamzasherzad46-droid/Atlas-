@@ -9,6 +9,13 @@ const fs = require('fs')
 const OUT = process.argv[2] || 'screens'
 const URL = process.argv[3] || 'http://localhost:5173/'
 
+/** Wait for the 3D model: its loading line goes once it is set up; the first frame follows. */
+async function modelShown(p) {
+  await p.waitForTimeout(500)
+  await p.locator('.model-loading').first().waitFor({ state: 'detached', timeout: 30000 }).catch(() => {})
+  await p.waitForTimeout(3500)
+}
+
 const settings = (theme, onboarded) => ({
   state: { theme, track: 'nursing', lang: 'en', name: '', sound: false, dailyGoal: 20, answerTimer: 0, onboarded, lastSession: null, profileChangedAt: 0 },
   version: 3,
@@ -61,7 +68,7 @@ async function typeQuiz(p) {
 
     await fresh(true)
     await p.getByRole('button', { name: /^Start spelling quiz/ }).click()
-    await p.waitForTimeout(2500)
+    await modelShown(p)
     await shot('05-quiz')
     await typeQuiz(p)
     await p.waitForTimeout(1200)
@@ -69,7 +76,7 @@ async function typeQuiz(p) {
 
     await fresh(true)
     await p.getByRole('button', { name: /^Flashcards Injection/ }).first().click()
-    await p.waitForTimeout(2500)
+    await modelShown(p)
     await shot('07-flashcards')
 
     await fresh(true)

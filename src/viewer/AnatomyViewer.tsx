@@ -109,7 +109,7 @@ export default function AnatomyViewer({
           )}
           <CameraRig view={view} resetKey={resetKey} apiRef={cameraApi} />
         </Canvas>
-        <ModelLoading />
+        <ModelLoading settling={!highlighter} />
       </div>
     </ViewerBoundary>
   )
