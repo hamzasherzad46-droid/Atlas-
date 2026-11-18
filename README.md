@@ -62,8 +62,10 @@ apply there.
   30 or 45 at a time with the options shuffled. Each answer is marked at once and explained; the results show the
   score by topic and every question to look at again, and are kept with the exam history in Progress. Started from
   Today or All content, from the course's topics or all of them, or on one topic from search.
-- **Sound**: synthesised in the browser, no audio files — a two-note bell for a correct answer and a closing chord
-  after a mock exam (Settings can turn sound off).
+- **Sound**: short real recordings, public domain or CC0 (`public/sounds/SOURCES.md`): a typewriter key as you
+  type, a typewriter's bell for a right answer, a soft knock on wood for a wrong one, a page turning for flashcards.
+  Quiet, and varied by up to 3 % in pitch and volume on every play; on Android, a very short vibration too.
+  Settings can turn both off.
 - **The body in 3D** (Today or Atlas): the whole BodyParts3D body in seven layers — skin, every muscle (442 meshes),
   bones, organs (heart, airways, digestive, urinary and reproductive organs, glands and eyes), arteries (639 meshes),
   veins (395 meshes) and the brain and nerves. Each layer loads only when switched on. Four views: Layers (peel from

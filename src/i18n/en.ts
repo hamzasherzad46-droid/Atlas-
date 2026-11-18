@@ -434,6 +434,7 @@ export const en = {
   'credits.desc': 'Atlas is an anatomy trainer: you learn each structure by typing its name on a 3D model.',
   'credits.models': '3D model credits',
   'credits.plates': 'Anatomical plates',
+  'credits.sounds': 'Sounds',
   'credits.fonts': 'Fonts',
   'credits.privacy': 'Privacy',
   'credits.privacyText': 'No ads and no tracking. Without an account, your progress stays on this device. If you sign in, your email address and your progress (with your course, daily goal and name) are stored in Google Firebase so they follow you to your other devices. You can delete your account in Settings at any time.',

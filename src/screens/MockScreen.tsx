@@ -7,7 +7,7 @@ import { useT } from '../i18n'
 import { formatClock, pct } from '../lib/format'
 import { buildMock, mockLengths, mockPool, topicScores, type MockItem } from '../lib/mock'
 import { buzz } from '../lib/haptics'
-import { playSound } from '../lib/sound'
+import { playSound, preloadSounds } from '../lib/sound'
 import { goBack, useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { useSettings } from '../state/settings'
@@ -46,6 +46,8 @@ export function MockScreen() {
   const [startedAt, setStartedAt] = useState(0)
   const [finishedAt, setFinishedAt] = useState(0)
 
+  // The recordings arrive while the screen opens, so the first key already has its sound.
+  useEffect(() => preloadSounds(), [])
   useEffect(() => {
     let alive = true
     void loadMock().then((b) => {

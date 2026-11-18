@@ -6,7 +6,7 @@ import { ModelLoading } from '../components/ModelLoading'
 import { CheckIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { meshKeys } from '../lib/meshMatch'
-import { playSound } from '../lib/sound'
+import { playSound, preloadSounds } from '../lib/sound'
 import { CARDS_LENGTH, goBack, type CardsConfig } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { buildDeck } from '../lib/deck'
@@ -31,6 +31,8 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
   const [drag, setDrag] = useState(0)
   const start = useRef<{ x: number; moved: boolean } | null>(null)
 
+  // The recordings arrive while the screen opens, so the first key already has its sound.
+  useEffect(() => preloadSounds(), [])
   useEffect(() => {
     if (!assets || deck) return
     const pool = assets.content.structures.filter((s) => !config.region || s.region === config.region)

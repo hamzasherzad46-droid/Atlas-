@@ -6,7 +6,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (102)
+### Missing: shown in English (103)
 
 | Key | English |
 | --- | --- |
@@ -98,6 +98,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `credits.sounds` | Sounds |
 | `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
@@ -188,7 +189,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (102)
+### Missing: shown in English (103)
 
 | Key | English |
 | --- | --- |
@@ -280,6 +281,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `credits.sounds` | Sounds |
 | `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
@@ -368,7 +370,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (102)
+### Missing: shown in English (103)
 
 | Key | English |
 | --- | --- |
@@ -460,6 +462,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `credits.sounds` | Sounds |
 | `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
@@ -542,7 +545,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (102)
+### Missing: shown in English (103)
 
 | Key | English |
 | --- | --- |
@@ -634,6 +637,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `credits.sounds` | Sounds |
 | `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
@@ -717,7 +721,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (102)
+### Missing: shown in English (103)
 
 | Key | English |
 | --- | --- |
@@ -809,6 +813,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `credits.sounds` | Sounds |
 | `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |
@@ -889,7 +894,7 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (102)
+### Missing: shown in English (103)
 
 | Key | English |
 | --- | --- |
@@ -981,6 +986,7 @@ None.
 | `mock.allTopics` | All topics |
 | `mock.available` | {n} questions available |
 | `mock.oneTopic` | This topic |
+| `credits.sounds` | Sounds |
 | `today.forCourse` | For your course |
 | `module.injection-sites` | Injection sites |
 | `module.pulse-points` | Pulse points |

@@ -17,6 +17,7 @@ import { SessionSummary } from './SessionSummary'
 import './quiz.css'
 import { ScreenBar } from '../components/ScreenBar'
 import { LoadError } from '../components/LoadError'
+import { preloadSounds } from '../lib/sound'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -34,6 +35,8 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   const format = config.format ?? 'type'
   // "Try again" shows for a moment after each wrong letter.
   const [tryAgain, setTryAgain] = useState(false)
+  // The recordings arrive while the screen opens, so the first key already has its sound.
+  useEffect(() => preloadSounds(), [])
   useEffect(() => {
     if (!q.wrongCount) return
     // Shown on the wrong key, hidden after a beat; a state flag rather than a CSS fade-out so it also
