@@ -104,9 +104,9 @@ export function AtlasScreen() {
 }
 
 /**
- * A module: its cover engraving and how far along you are, then every way to study it in view. The
- * test settings sit above the tests they apply to, and the spelling quiz is the one brass action;
- * nothing is hidden behind a link.
+ * A module: how far along you are, then every way to study it in view. The test settings sit above
+ * the tests they apply to, and the spelling quiz is the one outlined action; nothing is hidden
+ * behind a link.
  */
 function ModuleScreen({ id }: { id: string }) {
   const t = useT()

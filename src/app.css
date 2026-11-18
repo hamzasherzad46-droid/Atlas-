@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   height: calc(var(--tabbar-h) + var(--safe-bottom));
-  padding: 0 calc(var(--pad) - 8px) var(--safe-bottom);
+  padding: 0 calc(var(--pad) - var(--s-2)) var(--safe-bottom);
   background: var(--bg);
   border-top: 1px solid var(--line);
 }
@@ -22,7 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4px;
+  padding: 0 var(--s-1);
   font-size: var(--fs-5);
   font-weight: var(--fw-regular);
   letter-spacing: var(--ls-small);
@@ -41,7 +41,7 @@
 .tab[aria-current='page']::before {
   content: '';
   position: absolute;
-  top: -1px;
+  top: calc(-1 * var(--hair));
   left: 26%;
   right: 26%;
   height: 2px;
@@ -53,13 +53,13 @@
   display: inline-flex;
   align-items: center;
   min-width: 0;
-  margin-inline-end: -12px;
+  margin-inline-end: calc(-1 * var(--s-3));
 }
 
 .masthead-track {
   min-height: 44px;
   min-width: 0;
-  padding: 0 4px;
+  padding: 0 var(--s-1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -71,13 +71,48 @@
 
 /* ---------- Search ---------- */
 .search-box {
-  padding: 20px 0 8px;
+  padding: var(--s-4) 0 var(--s-2);
+}
+
+/* A slim field: a hairline box with the magnifier inside it. */
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  border: var(--hair) solid var(--line-strong);
+  border-radius: var(--radius);
+  transition: border-color var(--fast) linear;
+}
+
+.search-wrap:focus-within {
+  border-color: var(--accent);
+}
+
+.search-wrap > svg {
+  position: absolute;
+  inset-inline-start: var(--s-3);
+  color: var(--fg-2);
+  pointer-events: none;
 }
 
 .search-field {
-  margin-top: 8px;
-  font-size: var(--fs-3);
-  min-height: 44px;
+  flex: 1;
+  min-width: 0;
+  min-height: calc(var(--tap) - 2 * var(--hair));
+  padding: 0 var(--s-3) 0 calc(var(--s-3) * 2 + var(--icon));
+  border: 0;
+  background: transparent;
+  font-size: var(--fs-body);
+  color: var(--fg);
+}
+
+.search-field:focus {
+  outline: none;
+}
+
+.search-field::placeholder {
+  color: var(--fg-2);
 }
 
 /* The field's clear button, drawn in the house line instead of the browser's blue cross. */
@@ -96,11 +131,11 @@
 
 .search-hint,
 .search .empty {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .search-count {
-  margin-top: 8px;
+  margin-top: var(--s-2);
   color: var(--fg-2);
 }
 
@@ -110,16 +145,16 @@
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) minmax(44px, auto);
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   min-height: 48px;
-  padding: 0 calc(var(--pad) - 12px);
+  padding: 0 calc(var(--pad) - var(--s-3));
   flex-shrink: 0;
 }
 
 /* Inside a scrolling page the page already has the side padding and the top inset. */
 .page > .screen-bar,
 .summary-inner > .screen-bar {
-  margin: -10px -12px 0;
+  margin: -10px calc(-1 * var(--s-3)) 0;
   padding: 0;
 }
 
@@ -155,23 +190,20 @@
 }
 
 .start-block {
-  padding: 24px 0 28px;
+  padding: var(--s-5) 0 28px;
   border-top: 1px solid var(--line);
 }
 
 .start-note {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .option-help {
-  margin-top: 8px;
+  margin-top: var(--s-2);
 }
 
 .toggle-row {
   align-items: center;
-  min-height: 44px;
-  border-top: 0;
-  padding: 2px 0;
 }
 
 /* Licence links are separate lines, so each gets a full-height target. */
@@ -290,64 +322,64 @@
 }
 
 .atlas-list > .r:first-child {
-  padding-top: 12px;
+  padding-top: var(--s-3);
 }
 
 .atlas-list .swatch {
   align-self: center;
-  margin-inline-end: 4px;
+  margin-inline-end: var(--s-1);
 }
 
 /* ---------- Module ---------- */
 .module-page .backlink {
-  margin-top: 4px;
+  margin-top: var(--s-1);
 }
 
-/* The spelling quiz is the module's one brass action, under the settings it uses. */
+/* The spelling quiz is the module's one outlined action, under the settings it uses. */
 .module-start {
   margin-top: var(--s-5);
 }
 
 .module-titleblock {
-  padding: 20px 0 20px;
+  padding: var(--pad) 0 var(--pad);
 }
 
 .module-blurb {
-  margin-top: 12px;
+  margin-top: var(--s-3);
   font-size: var(--fs-4);
 }
 
 .module-stats {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .module-first {
-  margin-top: 8px;
+  margin-top: var(--s-2);
 }
 
 .module-settings-note {
-  margin-bottom: 4px;
+  margin-bottom: var(--s-1);
   color: var(--fg-2);
 }
 
 .module-setting {
-  padding: 12px 0 4px;
+  padding: var(--s-3) 0 var(--s-1);
 }
 
 .module-setting-label {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
   color: var(--fg);
   font-weight: var(--fw-medium);
 }
 
 .module-tests {
-  margin-top: 16px;
+  margin-top: var(--s-4);
   border-top: 1px solid var(--line);
 }
 
 .module-tests > .r:first-child {
   border-top: 0;
-  padding-top: 12px;
+  padding-top: var(--s-3);
 }
 
 /* Practice options open over the module page and the tab bar. */
@@ -356,7 +388,7 @@
 }
 
 .sheet .page {
-  padding-bottom: calc(var(--safe-bottom) + 32px);
+  padding-bottom: calc(var(--safe-bottom) + var(--s-6));
 }
 
 /* ---------- Progress ---------- */
@@ -364,43 +396,102 @@
   display: grid;
   grid-template-rows: repeat(7, 1fr);
   grid-auto-flow: column;
-  gap: 4px;
+  gap: var(--s-1);
   direction: ltr;
 }
 
+/* Each day a dot: a decoration-grey point when nothing was studied, larger accent dots for busier days. */
 .heat-cell {
-  display: inline-block;
+  display: grid;
+  place-items: center;
   aspect-ratio: 1;
   min-width: 8px;
-  background: var(--bg-3);
 }
 
-.heat-cell.l1 {
-  background: color-mix(in srgb, var(--accent) 25%, var(--bg-3));
+.heat-cell::after {
+  content: '';
+  width: var(--dot-0);
+  height: var(--dot-0);
+  border-radius: 50%;
+  background: var(--fg-3);
 }
 
-.heat-cell.l2 {
-  background: color-mix(in srgb, var(--accent) 50%, var(--bg-3));
-}
-
-.heat-cell.l3 {
-  background: color-mix(in srgb, var(--accent) 75%, var(--bg-3));
-}
-
-.heat-cell.l4 {
+.heat-cell.l1::after {
+  width: var(--dot-1);
+  height: var(--dot-1);
   background: var(--accent);
 }
 
-.heat-cell.future {
-  opacity: 0.35;
+.heat-cell.l2::after {
+  width: var(--dot-2);
+  height: var(--dot-2);
+  background: var(--accent);
+}
+
+.heat-cell.l3::after {
+  width: var(--dot-3);
+  height: var(--dot-3);
+  background: var(--accent);
+}
+
+.heat-cell.l4::after {
+  width: var(--dot-4);
+  height: var(--dot-4);
+  background: var(--accent);
+}
+
+.heat-cell.future::after {
+  visibility: hidden;
+}
+
+/* Days as hairline bars on a baseline, growing in one after another. */
+.histo {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: end;
+  height: var(--histo-h);
+  border-bottom: var(--hair) solid var(--line-strong);
+  direction: ltr;
+}
+
+.histo-bar {
+  justify-self: center;
+  width: var(--bar);
+  height: var(--h);
+  background: var(--accent);
+  transform-origin: bottom;
+  animation: grow var(--slow) var(--ease) both;
+  animation-delay: calc(var(--i) * var(--stagger));
+}
+
+.histo-bar.none {
+  height: 0;
+}
+
+@keyframes grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+.histo-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--s-2);
+  color: var(--fg-2);
+}
+
+.histo-sum {
+  margin-top: var(--s-3);
 }
 
 .streak-line {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .plan-periods {
-  margin: -6px 0 8px;
+  margin: -6px 0 var(--s-2);
 }
 
 .plan .r {
@@ -433,28 +524,28 @@
 }
 
 .plan-left {
-  margin-top: 8px;
+  margin-top: var(--s-2);
 }
 
 .weak-module {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
 }
 
 /* ---------- Settings ---------- */
 .settings-end {
-  border-top: 1px solid var(--line);
+  margin-top: var(--s-5);
+  border-top: var(--hair) solid var(--line);
 }
 
-/* "Atlas is a study aid…": hung like a margin note, in the clinical-note copper. */
+/* "Atlas is a study aid…": hung like a margin note on a hairline. */
 .study-aid {
-  margin-top: 20px;
-  padding-inline-start: 12px;
-  border-inline-start: 1px solid var(--fg-2);
+  margin-top: var(--s-5);
+  padding-inline-start: var(--s-3);
+  border-inline-start: var(--hair) solid var(--line-strong);
 }
 
 .settings-end > .r:first-child {
   border-top: 0;
-  padding-top: 12px;
 }
 
 /* ---------- Onboarding ---------- */
@@ -463,7 +554,7 @@
 }
 
 .onboarding .page {
-  padding-bottom: calc(var(--safe-bottom) + 32px);
+  padding-bottom: calc(var(--safe-bottom) + var(--s-6));
 }
 
 .onb-title .display {
@@ -472,7 +563,7 @@
 
 /* ---------- Credits ---------- */
 .credits .backlink {
-  margin-top: 4px;
+  margin-top: var(--s-1);
 }
 
 .credit {
@@ -492,7 +583,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--s-3);
   padding: 0 var(--pad);
   border-bottom: 1px solid var(--line);
 }
@@ -507,20 +598,23 @@
   min-height: 0;
 }
 
+/* How to move the model: under the heading tape, clear of the AZ/EL readout. */
 .explore-help {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   left: var(--pad);
   right: var(--pad);
-  bottom: 10px;
+  top: calc(var(--tape-h) + var(--s-3));
   text-align: center;
+  color: var(--fg-2);
+  text-shadow: var(--halo);
   pointer-events: none;
 }
 
 .dev-copy {
   position: absolute;
   inset-inline-end: var(--pad);
-  top: 10px;
+  bottom: var(--s-3);
   z-index: 2;
   font-size: var(--fs-5);
   text-decoration: underline;
@@ -564,7 +658,7 @@
 }
 
 .pin-name {
-  padding: 2px 8px 4px;
+  padding: 2px var(--s-2) var(--s-1);
   background: var(--bg-2);
   border: 1px solid var(--line-strong);
   font-size: var(--fs-4);
@@ -574,7 +668,7 @@
 }
 
 .explore-panel {
-  padding: 16px var(--pad) 20px;
+  padding: var(--s-4) var(--pad) var(--pad);
   border-top: 1px solid var(--line-strong);
   background: var(--bg);
   min-height: 92px;
@@ -585,7 +679,7 @@
 }
 
 .explore-panel .latin {
-  margin: 2px 0 8px;
+  margin: 2px 0 var(--s-2);
   font-size: var(--fs-4);
 }
 
@@ -595,13 +689,13 @@
 }
 
 .explore-panel .note {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .explore-actions {
   display: flex;
-  gap: 24px;
-  margin-top: 16px;
+  gap: var(--s-5);
+  margin-top: var(--s-4);
 }
 
 .icon-btn {
@@ -658,12 +752,12 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
-  margin-inline-end: -12px;
+  gap: var(--s-2);
+  margin-inline-end: calc(-1 * var(--s-3));
 }
 
 .explore-title .title {
-  padding-top: 8px;
+  padding-top: var(--s-2);
 }
 
 /* ---------- Celestial ---------- */
@@ -689,7 +783,7 @@
   place-items: center;
   min-width: 20px;
   height: 20px;
-  padding: 0 4px;
+  padding: 0 var(--s-1);
   border-radius: 999px;
   background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--accent);
@@ -703,8 +797,8 @@
 .plate-key {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 16px;
-  margin: 8px 0 0;
+  column-gap: var(--s-4);
+  margin: var(--s-2) 0 0;
   padding: 0;
   list-style: none;
   max-height: 30vh;
@@ -714,10 +808,10 @@
 .plate-key button {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: var(--s-2);
   width: 100%;
   min-height: 44px;
-  padding: 8px 0;
+  padding: var(--s-2) 0;
   border-top: 1px solid var(--line);
   font-size: var(--fs-5);
   text-align: start;
@@ -730,7 +824,7 @@
 }
 
 .plate-no {
-  margin-inline-end: 12px;
+  margin-inline-end: var(--s-3);
   font-size: var(--fs-5);
   color: var(--accent);
   vertical-align: 0.35em;
@@ -738,7 +832,7 @@
 
 /* ---------- Atlas views and the curriculum ---------- */
 .curriculum-count {
-  margin-bottom: 12px;
+  margin-bottom: var(--s-3);
   color: var(--fg-2);
 }
 
@@ -757,7 +851,7 @@
 }
 
 .topics {
-  margin: 0 0 16px;
+  margin: 0 0 var(--s-4);
   padding: 0;
   list-style: none;
   border-inline-start: 1px solid var(--line-strong);
@@ -768,9 +862,9 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 4px 12px;
-  padding-block: 8px;
-  padding-inline: 16px 0;
+  gap: var(--s-1) var(--s-3);
+  padding-block: var(--s-2);
+  padding-inline: var(--s-4) 0;
   font-size: var(--fs-4);
 }
 
@@ -781,20 +875,20 @@
 
 /* ---------- Plates: historical engravings with numbered arrows ---------- */
 .plate-page .backlink {
-  margin-top: 4px;
+  margin-top: var(--s-1);
 }
 
 .plate-titleblock {
-  padding: 20px 0 16px;
+  padding: var(--pad) 0 var(--s-4);
 }
 
 .plate-view {
-  margin-top: 8px;
+  margin-top: var(--s-2);
   color: var(--fg-2);
 }
 
 .plate-modes {
-  margin-bottom: 12px;
+  margin-bottom: var(--s-3);
 }
 
 .plate-zoom {
@@ -878,7 +972,7 @@
 .plate-tag::after {
   content: '';
   position: absolute;
-  inset: -12px;
+  inset: calc(-1 * var(--s-3));
 }
 
 .plate-tag {
@@ -888,7 +982,7 @@
   place-items: center;
   min-width: 22px;
   height: 22px;
-  padding: 0 4px;
+  padding: 0 var(--s-1);
   border-radius: 999px;
   transform: translate(-50%, -50%);
   background: var(--plate-tag);
@@ -915,7 +1009,7 @@
 
 .plate-panel {
   min-height: 112px;
-  padding: 16px 0 20px;
+  padding: var(--s-4) 0 var(--pad);
   border-bottom: 1px solid var(--line);
 }
 
@@ -925,7 +1019,7 @@
   z-index: 3;
   bottom: calc(var(--tabbar-h) + var(--safe-bottom));
   margin: 0 calc(-1 * var(--pad));
-  padding: 16px var(--pad) 16px;
+  padding: var(--s-4) var(--pad) var(--s-4);
   min-height: 0;
   max-height: 42vh;
   overflow-y: auto;
@@ -937,7 +1031,7 @@
 .plate-name {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: var(--s-3);
 }
 
 .plate-name .plate-no {
@@ -953,7 +1047,7 @@
 }
 
 .plate-note {
-  margin-top: 8px;
+  margin-top: var(--s-2);
   font-size: var(--fs-4);
   line-height: var(--lh-body);
   color: var(--fg-2);
@@ -961,7 +1055,7 @@
 
 .plate-reveal,
 .plate-next {
-  margin-top: 16px;
+  margin-top: var(--s-4);
 }
 
 .plate-keylist {
@@ -973,10 +1067,10 @@
 .plate-keylist button {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: var(--s-3);
   width: 100%;
   min-height: 44px;
-  padding: 8px 0;
+  padding: var(--s-2) 0;
   border-top: 1px solid var(--line);
   font-size: var(--fs-4);
   text-align: start;
@@ -1005,7 +1099,7 @@
 }
 
 .plate-source {
-  margin-top: 12px;
+  margin-top: var(--s-3);
   color: var(--fg-2);
 }
 
@@ -1057,7 +1151,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 8px var(--pad) 8px;
+  padding: var(--s-2) var(--pad) var(--s-2);
   border-top: 1px solid var(--line);
 }
 
@@ -1073,19 +1167,19 @@
 
 .body-layers {
   display: flex;
-  gap: 8px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  gap: var(--s-2);
+  padding-top: var(--s-3);
+  padding-bottom: var(--s-3);
   border-top: 1px solid var(--line);
 }
 
 .body-layer {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--s-2);
   flex-shrink: 0;
   min-height: 44px;
-  padding: 0 12px;
+  padding: 0 var(--s-3);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-size: var(--fs-5);
@@ -1120,19 +1214,19 @@
 }
 
 .body-note {
-  margin-top: 8px;
+  margin-top: var(--s-2);
   color: var(--fg-2);
 }
 
 .atlas-body {
-  margin: 0 0 20px;
+  margin: 0 0 var(--pad);
 }
 
 /* ---------- Curriculum topics ---------- */
 .topic-open {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--s-3);
   width: 100%;
   min-height: 44px;
   text-align: start;
@@ -1148,15 +1242,15 @@
 }
 
 .topic-titleblock {
-  padding: 20px 0 16px;
+  padding: var(--pad) 0 var(--s-4);
 }
 
 .topic-heading {
-  margin-top: 4px;
+  margin-top: var(--s-1);
 }
 
 .topic-summary {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .topic-points {
@@ -1167,8 +1261,8 @@
 
 .topic-points li {
   display: flex;
-  gap: 12px;
-  padding: 12px 0;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
   border-top: 1px solid var(--line);
   font-size: var(--fs-4);
   line-height: var(--lh-body);
@@ -1182,7 +1276,7 @@
 .topic-no {
   flex-shrink: 0;
   min-width: 16px;
-  padding-top: 4px;
+  padding-top: var(--s-1);
   font-size: var(--fs-6);
   color: var(--accent);
 }
@@ -1190,16 +1284,16 @@
 .topic-nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 8px;
-  padding-top: 20px;
+  gap: var(--s-4);
+  margin-top: var(--s-2);
+  padding-top: var(--pad);
   border-top: 1px solid var(--line);
 }
 
 .topic-step {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--s-1);
   text-align: start;
 }
 
@@ -1236,12 +1330,12 @@
 }
 
 .today-sublabel {
-  margin-top: 20px;
-  margin-bottom: 4px;
+  margin-top: var(--pad);
+  margin-bottom: var(--s-1);
 }
 
 .today-all {
-  margin-top: 8px;
+  margin-top: var(--s-2);
   border-top: 1px solid var(--line);
 }
 
@@ -1255,10 +1349,10 @@
 .course-choice {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--s-1);
   width: 100%;
   min-height: 64px;
-  padding: 16px 4px 16px 16px;
+  padding: var(--s-4) var(--s-1) var(--s-4) var(--s-4);
   border-bottom: 1px solid var(--line);
   border-inline-start: 2px solid transparent;
   text-align: start;
@@ -1280,7 +1374,7 @@
 }
 
 .onb-lang {
-  margin-top: 8px;
+  margin-top: var(--s-2);
 }
 
 /* ---------- Account ---------- */
@@ -1289,7 +1383,7 @@
 }
 
 .account-screen .page {
-  padding-bottom: calc(var(--safe-bottom) + 32px);
+  padding-bottom: calc(var(--safe-bottom) + var(--s-6));
 }
 
 /* Google's own sign-in button colours (their branding requires them), in each theme: the one place
@@ -1298,10 +1392,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: var(--s-3);
   width: 100%;
   min-height: 48px;
-  padding: 0 16px;
+  padding: 0 var(--s-4);
   border: 1px solid #8e918f;
   border-radius: 4px;
   background: #131314;
@@ -1321,49 +1415,49 @@
 }
 
 .account-lede {
-  margin-bottom: 16px;
+  margin-bottom: var(--s-4);
 }
 
 .account-section .google-btn + .rows {
-  margin-top: 8px;
+  margin-top: var(--s-2);
 }
 
 .account-form {
-  margin-top: 24px;
+  margin-top: var(--s-5);
 }
 
 .account-or {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
 }
 
 .account-field-label {
   display: block;
-  margin-top: 12px;
+  margin-top: var(--s-3);
   color: var(--fg);
 }
 
 .account-submit {
-  margin-top: 24px;
+  margin-top: var(--s-5);
 }
 
 .account-delete {
-  margin-top: 20px;
+  margin-top: var(--pad);
   color: var(--bad);
 }
 
 .account-msg {
   min-height: 1.4em;
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .account-links {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 20px;
+  column-gap: var(--pad);
 }
 
 .account-privacy {
-  margin-top: 20px;
+  margin-top: var(--pad);
 }
 
 .account-email {
@@ -1371,7 +1465,7 @@
 }
 
 .onb-signin {
-  margin-top: 8px;
+  margin-top: var(--s-2);
 }
 
 /* ---------- Empty states ---------- */
@@ -1407,7 +1501,7 @@
   gap: var(--s-3);
   padding: 0 var(--s-7);
   pointer-events: none;
-  animation: fade-in var(--slow) var(--ease) 200ms both;
+  animation: fade-in var(--slow) var(--ease) var(--mid) both;
 }
 
 .model-loading .meter {
@@ -1418,7 +1512,7 @@
 .skeleton-rows {
   display: flex;
   flex-direction: column;
-  animation: fade-in var(--slow) var(--ease) 200ms both;
+  animation: fade-in var(--slow) var(--ease) var(--mid) both;
 }
 
 .skeleton-row {

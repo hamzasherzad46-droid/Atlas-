@@ -4,7 +4,7 @@ import { ChevronIcon } from '../components/Icons'
 import { CoursePicker } from '../components/CoursePicker'
 import { LANG_NAMES, useT } from '../i18n'
 import { OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
-import { Seal } from '../components/Seal'
+import { ReticleIcon } from '../components/Icons'
 import { StudyAidNotice } from '../components/StudyAidNotice'
 import { useAccount } from '../account/account'
 import { useNav } from '../state/nav'
@@ -22,7 +22,7 @@ export function OnboardingScreen() {
       <main className="page">
         <header className="masthead">
           <span className="brand">
-            <Seal />
+            <ReticleIcon />
             <span className="wordmark">{t('app.name')}</span>
           </span>
         </header>

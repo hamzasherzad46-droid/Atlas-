@@ -2,20 +2,20 @@ import { useSettings } from '../state/settings'
 import { publicUrl } from './paths'
 
 /**
- * Atlas's sounds, played quietly through one small player. Typing is a soft click made here: a
- * very short burst of filtered noise, like a good laptop key heard from a little way off. The rest
- * are short real recordings in public/sounds/ (sources and licences in public/sounds/SOURCES.md and
- * on the Credits screen); every play varies their pitch and volume by up to ±3 %, and a file that
- * is missing simply stays silent.
+ * Atlas's sounds, played quietly through one small player. Two are made here from filtered noise:
+ * the typing click (a very short burst, like a good laptop key heard from a little way off) and the
+ * soft, airy tick of a right answer. The rest are short real recordings in public/sounds/ (sources
+ * and licences in public/sounds/SOURCES.md and on the Credits screen); every play varies their pitch
+ * and volume by up to ±3 %, and a file that is missing simply stays silent.
  */
 export type Sound = 'key' | 'wrong' | 'fail' | 'complete' | 'flip' | 'finish' | 'mockFinish'
-type Recorded = Exclude<Sound, 'key'>
+type Made = 'key' | 'complete'
+type Recorded = Exclude<Sound, Made>
 
 /** The recordings for each sound (one picked at random when there are several). */
 export const SOUND_FILES = {
   wrong: ['wooden-tap'],
   fail: ['wooden-tap'],
-  complete: ['desk-bell'],
   flip: ['page-turn'],
   // A finished quiz is silent: the results screen says enough.
   finish: [],
@@ -26,10 +26,22 @@ export const SOUND_FILES = {
 const VOLUME: Record<Recorded, number> = {
   wrong: 0.4,
   fail: 0.45,
-  complete: 0.32,
   flip: 0.35,
   finish: 0,
   mockFinish: 0.45,
+}
+
+/** A burst of filtered noise: its length, how it rises and dies away, the filter, and how loud. */
+interface Burst {
+  ms: number
+  attackMs: number
+  decayMs: number
+  hz: number
+  q: number
+  volume: number
+  /** Per play: up to this fraction on the filter, and this many dB on the level. */
+  hzVary: number
+  dbVary: number
 }
 
 /**
@@ -37,36 +49,49 @@ const VOLUME: Record<Recorded, number> = {
  * 2.5 kHz so it has no pitch, quiet. Each press moves the filter by up to ±5 % and the level by up
  * to ±1.5 dB, so fast typing never sounds like a loop.
  */
-const CLICK = { ms: 12, decayMs: 2.5, hz: 2500, q: 1.2, volume: 0.32, hzVary: 0.05, dbVary: 1.5 }
-let clickNoise: AudioBuffer | null = null
+export const CLICK: Burst = { ms: 12, attackMs: 0, decayMs: 2.5, hz: 2500, q: 1.2, volume: 0.32, hzVary: 0.05, dbVary: 1.5 }
 
-/** The click's noise, made once (per sample rate) and reused for every key, so typing never waits. */
-function noise(c: BaseAudioContext): AudioBuffer {
-  if (clickNoise && clickNoise.sampleRate === c.sampleRate) return clickNoise
-  const length = Math.round((c.sampleRate * CLICK.ms) / 1000)
+/**
+ * A right answer: a soft, airy tick. 70 ms of noise that rises over 3 ms and fades with a 14 ms
+ * time constant, band-passed high and wide (6.5 kHz, Q 0.8) so it sounds like breath on a
+ * microphone rather than a note. Quieter than the click it follows.
+ */
+export const TICK: Burst = { ms: 70, attackMs: 3, decayMs: 14, hz: 6500, q: 0.8, volume: 0.16, hzVary: 0.04, dbVary: 1 }
+
+const noiseCache = new Map<Burst, AudioBuffer>()
+
+/** A burst's noise, made once (per sample rate) and reused for every play, so nothing waits. */
+function noise(c: BaseAudioContext, b: Burst): AudioBuffer {
+  const cached = noiseCache.get(b)
+  if (cached && cached.sampleRate === c.sampleRate) return cached
+  const length = Math.round((c.sampleRate * b.ms) / 1000)
   const buffer = c.createBuffer(1, length, c.sampleRate)
   const data = buffer.getChannelData(0)
-  const tau = (c.sampleRate * CLICK.decayMs) / 1000
-  for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / tau)
-  clickNoise = buffer
+  const tau = (c.sampleRate * b.decayMs) / 1000
+  const rise = (c.sampleRate * b.attackMs) / 1000
+  for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / tau) * (rise ? Math.min(1, i / rise) : 1)
+  noiseCache.set(b, buffer)
   return buffer
 }
 
 const spread = () => Math.random() * 2 - 1
 
-/** One key click on this audio context (exported so it can be measured offline). */
-export function click(c: BaseAudioContext, at = c.currentTime) {
+/** Play one burst on this audio context (exported so it can be measured offline). */
+export function burst(c: BaseAudioContext, b: Burst, at = c.currentTime) {
   const source = c.createBufferSource()
-  source.buffer = noise(c)
+  source.buffer = noise(c, b)
   const filter = c.createBiquadFilter()
   filter.type = 'bandpass'
-  filter.frequency.value = CLICK.hz * (1 + spread() * CLICK.hzVary)
-  filter.Q.value = CLICK.q
+  filter.frequency.value = b.hz * (1 + spread() * b.hzVary)
+  filter.Q.value = b.q
   const gain = c.createGain()
-  gain.gain.value = CLICK.volume * 10 ** ((spread() * CLICK.dbVary) / 20)
+  gain.gain.value = b.volume * 10 ** ((spread() * b.dbVary) / 20)
   source.connect(filter).connect(gain).connect(c.destination)
   source.start(at)
 }
+
+/** One key click (exported so it can be measured offline). */
+export const click = (c: BaseAudioContext, at = c.currentTime) => burst(c, CLICK, at)
 
 /** Up to ±3 % per play, on pitch and on volume. */
 const VARY = 0.03
@@ -136,6 +161,7 @@ export function playSound(sound: Sound) {
   if (!useSettings.getState().sound || typeof window === 'undefined') return
   try {
     if (sound === 'key') return click(context())
+    if (sound === 'complete') return burst(context(), TICK)
     const names = SOUND_FILES[sound]
     if (!names.length) return
     context()

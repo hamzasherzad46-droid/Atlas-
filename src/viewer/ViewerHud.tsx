@@ -44,7 +44,7 @@ export function ViewerHud({ ref, azel = true }: { ref: Ref<BearingReadout>; azel
             const deg = wrap(d)
             const major = deg % 30 === 0
             return (
-              <span key={d} className={major ? 'tick major' : 'tick'} style={{ left: (d - FROM) * PX_PER_DEG }}>
+              <span key={d} className={major ? 'tape-tick major' : 'tape-tick'} style={{ left: (d - FROM) * PX_PER_DEG }}>
                 {major && <span className="tape-figure hud">{cardinal[deg] ?? pad3(deg)}</span>}
               </span>
             )

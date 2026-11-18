@@ -62,9 +62,9 @@ apply there.
   30 or 45 at a time with the options shuffled. Each answer is marked at once and explained; the results show the
   score by topic and every question to look at again, and are kept with the exam history in Progress. Started from
   Today or All content, from the course's topics or all of them, or on one topic from search.
-- **Sound**: a soft click as you type (a very short burst of filtered noise, made in the app), and short real
-  recordings, public domain or CC0 (`public/sounds/SOURCES.md`): a typewriter's bell for a right answer, a soft
-  knock on wood for a wrong one, a page turning for flashcards.
+- **Sound**: a soft click as you type and a soft, airy tick for a right answer (short bursts of filtered noise,
+  made in the app), and short real recordings, public domain (`public/sounds/SOURCES.md`): a soft knock on wood
+  for a wrong answer, a page turning for flashcards.
   Quiet, and varied by up to 3 % in pitch and volume on every play; on Android, a very short vibration too.
   Settings can turn both off.
 - **The body in 3D** (Today or Atlas): the whole BodyParts3D body in seven layers — skin, every muscle (442 meshes),
@@ -88,12 +88,14 @@ apply there.
   them (`TRANSLATION-REVIEW.md`); to offer one again, add it to `OFFERED_LANGS` in `src/state/settings.ts`.
   A student who had chosen one sees English, and their choice comes back when the language does.
   Anatomy content (names, definitions, notes) is English; answers are typed in English or Latin.
-- **Design**: the anatomy theatre, a Victorian medical museum. Obsidian and charcoal rooms with aged-ivory type
-  (one typeface, Hanken Grotesk) and brass for the instrument (dark is the signature; light is a manuscript page),
-  parchment flashcards, and details of the real 19th-century plates as module covers and empty states
-  (`scripts/engravings.py` cuts them). The armillary-sphere seal appears only on the welcome screen and the app icon.
-  The app icons, the 32 px favicon, the iOS launch screens and the share image (`public/share.jpg`) are all drawn
-  from `public/icons/icon.svg` by `node scripts/brand-assets.cjs`.
+- **Design**: a medical HUD, a precision instrument for the human body. Black rooms (light mode: the same
+  instrument on white) divided only by hairlines, white type in one typeface (Hanken Grotesk), one pale-blue accent
+  for live data and selection. The 3D body is the hero: context drawn as fine edge lines or a point cloud, the
+  structure asked about the one solid object, with a heading tape and AZ/EL readouts. The engraved plates stay as
+  study material; there is no other imagery.
+  The mark is the body's outline, traced from the skin model, inside a reticle. The app icons, the 32 px favicon,
+  the iOS launch screens and the share image (`public/share.jpg`) are all drawn from the models by
+  `node scripts/brand-assets.cjs`.
 
 ### Known data gaps (BodyParts3D 4.0)
 

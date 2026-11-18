@@ -257,6 +257,10 @@ export const en = {
 
   'progress.title': 'Progress',
   'progress.activity': 'Last 12 weeks',
+  'progress.daily': 'Questions and flashcards a day',
+  'progress.dailySum': 'Last 30 days: {n} in all, studied on {d} of 30 days, busiest day {b}.',
+  'progress.noDaily': 'Nothing in the last 30 days yet. Each day you study adds a bar here.',
+  'progress.today': 'Today',
   'progress.exams': 'Timed and mock exams',
   'progress.noExams': 'No timed or mock exams yet.',
 
@@ -272,6 +276,9 @@ export const en = {
   'you.goalUnit': '{n} a day',
   'you.timer': 'Default time per answer',
   'you.sound': 'Sounds',
+  'you.soundSub': 'Key clicks, and a soft tick for a right answer',
+  'you.study': 'Study',
+  'you.goalValue': '{n} answers',
   'you.on': 'On',
   'you.off': 'Off',
   'you.reset': 'Reset progress',

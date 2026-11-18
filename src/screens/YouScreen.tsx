@@ -6,6 +6,7 @@ import { LANG_NAMES, useT } from '../i18n'
 import { useNav } from '../state/nav'
 import { ANSWER_TIMERS, DAILY_GOALS, OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { StudyAidNotice } from '../components/StudyAidNotice'
+import { StepSlider } from '../components/StepSlider'
 import { AccountSection } from './AccountSection'
 import { useAccount } from '../account/account'
 import { resetProgress } from '../account/sync'
@@ -69,32 +70,29 @@ export function YouScreen() {
       </section>
 
       <section className="sect">
-        <p className="label">{t('you.goal')}</p>
-        <div className="sect-body options">
-          {DAILY_GOALS.map((g) => (
-            <button key={g} className="num" aria-pressed={s.dailyGoal === g} onClick={() => s.set({ dailyGoal: g })}>
-              {g}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="sect">
-        <p className="label">{t('you.timer')}</p>
-        <div className="sect-body options">
-          {ANSWER_TIMERS.map((sec) => (
-            <button key={sec} className="num" aria-pressed={s.answerTimer === sec} onClick={() => s.set({ answerTimer: sec })}>
-              {sec ? t('timer.sec', { n: sec }) : t('timer.off')}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="sect">
-        <p className="label">{t('you.sound')}</p>
-        <div className="sect-body">
+        <p className="label">{t('you.study')}</p>
+        <div className="sect-body rows">
+          <StepSlider
+            id="you-goal"
+            label={t('you.goal')}
+            values={DAILY_GOALS}
+            value={s.dailyGoal as (typeof DAILY_GOALS)[number]}
+            format={(g) => t('you.goalValue', { n: g })}
+            onChange={(g) => s.set({ dailyGoal: g })}
+          />
+          <StepSlider
+            id="you-timer"
+            label={t('you.timer')}
+            values={ANSWER_TIMERS}
+            value={s.answerTimer as (typeof ANSWER_TIMERS)[number]}
+            format={(sec) => (sec ? t('timer.sec', { n: sec }) : t('timer.off'))}
+            onChange={(sec) => s.set({ answerTimer: sec })}
+          />
           <button className="r toggle-row" role="switch" aria-checked={s.sound} onClick={() => s.set({ sound: !s.sound })}>
-            <span className="r-main r-title">{s.sound ? t('you.on') : t('you.off')}</span>
+            <span className="r-main">
+              <span className="r-title">{t('you.sound')}</span>
+              <span className="r-sub">{t('you.soundSub')}</span>
+            </span>
             <span className={`switch${s.sound ? ' on' : ''}`} />
           </button>
         </div>

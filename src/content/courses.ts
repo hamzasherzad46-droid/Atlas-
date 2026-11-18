@@ -21,7 +21,6 @@ export function buildFocusModules(data: Courses, systemModules: ModuleInfo[]): M
         title: f.title,
         description: f.description,
         focus: true,
-        cover: f.cover,
       },
     ]
   })

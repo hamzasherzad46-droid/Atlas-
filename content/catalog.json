@@ -7,7 +7,6 @@
       "modules": [
         {
           "id": "skeleton",
-          "cover": "spine",
           "status": "available",
           "contentFile": "skeleton",
           "model": { "file": "skeleton.glb", "scale": 1, "position": [0, 0, 0], "rotation": [0, 0, 0] }
@@ -21,7 +20,6 @@
       "modules": [
         {
           "id": "muscles",
-          "cover": "chest-wall",
           "status": "available",
           "contentFile": "muscles",
           "model": { "file": "muscles.glb", "context": "skeleton-context.glb" }
@@ -35,14 +33,12 @@
       "modules": [
         {
           "id": "heart",
-          "cover": "heart",
           "status": "available",
           "contentFile": "heart",
           "model": { "file": "heart.glb", "context": "skeleton-context.glb" }
         },
         {
           "id": "vessels",
-          "cover": "great-vessels",
           "status": "available",
           "contentFile": "vessels",
           "model": { "file": "vessels.glb", "context": "skeleton-context.glb" }
@@ -56,7 +52,6 @@
       "modules": [
         {
           "id": "airways",
-          "cover": "lungs",
           "status": "available",
           "contentFile": "airways",
           "model": { "file": "airways.glb", "context": "skeleton-context.glb" }
@@ -83,7 +78,6 @@
       "modules": [
         {
           "id": "digestive",
-          "cover": "stomach",
           "status": "available",
           "contentFile": "digestive",
           "model": { "file": "digestive.glb", "context": "skeleton-context.glb" }
@@ -165,7 +159,6 @@
       "modules": [
         {
           "id": "vertebral-column",
-          "cover": "spine",
           "status": "available",
           "contentFile": "skeleton",
           "systemId": "skeletal",
@@ -188,7 +181,6 @@
       "modules": [
         {
           "id": "thoracic-wall",
-          "cover": "ribcage",
           "status": "available",
           "contentFile": "skeleton",
           "systemId": "skeletal",
@@ -291,7 +283,6 @@
       "modules": [
         {
           "id": "thigh-knee",
-          "cover": "thigh",
           "status": "available",
           "contentFile": "skeleton",
           "systemId": "skeletal",

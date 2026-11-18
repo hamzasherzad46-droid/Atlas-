@@ -6,7 +6,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (121)
+### Missing: shown in English (128)
 
 | Key | English |
 | --- | --- |
@@ -22,6 +22,13 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `summary.new` | New |
 | `cards.end` | End flashcards |
+| `progress.daily` | Questions and flashcards a day |
+| `progress.dailySum` | Last 30 days: {n} in all, studied on {d} of 30 days, busiest day {b}. |
+| `progress.noDaily` | Nothing in the last 30 days yet. Each day you study adds a bar here. |
+| `progress.today` | Today |
+| `you.soundSub` | Key clicks, and a soft tick for a right answer |
+| `you.study` | Study |
+| `you.goalValue` | {n} answers |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
@@ -207,7 +214,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (121)
+### Missing: shown in English (128)
 
 | Key | English |
 | --- | --- |
@@ -223,6 +230,13 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `summary.new` | New |
 | `cards.end` | End flashcards |
+| `progress.daily` | Questions and flashcards a day |
+| `progress.dailySum` | Last 30 days: {n} in all, studied on {d} of 30 days, busiest day {b}. |
+| `progress.noDaily` | Nothing in the last 30 days yet. Each day you study adds a bar here. |
+| `progress.today` | Today |
+| `you.soundSub` | Key clicks, and a soft tick for a right answer |
+| `you.study` | Study |
+| `you.goalValue` | {n} answers |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
@@ -406,7 +420,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (121)
+### Missing: shown in English (128)
 
 | Key | English |
 | --- | --- |
@@ -422,6 +436,13 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `summary.new` | New |
 | `cards.end` | End flashcards |
+| `progress.daily` | Questions and flashcards a day |
+| `progress.dailySum` | Last 30 days: {n} in all, studied on {d} of 30 days, busiest day {b}. |
+| `progress.noDaily` | Nothing in the last 30 days yet. Each day you study adds a bar here. |
+| `progress.today` | Today |
+| `you.soundSub` | Key clicks, and a soft tick for a right answer |
+| `you.study` | Study |
+| `you.goalValue` | {n} answers |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
@@ -599,7 +620,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (121)
+### Missing: shown in English (128)
 
 | Key | English |
 | --- | --- |
@@ -615,6 +636,13 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `summary.new` | New |
 | `cards.end` | End flashcards |
+| `progress.daily` | Questions and flashcards a day |
+| `progress.dailySum` | Last 30 days: {n} in all, studied on {d} of 30 days, busiest day {b}. |
+| `progress.noDaily` | Nothing in the last 30 days yet. Each day you study adds a bar here. |
+| `progress.today` | Today |
+| `you.soundSub` | Key clicks, and a soft tick for a right answer |
+| `you.study` | Study |
+| `you.goalValue` | {n} answers |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
@@ -793,7 +821,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (121)
+### Missing: shown in English (128)
 
 | Key | English |
 | --- | --- |
@@ -809,6 +837,13 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `summary.new` | New |
 | `cards.end` | End flashcards |
+| `progress.daily` | Questions and flashcards a day |
+| `progress.dailySum` | Last 30 days: {n} in all, studied on {d} of 30 days, busiest day {b}. |
+| `progress.noDaily` | Nothing in the last 30 days yet. Each day you study adds a bar here. |
+| `progress.today` | Today |
+| `you.soundSub` | Key clicks, and a soft tick for a right answer |
+| `you.study` | Study |
+| `you.goalValue` | {n} answers |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
@@ -984,7 +1019,7 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (121)
+### Missing: shown in English (128)
 
 | Key | English |
 | --- | --- |
@@ -1000,6 +1035,13 @@ None.
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `summary.new` | New |
 | `cards.end` | End flashcards |
+| `progress.daily` | Questions and flashcards a day |
+| `progress.dailySum` | Last 30 days: {n} in all, studied on {d} of 30 days, busiest day {b}. |
+| `progress.noDaily` | Nothing in the last 30 days yet. Each day you study adds a bar here. |
+| `progress.today` | Today |
+| `you.soundSub` | Key clicks, and a soft tick for a right answer |
+| `you.study` | Study |
+| `you.goalValue` | {n} answers |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |

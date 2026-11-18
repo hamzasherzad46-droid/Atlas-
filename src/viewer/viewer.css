@@ -65,7 +65,7 @@
   will-change: transform;
 }
 
-.tick {
+.tape-tick {
   position: absolute;
   bottom: 0;
   width: var(--hair);
@@ -73,7 +73,7 @@
   background: var(--fg-3);
 }
 
-.tick.major {
+.tape-tick.major {
   height: var(--tick-major);
   background: var(--fg-2);
 }

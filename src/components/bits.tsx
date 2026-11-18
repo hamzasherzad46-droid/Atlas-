@@ -12,7 +12,7 @@ export function Meter({ value, max, tone }: { value: number; max: number; tone?:
   )
 }
 
-/** 12-week activity grid (most recent week last). */
+/** 12-week activity grid as dots, larger for busier days (most recent week last). */
 export function Heatmap({ days, now = new Date() }: { days: Record<string, DayActivity>; now?: Date }) {
   const end = addDays(now, 6 - ((now.getDay() + 6) % 7))
   const start = addDays(end, -7 * 12 + 1)
@@ -28,6 +28,26 @@ export function Heatmap({ days, now = new Date() }: { days: Record<string, DayAc
     <div className="heat" aria-hidden>
       {cells.map((c) => (
         <span key={c.k} className={`heat-cell l${c.level}${c.future ? ' future' : ''}`} />
+      ))}
+    </div>
+  )
+}
+
+/**
+ * Questions and flashcards a day over the last `span` days, as hairline bars on a baseline: the
+ * busiest day is full height. Today is the last bar.
+ */
+export function Histogram({ days, span = 30, now = new Date(), label }: { days: Record<string, DayActivity>; span?: number; now?: Date; label: string }) {
+  const bars = Array.from({ length: span }, (_, i) => {
+    const k = dayKey(addDays(now, i - span + 1))
+    const a = days[k]
+    return { k, n: (a?.answered ?? 0) + (a?.cards ?? 0) }
+  })
+  const max = Math.max(1, ...bars.map((b) => b.n))
+  return (
+    <div className="histo" role="img" aria-label={label}>
+      {bars.map((b, i) => (
+        <span key={b.k} className={`histo-bar${b.n ? '' : ' none'}`} style={{ ['--h' as string]: `${(b.n / max) * 100}%`, ['--i' as string]: i }} />
       ))}
     </div>
   )

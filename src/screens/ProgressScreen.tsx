@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { moduleTitle } from '../content/names'
 import { CheckIcon } from '../components/Icons'
-import { Heatmap } from '../components/bits'
+import { Heatmap, Histogram } from '../components/bits'
 import { EmptyState } from '../components/EmptyState'
 import { Masthead } from '../components/Masthead'
 import { useModule } from '../content/useModule'
 import { useT } from '../i18n'
-import type { Period } from '../lib/dates'
+import { addDays, dayKey, type Period } from '../lib/dates'
 import { formatClock, pct, sentence } from '../lib/format'
 import { defaultModuleId, startReview } from '../state/actions'
 import { useAllDays, useAssignments, useStreak } from '../state/dashboard'
@@ -39,6 +39,8 @@ export function ProgressScreen() {
           <p className="small streak-line num">{streak > 0 ? t('today.streakTitle', { n: streak }) : t('today.streakStart')}</p>
         </div>
       </section>
+
+      <Daily />
 
       <StudyPlan />
 
@@ -126,6 +128,36 @@ function StudyPlan() {
           ))}
         </div>
         <p className="tiny num plan-left">{leftLabel}</p>
+      </div>
+    </section>
+  )
+}
+
+/** The last 30 days, a bar a day, with the totals in words. */
+function Daily() {
+  const t = useT()
+  const days = useAllDays()
+  const span = 30
+  const now = new Date()
+  const totals = Array.from({ length: span }, (_, i) => {
+    const d = days[dayKey(addDays(now, i - span + 1))]
+    return (d?.answered ?? 0) + (d?.cards ?? 0)
+  })
+  const total = totals.reduce((a, b) => a + b, 0)
+  const active = totals.filter(Boolean).length
+  const best = Math.max(0, ...totals)
+  const date = new Intl.DateTimeFormat(t.locale, { day: 'numeric', month: 'short' })
+  const summary = t('progress.dailySum', { n: total, d: active, b: best })
+  return (
+    <section className="sect">
+      <p className="label">{t('progress.daily')}</p>
+      <div className="sect-body">
+        <Histogram days={days} span={span} now={now} label={summary} />
+        <p className="tiny histo-axis num" aria-hidden>
+          <span>{date.format(addDays(now, 1 - span))}</span>
+          <span>{t('progress.today')}</span>
+        </p>
+        {total ? <p className="small histo-sum num">{summary}</p> : <EmptyState>{t('progress.noDaily')}</EmptyState>}
       </div>
     </section>
   )

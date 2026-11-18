@@ -3,7 +3,6 @@
   "focus": [
     {
       "id": "injection-sites",
-      "cover": "thigh",
       "title": "Injection sites",
       "description": "The deltoid, ventrogluteal (gluteus medius) and vastus lateralis sites; rectus femoris is an alternative thigh site.",
       "from": "muscles",
@@ -11,7 +10,6 @@
     },
     {
       "id": "pulse-points",
-      "cover": "neck-vessels",
       "title": "Pulse points",
       "description": "Where a pulse is felt: carotid, brachial, radial, femoral, popliteal, posterior tibial and dorsalis pedis.",
       "from": "vessels",
@@ -26,7 +24,6 @@
     },
     {
       "id": "central-venous-access",
-      "cover": "neck-vessels",
       "title": "Central venous access",
       "description": "The large veins used for central lines: internal jugular, subclavian and femoral.",
       "from": "vessels",
@@ -41,7 +38,6 @@
     },
     {
       "id": "larynx",
-      "cover": "neck",
       "title": "Larynx",
       "description": "The cartilages of the larynx and the epiglottis that guards it.",
       "from": "airways",
@@ -70,7 +66,6 @@
     },
     {
       "id": "hip-muscles",
-      "cover": "abdomen",
       "title": "Muscles of the hip",
       "description": "The gluteal muscles, piriformis, tensor fasciae latae and iliopsoas.",
       "from": "muscles",
@@ -78,7 +73,6 @@
     },
     {
       "id": "knee-muscles",
-      "cover": "thigh",
       "title": "Muscles that cross the knee",
       "description": "The quadriceps and hamstrings, with sartorius and gracilis.",
       "from": "muscles",
@@ -86,7 +80,6 @@
     },
     {
       "id": "running-muscles",
-      "cover": "thigh",
       "title": "Muscles of running",
       "description": "The main muscles that drive the hip, knee and ankle in running.",
       "from": "muscles",
@@ -94,7 +87,6 @@
     },
     {
       "id": "sports-injury-muscles",
-      "cover": "thigh",
       "title": "Often injured in sport",
       "description": "Hamstring (biceps femoris), adductor longus, rectus femoris and gastrocnemius strains, and supraspinatus tendon problems.",
       "from": "muscles",

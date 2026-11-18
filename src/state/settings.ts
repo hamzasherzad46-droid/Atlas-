@@ -87,7 +87,7 @@ export function applyTheme(pref: ThemePref): () => void {
     const theme = pref === 'system' ? (mq.matches ? 'dark' : 'light') : pref
     document.documentElement.dataset.theme = theme
     // index.html carries one tag per colour scheme; an explicit choice in the app overrides both.
-    for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.setAttribute('content', theme === 'light' ? '#e8ddc5' : '#171614')
+    for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.setAttribute('content', theme === 'light' ? '#ffffff' : '#000000')
   }
   apply()
   if (pref !== 'system') return () => {}

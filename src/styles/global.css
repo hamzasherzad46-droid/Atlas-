@@ -150,6 +150,17 @@
   /* Readouts over a 3D view: a halo in the page colour keeps them legible over the line drawing. */
   --halo: 0 0 3px var(--bg), 0 0 8px var(--bg);
   --tick: 5px;
+  --knob: 16px;
+  /* The line icons' box. */
+  --icon: 18px;
+  /* Progress: the activity dots by how busy the day was, and the daily bars. */
+  --dot-0: 2px;
+  --dot-1: 4px;
+  --dot-2: 6px;
+  --dot-3: 8px;
+  --dot-4: 10px;
+  --histo-h: 6rem;
+  --bar: 3px;
   --tick-major: 9px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -237,7 +248,7 @@ a {
 .display {
   font-size: var(--fs-1);
   line-height: var(--lh-title);
-  font-weight: var(--fw-regular);
+  font-weight: var(--fw-light);
   letter-spacing: var(--ls-title);
 }
 
@@ -670,6 +681,84 @@ a {
   transform: translateX(-18px);
 }
 
+/* A setting with a few fixed values: name and value, then a hairline slider with a tick per value. */
+.slider-row {
+  padding: var(--s-3) 0 var(--s-1);
+  border-top: var(--hair) solid var(--line);
+}
+
+.slider-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.slider {
+  position: relative;
+  height: var(--tap);
+}
+
+.slider-track,
+.slider-fill {
+  position: absolute;
+  top: 50%;
+  height: var(--hair);
+  inset-inline-start: 0;
+}
+
+.slider-track {
+  inset-inline-end: 0;
+  background: var(--line-strong);
+}
+
+.slider-fill {
+  width: var(--at);
+  background: var(--accent);
+  transition: width var(--fast) var(--ease);
+}
+
+.slider-tick {
+  position: absolute;
+  top: calc(50% - var(--tick));
+  width: var(--hair);
+  height: var(--tick);
+  background: var(--fg-3);
+}
+
+.slider-knob {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: var(--at);
+  width: var(--knob);
+  height: var(--knob);
+  margin: calc(var(--knob) / -2);
+  border: var(--hair) solid var(--fg);
+  border-radius: 50%;
+  background: var(--bg);
+  transition: inset-inline-start var(--fast) var(--ease);
+}
+
+/* The native control: invisible, over the whole row, so it takes every touch and key. */
+.slider input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.slider:has(input:focus-visible) .slider-knob {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.slider:has(input:active) .slider-knob {
+  background: var(--fg);
+}
+
 /* Text field: a hairline underneath. */
 .field {
   width: 100%;
@@ -765,7 +854,7 @@ button.go:active:not(:disabled),
   inset-inline-start: 0;
   background: var(--accent);
   transition: width var(--slow) var(--ease);
-  animation: draw-in 600ms var(--ease) both;
+  animation: draw-in var(--slow) var(--ease) both;
   transform-origin: left;
 }
 

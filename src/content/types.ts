@@ -102,11 +102,6 @@ export interface ModuleInfo {
   description?: string
   /** A course focus module (content/courses.json), built like a regional module. */
   focus?: boolean
-  /**
-   * Cover engraving: public/plates/covers/<cover>.webp, cut from the plates by scripts/engravings.py.
-   * Only where a plate truly shows the module's anatomy; other modules have none.
-   */
-  cover?: string
 }
 
 /** A group of focused regional modules, e.g. the upper limb. Its name lives in the UI translations (group.<id>). */
@@ -200,8 +195,6 @@ export interface FocusModule {
   /** The system module whose content and model it uses. */
   from: string
   include: string[]
-  /** Cover engraving, as ModuleInfo.cover. */
-  cover?: string
 }
 
 /** A course (the student's `track`). Every list is in priority order. */

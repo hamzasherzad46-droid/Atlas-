@@ -10,7 +10,7 @@
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
   background: var(--bg);
-  animation: fade-in var(--mid) var(--ease) both;
+  animation: page-in var(--slow) var(--ease) both;
 }
 
 .quiz-center {
@@ -23,7 +23,7 @@
   grid-template-columns: 44px 1fr 44px;
   align-items: center;
   height: 48px;
-  padding: 0 calc(var(--pad) - 12px);
+  padding: 0 calc(var(--pad) - var(--s-3));
   flex-shrink: 0;
 }
 
@@ -38,7 +38,7 @@
   font-size: var(--fs-6);
   font-weight: var(--fw-semibold);
   text-align: end;
-  padding-inline-end: 4px;
+  padding-inline-end: var(--s-1);
 }
 
 .quiz-clock.warn {
@@ -234,15 +234,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
   animation: rise var(--mid) var(--ease) both;
 }
 
 .verdict {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--s-2);
   font-size: var(--fs-4);
   font-weight: var(--fw-medium);
 }
@@ -273,7 +273,7 @@
 .quiz-note {
   max-width: 30em;
   width: 100%;
-  margin-top: 4px;
+  margin-top: var(--s-1);
 }
 
 /* Instruction: blue. */
@@ -284,7 +284,7 @@
 }
 
 .quiz-next {
-  margin-top: 8px;
+  margin-top: var(--s-2);
 }
 
 /* ---------- Keyboard: black keys drawn in hairlines ---------- */
@@ -435,7 +435,7 @@
 
 .card-stage {
   flex-shrink: 0;
-  padding: 0 var(--pad) 16px;
+  padding: 0 var(--pad) var(--s-4);
   perspective: 1400px;
 }
 
@@ -463,7 +463,7 @@
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  padding: 20px 20px 24px;
+  padding: var(--pad) var(--pad) var(--s-5);
   border-radius: var(--radius);
   background: var(--bg);
   color: var(--fg);
@@ -476,8 +476,8 @@
 .face::before {
   content: '';
   position: absolute;
-  left: 20px;
-  right: 20px;
+  left: var(--pad);
+  right: var(--pad);
   top: 46px;
   height: 1px;
   background: var(--accent);
@@ -488,7 +488,7 @@
   display: flex;
   flex-direction: column;
   text-align: start;
-  gap: 32px;
+  gap: var(--s-6);
 }
 
 .front-def {
@@ -505,7 +505,7 @@
 }
 
 .face.back .title {
-  margin-top: 32px;
+  margin-top: var(--s-6);
 }
 
 .back-latin {
@@ -514,8 +514,8 @@
 }
 
 .back-label {
-  margin-top: 16px;
-  margin-bottom: 4px;
+  margin-top: var(--s-4);
+  margin-bottom: var(--s-1);
 }
 
 .back-text {
@@ -524,7 +524,7 @@
 }
 
 .back-note {
-  margin-top: 16px;
+  margin-top: var(--s-4);
 }
 
 .swipe-tag {
@@ -546,8 +546,8 @@
 .card-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
+  gap: var(--s-3);
+  margin-top: var(--s-3);
   opacity: 0.35;
   transition: opacity var(--mid) var(--ease);
 }
@@ -571,7 +571,7 @@
 }
 
 .choices {
-  margin: 4px 0 0;
+  margin: var(--s-1) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -579,10 +579,10 @@
 .choice-btn {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--s-4);
   width: 100%;
   min-height: 50px;
-  padding: 8px 4px;
+  padding: var(--s-2) var(--s-1);
   border-top: 1px solid var(--line);
   font-size: var(--fs-3);
   text-align: start;
@@ -633,24 +633,24 @@
 
 .quiz-skip {
   display: flex;
-  margin: 12px auto 0;
+  margin: var(--s-3) auto 0;
   color: var(--fg-2);
 }
 
 /* ---------- Identify ---------- */
 .quiz-identify {
   min-height: 150px;
-  padding-bottom: 20px;
+  padding-bottom: var(--pad);
 }
 
 .identify-name {
-  margin: 2px 0 4px;
+  margin: 2px 0 var(--s-1);
   font-size: var(--fs-1);
   font-weight: var(--fw-light);
   letter-spacing: var(--ls-title);
 }
 
-/* "Try again" after a wrong letter: it sits over the prompt line in amber, then fades. */
+/* "Try again" after a wrong letter: it sits over the prompt line in the accent, then fades. */
 .try-again {
   position: absolute;
   top: 0;
@@ -674,18 +674,18 @@
 }
 
 .mock-last {
-  margin-top: 12px;
+  margin-top: var(--s-3);
   color: var(--fg-2);
 }
 
 .mock-body {
   flex: 1;
   overflow-y: auto;
-  padding: 24px var(--pad) calc(var(--safe-bottom) + 28px);
+  padding: var(--s-5) var(--pad) calc(var(--safe-bottom) + 28px);
 }
 
 .mock-topic {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
 }
 
 .mock-q {
@@ -697,7 +697,7 @@
 }
 
 .mock-options {
-  margin: 24px 0 0;
+  margin: var(--s-5) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -705,10 +705,10 @@
 .mock-option {
   display: flex;
   align-items: baseline;
-  gap: 16px;
+  gap: var(--s-4);
   width: 100%;
   min-height: 52px;
-  padding: 12px 4px;
+  padding: var(--s-3) var(--s-1);
   border-top: 1px solid var(--line);
   font-size: var(--fs-4);
   line-height: var(--lh-snug);
@@ -768,12 +768,12 @@
 }
 
 .mock-feedback {
-  margin-top: 20px;
+  margin-top: var(--pad);
   animation: rise var(--mid) var(--ease) both;
 }
 
 .mock-why {
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .mock-why p:last-child {
@@ -782,7 +782,7 @@
 }
 
 .mock-next {
-  margin-top: 24px;
+  margin-top: var(--s-5);
 }
 
 .mock-review {
@@ -792,27 +792,27 @@
 }
 
 .mock-review li {
-  padding: 16px 0;
+  padding: var(--s-4) 0;
   border-top: 1px solid var(--line);
 }
 
 .mock-review li:first-child {
   border-top: 0;
-  padding-top: 4px;
+  padding-top: var(--s-1);
 }
 
 .mock-review-q {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
   font-size: var(--fs-4);
   line-height: var(--lh-snug);
   font-weight: var(--fw-medium);
 }
 
 .mock-review .small {
-  margin-top: 4px;
+  margin-top: var(--s-1);
 }
 
 .mock-review-why {
-  margin-top: 8px !important;
+  margin-top: var(--s-2) !important;
   color: var(--fg-2);
 }
