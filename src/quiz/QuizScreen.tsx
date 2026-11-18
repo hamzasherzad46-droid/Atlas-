@@ -15,6 +15,7 @@ import { Keyboard } from './Keyboard'
 import { SessionSummary } from './SessionSummary'
 import './quiz.css'
 import { ScreenBar } from '../components/ScreenBar'
+import { LoadError } from '../components/LoadError'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -22,7 +23,7 @@ export const AUTO_ADVANCE_MS = 1400
 
 export function QuizScreen({ config }: { config: SessionConfig }) {
   const t = useT()
-  const { assets, error } = useModule(config.moduleId)
+  const { assets, error, retry } = useModule(config.moduleId)
   const q = useQuiz()
   const track = useSettings((s) => s.track)
   // Index of the question whose auto-advance the student paused by tapping.
@@ -103,7 +104,13 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
   const onKey = useCallback((input: KeyInput) => useQuiz.getState().press(input), [])
   const onSkip = useCallback(() => useQuiz.getState().skip(), [])
 
-  if (error) return <div className="quiz quiz-center muted">{t('quiz.error')}</div>
+  if (error)
+    return (
+      <div className="quiz">
+        <ScreenBar close label={t('quiz.end')} />
+        <LoadError moduleId={config.moduleId} onRetry={retry} />
+      </div>
+    )
   if (!assets || !ready) return <div className="quiz quiz-center muted">{t('common.loading')}</div>
   if (q.phase === 'finished' || !current) return <SessionSummary />
 

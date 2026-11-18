@@ -83,7 +83,8 @@ export function TodayScreen() {
         </p>
         <h2 className="title">{forModule}</h2>
         <p className="small resume-meta num">
-          {regionName} · {t('atlas.mastered', { n: pct(mastered, total) })}
+          {region ? `${regionName} · ` : ''}
+          {t('atlas.mastered', { n: pct(mastered, total) })}
         </p>
         <Meter value={mastered} max={Math.max(total, 1)} tone="tint" />
         <button className="go resume-go" onClick={() => startPractice(moduleId, region, mode)}>

@@ -12,6 +12,7 @@ import { useSettings } from '../state/settings'
 import type { CameraApi } from '../viewer/CameraRig'
 import type { PlateAnchor } from '../viewer/plate'
 import { ScreenBar } from '../components/ScreenBar'
+import { LoadError } from '../components/LoadError'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -41,7 +42,7 @@ function useBearing(camera: React.RefObject<CameraApi | null>) {
 /** Explore a model like an atlas plate: rotate it, tap a structure or a number, read what it is. */
 export function ExploreScreen({ moduleId }: { moduleId: string }) {
   const t = useT()
-  const { assets } = useModule(moduleId)
+  const { assets, error, retry } = useModule(moduleId)
   const track = useSettings((s) => s.track)
   const [selected, setSelected] = useState<Structure | null>(null)
   const [point, setPoint] = useState<[number, number, number] | null>(null)
@@ -119,6 +120,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
         }
       />
       <div className="explore-viewer">
+        {error && <LoadError moduleId={moduleId} onRetry={retry} />}
         {assets && (
           <Suspense fallback={null}>
             <AnatomyViewer

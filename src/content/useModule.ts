@@ -30,13 +30,18 @@ export async function loadModuleAssets(id: string): Promise<ModuleAssets> {
   return assets
 }
 
-/** Lazily loads a module's content, placeholder spec and model availability. */
-export function useModule(id: string | null): { assets: ModuleAssets | null; error: string | null } {
+/** Lazily loads a module's content, placeholder spec and model availability; `retry` loads it again after an error. */
+export function useModule(id: string | null): { assets: ModuleAssets | null; error: string | null; retry(): void } {
   const [state, setState] = useState<{ id: string | null; assets: ModuleAssets | null; error: string | null }>(() => ({
     id,
     assets: id ? (cache.get(id) ?? null) : null,
     error: null,
   }))
+  const [attempt, setAttempt] = useState(0)
+  const retry = () => {
+    setState({ id, assets: null, error: null })
+    setAttempt((n) => n + 1)
+  }
 
   useEffect(() => {
     if (!id || cache.has(id)) return
@@ -48,9 +53,9 @@ export function useModule(id: string | null): { assets: ModuleAssets | null; err
     return () => {
       alive = false
     }
-  }, [id])
+  }, [id, attempt])
 
-  if (!id) return { assets: null, error: null }
-  if (cache.has(id)) return { assets: cache.get(id)!, error: null }
-  return state.id === id ? { assets: state.assets, error: state.error } : { assets: null, error: null }
+  if (!id) return { assets: null, error: null, retry }
+  if (cache.has(id)) return { assets: cache.get(id)!, error: null, retry }
+  return state.id === id ? { assets: state.assets, error: state.error, retry } : { assets: null, error: null, retry }
 }

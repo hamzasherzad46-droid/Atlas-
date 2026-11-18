@@ -14,6 +14,8 @@ import { ContextModel, ModelInstance } from './ModelInstance'
 import { Lights, PinLabel } from './parts'
 import { SCENE } from './scene'
 import './viewer.css'
+import { translate } from '../i18n'
+import { shownLang, useSettings } from '../state/settings'
 
 export interface AnatomyViewerProps {
   assets: ModuleAssets
@@ -174,7 +176,16 @@ class ViewerBoundary extends Component<{ children: ReactNode }, { failed: boolea
     return { failed: true }
   }
   render() {
-    if (this.state.failed) return <div className="viewer viewer-error">Couldn’t load the 3D model. The quiz still works.</div>
+    if (this.state.failed)
+      return (
+        <div className="viewer viewer-error" role="alert">
+          <p className="small">{translate(shownLang(useSettings.getState().lang), 'viewer.error')}</p>
+          {/* The 3D loader keeps failed downloads, so a fresh page is the reliable retry (the app reopens where it was). */}
+          <button className="go quiet" onClick={() => window.location.reload()}>
+            {translate(shownLang(useSettings.getState().lang), 'common.retry')}
+          </button>
+        </div>
+      )
     return this.props.children
   }
 }

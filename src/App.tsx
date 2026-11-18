@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { TabBar } from './components/TabBar'
 import { Toasts } from './components/bits'
-import { applyLang, useT } from './i18n'
+import { applyLang } from './i18n'
 import { QuizScreen } from './quiz/QuizScreen'
 import { AtlasScreen } from './screens/AtlasScreen'
 import { BodyScreen } from './screens/BodyScreen'
@@ -20,7 +20,6 @@ import { useAssignments } from './state/dashboard'
 import { useNav } from './state/nav'
 import { useProgress } from './state/progress'
 import { applyTheme, useSettings } from './state/settings'
-import { useToasts } from './state/toast'
 import './app.css'
 import { initAccount } from './account/account'
 import { startSync } from './account/sync'
@@ -33,22 +32,17 @@ const SCREENS = {
   you: YouScreen,
 }
 
-/** Marks finished study-plan items once and posts a quiet notice. */
+/** Marks finished study-plan items once (Progress shows them ticked; there is no pop-up). */
 function StudyPlanWatcher() {
-  const t = useT()
   const assignments = useAssignments()
   const claimed = useProgress((s) => s.claimed)
-  const push = useToasts((s) => s.push)
 
   useEffect(() => {
     for (const a of assignments) {
-      if (a.done && !claimed[a.key]) {
-        // The XP ledger is kept in storage for compatibility but no longer shown anywhere.
-        useProgress.getState().claim(a.key, a.xp)
-        push({ kind: 'assignment', title: t('toast.assignment'), detail: t(`assignment.${a.id}` as Parameters<typeof t>[0], { n: a.target }) })
-      }
+      // The XP ledger is kept in storage for compatibility but no longer shown anywhere.
+      if (a.done && !claimed[a.key]) useProgress.getState().claim(a.key, a.xp)
     }
-  }, [assignments, claimed, push, t])
+  }, [assignments, claimed])
 
   return null
 }

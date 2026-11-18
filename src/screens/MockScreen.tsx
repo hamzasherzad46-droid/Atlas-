@@ -325,7 +325,6 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
   const { items, answers } = props
   const correct = items.filter((it, i) => answers[i] === it.correct).length
   const ratio = items.length ? correct / items.length : 0
-  const message = ratio >= 0.85 ? 'mock.great' : ratio >= 0.7 ? 'mock.good' : ratio >= 0.5 ? 'mock.ok' : 'mock.low'
   const topics = topicScores(items, answers)
   const missed = items.map((it, i) => ({ it, a: answers[i] })).filter(({ it, a }) => a !== it.correct)
 
@@ -339,7 +338,10 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
             {correct}
             <span className="of">/{items.length}</span>
           </p>
-          <p className="lede">{t(message)}</p>
+          <p className="lede">
+            {t('mock.result', { a: correct, b: items.length })}
+            {missed.length > 0 && ` ${t('mock.toReview', { n: missed.length })}`}
+          </p>
         </div>
         <Meter value={correct} max={Math.max(items.length, 1)} tone={ratio >= 0.7 ? 'good' : undefined} />
 

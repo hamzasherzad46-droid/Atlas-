@@ -80,14 +80,14 @@ async function quiz(p) {
   await p.getByRole('button', { name: /^(Start|Continue) spelling quiz/ }).click()
   await p.getByRole('button', { name: 'End session' }).waitFor()
   let n = 0
-  while (!(await p.getByText('Session complete').isVisible())) {
+  while (!(await p.getByText('Quiz finished').isVisible())) {
     const word = p.locator('.answer').first()
     await word.waitFor({ timeout: 15000 })
     const answer = await word.evaluate((el) => [...el.children].map((c) => (c.classList.contains('answer-space') ? ' ' : c.classList.contains('caret-end') ? '' : c.textContent)).join(''))
     const before = await p.locator('.screen-bar-title').first().textContent()
     await p.keyboard.type(answer, { delay: 10 })
     n++
-    await p.waitForFunction((prev) => document.body.innerText.includes('Session complete') || document.querySelector('.screen-bar-title')?.textContent !== prev, before, { timeout: 15000 })
+    await p.waitForFunction((prev) => document.body.innerText.includes('Quiz finished') || document.querySelector('.screen-bar-title')?.textContent !== prev, before, { timeout: 15000 })
   }
   await p.getByRole('button', { name: 'Done', exact: true }).click()
   return n

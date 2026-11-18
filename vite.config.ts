@@ -22,9 +22,9 @@ export default defineConfig(({ mode }) => {
           registerType: 'autoUpdate',
           includeAssets: ['icons/icon.svg', 'icons/apple-touch-icon.png'],
           manifest: {
-            name: 'Atlas — Anatomy Trainer',
+            name: 'Atlas',
             short_name: 'Atlas',
-            description: 'Type-to-learn 3D anatomy trainer for nursing and medical students.',
+            description: 'Learn anatomy in 3D by typing the names of structures.',
             theme_color: '#171614',
             background_color: '#171614',
             display: 'standalone',

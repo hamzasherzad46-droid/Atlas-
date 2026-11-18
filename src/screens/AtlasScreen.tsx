@@ -41,11 +41,10 @@ export function AtlasScreen() {
       <Masthead />
       <div className="titleblock">
         <h1 className="display">{t('atlas.title')}</h1>
-        <p className="lede">{t('atlas.sub')}</p>
       </div>
       <button className="go atlas-body" onClick={() => openBody()}>
         <span>
-          {t('body.title')} <span className="go-sub">· {t('body.short')}</span>
+          {t('body.title')}
         </span>
         <ArrowIcon />
       </button>

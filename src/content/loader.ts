@@ -65,7 +65,11 @@ const fileCache = new Map<string, Promise<ModuleContent>>()
 export function loadContentFile(basename: string): Promise<ModuleContent> {
   let p = fileCache.get(basename)
   if (!p) {
-    p = loadJson<ModuleContent>(basename)
+    // A failed download is forgotten, so Try again fetches it afresh.
+    p = loadJson<ModuleContent>(basename).catch((e: unknown) => {
+      fileCache.delete(basename)
+      throw e
+    })
     fileCache.set(basename, p)
   }
   return p
@@ -85,7 +89,12 @@ export function loadModuleContent(info: ModuleInfo): Promise<ModuleContent> {
   let p = contentCache.get(info.id)
   if (!p) {
     const include = info.include
-    p = loadContentFile(info.contentFile).then((c) => (include ? focusContent(c, include) : c))
+    p = loadContentFile(info.contentFile)
+      .then((c) => (include ? focusContent(c, include) : c))
+      .catch((e: unknown) => {
+        contentCache.delete(info.id)
+        throw e
+      })
     contentCache.set(info.id, p)
   }
   return p
@@ -95,7 +104,10 @@ export function loadPlaceholder(info: ModuleInfo): Promise<PlaceholderModel> {
   if (!info.placeholderFile) return Promise.resolve({ parts: [] })
   let p = placeholderCache.get(info.id)
   if (!p) {
-    p = loadJson<PlaceholderModel>(info.placeholderFile)
+    p = loadJson<PlaceholderModel>(info.placeholderFile).catch((e: unknown) => {
+      placeholderCache.delete(info.id)
+      throw e
+    })
     placeholderCache.set(info.id, p)
   }
   return p

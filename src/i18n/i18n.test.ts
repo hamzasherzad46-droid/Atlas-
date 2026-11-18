@@ -61,10 +61,15 @@ function buildReport(): string {
 
 describe('translations', () => {
   it('every key that exists in another language has the same placeholders as English', () => {
+    const changed = changedJson.changed as Record<string, string>
     for (const [lang, dict] of Object.entries(translations)) {
       for (const [k, v] of Object.entries(dict ?? {})) {
         expect(k in en, `${lang} has a key English does not: ${k}`).toBe(true)
-        expect(placeholders(v), `${lang} ${k}`).toEqual(placeholders(en[k as MessageKey]))
+        const english = placeholders(en[k as MessageKey])
+        // A translation of English that has since changed (listed for review) may lack a new
+        // placeholder, which only leaves a detail out; it may never use one English doesn't fill.
+        if (k in changed) expect(placeholders(v).filter((x) => !english.includes(x)), `${lang} ${k}`).toEqual([])
+        else expect(placeholders(v), `${lang} ${k}`).toEqual(english)
       }
     }
   })

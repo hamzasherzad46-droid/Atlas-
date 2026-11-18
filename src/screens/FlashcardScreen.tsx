@@ -13,6 +13,7 @@ import { useSettings } from '../state/settings'
 import '../quiz/quiz.css'
 import { sentence } from '../lib/format'
 import { ScreenBar } from '../components/ScreenBar'
+import { LoadError } from '../components/LoadError'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -20,7 +21,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
   const t = useT()
   const track = useSettings((s) => s.track)
   const recordCard = useProgress((s) => s.recordCard)
-  const { assets } = useModule(config.moduleId)
+  const { assets, error, retry } = useModule(config.moduleId)
   const [deck, setDeck] = useState<string[] | null>(null)
   const [index, setIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
@@ -79,6 +80,13 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
     else setDrag(0)
   }
 
+  if (error)
+    return (
+      <div className="quiz">
+        <ScreenBar close label={t('cards.end')} />
+        <LoadError moduleId={config.moduleId} onRetry={retry} />
+      </div>
+    )
   if (!assets || !deck) return <div className="quiz quiz-center muted">{t('common.loading')}</div>
 
   if (done)

@@ -60,7 +60,7 @@ export function SessionSummary() {
             {shownScore}
             <span className="of">/{total}</span>
           </p>
-          <p className="lede">{isAssessment ? t('summary.noErrors') : t('summary.firstTry')}</p>
+          <p className="lede">{t(isAssessment ? 'summary.resultExam' : 'summary.result', { a: score, b: total })}</p>
         </div>
         <Meter value={score} max={Math.max(total, 1)} tone={ratio >= 0.8 ? 'good' : undefined} />
 
