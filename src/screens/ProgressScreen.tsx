@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { moduleTitle } from '../content/names'
 import { CheckIcon } from '../components/Icons'
 import { Heatmap } from '../components/bits'
-import { EmptyState } from '../components/Engraving'
+import { EmptyState } from '../components/EmptyState'
 import { Masthead } from '../components/Masthead'
 import { useModule } from '../content/useModule'
 import { useT } from '../i18n'
@@ -47,7 +47,7 @@ export function ProgressScreen() {
         <div className="sect-body">
           <p className="tiny weak-module">{moduleTitle(t, moduleId)}</p>
           {weak.length === 0 ? (
-            <EmptyState art="ribcage">{t('today.noWeak')}</EmptyState>
+            <EmptyState>{t('today.noWeak')}</EmptyState>
           ) : (
             <div className="rows">
               {weak.map((w) => {

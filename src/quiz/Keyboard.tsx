@@ -59,10 +59,10 @@ function Key({ id, label, aria, wide, space, accent, flash, onPress }: KeyProps)
     el.current.animate(
       wrong
         ? [
-            { background: 'var(--bad)', color: 'var(--paper)' },
-            { background: 'var(--key)', color: 'var(--ink)' },
+            { background: 'var(--bad)', color: 'var(--bg)' },
+            { background: 'var(--bg)', color: 'var(--fg)' },
           ]
-        : [{ background: 'var(--paper-3)' }, { background: 'var(--key)' }],
+        : [{ background: 'var(--bg-3)' }, { background: 'var(--bg)' }],
       { duration: wrong ? 250 : 150, easing: 'ease-out' },
     )
   }, [hit])

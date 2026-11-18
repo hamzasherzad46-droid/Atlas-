@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { allModules, getModuleInfo, loadCurriculum, loadMock, loadModuleContent, loadPlates, systemModules } from '../content/loader'
 import { moduleTitle } from '../content/names'
 import { buildSearchEntries, type SearchTarget } from '../content/searchIndex'
-import { EmptyState } from '../components/Engraving'
+import { EmptyState } from '../components/EmptyState'
 import { ChevronIcon } from '../components/Icons'
 import { ScreenBar } from '../components/ScreenBar'
 import { translateDynamic, useT } from '../i18n'
@@ -91,7 +91,7 @@ export function SearchScreen() {
           ) : !index ? (
             <SkeletonRows rows={3} label={t('common.loading')} />
           ) : !hits.length ? (
-            <EmptyState art="neck">{t('search.none', { q: q.trim() })}</EmptyState>
+            <EmptyState>{t('search.none', { q: q.trim() })}</EmptyState>
           ) : (
             <p className="tiny num search-count">{t('search.count', { n: hits.length })}</p>
           )}

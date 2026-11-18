@@ -4,7 +4,6 @@ import { useModule } from '../content/useModule'
 import { ChevronIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { pct } from '../lib/format'
-import { tintVars } from '../lib/tint'
 import { useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
 import { regionStats } from '../state/stats'
@@ -23,8 +22,7 @@ export function ModuleRow({ info, sub }: { info: ModuleInfo; sub: string }) {
 
   if (!available) return null
   return (
-    <button className="r sys" style={tintVars(info.systemId ?? 'skeletal')} onClick={() => openModule(info.id)}>
-      <span className="swatch" aria-hidden />
+    <button className="r" onClick={() => openModule(info.id)}>
       <span className="r-main">
         <span className="r-title">{moduleTitle(t, info.id)}</span>
         <span className="r-sub">{sub}</span>

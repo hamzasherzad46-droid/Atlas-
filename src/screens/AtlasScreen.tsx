@@ -3,12 +3,10 @@ import { moduleTitle } from '../content/names'
 import { catalog, focusModules, getModuleInfo, regionModules } from '../content/loader'
 import { useModule } from '../content/useModule'
 import { ChevronIcon, BackIcon } from '../components/Icons'
-import { Engraving } from '../components/Engraving'
 import { Masthead } from '../components/Masthead'
 import { Meter } from '../components/bits'
 import { useT } from '../i18n'
 import { pct } from '../lib/format'
-import { tintVars } from '../lib/tint'
 import { startAssessment, startCards, startPractice, startReview } from '../state/actions'
 import { missedCount } from '../state/dashboard'
 import { ASSESSMENT_ANSWER_TIMER, ASSESSMENT_LENGTH, ASSESSMENT_TIME_MS, goBack, useNav, type QuestionFormat } from '../state/nav'
@@ -43,7 +41,6 @@ export function AtlasScreen() {
       <div className="titleblock">
         <h1 className="display">{t('atlas.title')}</h1>
       </div>
-      <Engraving name="lungs" className="atlas-cover" />
       <button className="go atlas-body" onClick={() => openBody()}>
         <span>
           {t('body.title')}
@@ -133,15 +130,13 @@ function ModuleScreen({ id }: { id: string }) {
   const start = (format: QuestionFormat) => startPractice(id, region, mode, timer, tier, format)
 
   return (
-    <main className="page module-page sys" style={tintVars(info.systemId)}>
+    <main className="page module-page">
       <button className="backlink" onClick={() => goBack()}>
         <BackIcon /> {t('common.back')}
       </button>
 
-      {info.cover && <Engraving name={info.cover} className="module-cover" />}
       <div className="titleblock module-titleblock">
         <p className="label">
-          <span className="swatch" aria-hidden />
           {info.group ? t.td(`group.${info.group}`, '') : t.td(`system.${info.systemId}`, '')}
         </p>
         <h1 className="display">{moduleTitle(t, id)}</h1>
@@ -156,7 +151,7 @@ function ModuleScreen({ id }: { id: string }) {
           {t('mod.seen', { a: seen, b: total })} · {t('atlas.mastered', { n: pct(mastered, total) })}
         </p>
       </div>
-      <Meter value={mastered} max={Math.max(total, 1)} tone="tint" />
+      <Meter value={mastered} max={Math.max(total, 1)} />
 
       <section className="sect module-first">
         <p className="label">{t('mod.learn')}</p>

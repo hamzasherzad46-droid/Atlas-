@@ -2,8 +2,8 @@ import { addDays, dayKey } from '../lib/dates'
 import type { DayActivity } from '../lib/assignments'
 import { useToasts } from '../state/toast'
 
-/** Hairline progress meter: burgundy; `good` for completed items, `tint` for the surrounding system's colour key. */
-export function Meter({ value, max, tone }: { value: number; max: number; tone?: 'good' | 'tint' }) {
+/** Hairline progress meter in the accent, drawing in; `good` for completed items. */
+export function Meter({ value, max, tone }: { value: number; max: number; tone?: 'good' }) {
   const pct = max ? Math.min(100, (value / max) * 100) : 0
   return (
     <div className={`meter${tone ? ` ${tone}` : ''}`} role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}>

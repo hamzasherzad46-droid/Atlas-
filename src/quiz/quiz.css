@@ -9,7 +9,7 @@
   margin: 0 auto;
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
-  background: var(--paper);
+  background: var(--bg);
   animation: fade-in var(--mid) var(--ease) both;
 }
 
@@ -42,14 +42,14 @@
 }
 
 .quiz-clock.warn {
-  color: var(--warn);
+  color: var(--accent);
 }
 
 /* Session progress: a hairline across the full width. */
 .quiz-progress {
   position: relative;
   height: 2px;
-  background: var(--rule);
+  background: var(--line);
   flex-shrink: 0;
 }
 
@@ -71,7 +71,7 @@
 .timer-fill {
   display: block;
   height: 100%;
-  background: var(--ink-3);
+  background: var(--fg-2);
   transform-origin: left;
   transition: transform 100ms linear, background-color var(--mid);
 }
@@ -81,7 +81,7 @@
 }
 
 .timer-fill.low {
-  background: var(--warn);
+  background: var(--accent);
 }
 
 .quiz-viewer {
@@ -114,7 +114,7 @@
   justify-content: center;
   min-height: 1.2em;
   font-size: var(--fs-1);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-light);
   line-height: var(--lh-title);
   letter-spacing: var(--ls-answer);
 }
@@ -143,13 +143,13 @@
 }
 
 .answer-ch.ghost {
-  color: var(--ink-3);
+  color: var(--fg-2);
   opacity: 0.55;
 }
 
 /* A letter settles onto the line as it is typed: a short fade and a 2 px drop. */
 .answer-ch.typed {
-  color: var(--ink);
+  color: var(--fg);
   animation: settle var(--fast) var(--ease) both;
 }
 
@@ -174,7 +174,7 @@
   inset-inline: 14%;
   bottom: 0.14em;
   height: 1.5px;
-  background: var(--ink-3);
+  background: var(--fg-2);
 }
 
 .caret::before {
@@ -200,7 +200,7 @@
 }
 
 .answer-ok .answer-ch {
-  color: var(--good);
+  color: var(--accent);
   opacity: 1;
 }
 
@@ -233,11 +233,11 @@
 }
 
 .verdict.good {
-  color: var(--good);
+  color: var(--accent);
 }
 
 .verdict.warn {
-  color: var(--warn);
+  color: var(--accent);
 }
 
 .verdict.bad {
@@ -252,7 +252,7 @@
   max-width: 30em;
   font-size: var(--fs-5);
   line-height: var(--lh-body);
-  color: var(--ink-2);
+  color: var(--fg-2);
 }
 
 .quiz-note {
@@ -263,9 +263,9 @@
 
 /* Instruction: blue. */
 .quiz-hint {
-  font-size: var(--fs-6);
+  font-size: var(--fs-5);
   font-weight: var(--fw-semibold);
-  color: var(--info);
+  color: var(--fg-2);
 }
 
 .quiz-next {
@@ -279,8 +279,8 @@
   flex-direction: column;
   gap: 12px;
   padding: 8px 4px 12px;
-  background: var(--kb-bg);
-  border-top: 1px solid var(--rule);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
   transition: opacity var(--mid) var(--ease);
 }
 
@@ -298,36 +298,36 @@
   flex: 0 1 9.3%;
   height: 44px;
   border-radius: var(--radius);
-  background: var(--key);
-  box-shadow: 0 1px 0 var(--key-shadow);
+  background: var(--bg);
+  box-shadow: 0 1px 0 var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--fs-3);
   font-weight: var(--fw-regular);
   text-transform: lowercase;
-  color: var(--ink);
+  color: var(--fg);
 }
 
 .kb-wide {
   flex: 0 1 13.5%;
-  background: var(--key-alt);
-  font-size: var(--fs-6);
+  background: var(--bg);
+  font-size: var(--fs-5);
   font-weight: var(--fw-semibold);
   text-transform: none;
 }
 
 .kb-space {
   flex: 1 1 50%;
-  font-size: var(--fs-6);
+  font-size: var(--fs-5);
   font-weight: var(--fw-medium);
-  color: var(--ink-2);
+  color: var(--fg-2);
 }
 
 /* Return when an answer is waiting to be confirmed. */
 .kb-accent {
-  background: var(--accent-fill);
-  color: var(--on-accent);
+  background: var(--fg);
+  color: var(--bg);
 }
 
 @media (min-width: 700px) {
@@ -359,16 +359,16 @@
 }
 
 .summary-score {
-  font-size: var(--fs-1);
+  font-size: var(--fs-hero);
   line-height: var(--lh-title);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--ls-title);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-hero);
 }
 
 .summary-score .of {
-  font-size: var(--fs-3);
-  color: var(--ink-3);
-  font-weight: var(--fw-regular);
+  font-size: var(--fs-2);
+  color: var(--fg-2);
+  font-weight: var(--fw-light);
 }
 
 .summary .titleblock .lede {
@@ -385,7 +385,7 @@
   flex-direction: column;
   gap: 12px;
   padding-top: 24px;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--line);
 }
 
 /* ---------- Flashcards: an index card ---------- */
@@ -418,23 +418,16 @@
   transform: rotateY(180deg);
 }
 
-/* Reference cards are parchment in both themes, set in charcoal ink. */
+/* A reference card: a black panel framed by a hairline (white in light mode). */
 .face {
   position: absolute;
   inset: 0;
   overflow-y: auto;
   padding: 20px 20px 24px;
   border-radius: var(--radius);
-  background: var(--parchment);
-  color: var(--parchment-ink);
-  border: 1px solid var(--rule-brass);
-  --ink: var(--parchment-ink);
-  --ink-2: #5d5240;
-  --ink-3: #8a7d63;
-  --rule: rgba(33, 31, 27, 0.16);
-  --copper: #754a35;
-  --good: #395c3e;
-  --bad: #8e2f2a;
+  background: var(--bg);
+  color: var(--fg);
+  border: var(--hair) solid var(--line-strong);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
@@ -498,14 +491,12 @@
   position: absolute;
   top: 14px;
   inset-inline-end: 18px;
-  font-size: var(--fs-6);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--ls-caps);
-  text-transform: uppercase;
+  font-size: var(--fs-5);
+  font-weight: var(--fw-medium);
 }
 
 .swipe-tag.good {
-  color: var(--good);
+  color: var(--accent);
 }
 
 .swipe-tag.bad {
@@ -552,7 +543,7 @@
   width: 100%;
   min-height: 50px;
   padding: 8px 4px;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--line);
   font-size: var(--fs-3);
   text-align: start;
   transition: color var(--fast) linear, opacity var(--mid) var(--ease);
@@ -560,11 +551,11 @@
 }
 
 .choices li:last-child .choice-btn {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--line);
 }
 
 .choice-btn:active {
-  background: var(--paper-2);
+  background: var(--bg-2);
 }
 
 .choice-n {
@@ -579,7 +570,7 @@
 }
 
 .choice-btn.right {
-  color: var(--good);
+  color: var(--accent);
 }
 
 .choice-btn.wrong {
@@ -603,7 +594,7 @@
 .quiz-skip {
   display: flex;
   margin: 12px auto 0;
-  color: var(--ink-2);
+  color: var(--fg-2);
 }
 
 /* ---------- Identify ---------- */
@@ -615,7 +606,7 @@
 .identify-name {
   margin: 2px 0 4px;
   font-size: var(--fs-1);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-light);
   letter-spacing: var(--ls-title);
 }
 
@@ -624,9 +615,9 @@
   position: absolute;
   top: 0;
   inset-inline: 0;
-  background: var(--paper);
+  background: var(--bg);
   font-size: var(--fs-4);
-  color: var(--warn);
+  color: var(--accent);
   pointer-events: none;
   /* No fill mode: visible by default, so a stalled animation can never hide it. */
   animation: fade-in var(--fast) var(--ease);
@@ -644,7 +635,7 @@
 
 .mock-last {
   margin-top: 12px;
-  color: var(--ink-2);
+  color: var(--fg-2);
 }
 
 .mock-body {
@@ -658,10 +649,10 @@
 }
 
 .mock-q {
-  font-weight: var(--fw-semibold);
-  font-size: var(--fs-2);
-  line-height: var(--lh-section);
-  color: var(--ink);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-3);
+  line-height: var(--lh-snug);
+  color: var(--fg);
   letter-spacing: var(--ls-section);
 }
 
@@ -678,20 +669,20 @@
   width: 100%;
   min-height: 52px;
   padding: 12px 4px;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--line);
   font-size: var(--fs-4);
   line-height: var(--lh-snug);
   text-align: start;
-  color: var(--ink);
+  color: var(--fg);
   transition: color var(--fast) linear, opacity var(--mid) var(--ease);
 }
 
 .mock-options li:last-child .mock-option {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--line);
 }
 
 .mock-option:active:not(:disabled) {
-  background: var(--paper-2);
+  background: var(--bg-2);
 }
 
 .mock-option:disabled {
@@ -715,11 +706,11 @@
 }
 
 .mock-option.right {
-  color: var(--good);
+  color: var(--accent);
 }
 
 .mock-option.right .mock-letter {
-  color: var(--good);
+  color: var(--accent);
 }
 
 .mock-option.wrong {
@@ -762,7 +753,7 @@
 
 .mock-review li {
   padding: 16px 0;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--line);
 }
 
 .mock-review li:first-child {
@@ -783,5 +774,5 @@
 
 .mock-review-why {
   margin-top: 8px !important;
-  color: var(--ink-2);
+  color: var(--fg-2);
 }

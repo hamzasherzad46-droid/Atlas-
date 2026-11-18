@@ -5,7 +5,6 @@ import { ChevronIcon, BackIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { publicUrl } from '../lib/paths'
 import { placeTags } from '../lib/plates'
-import { tintVars } from '../lib/tint'
 import { goBack, useNav } from '../state/nav'
 import { SkeletonRows } from '../components/SkeletonRows'
 
@@ -30,8 +29,7 @@ export function PlatesList() {
   return (
     <div className="rows atlas-list" lang="en">
       {plates.map((p) => (
-        <button key={p.id} className="r sys" style={tintVars(p.systemId)} onClick={() => openPlate(p.id)}>
-          <span className="swatch" aria-hidden />
+        <button key={p.id} className="r" onClick={() => openPlate(p.id)}>
           <span className="r-main">
             <span className="r-title" dir="auto">{p.title}</span>
             <span className="r-sub">{t('plate.arrows', { n: p.labels.length })}</span>
@@ -98,13 +96,12 @@ export function PlateScreen({ id }: { id: string }) {
   const head = 7 * unit
 
   return (
-    <main className="page plate-page sys" style={tintVars(plate.systemId)}>
+    <main className="page plate-page">
       <button className="backlink" onClick={() => goBack()}>
         <BackIcon /> {t('common.back')}
       </button>
       <div className="titleblock plate-titleblock">
         <p className="label">
-          <span className="swatch" aria-hidden />
           {t.td(`system.${plate.systemId}`, '')}
         </p>
         <h1 className="title" lang="en" dir="ltr">

@@ -1,9 +1,9 @@
 import type { SVGProps } from 'react'
 
 /**
- * Atlas has one icon style: a fine engraved line, 1.5 at 24 px, round ends and joins, on a 24 px grid.
- * Short parallel hatching, as on an engraved plate, marks a filled or "on" state. Everything else in
- * the interface is set in type.
+ * Atlas has one icon style: a thin geometric line, 1.25 at 24 px, round ends and joins, on a 24 px
+ * grid, drawn in the current text colour. An "on" state is a small filled dot. Everything else in the
+ * interface is set in type.
  */
 const svg = (size: number, extra?: SVGProps<SVGSVGElement>): SVGProps<SVGSVGElement> => ({
   width: size,
@@ -11,7 +11,7 @@ const svg = (size: number, extra?: SVGProps<SVGSVGElement>): SVGProps<SVGSVGElem
   viewBox: '0 0 24 24',
   fill: 'none',
   stroke: 'currentColor',
-  strokeWidth: 1.5,
+  strokeWidth: 1.25,
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
   'aria-hidden': true,
@@ -45,26 +45,25 @@ export const CloseIcon = ({ size = 16 }: { size?: number }) => (
 )
 
 export const CheckIcon = ({ size = 14 }: { size?: number }) => (
-  <svg {...svg(size, { strokeWidth: 1.75 })}>
+  <svg {...svg(size)}>
     <path d="m5 12.5 4.5 4.5L19 7.5" />
   </svg>
 )
 
-/** A lens with the engraver's highlight. */
+/** A lens. */
 export const SearchIcon = ({ size = 18 }: { size?: number }) => (
   <svg {...svg(size)}>
     <circle cx="10.5" cy="10.5" r="6.25" />
     <path d="m15.25 15.25 4.75 4.75" />
-    <path d="M7.6 9.2a3.4 3.4 0 0 1 2.2-2.1" strokeWidth={1} />
   </svg>
 )
 
-/** A numbered mark on its leader line, as on a plate; hatched while labels are shown. */
+/** A numbered mark on its leader line; a filled dot inside while labels are shown. */
 export const LabelsIcon = ({ on, size = 16 }: { on: boolean; size?: number }) => (
   <svg {...svg(size)}>
     <circle cx="15.5" cy="8.5" r="4.5" />
     <path d="M12.3 11.7 4.5 19.5" />
-    {on && <path d="m13 11 5-5M12.1 9.1l4-4M14.9 11.9l4-4" strokeWidth={1} />}
+    {on && <circle cx="15.5" cy="8.5" r="1.75" fill="currentColor" stroke="none" />}
   </svg>
 )
 
@@ -81,5 +80,13 @@ export const ReturnIcon = ({ size = 22 }: { size?: number }) => (
   <svg {...svg(size)}>
     <path d="M19 6v5.5a1.5 1.5 0 0 1-1.5 1.5H5" />
     <path d="m9 9-4 4 4 4" />
+  </svg>
+)
+
+/** An instrument's reticle: marks an empty state. */
+export const ReticleIcon = ({ size = 20 }: { size?: number }) => (
+  <svg {...svg(size, { className: 'reticle' })}>
+    <circle cx="12" cy="12" r="7" />
+    <path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4" />
   </svg>
 )

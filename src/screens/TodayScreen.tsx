@@ -5,12 +5,10 @@ import { courseDescription, courseTitle, moduleTitle } from '../content/names'
 import type { Course, Curriculum as CurriculumData, Plate } from '../content/types'
 import { useModule } from '../content/useModule'
 import { ChevronIcon } from '../components/Icons'
-import { Engraving } from '../components/Engraving'
 import { Masthead } from '../components/Masthead'
 import { Meter } from '../components/bits'
 import { useT } from '../i18n'
 import { pct } from '../lib/format'
-import { tintVars } from '../lib/tint'
 import { startAssessment, startCards, startPractice, startReview } from '../state/actions'
 import { dueCards, missedCount, useAllDays } from '../state/dashboard'
 import { useNav } from '../state/nav'
@@ -33,7 +31,6 @@ export function TodayScreen() {
   const { openExplore, openMock, openBody, openCourses, setTab } = useNav()
   const course = getCourse(track)
   const moduleId = continueModuleId(course, lastSession?.moduleId, exists)
-  const info = getModuleInfo(moduleId)
   const { assets } = useModule(moduleId)
   const { records, cards } = useProgress()
   const days = useAllDays()
@@ -66,10 +63,8 @@ export function TodayScreen() {
         <p className="small">{name ? t('today.greeting', { g: greeting, name }) : t('today.greetingAlone', { g: greeting })}</p>
       </div>
 
-      <section className="resume sys" style={tintVars(info?.systemId)}>
-        {info?.cover && <Engraving name={info.cover} className="resume-cover" />}
+      <section className="resume">
         <p className="label">
-          <span className="swatch" aria-hidden />
           {resumed ? t('today.continueTitle') : t('today.startHere')}
         </p>
         <h2 className="display resume-title">{forModule}</h2>
@@ -77,7 +72,7 @@ export function TodayScreen() {
           {region ? `${regionName} · ` : ''}
           {t('atlas.mastered', { n: pct(mastered, total) })}
         </p>
-        <Meter value={mastered} max={Math.max(total, 1)} tone="tint" />
+        <Meter value={mastered} max={Math.max(total, 1)} />
         <button className="go resume-go" onClick={() => startPractice(moduleId, region, mode)}>
           {resumed ? t('today.resumeGo') : t('practice.start')}
           <ChevronIcon />
@@ -209,8 +204,7 @@ function CoursePlates({ course }: { course: Course }) {
       <p className="label today-sublabel">{t('today.plates')}</p>
       <div className="sect-body rows" lang="en">
         {plates.map((p) => (
-          <button key={p.id} className="r sys" style={tintVars(p.systemId)} onClick={() => openPlate(p.id)}>
-            <span className="swatch" aria-hidden />
+          <button key={p.id} className="r" onClick={() => openPlate(p.id)}>
             <span className="r-main r-title" dir="auto">
               {p.title}
             </span>
