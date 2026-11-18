@@ -112,7 +112,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
         title={<h1 className="screen-bar-h">{moduleTitle(t, moduleId)}</h1>}
         end={
           plateOffered && (
-            <button className="mono explore-toggle" aria-pressed={labels} onClick={() => setLabels((v) => !v)}>
+            <button className="explore-toggle" aria-pressed={labels} onClick={() => setLabels((v) => !v)}>
               {t('explore.labels')} <span aria-hidden>{labels ? '●' : '○'}</span>
             </button>
           )
@@ -135,7 +135,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
             />
           </Suspense>
         )}
-        <p className="mono bearing" aria-hidden>
+        <p className="figs bearing" aria-hidden>
           AZ {String(bearing.az).padStart(3, '0')}° · ALT {bearing.alt >= 0 ? '+' : '−'}
           {String(Math.abs(bearing.alt)).padStart(2, '0')}°
         </p>
@@ -151,7 +151,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
           <>
             <div className="explore-title">
               <h2 className="title">
-                {n && <span className="mono plate-no">{n}</span>}
+                {n && <span className="figs plate-no">{n}</span>}
                 {sentence(selected.name)}
               </h2>
               <button className="icon-btn" onClick={() => select(null, null)} aria-label={t('common.close')}>
@@ -192,7 +192,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
                 return (
                   <li key={a.id}>
                     <button onClick={() => fromKey(a.id)}>
-                      <span className="mono">{i + 1}</span>
+                      <span className="figs">{i + 1}</span>
                       <span>{s ? sentence(s.name) : a.id}</span>
                     </button>
                   </li>

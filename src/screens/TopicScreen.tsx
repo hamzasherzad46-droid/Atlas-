@@ -47,7 +47,7 @@ export function TopicScreen({ cat, index }: { cat: string; index: number }) {
         <ol className="sect-body topic-points" lang="en" dir="ltr">
           {topic.points.map((p, i) => (
             <li key={i}>
-              <span className="mono topic-no">{i + 1}</span>
+              <span className="figs topic-no">{i + 1}</span>
               <p>{p}</p>
             </li>
           ))}

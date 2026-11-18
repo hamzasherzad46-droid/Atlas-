@@ -30,7 +30,7 @@ export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen
 
   return (
     <div className="curriculum">
-      {!only && <p className="mono curriculum-count">{t('curriculum.count', { a: ready, b: total })}</p>}
+      {!only && <p className="small num curriculum-count">{t('curriculum.count', { a: ready, b: total })}</p>}
       <div className="rows">
         {categories.map((c) => {
           const isOpen = open === c.id
@@ -45,7 +45,7 @@ export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen
                 <span className="r-value">
                   {c.topics.length}
                 </span>
-                <span className="mono fold" aria-hidden>
+                <span className="figs fold" aria-hidden>
                   {isOpen ? '−' : '+'}
                 </span>
               </button>
@@ -56,7 +56,7 @@ export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen
                       <button className="topic-open" dir="ltr" onClick={() => openTopic({ cat: c.id, index })}>
                         <span className="topic-title">{topic.title}</span>
                         {topic.modules?.length ? (
-                          <span className="mono topic-3d" aria-label={t('topic.has3d')}>
+                          <span className="figs topic-3d" aria-label={t('topic.has3d')}>
                             3D
                           </span>
                         ) : null}

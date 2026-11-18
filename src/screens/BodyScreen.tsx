@@ -106,7 +106,7 @@ export function BodyScreen() {
           />
         </Suspense>
         {loading.length > 0 && (
-          <p className="mono body-loading" aria-live="polite">
+          <p className="small body-loading" aria-live="polite">
             {t('body.loading', { layer: loading.map((id) => t(`layer.${id}`)).join(', ') })}
           </p>
         )}

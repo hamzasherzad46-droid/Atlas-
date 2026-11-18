@@ -32,7 +32,8 @@ export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: P
     )
   }, [wrongCount])
 
-  const size = Math.max(24, Math.min(46, 620 / Math.max(answer.length, 1)))
+  // Sized to fit the screen, between the two largest steps of the type scale (24 and 34 px).
+  const size = Math.max(24, Math.min(34, 520 / Math.max(answer.length, 1)))
   const shown = mode === 'medium' ? revealedLetters(answer) : null
   const state = done ? (outcome === 'failed' ? 'fail' : 'ok') : 'typing'
 

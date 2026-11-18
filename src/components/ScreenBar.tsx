@@ -29,7 +29,7 @@ export function ScreenBar({
       <button className="icon-btn screen-bar-back" onClick={() => onBack()} aria-label={label ?? t(close ? 'common.close' : 'common.back')}>
         {close ? <CloseIcon size={18} /> : <BackIcon size={18} />}
       </button>
-      <div className="mono screen-bar-title">{title}</div>
+      <div className="screen-bar-title num">{title}</div>
       <div className="screen-bar-end">{end}</div>
     </header>
   )

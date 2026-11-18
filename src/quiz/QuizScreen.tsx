@@ -250,7 +250,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
               return (
                 <li key={id}>
                   <button className={`choice-btn ${state}`} disabled={done} onClick={() => useQuiz.getState().choose(id)}>
-                    <span className="mono choice-n">{i + 1}</span>
+                    <span className="figs choice-n">{i + 1}</span>
                     <span className="choice-name">{s ? sentence(s.name) : id}</span>
                     {state === 'right' && <CheckIcon />}
                     {state === 'wrong' && <CloseIcon size={14} />}

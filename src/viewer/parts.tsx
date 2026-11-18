@@ -4,6 +4,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import * as THREE from 'three'
 
+/** Lamp colours for the 3D scenes (three.js needs literal values): warm, like gas light on bone. */
+const LIGHT = { sky: '#fbf7ef', ground: '#2a2723', key: '#fff9ef', fill: '#f1eae0' }
+
 /** Soft studio lighting: a procedural room environment (no HDR download) plus a key and a rim light. */
 export function Lights() {
   const gl = useThree((s) => s.gl)
@@ -18,9 +21,9 @@ export function Lights() {
     <>
       {/* Attaches to the scene's `environment`; intensity is set on the Canvas scene. */}
       <primitive object={env} attach="environment" />
-      <hemisphereLight args={['#fbf7ef', '#2a2723', 0.45]} />
-      <directionalLight position={[1.5, 3, 2.5]} intensity={1.3} color="#fff9ef" />
-      <directionalLight position={[-2.5, 1.5, -2]} intensity={0.75} color="#e9eef5" />
+      <hemisphereLight args={[LIGHT.sky, LIGHT.ground, 0.45]} />
+      <directionalLight position={[1.5, 3, 2.5]} intensity={1.3} color={LIGHT.key} />
+      <directionalLight position={[-2.5, 1.5, -2]} intensity={0.75} color={LIGHT.fill} />
     </>
   )
 }

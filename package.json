@@ -15,10 +15,8 @@
     "spell": "cspell --no-progress --show-suggestions"
   },
   "dependencies": {
-    "@fontsource-variable/libre-franklin": "^5.3.0",
-    "@fontsource/dm-mono": "^5.3.0",
-    "@fontsource/libre-caslon-display": "^5.3.0",
-    "@fontsource/libre-caslon-text": "^5.3.0",
+    "@fontsource-variable/source-sans-3": "^5.3.1",
+    "@fontsource-variable/source-serif-4": "^5.3.1",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "firebase": "^13.4.0",

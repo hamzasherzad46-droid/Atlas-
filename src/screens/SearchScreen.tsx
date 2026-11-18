@@ -93,7 +93,7 @@ export function SearchScreen() {
           ) : !hits.length ? (
             <p className="empty">{t('search.none', { q: q.trim() })}</p>
           ) : (
-            <p className="tiny mono search-count">{t('search.count', { n: hits.length })}</p>
+            <p className="tiny num search-count">{t('search.count', { n: hits.length })}</p>
           )}
         </div>
 

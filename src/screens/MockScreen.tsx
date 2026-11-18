@@ -176,7 +176,7 @@ function MockSetup(props: {
             </div>
             <p className="small option-help">{t(level === 'foundation' ? 'mock.foundationHelp' : 'mock.higherHelp')}</p>
             {last && (
-              <p className="tiny mono mock-last">
+              <p className="tiny num mock-last">
                 {t('mock.last', { a: last.correct, b: last.total })} · {pct(last.correct, last.total)}%
               </p>
             )}
@@ -289,7 +289,7 @@ function MockQuestion(props: {
             return (
               <li key={k}>
                 <button className={`mock-option ${state}`} disabled={done} onClick={() => props.onChoose(k)}>
-                  <span className="mono mock-letter">{LETTERS[k]}</span>
+                  <span className="figs mock-letter">{LETTERS[k]}</span>
                   <span className="mock-text">{o}</span>
                   {done && k === item.correct && <CheckIcon />}
                 </button>

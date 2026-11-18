@@ -158,7 +158,7 @@ function RegionTools({
     <>
       {anchors.map((a, i) => (
         <Html key={a.id} position={a.point} zIndexRange={[2, 0]} wrapperClass="pin-wrap" center>
-          <button className="plate-mark mono" onClick={() => onPlateSelect?.(a.id)} aria-label={String(i + 1)}>
+          <button className="plate-mark figs" onClick={() => onPlateSelect?.(a.id)} aria-label={String(i + 1)}>
             {i + 1}
           </button>
         </Html>

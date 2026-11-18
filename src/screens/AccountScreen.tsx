@@ -170,7 +170,7 @@ function DeleteAccount() {
       <div className="titleblock">
         <h1 className="display">{t('account.deleteTitle')}</h1>
         <p className="lede">{t('account.deleteText')}</p>
-        {user && <p className="small mono account-email">{user.email}</p>}
+        {user && <p className="small account-email">{user.email}</p>}
       </div>
       <form className="account-form" onSubmit={(e) => void confirm(e)}>
         {withPassword ? (

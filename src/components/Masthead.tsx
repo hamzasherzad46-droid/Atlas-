@@ -19,7 +19,7 @@ export function Masthead() {
         <span className="wordmark">{t('app.name')}</span>
       </span>
       <span className="masthead-end">
-        <button className="mono masthead-track" aria-label={`${t('course.change')}: ${courseTitle(t, course)}`} onClick={() => openCourses()}>
+        <button className="masthead-track" aria-label={`${t('course.change')}: ${courseTitle(t, course)}`} onClick={() => openCourses()}>
           {courseTitle(t, course)}
         </button>
         <button className="icon-btn masthead-search" aria-label={t('search.open')} onClick={() => openSearch()}>

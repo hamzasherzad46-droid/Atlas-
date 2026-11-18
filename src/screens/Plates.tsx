@@ -178,7 +178,7 @@ export function PlateScreen({ id }: { id: string }) {
         ) : shown(active) ? (
           <>
             <p className="title plate-name">
-              <span className="mono plate-no">{active + 1}</span>
+              <span className="figs plate-no">{active + 1}</span>
               <span lang="en" dir="ltr">
                 {label.name}
               </span>
@@ -195,7 +195,7 @@ export function PlateScreen({ id }: { id: string }) {
         ) : (
           <>
             <p className="title plate-name">
-              <span className="mono plate-no">{active + 1}</span>
+              <span className="figs plate-no">{active + 1}</span>
               <span className="plate-ask">{t('plate.which', { n: active + 1 })}</span>
             </p>
             <button className="go quiet plate-reveal" onClick={() => reveal(active)}>
@@ -208,13 +208,13 @@ export function PlateScreen({ id }: { id: string }) {
       <section className="sect">
         <p className="label">
           {t('plate.key')}
-          {test && <span className="mono plate-score"> · {t('plate.revealed', { a: revealed.size, b: plate.labels.length })}</span>}
+          {test && <span className="num plate-score"> · {t('plate.revealed', { a: revealed.size, b: plate.labels.length })}</span>}
         </p>
         <ol className="sect-body plate-keylist">
           {plate.labels.map((l, i) => (
             <li key={i}>
               <button aria-pressed={active === i} onClick={() => select(i)}>
-                <span className="mono">{i + 1}</span>
+                <span className="figs">{i + 1}</span>
                 <span className={shown(i) ? '' : 'plate-blank'} lang="en" dir="auto">
                   {shown(i) ? l.name : '—'}
                 </span>

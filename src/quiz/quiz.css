@@ -35,7 +35,7 @@
 }
 
 .quiz-clock {
-  font-size: 13px;
+  font-size: var(--fs-5);
   font-weight: 600;
   text-align: end;
   padding-inline-end: 4px;
@@ -104,7 +104,7 @@
 }
 
 .quiz-prompt {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 /* The answer word. */
@@ -188,7 +188,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin-top: 8px;
   animation: rise var(--mid) var(--ease) both;
 }
@@ -196,10 +196,10 @@
 .verdict {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family: var(--serif);
   font-style: italic;
-  font-size: 16px;
+  font-size: var(--fs-4);
 }
 
 .verdict.good {
@@ -215,12 +215,12 @@
 }
 
 .quiz-latin {
-  font-size: 15px;
+  font-size: var(--fs-4);
 }
 
 .quiz-def {
   max-width: 30em;
-  font-size: 15px;
+  font-size: var(--fs-4);
   line-height: 1.5;
   color: var(--ink-2);
 }
@@ -233,13 +233,13 @@
 
 /* Instruction: blue. */
 .quiz-hint {
-  font-size: 13px;
+  font-size: var(--fs-5);
   font-weight: 600;
   color: var(--info);
 }
 
 .quiz-next {
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 /* ---------- Keyboard ---------- */
@@ -247,8 +247,8 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 9px 4px 10px;
+  gap: 12px;
+  padding: 8px 4px 12px;
   background: var(--kb-bg);
   border-top: 1px solid var(--rule);
   transition: opacity var(--mid) var(--ease);
@@ -261,19 +261,19 @@
 .kb-row {
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 4px;
 }
 
 .kb-key {
   flex: 0 1 9.3%;
   height: 44px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   background: var(--key);
   box-shadow: 0 1px 0 var(--key-shadow);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: var(--fs-3);
   font-weight: 400;
   text-transform: lowercase;
   color: var(--ink);
@@ -282,14 +282,14 @@
 .kb-wide {
   flex: 0 1 13.5%;
   background: var(--key-alt);
-  font-size: 13px;
+  font-size: var(--fs-5);
   font-weight: 600;
   text-transform: none;
 }
 
 .kb-space {
   flex: 1 1 50%;
-  font-size: 13px;
+  font-size: var(--fs-5);
   font-weight: 500;
   color: var(--ink-2);
 }
@@ -325,12 +325,12 @@
 
 .summary-inner {
   width: 100%;
-  padding: 10px var(--pad) 48px;
+  padding: 12px var(--pad) 48px;
 }
 
 .summary-score {
   font-family: var(--display);
-  font-size: 88px;
+  font-size: var(--fs-hero);
   line-height: 0.95;
   font-weight: 400;
 }
@@ -341,18 +341,18 @@
 }
 
 .summary .titleblock .lede {
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .summary-figures {
-  padding: 22px 0 24px;
+  padding: 24px 0 24px;
 }
 
 .summary-actions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-top: 22px;
+  gap: 12px;
+  padding-top: 24px;
   border-top: 1px solid var(--rule);
 }
 
@@ -363,7 +363,7 @@
 
 .card-stage {
   flex-shrink: 0;
-  padding: 0 var(--pad) 14px;
+  padding: 0 var(--pad) 16px;
   perspective: 1400px;
 }
 
@@ -371,7 +371,7 @@
   position: relative;
   height: min(46vh, 380px);
   touch-action: pan-y;
-  transition: transform 240ms var(--ease);
+  transition: transform var(--slow) var(--ease);
   cursor: pointer;
 }
 
@@ -379,7 +379,7 @@
   position: relative;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 520ms var(--ease);
+  transition: transform var(--slow) var(--ease);
 }
 
 .flashcard.flipped .flashcard-inner {
@@ -391,8 +391,8 @@
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  padding: 20px 20px 22px;
-  border-radius: 2px;
+  padding: 20px 20px 24px;
+  border-radius: var(--radius);
   background: var(--parchment);
   color: var(--parchment-ink);
   border: 1px solid var(--rule-brass);
@@ -428,7 +428,7 @@
 
 .front-def {
   font-family: var(--serif);
-  font-size: 20px;
+  font-size: var(--fs-3);
   line-height: 1.45;
 }
 
@@ -441,21 +441,21 @@
 }
 
 .face.back .title {
-  margin-top: 30px;
+  margin-top: 32px;
 }
 
 .back-latin {
   margin-top: 2px;
-  font-size: 15px;
+  font-size: var(--fs-4);
 }
 
 .back-label {
   margin-top: 16px;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .back-text {
-  font-size: 15px;
+  font-size: var(--fs-4);
   line-height: 1.5;
 }
 
@@ -467,7 +467,7 @@
   position: absolute;
   top: 14px;
   inset-inline-end: 18px;
-  font-size: 12px;
+  font-size: var(--fs-5);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -484,7 +484,7 @@
 .card-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   margin-top: 12px;
   opacity: 0.35;
   transition: opacity var(--mid) var(--ease);
@@ -517,13 +517,13 @@
 .choice-btn {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
   min-height: 50px;
   padding: 8px 4px;
   border-top: 1px solid var(--rule);
   font-family: var(--display);
-  font-size: 21px;
+  font-size: var(--fs-3);
   text-align: start;
   transition: color var(--fast) linear, opacity var(--mid) var(--ease);
 }
@@ -578,12 +578,12 @@
 /* ---------- Identify ---------- */
 .quiz-identify {
   min-height: 150px;
-  padding-bottom: 18px;
+  padding-bottom: 20px;
 }
 
 .identify-name {
   margin: 2px 0 4px;
-  font-size: 34px;
+  font-size: var(--fs-1);
 }
 
 /* "Try again" after a wrong letter: it sits over the prompt line in amber, then fades. */
@@ -594,7 +594,7 @@
   background: var(--paper);
   font-family: var(--serif);
   font-style: italic;
-  font-size: 15px;
+  font-size: var(--fs-4);
   color: var(--warn);
   pointer-events: none;
   /* No fill mode: visible by default, so a stalled animation can never hide it. */
@@ -611,14 +611,14 @@
 }
 
 .mock-last {
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--ink-2);
 }
 
 .mock-body {
   flex: 1;
   overflow-y: auto;
-  padding: 22px var(--pad) calc(var(--safe-bottom) + 28px);
+  padding: 24px var(--pad) calc(var(--safe-bottom) + 28px);
 }
 
 .mock-topic {
@@ -628,13 +628,13 @@
 .mock-q {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: 22px;
+  font-size: var(--fs-2);
   line-height: 1.35;
   color: var(--ink);
 }
 
 .mock-options {
-  margin: 22px 0 0;
+  margin: 24px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -642,12 +642,12 @@
 .mock-option {
   display: flex;
   align-items: baseline;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
   min-height: 52px;
-  padding: 13px 4px;
+  padding: 12px 4px;
   border-top: 1px solid var(--rule);
-  font-size: 17px;
+  font-size: var(--fs-4);
   line-height: 1.4;
   text-align: start;
   color: var(--ink);
@@ -705,21 +705,21 @@
 }
 
 .mock-feedback {
-  margin-top: 18px;
+  margin-top: 20px;
   animation: rise var(--mid) var(--ease) both;
 }
 
 .mock-why {
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .mock-why p:last-child {
-  font-size: 15px;
+  font-size: var(--fs-4);
   line-height: 1.55;
 }
 
 .mock-next {
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .mock-review {
@@ -729,7 +729,7 @@
 }
 
 .mock-review li {
-  padding: 14px 0;
+  padding: 16px 0;
   border-top: 1px solid var(--rule);
 }
 
@@ -739,14 +739,14 @@
 }
 
 .mock-review-q {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: var(--fs-4);
   line-height: 1.4;
 }
 
 .mock-review .small {
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .mock-review-why {
