@@ -10,3 +10,6 @@ dist-artifact
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+
+# Design review screenshots
+.screens/
