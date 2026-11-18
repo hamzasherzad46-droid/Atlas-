@@ -131,9 +131,13 @@ const localRecords = (p) => p.evaluate(() => Object.keys(JSON.parse(localStorage
   // 3. Both devices study on the same day: the counts add up, everywhere.
   const bQuestions = await quiz(B.p)
   await synced(B.p)
+  // A reload reopens the screen that was open (Settings here) and syncs at once; wait for a sync
+  // that finished after the reload began, then go to Today.
+  const reloadedAt = await A.p.evaluate(() => Date.now())
   await A.p.reload()
+  await synced(A.p, reloadedAt)
+  await tab(A.p, 'Today')
   await A.p.getByText('Your course', { exact: true }).waitFor()
-  await synced(A.p)
   const total = aQuestions + bQuestions
   check('Same day on two devices adds up (first device)', (await goal(A.p)) === `${total} / 20`, `${await goal(A.p)} (A ${aQuestions} + B ${bQuestions})`)
   check('Same day on two devices adds up (second device)', (await goal(B.p)) === `${total} / 20`, await goal(B.p))
@@ -148,9 +152,13 @@ const localRecords = (p) => p.evaluate(() => Object.keys(JSON.parse(localStorage
   await B.ctx.setOffline(false)
   await synced(B.p)
   B.p.offline = false
+  // A reload reopens the screen that was open (Settings here) and syncs at once; wait for a sync
+  // that finished after the reload began, then go to Today.
+  const reloadedAgainAt = await A.p.evaluate(() => Date.now())
   await A.p.reload()
+  await synced(A.p, reloadedAgainAt)
+  await tab(A.p, 'Today')
   await A.p.getByText('Your course', { exact: true }).waitFor()
-  await synced(A.p)
   check('The change syncs when back online', (await goal(A.p)).endsWith('/ 40'), `first device now shows ${await goal(A.p)}`)
 
   // 5. Sign out on B: progress stays in the account, this device is cleared.

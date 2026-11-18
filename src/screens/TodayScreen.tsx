@@ -93,7 +93,7 @@ export function TodayScreen() {
               <Meter value={answered} max={dailyGoal} tone={goalDone ? 'good' : undefined} />
             </span>
             <span className={`r-value${goalDone ? ' good' : ''}`}>
-              {Math.min(answered, dailyGoal)} / {dailyGoal}
+              {t.n(Math.min(answered, dailyGoal))} / {t.n(dailyGoal)}
             </span>
           </div>
           <button className="r" onClick={() => startCards(moduleId)}>
@@ -101,7 +101,7 @@ export function TodayScreen() {
               <span className="r-title">{t('today.cardsDue')}</span>
               <span className="r-sub">{forModule}</span>
             </span>
-            <span className={`r-value${due ? ' warn' : ''}`}>{due}</span>
+            <span className={`r-value${due ? ' warn' : ''}`}>{t.n(due)}</span>
             <ChevronIcon />
           </button>
           {mistakes > 0 && (
@@ -110,7 +110,7 @@ export function TodayScreen() {
                 <span className="r-title">{t('today.mistakes')}</span>
                 <span className="r-sub">{forModule}</span>
               </span>
-              <span className="r-value bad">{mistakes}</span>
+              <span className="r-value bad">{t.n(mistakes)}</span>
               <ChevronIcon />
             </button>
           )}

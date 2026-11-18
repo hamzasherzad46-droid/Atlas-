@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState, type PointerEvent
 import { moduleTitle } from '../content/names'
 import { noteFor } from '../content/notes'
 import { useModule } from '../content/useModule'
+import { ModelLoading } from '../components/ModelLoading'
 import { CheckIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { meshKeys } from '../lib/meshMatch'
@@ -87,7 +88,15 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
         <LoadError moduleId={config.moduleId} onRetry={retry} />
       </div>
     )
-  if (!assets || !deck) return <div className="quiz quiz-center muted">{t('common.loading')}</div>
+  if (!assets || !deck)
+    return (
+      <div className="quiz">
+        <ScreenBar close label={t('cards.end')} />
+        <div className="quiz-viewer">
+          <ModelLoading always />
+        </div>
+      </div>
+    )
 
   if (done)
     return (
@@ -124,7 +133,7 @@ export function FlashcardScreen({ config }: { config: CardsConfig }) {
 
       <div className="quiz-viewer viewer-fade cards-viewer">
         {current && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<ModelLoading always />}>
             <AnatomyViewer assets={assets} highlight={highlight} view={current.camera} />
           </Suspense>
         )}

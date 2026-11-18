@@ -205,7 +205,7 @@ function ModuleScreen({ id }: { id: string }) {
           </Setting>
 
           <button className="go module-start" onClick={() => start('type')} disabled={!assets}>
-            {t('practice.start')}
+            {last ? t('today.resumeGo') : t('practice.start')}
             <ChevronIcon />
           </button>
           <p className="tiny start-note">{t('practice.answerLang')}</p>

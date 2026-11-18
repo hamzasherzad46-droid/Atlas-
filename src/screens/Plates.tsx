@@ -7,6 +7,7 @@ import { publicUrl } from '../lib/paths'
 import { placeTags } from '../lib/plates'
 import { tintVars } from '../lib/tint'
 import { goBack, useNav } from '../state/nav'
+import { SkeletonRows } from '../components/SkeletonRows'
 
 function usePlates(): Plate[] | null {
   const [plates, setPlates] = useState<Plate[] | null>(null)
@@ -25,7 +26,7 @@ export function PlatesList() {
   const t = useT()
   const openPlate = useNav((s) => s.openPlate)
   const plates = usePlates()
-  if (!plates) return <p className="empty">{t('common.loading')}</p>
+  if (!plates) return <SkeletonRows label={t('common.loading')} />
   return (
     <div className="rows atlas-list" lang="en">
       {plates.map((p) => (
@@ -75,7 +76,7 @@ export function PlateScreen({ id }: { id: string }) {
     return placeTags(plate.labels, (TAG_PX / heightPx) * 100)
   }, [plate, figW])
 
-  if (!plate) return <main className="page">{plates && <p className="empty">{t('common.loading')}</p>}</main>
+  if (!plate) return <main className="page">{!plates && <SkeletonRows rows={6} label={t('common.loading')} />}</main>
 
   const { width: W, height: H } = plate
   const shown = (i: number) => !test || revealed.has(i)

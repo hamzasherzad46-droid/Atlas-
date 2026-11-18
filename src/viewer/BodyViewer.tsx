@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import type { CameraView } from '../content/types'
 import { BODY_LAYERS, cutPlane, explodeOffset, type BodyLayer, type BodyMode, type CutAxis, type LayerId, type LayerPart } from '../lib/bodyLayers'
 import { publicUrl } from '../lib/paths'
+import { trackLoads } from '../state/modelLoads'
 import { CameraRig } from './CameraRig'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
 import { ACCENT, PALETTES } from './highlight'
@@ -55,7 +56,7 @@ export interface BodyViewerProps {
 }
 
 function useFetchedScene(file: string): THREE.Object3D {
-  return useGLTF(publicUrl(`models/${file}`), DRACO_PATH, false).scene
+  return useGLTF(publicUrl(`models/${file}`), DRACO_PATH, false, trackLoads).scene
 }
 function useEmbeddedScene(file: string): THREE.Object3D {
   return use(loadEmbeddedModel(file)).scene

@@ -6,6 +6,7 @@ import { useT } from '../i18n'
 import { formatClock, sentence } from '../lib/format'
 import { meshKeys } from '../lib/meshMatch'
 import { activeAnswer, type KeyInput } from '../lib/typing'
+import { ModelLoading } from '../components/ModelLoading'
 import { ChevronIcon, CheckIcon, CloseIcon } from '../components/Icons'
 import { goBack, type SessionConfig } from '../state/nav'
 import { useQuiz } from '../state/quiz'
@@ -111,7 +112,15 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
         <LoadError moduleId={config.moduleId} onRetry={retry} />
       </div>
     )
-  if (!assets || !ready) return <div className="quiz quiz-center muted">{t('common.loading')}</div>
+  if (!assets || !ready)
+    return (
+      <div className="quiz">
+        <ScreenBar close label={t('quiz.end')} />
+        <div className="quiz-viewer">
+          <ModelLoading always />
+        </div>
+      </div>
+    )
   if (q.phase === 'finished' || !current) return <SessionSummary />
 
   // When finished, show exactly what was typed (a shorter accepted form stays short); on a miss, the main answer.
@@ -204,7 +213,7 @@ export function QuizScreen({ config }: { config: SessionConfig }) {
       </div>
 
       <div className="quiz-viewer viewer-fade">
-        <Suspense fallback={null}>
+        <Suspense fallback={<ModelLoading always />}>
           <AnatomyViewer
             assets={assets}
             highlight={highlight}

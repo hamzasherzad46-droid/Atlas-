@@ -14,7 +14,7 @@ interface Props {
   labels: { hint: string; skip: string; space: string }
 }
 
-/** Custom on-screen QWERTY keyboard. Keys light up when pressed; wrong keys flash red. */
+/** Custom on-screen QWERTY keyboard. Keys darken when pressed; a wrong key flashes the error colour. */
 export const Keyboard = memo(function Keyboard({ flash, onKey, onSkip, awaitingEnter, disabled, labels }: Props) {
   return (
     // Answers are typed in Latin letters, so the keyboard stays left-to-right in every language.
@@ -55,14 +55,15 @@ function Key({ id, label, aria, wide, space, accent, flash, onPress }: KeyProps)
   useEffect(() => {
     if (!hit || !el.current) return
     const wrong = hit.kind === 'wrong'
+    // The key answers at once and fades back: a darker key for a right letter, the error colour for a wrong one.
     el.current.animate(
       wrong
         ? [
-            { background: 'var(--bad)', color: 'var(--paper)', transform: 'scale(0.94)' },
-            { background: 'var(--key)', color: 'var(--ink)', transform: 'scale(1)' },
+            { background: 'var(--bad)', color: 'var(--paper)' },
+            { background: 'var(--key)', color: 'var(--ink)' },
           ]
-        : [{ background: 'var(--paper-3)', transform: 'scale(0.94)' }, { background: 'var(--key)', transform: 'scale(1)' }],
-      { duration: wrong ? 420 : 180, easing: 'ease-out' },
+        : [{ background: 'var(--paper-3)' }, { background: 'var(--key)' }],
+      { duration: wrong ? 250 : 150, easing: 'ease-out' },
     )
   }, [hit])
 

@@ -6,6 +6,7 @@ import { ChevronIcon, BackIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { tintVars } from '../lib/tint'
 import { goBack, useNav } from '../state/nav'
+import { SkeletonRows } from '../components/SkeletonRows'
 
 /** Categories whose topics are parts of the body, so the 3D body is a useful companion. */
 const BODY_CATEGORIES = new Set(['sub-regional', 'regional', 'systemic'])
@@ -26,7 +27,7 @@ export function TopicScreen({ cat, index }: { cat: string; index: number }) {
 
   const category = data?.categories.find((c) => c.id === cat)
   const topic = category?.topics[index]
-  if (!category || !topic) return <main className="page">{data && <p className="empty">{t('common.loading')}</p>}</main>
+  if (!category || !topic) return <main className="page">{!data && <SkeletonRows rows={6} label={t('common.loading')} />}</main>
   const prev = index > 0 ? category.topics[index - 1] : null
   const next = index < category.topics.length - 1 ? category.topics[index + 1] : null
 

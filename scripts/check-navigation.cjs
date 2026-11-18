@@ -250,25 +250,39 @@ async function audit(p) {
     note('Onboarding', await audit(p))
   }
 
-  // After a reload the browser keeps the old entries; Back must still work on the first press.
+  // A reload reopens the screen that was open, with its way back; the browser keeps the old entries,
+  // so Back (the app's and the browser's) must still work on the first press.
   if (!ONLY) {
+    let reopened = false
     let ok = false
+    let interrupted = false
     try {
       await fresh(p)
       await p.getByRole('button', { name: /^Pulse points/ }).first().click()
       await p.getByText('These settings apply to the three tests below.').waitFor()
       await p.reload()
+      await p.getByText('These settings apply to the three tests below.').waitFor()
+      reopened = true
+      await p.getByRole('button', { name: 'Back', exact: true }).first().click()
       await p.getByText('Your course', { exact: true }).waitFor()
       await p.getByRole('button', { name: /^The aorta and the venae cavae/ }).first().click()
       await p.getByText('Test yourself').first().waitFor()
-      await p.getByRole('button', { name: 'Back', exact: true }).first().click()
+      await p.goBack()
       await p.waitForTimeout(500)
       ok = await onToday(p)
+      // A quiz interrupted by a reload reopens the screen it was started from, with Continue.
+      await p.getByRole('button', { name: /^Start spelling quiz/ }).first().click()
+      await p.getByRole('button', { name: 'End session' }).waitFor()
+      await p.reload()
+      await p.getByText('Your course', { exact: true }).waitFor()
+      interrupted = await p.getByRole('button', { name: /^Continue spelling quiz/ }).first().isVisible()
     } catch (e) {
       errors.push(`after reload: ${e.message.split('\n')[0]}`)
     }
-    if (!ok) failed++
-    console.log(`\nBack on the first press after a reload: ${ok ? 'yes' : 'NO'}`)
+    if (!reopened || !ok || !interrupted) failed++
+    console.log(`\nA reload reopens the open screen: ${reopened ? 'yes' : 'NO'}`)
+    console.log(`Back on the first press after a reload: ${ok ? 'yes' : 'NO'}`)
+    console.log(`An interrupted quiz reopens where it was started, with Continue: ${interrupted ? 'yes' : 'NO'}`)
   }
 
   // Builds with accounts (Firebase configured, e.g. the emulators): the account screens.

@@ -42,7 +42,11 @@ export function useT() {
   const lang = useSettings((s) => shownLang(s.lang))
   const t = useCallback((key: MessageKey, vars?: Vars) => translate(lang, key, vars), [lang])
   const td = useCallback((key: string, fallback: string) => translateDynamic(lang, key, fallback), [lang])
-  return Object.assign(t, { lang, locale: locale(lang), td })
+  // Numbers shown on their own (counts, scores) in the language's digits and grouping: 1,240.
+  const n = useCallback((v: number) => new Intl.NumberFormat(locale(lang)).format(v), [lang])
+  /** A whole percentage (0–100) as the language writes it: "45%", "45 %". */
+  const percent = useCallback((v: number) => new Intl.NumberFormat(locale(lang), { style: 'percent' }).format(v / 100), [lang])
+  return Object.assign(t, { lang, locale: locale(lang), td, n, percent })
 }
 
 /** Apply lang and text direction to <html> (for the language shown, which may not be the one saved). */

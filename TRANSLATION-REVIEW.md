@@ -6,7 +6,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (101)
+### Missing: shown in English (102)
 
 | Key | English |
 | --- | --- |
@@ -20,6 +20,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
+| `viewer.loading` | Loading the 3D model |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -187,7 +188,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (101)
+### Missing: shown in English (102)
 
 | Key | English |
 | --- | --- |
@@ -201,6 +202,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
+| `viewer.loading` | Loading the 3D model |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -366,7 +368,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (101)
+### Missing: shown in English (102)
 
 | Key | English |
 | --- | --- |
@@ -380,6 +382,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
+| `viewer.loading` | Loading the 3D model |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -539,7 +542,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (101)
+### Missing: shown in English (102)
 
 | Key | English |
 | --- | --- |
@@ -553,6 +556,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
+| `viewer.loading` | Loading the 3D model |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -713,7 +717,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (101)
+### Missing: shown in English (102)
 
 | Key | English |
 | --- | --- |
@@ -727,6 +731,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
+| `viewer.loading` | Loading the 3D model |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |
@@ -884,7 +889,7 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (101)
+### Missing: shown in English (102)
 
 | Key | English |
 | --- | --- |
@@ -898,6 +903,7 @@ None.
 | `summary.resultExam` | You got {a} of {b} without a mistake. |
 | `cards.end` | End flashcards |
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
+| `viewer.loading` | Loading the 3D model |
 | `mock.end` | Leave the mock exam |
 | `mock.result` | You got {a} of {b}. |
 | `mock.toReview` | {n} to review below. |

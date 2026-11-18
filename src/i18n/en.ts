@@ -282,6 +282,7 @@ export const en = {
   'onb.start': 'Start',
 
   'viewer.error': 'Couldn’t load the 3D model. Check your connection and try again.',
+  'viewer.loading': 'Loading the 3D model',
   'explore.help': 'Drag to turn. Pinch to zoom.',
   'explore.tap': 'Tap any structure to see what it is and what it does.',
   'explore.focus': 'Focus',

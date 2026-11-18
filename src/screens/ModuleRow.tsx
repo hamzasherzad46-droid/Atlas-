@@ -29,7 +29,7 @@ export function ModuleRow({ info, sub }: { info: ModuleInfo; sub: string }) {
         <span className="r-title">{moduleTitle(t, info.id)}</span>
         <span className="r-sub">{sub}</span>
       </span>
-      <span className="r-value">{pct(mastered, total)}%</span>
+      <span className="r-value">{t.percent(pct(mastered, total))}</span>
       <ChevronIcon />
     </button>
   )

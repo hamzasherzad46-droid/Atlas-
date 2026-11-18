@@ -62,7 +62,7 @@ export interface View {
   account: 'signin' | 'delete' | null
 }
 
-const HOME: View = {
+export const HOME: View = {
   tab: 'today',
   session: null,
   cards: null,
@@ -105,7 +105,7 @@ interface NavState extends View {
   openAccount(mode: 'signin' | 'delete'): void
 }
 
-function viewOf(s: NavState): View {
+export function viewOf(s: View): View {
   const v = {} as Record<keyof View, unknown>
   for (const k of Object.keys(HOME) as (keyof View)[]) v[k] = s[k]
   return v as unknown as View

@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { create } from 'zustand'
 import { allModules, getModuleInfo, loadCurriculum, loadMock, loadModuleContent, loadPlates, systemModules } from '../content/loader'
 import { moduleTitle } from '../content/names'
 import { buildSearchEntries, type SearchTarget } from '../content/searchIndex'
@@ -10,16 +9,16 @@ import { translateDynamic, useT } from '../i18n'
 import { sentence } from '../lib/format'
 import { buildIndex, search, type SearchHit, type SearchIndex, type SearchKind } from '../lib/search'
 import { goBack, useNav } from '../state/nav'
+import { useSearchQuery } from '../state/searchQuery'
+import { SkeletonRows } from '../components/SkeletonRows'
 
-/** The query outlives the screen, so Back from a result returns to the same results. */
-const useQuery = create<{ q: string; set(q: string): void }>()((set) => ({ q: '', set: (q) => set({ q }) }))
 
 const GROUPS: SearchKind[] = ['structure', 'module', 'topic', 'plate', 'mock']
 
 /** One search over structures (name, other names, Latin), modules, topics, plates and mock-exam topics. */
 export function SearchScreen() {
   const t = useT()
-  const { q, set } = useQuery()
+  const { q, set } = useSearchQuery()
   const [index, setIndex] = useState<SearchIndex<SearchTarget> | null>(null)
   const nav = useNav()
 
@@ -90,7 +89,7 @@ export function SearchScreen() {
           {!q.trim() ? (
             <p className="small search-hint">{t('search.hint')}</p>
           ) : !index ? (
-            <p className="empty">{t('common.loading')}</p>
+            <SkeletonRows rows={3} label={t('common.loading')} />
           ) : !hits.length ? (
             <EmptyState art="neck">{t('search.none', { q: q.trim() })}</EmptyState>
           ) : (

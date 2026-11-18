@@ -1,6 +1,8 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { catalog, loadContentFile } from '../content/loader'
 import type { Structure } from '../content/types'
+import { ModelLoading } from '../components/ModelLoading'
+import { useModelLoads } from '../state/modelLoads'
 import { CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { BODY_LAYERS, displayName, type BodyMode, type CutAxis, type LayerId } from '../lib/bodyLayers'
@@ -53,6 +55,7 @@ export function BodyScreen() {
   const [pick, setPick] = useState<BodyPick | null>(null)
   const [isolated, setIsolated] = useState(false)
   const [loading, setLoading] = useState<LayerId[]>([])
+  const progress = useModelLoads((s) => s.shown)
   const api = useRef<BodyViewerApi>(null)
 
   const onLoading = useCallback((id: LayerId, on: boolean) => setLoading((l) => (on ? [...new Set([...l, id])] : l.filter((x) => x !== id))), [])
@@ -91,7 +94,7 @@ export function BodyScreen() {
       </div>
 
       <div className="explore-viewer body-viewer">
-        <Suspense fallback={<p className="empty body-wait">{t('common.loading')}</p>}>
+        <Suspense fallback={<ModelLoading always />}>
           <BodyViewer
             layers={layers}
             mode={mode}
@@ -108,6 +111,7 @@ export function BodyScreen() {
         {loading.length > 0 && (
           <p className="small body-loading" aria-live="polite">
             {t('body.loading', { layer: loading.map((id) => t(`layer.${id}`)).join(', ') })}
+            {progress != null && <span className="num"> {t.percent(Math.round(progress * 100))}</span>}
           </p>
         )}
       </div>

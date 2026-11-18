@@ -55,7 +55,7 @@ export function ProgressScreen() {
                 return (
                   <button key={w.structure.id} className="r" onClick={() => void startReview(moduleId)}>
                     <span className="r-main r-title">{sentence(w.structure.name)}</span>
-                    <span className={`r-value ${p < 50 ? 'bad' : 'warn'}`}>{p}%</span>
+                    <span className={`r-value ${p < 50 ? 'bad' : 'warn'}`}>{t.percent(p)}</span>
                   </button>
                 )
               })}
@@ -75,7 +75,7 @@ export function ProgressScreen() {
                 <div key={a.at} className="r">
                   <span className="r-main">
                     <span className="r-title num">
-                      {a.correct}/{a.total} · {pct(a.correct, a.total)}%
+                      {t.n(a.correct)}/{t.n(a.total)} · {t.percent(pct(a.correct, a.total))}
                     </span>
                     <span className="r-sub">{moduleTitle(t, a.moduleId)}</span>
                   </span>

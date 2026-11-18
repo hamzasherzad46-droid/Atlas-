@@ -16,6 +16,7 @@ import { SearchScreen } from './screens/SearchScreen'
 import { TodayScreen } from './screens/TodayScreen'
 import { YouScreen } from './screens/YouScreen'
 import { useBrowserBack } from './state/browserBack'
+import { useScrollMemory } from './state/scrollMemory'
 import { useAssignments } from './state/dashboard'
 import { useNav } from './state/nav'
 import { useProgress } from './state/progress'
@@ -63,6 +64,7 @@ export default function App() {
 
   const Screen = SCREENS[tab]
   const overlay = session || cards || explore || mock || body || search
+  useScrollMemory(!!overlay || credits || courses)
   return (
     <>
       <div className="app" hidden={!!overlay}>

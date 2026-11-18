@@ -4,6 +4,7 @@ import { use, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import type { ModuleAssets } from '../content/useModule'
 import { publicUrl } from '../lib/paths'
+import { trackLoads } from '../state/modelLoads'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
 import { buildPlaceholder } from './placeholder'
 import { Highlighter, PALETTES } from './highlight'
@@ -38,7 +39,7 @@ function GlbModel(props: InstanceProps & { file: string }) {
 }
 
 function FetchedGlb(props: InstanceProps & { file: string }) {
-  const gltf = useGLTF(publicUrl(`models/${props.file}`), DRACO_PATH, MESHOPT)
+  const gltf = useGLTF(publicUrl(`models/${props.file}`), DRACO_PATH, MESHOPT, trackLoads)
   return <GlbScene {...props} scene={gltf.scene} />
 }
 
@@ -123,7 +124,7 @@ export function ContextModel({ file }: { file: string }) {
 }
 
 function FetchedContext({ file }: { file: string }) {
-  const gltf = useGLTF(publicUrl(`models/${file}`), DRACO_PATH, MESHOPT)
+  const gltf = useGLTF(publicUrl(`models/${file}`), DRACO_PATH, MESHOPT, trackLoads)
   return <ContextScene scene={gltf.scene} />
 }
 

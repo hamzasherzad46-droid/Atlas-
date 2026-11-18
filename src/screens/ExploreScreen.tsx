@@ -3,6 +3,7 @@ import { moduleTitle } from '../content/names'
 import { noteFor } from '../content/notes'
 import type { CameraView, Structure } from '../content/types'
 import { useModule } from '../content/useModule'
+import { ModelLoading } from '../components/ModelLoading'
 import { CloseIcon, LabelsIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { sentence } from '../lib/format'
@@ -103,7 +104,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
       <div className="explore-viewer">
         {error && <LoadError moduleId={moduleId} onRetry={retry} />}
         {assets && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<ModelLoading always />}>
             <AnatomyViewer
               assets={assets}
               highlight={highlight}

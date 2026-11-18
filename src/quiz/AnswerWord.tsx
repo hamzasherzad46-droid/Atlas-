@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { QuizMode } from '../state/settings'
 import type { Outcome } from '../lib/srs'
+import { reducedMotion } from '../lib/motion'
 import { revealedLetters } from '../lib/typing'
 
 interface Props {
@@ -18,17 +19,11 @@ export function AnswerWord({ answer, typed, mode, done, outcome, wrongCount }: P
   const el = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!wrongCount) return
+    if (!wrongCount || reducedMotion()) return
+    // A small horizontal shake, settling quickly: no bounce.
     el.current?.animate(
-      [
-        { transform: 'translateX(0)' },
-        { transform: 'translateX(-7px)' },
-        { transform: 'translateX(6px)' },
-        { transform: 'translateX(-4px)' },
-        { transform: 'translateX(2px)' },
-        { transform: 'translateX(0)' },
-      ],
-      { duration: 320, easing: 'ease-out' },
+      [{ transform: 'none' }, { transform: 'translateX(-4px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-1px)' }, { transform: 'none' }],
+      { duration: 220, easing: 'ease-out' },
     )
   }, [wrongCount])
 

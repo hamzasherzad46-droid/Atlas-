@@ -4,6 +4,7 @@ import type { Curriculum as CurriculumData } from '../content/types'
 import { ChevronIcon, DisclosureIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { useNav } from '../state/nav'
+import { SkeletonRows } from '../components/SkeletonRows'
 
 /**
  * Every topic in the curriculum, by category. Categories open one at a time; each topic opens its
@@ -22,7 +23,7 @@ export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen
     }
   }, [])
 
-  if (!data) return <p className="empty">{t('common.loading')}</p>
+  if (!data) return <SkeletonRows rows={6} label={t('common.loading')} />
   // A course shows its own categories, in its order; otherwise every category.
   const categories = only ? only.flatMap((id) => data.categories.filter((c) => c.id === id)) : data.categories
   const total = data.categories.reduce((n, c) => n + c.topics.length, 0)
@@ -43,7 +44,7 @@ export function Curriculum({ open, onOpen, only }: { open: string | null; onOpen
                   </span>
                 </span>
                 <span className="r-value">
-                  {c.topics.length}
+                  {t.n(c.topics.length)}
                 </span>
                 <DisclosureIcon open={isOpen} />
               </button>

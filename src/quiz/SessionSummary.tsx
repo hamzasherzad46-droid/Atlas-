@@ -36,13 +36,13 @@ export function SessionSummary() {
         <div className="titleblock summary-head">
           <p className="label">{isAssessment ? t('summary.exam') : t('summary.session')}</p>
           <p className="summary-score num" aria-hidden>
-            {score}
-            <span className="of">/{total}</span>
+            {t.n(score)}
+            <span className="of">/{t.n(total)}</span>
           </p>
           <p className="lede">{t(isAssessment ? 'summary.resultExam' : 'summary.result', { a: score, b: total })}</p>
           <p className="small summary-line num">
             {/* Typing scores keystrokes; choice and identify score answers. */}
-            {t('summary.accuracy')} {(config.format ?? 'type') === 'type' ? accuracyOf(q.keysCorrect, q.keysWrong) : pct(score, total)}%
+            {t('summary.accuracy')} {t.percent((config.format ?? 'type') === 'type' ? accuracyOf(q.keysCorrect, q.keysWrong) : pct(score, total))}
             <span aria-hidden> · </span>
             {t('summary.time')} {formatClock(q.finishedAt - q.startedAt)}
           </p>

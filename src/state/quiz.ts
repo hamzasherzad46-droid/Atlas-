@@ -4,6 +4,7 @@ import { acceptedAnswers, applyKey, emptyTyping, type KeyInput, type TypingState
 import { outcomeFor, prioritise, type Outcome, type StructureRecord } from '../lib/srs'
 import { meshKeys, meshMatchesAny, meshMatchesKey, mostSpecific } from '../lib/meshMatch'
 import { playSound } from '../lib/sound'
+import { buzz } from '../lib/haptics'
 import { xpForAnswer } from '../lib/xp'
 import type { SessionConfig } from './nav'
 import { useProgress } from './progress'
@@ -225,6 +226,7 @@ export const useQuiz = create<QuizState>()((set, get) => {
       typing: skipped ? { buffer: st.answers[0] ?? '', awaitingEnter: false } : st.typing,
     })
     playSound(outcome === 'failed' ? 'fail' : 'complete')
+    buzz(outcome === 'failed' ? 'wrong' : 'right')
   }
 
   return {
@@ -259,6 +261,7 @@ export const useQuiz = create<QuizState>()((set, get) => {
         case 'wrong':
           set({ qErrors: st.qErrors + 1, keysWrong: st.keysWrong + 1, flash: flashOf(keyLabel, 'wrong'), wrongCount: st.wrongCount + 1 })
           playSound('wrong')
+          buzz('key')
           return
         case 'ignored':
           return

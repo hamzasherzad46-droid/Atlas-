@@ -46,4 +46,6 @@ export const STORAGE_KEYS = {
   progress: 'atlas:progress:v1',
   /** Account sync state on this device (device id, last sync); not the account itself. */
   account: 'atlas:account:v1',
+  /** The screen that was open (and the way back from it), to reopen after a reload. */
+  place: 'atlas:place:v1',
 } as const

@@ -6,6 +6,7 @@ import { ChevronIcon, CheckIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { formatClock, pct } from '../lib/format'
 import { buildMock, mockLengths, mockPool, topicScores, type MockItem } from '../lib/mock'
+import { buzz } from '../lib/haptics'
 import { playSound } from '../lib/sound'
 import { goBack, useNav } from '../state/nav'
 import { useProgress } from '../state/progress'
@@ -113,6 +114,7 @@ export function MockScreen() {
     if (answers[index] !== null) return
     setAnswers((a) => a.map((v, i) => (i === index ? k : v)))
     playSound(k === items[index].correct ? 'complete' : 'wrong')
+    buzz(k === items[index].correct ? 'right' : 'wrong')
   }
   const next = () => (index + 1 < items.length ? setIndex(index + 1) : finish())
 
@@ -176,7 +178,7 @@ function MockSetup(props: {
             <p className="small option-help">{t(level === 'foundation' ? 'mock.foundationHelp' : 'mock.higherHelp')}</p>
             {last && (
               <p className="tiny num mock-last">
-                {t('mock.last', { a: last.correct, b: last.total })} · {pct(last.correct, last.total)}%
+                {t('mock.last', { a: last.correct, b: last.total })} · {t.percent(pct(last.correct, last.total))}
               </p>
             )}
           </div>
@@ -266,7 +268,7 @@ function MockQuestion(props: {
         onBack={props.onClose}
         title={
           <bdi dir="ltr">
-            {index + 1} / {total}
+            {t.n(index + 1)} / {t.n(total)}
           </bdi>
         }
       />
@@ -333,15 +335,15 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
         <div className="titleblock">
           <p className="label">{t('mock.resultLabel', { level: t(`mock.${props.level}`) })}</p>
           <p className="summary-score num" aria-hidden>
-            {correct}
-            <span className="of">/{items.length}</span>
+            {t.n(correct)}
+            <span className="of">/{t.n(items.length)}</span>
           </p>
           <p className="lede">
             {t('mock.result', { a: correct, b: items.length })}
             {missed.length > 0 && ` ${t('mock.toReview', { n: missed.length })}`}
           </p>
           <p className="small summary-line num">
-            {t('mock.score')} {pct(correct, items.length)}%<span aria-hidden> · </span>
+            {t('mock.score')} {t.percent(pct(correct, items.length))}<span aria-hidden> · </span>
             {t('summary.time')} {formatClock(props.ms)}
           </p>
         </div>
@@ -357,7 +359,7 @@ function MockResults(props: { items: MockItem[]; answers: (number | null)[]; lev
                     {s.topic}
                   </span>
                   <span className={`r-value${p < 50 ? ' bad' : p < 75 ? ' warn' : ' good'}`}>
-                    {s.right}/{s.total}
+                    {t.n(s.right)}/{t.n(s.total)}
                   </span>
                 </div>
               )

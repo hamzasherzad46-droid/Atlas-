@@ -8,6 +8,11 @@ import '@fontsource-variable/source-serif-4/wght-italic.css'
 import '@fontsource-variable/source-sans-3'
 import './styles/global.css'
 import App from './App'
+import { rememberPlace, restorePlace } from './state/navMemory'
+
+// Reopen the screen the student was on (if recent), then keep it saved as they move around.
+restorePlace()
+rememberPlace()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

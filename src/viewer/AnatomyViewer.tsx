@@ -4,6 +4,8 @@ import { Component, Suspense, useEffect, useMemo, useRef, useState, type ReactNo
 import * as THREE from 'three'
 import type { CameraView, Structure } from '../content/types'
 import type { ModuleAssets } from '../content/useModule'
+import { ModelLoading } from '../components/ModelLoading'
+import { reducedMotion } from '../lib/motion'
 import { meshKeys } from '../lib/meshMatch'
 import type { Highlighter } from './highlight'
 import { onSide, plateAnchors, viewForMeshes, type PlateAnchor } from './plate'
@@ -107,6 +109,7 @@ export default function AnatomyViewer({
           )}
           <CameraRig view={view} resetKey={resetKey} apiRef={cameraApi} />
         </Canvas>
+        <ModelLoading />
       </div>
     </ViewerBoundary>
   )
@@ -203,12 +206,13 @@ function GhostCarousel({ assets, prev, next, index }: { assets: ModuleAssets; pr
   const el = useRef<HTMLDivElement>(null)
   // Slide in on every question change without remounting the canvas (no new WebGL context).
   useEffect(() => {
+    if (reducedMotion()) return
     el.current?.animate(
       [
-        { opacity: 0, transform: 'translateX(12%)' },
+        { opacity: 0, transform: 'translateX(4%)' },
         { opacity: 0.38, transform: 'none' },
       ],
-      { duration: 600, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+      { duration: 250, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' },
     )
   }, [index])
   return (

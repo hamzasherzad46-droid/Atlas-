@@ -3,6 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useImperativeHandle, useRef, type ComponentRef, type Ref } from 'react'
 import * as THREE from 'three'
 import type { CameraView } from '../content/types'
+import { reducedMotion } from '../lib/motion'
 
 export interface CameraApi {
   getView(): CameraView
@@ -39,8 +40,8 @@ export function CameraRig({ view, resetKey, apiRef, durationMs = 1000, maxDistan
     const p1 = new THREE.Vector3(...v.position)
     const t1 = new THREE.Vector3(...v.target)
     const c = controls.current
-    if (first.current || !c) {
-      // Jump straight to the first view.
+    if (first.current || !c || reducedMotion()) {
+      // Jump straight to the first view (and to every view when the system asks for less motion).
       first.current = false
       camera.position.copy(p1)
       c?.target.copy(t1)

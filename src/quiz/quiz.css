@@ -135,8 +135,21 @@
   opacity: 0.55;
 }
 
+/* A letter settles onto the line as it is typed: a short fade and a 2 px drop. */
 .answer-ch.typed {
   color: var(--ink);
+  animation: settle var(--fast) var(--ease) both;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0.35;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .answer-ch.dash {
@@ -166,6 +179,12 @@
 .caret-end {
   width: 0;
   min-width: 0;
+}
+
+/* A right answer inks in verdigris; a missed one in the error colour. */
+.answer-ok .answer-ch,
+.answer-fail .answer-ch {
+  transition: color var(--mid) var(--ease);
 }
 
 .answer-ok .answer-ch {
