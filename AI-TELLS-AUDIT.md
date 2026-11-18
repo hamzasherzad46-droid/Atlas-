@@ -6,7 +6,7 @@ explained in its last column. One is not done: the rubber stamp (S8), for want o
 
 Done in: fonts and tokens (`fe4fbd5`), copy (`768581a`), visual structure, icons and engravings
 (`b9ef24d`), behaviour and motion (`9a4618f`), icon, launch screens, favicon and share image
-(`49f5445`), and the sounds (the commit after your listen). Before and after screenshots of the nine
+(`49f5445`), and the sounds (`99dceb5`, after you listened). Before and after screenshots of the nine
 screens in both themes: `.screens/before/` and `.screens/after/`.
 
 How it was checked: every English UI string (`src/i18n/en.ts`, all 446), every screen and component,
@@ -133,7 +133,7 @@ Line numbers refer to commit `dfd332e`, before the fixes.
 
 You accepted all five, and chose Source Serif 4 and Source Sans 3 for the type. What happened:
 1. Wikimedia Commons was opened to this machine; four of the five sounds were found there (public
-   domain or CC0) and wait for your listen. No free rubber stamp exists there (S8).
+   domain or CC0); you listened and approved them. No free rubber stamp exists there (S8).
 2. "Learned" everywhere. 3. The greeting is one small line under the date. 4. No pop-up.
 5. A reload reopens the screen you were on; an interrupted quiz reopens the screen it was started
    from, with Continue.
