@@ -26,7 +26,7 @@ screen by `scripts/check-navigation.cjs` (output below).
   back gesture all do the same thing. Back from a search result returns to the same results.
 - **The way out is always in the same place.** Every full-screen view (search, quiz, flashcards,
   Explore in 3D, the body in 3D, mock exam, results, credits, *Change course*, *Account*) has its button at the top
-  left, 44 × 44 px: ← *Back* for a page, × *Close* for something in progress (a quiz, cards, a mock exam).
+  left, 48 × 48 px: ← *Back* for a page, × *Close* for something in progress (a quiz, cards, a mock exam).
   Pages inside a tab (module, plate, topic) have ← *Back* at the top.
 - **Nothing hidden behind a link.** The module page shows its test settings (questions from, difficulty,
   structures, time per answer) above the three tests they apply to; the old "Practice options" sheet is gone.
@@ -118,14 +118,15 @@ Specific items outside the student's course:
 
 The same script audits every control on every screen above (scrolling through each), plus onboarding
 and the search results: each must have a name for screen readers and a touch target of at least
-44 × 44 px, measured by hit-testing so enlarged tap areas count and covered controls don't.
+48 × 48 px, measured by hit-testing so enlarged tap areas count and covered controls don't.
 
 Documented exceptions:
 
-- **Typing keyboard keys** are 44 px tall (48 px on wide screens) but 34–36 px wide on a 390 px
-  screen (32–34 px at 375 px): ten letter keys must fit across one row, as on the phone's own keyboard.
+- **Typing keyboard keys** are 46 px tall (48 px on wide screens; the check requires at least 44) but
+  34–36 px wide on a 390 px screen (32–34 px at 375 px): ten letter keys must fit across one row, as on
+  the phone's own keyboard.
 - **Numbered marks on plates and on 3D models** are 22 px, 24 px apart on the image, so their tap
-  areas (44 px, enlarged invisibly) overlap their neighbours. Each number also has a full-width 44 px row
+  areas (44 px, enlarged invisibly) overlap their neighbours. Each number also has a full-width 48 px row
   in the key underneath that does the same thing (WCAG 2.5.8 "equivalent" exception).
 
 Also in this part:
@@ -196,7 +197,7 @@ An interrupted quiz reopens where it was started, with Continue: yes
 | Sign in with email | 2 | tab “Settings” → “Sign in with email” | yes | yes |
 | Delete account (signed in) | 2 | tab “Settings” → “Delete account” | yes | yes |
 
-Controls without a name or smaller than 44 × 44 px:
+Controls without a name or smaller than 48 × 48 px (typing keys: under 44 px tall):
 none
 
 All checks passed.

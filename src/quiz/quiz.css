@@ -20,7 +20,7 @@
 
 .quiz-top {
   display: grid;
-  grid-template-columns: 44px 1fr 44px;
+  grid-template-columns: var(--tap) 1fr var(--tap);
   align-items: center;
   height: 48px;
   padding: 0 calc(var(--pad) - var(--s-3));

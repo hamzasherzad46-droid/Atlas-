@@ -137,7 +137,7 @@ export function displayName(source: string): string {
  */
 export const HERO_MODELS: Record<Body, { skin: string; bones: LayerPart; skinPoints: number; bonePoints: number }> = {
   male: { skin: 'body-skin.glb', bones: { file: 'skeleton-context.glb' }, skinPoints: 9000, bonePoints: 26000 },
-  female: { skin: 'female-skin.glb', bones: { file: 'female-reproductive.glb', include: FEMALE_BONES }, skinPoints: 9000, bonePoints: 3500 },
+  female: { skin: 'female-skin.glb', bones: { file: 'female-reproductive.glb', include: FEMALE_BONES }, skinPoints: 9000, bonePoints: 1600 },
 }
 
 /** Where the camera looks from when the bones are separated: the whole skeleton, or the female pelvis. */

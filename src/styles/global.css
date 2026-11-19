@@ -148,11 +148,13 @@
   /* Learn mode's letters to copy. */
   --ghost-letter: 0.55;
   /* Readouts over a 3D view: a halo in the page colour keeps them legible over the line drawing. */
-  --halo: 0 0 3px var(--bg), 0 0 8px var(--bg);
+  --halo: 0 0 2px var(--bg), 0 0 3px var(--bg), 0 0 5px var(--bg), 0 0 8px var(--bg), 0 0 12px var(--bg);
   --tick: 5px;
   --knob: 16px;
   /* The line icons' box. */
   --icon: 18px;
+  /* How far an icon's glyph sits inside its 48 px button: the button reaches past the margin by this much. */
+  --icon-inset: calc((var(--tap) - var(--icon)) / 2);
   /* Progress: the activity dots by how busy the day was, and the daily bars. */
   --dot-0: 2px;
   --dot-1: 4px;

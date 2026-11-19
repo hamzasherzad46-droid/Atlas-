@@ -4,7 +4,7 @@
  *   - every screen type opens from Today in the listed number of taps (typing in search not counted);
  *   - the way back (in-app Back or Close, and the browser's back) returns to the screen before;
  *   - every control on each screen has a name for screen readers and a touch target of at least
- *     44 × 44 px (measured by hit-testing, so enlarged tap areas count).
+ *     48 × 48 px (measured by hit-testing, so enlarged tap areas count); typing keys at least 44 px tall.
  *
  * Needs a running app and Playwright (not a project dependency):
  *   npm run dev              # in one terminal
@@ -148,10 +148,18 @@ async function audit(p) {
         seen.add('name ' + id)
         out.push(`no accessible name: ${id}`)
       }
-      // Documented exceptions (NAVIGATION.md): the typing keyboard (ten keys across a 390 px screen) and
-      // the numbered marks on plates and models, which sit 24 px apart and each have a full-size row in
-      // the key below that does the same thing.
-      if (el.classList.contains('kb-key') || el.classList.contains('plate-tag') || el.classList.contains('plate-mark')) continue
+      // Documented exceptions (NAVIGATION.md): the numbered marks on plates and models, which sit 24 px
+      // apart and each have a full-size row in the key below that does the same thing. The typing keys
+      // (ten across a 390 px screen) need only be 44 px tall.
+      if (el.classList.contains('plate-tag') || el.classList.contains('plate-mark')) continue
+      const key = el.classList.contains('kb-key')
+      if (key) {
+        if (r.height < 44 && !seen.has(id)) {
+          seen.add(id)
+          out.push(`key ${Math.round(r.height)} px tall: ${id}`)
+        }
+        continue
+      }
       const cx = r.left + r.width / 2
       const cy = r.top + r.height / 2
       const hits = (x, y) => {
@@ -159,8 +167,9 @@ async function audit(p) {
         const h = document.elementFromPoint(x, y)
         return !!h && (el === h || el.contains(h))
       }
-      const w = r.width >= 44 || (hits(cx - 21.5, cy) && hits(cx + 21.5, cy))
-      const h = r.height >= 44 || (hits(cx, cy - 21.5) && hits(cx, cy + 21.5))
+      // Half a pixel of tolerance: layout rounds 48 px rows to 47.5 at some text sizes.
+      const w = r.width >= 47.5 || (hits(cx - 23.5, cy) && hits(cx + 23.5, cy))
+      const h = r.height >= 47.5 || (hits(cx, cy - 23.5) && hits(cx, cy + 23.5))
       if ((!w || !h) && !seen.has(id)) {
         seen.add(id)
         out.push(`target ${Math.round(r.width)}×${Math.round(r.height)}: ${id}`)
@@ -335,7 +344,7 @@ async function audit(p) {
     console.log(`| Delete account (signed in) | 2 | tab “Settings” → “Delete account” | ${arrived ? 'yes' : 'NO'} | ${backOk ? 'yes' : 'NO'} |`)
   }
 
-  console.log('\nControls without a name or smaller than 44 × 44 px:')
+  console.log('\nControls without a name or smaller than 48 × 48 px (typing keys: under 44 px tall):')
   if (!problems.size) console.log('none')
   for (const [screen, list] of problems) {
     failed += list.length
