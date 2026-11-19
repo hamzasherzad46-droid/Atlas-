@@ -45,7 +45,7 @@ async function device(browser, name) {
   await p.goto(URL)
   await p.evaluate(() => {
     localStorage.clear()
-    localStorage.setItem('atlas:settings:v1', JSON.stringify({ state: { theme: 'dark', track: 'nursing', lang: 'en', name: '', sound: false, dailyGoal: 20, answerTimer: 0, onboarded: true, lastSession: null, profileChangedAt: 0 }, version: 3 }))
+    localStorage.setItem('atlas:settings:v1', JSON.stringify({ state: { theme: 'dark', track: 'nursing', lang: 'en', name: '', sound: false, dailyGoal: 20, answerTimer: 0, onboarded: true, lastSession: null, profileChangedAt: 0, body: 'male' }, version: 4 }))
   })
   await p.goto(URL)
   await p.getByText('Your course', { exact: true }).waitFor()
@@ -74,20 +74,21 @@ async function synced(p, after) {
   await p.waitForFunction((t) => Number(document.querySelector('[data-synced-at]')?.getAttribute('data-synced-at')) > t && /^Synced at/.test(document.querySelector('[data-synced-at]')?.textContent ?? ''), since, { timeout: 30000 })
 }
 
-/** Answer the quiz that "Start spelling quiz" / "Continue spelling quiz" opens; returns how many questions. */
+/** Answer the quiz that "Start spelling quiz" / "Resume" opens; returns how many questions. */
 async function quiz(p) {
   await tab(p, 'Today')
-  await p.getByRole('button', { name: /^(Start|Continue) spelling quiz/ }).click()
+  await p.getByRole('button', { name: /^(Start spelling quiz|Resume)/ }).click()
   await p.getByRole('button', { name: 'End session' }).waitFor()
   let n = 0
   while (!(await p.getByText('Quiz finished').isVisible())) {
     const word = p.locator('.answer').first()
     await word.waitFor({ timeout: 15000 })
     const answer = await word.evaluate((el) => [...el.children].map((c) => (c.classList.contains('answer-space') ? ' ' : c.classList.contains('caret-end') ? '' : c.textContent)).join(''))
-    const before = await p.locator('.screen-bar-title').first().textContent()
+    // The TARGET readout ("01 / 04") moves on with each question.
+    const before = await p.locator('.quiz-ro-start .ro-v').first().textContent()
     await p.keyboard.type(answer, { delay: 10 })
     n++
-    await p.waitForFunction((prev) => document.body.innerText.includes('Quiz finished') || document.querySelector('.screen-bar-title')?.textContent !== prev, before, { timeout: 15000 })
+    await p.waitForFunction((prev) => document.body.innerText.includes('Quiz finished') || document.querySelector('.quiz-ro-start .ro-v')?.textContent !== prev, before, { timeout: 15000 })
   }
   await p.getByRole('button', { name: 'Done', exact: true }).click()
   return n
@@ -114,17 +115,21 @@ const localRecords = (p) => p.evaluate(() => Object.keys(JSON.parse(localStorage
   const aQuestions = await quiz(A.p)
   await tab(A.p, 'Settings')
   await A.p.getByRole('radio', { name: /^Medicine/ }).click()
+  await A.p.getByRole('group', { name: 'Body' }).getByRole('button', { name: 'Female', exact: true }).click()
   await synced(A.p)
   let docs = await accountDocs()
   const uid = Object.keys(docs)[0]
   check('Account created and progress saved in it', Object.keys(docs).length === 1 && mapSize(docs[uid].records) === aQuestions, `${aQuestions} structures studied on A; ${mapSize(docs[uid]?.records)} in the account`)
   check('Course saved in the account', docs[uid].profile?.mapValue?.fields?.track?.stringValue === 'medicine')
+  check('Body saved in the account', docs[uid].profile?.mapValue?.fields?.body?.stringValue === 'female')
 
   // 2. Device B: sign in; progress, course and today's count arrive.
   const B = await device(browser, 'B')
   const bSignedIn = await signIn(B.p, false)
   await synced(B.p, bSignedIn)
   check('Second device gets the course', (await course(B.p)).trim() === 'Medicine', await course(B.p))
+  const bBody = await B.p.evaluate(() => JSON.parse(localStorage.getItem('atlas:settings:v1') ?? '{}').state?.body)
+  check('Second device gets the body', bBody === 'female', bBody)
   check('Second device gets the progress', (await localRecords(B.p)) === aQuestions, `${await localRecords(B.p)} structures`)
   check("Second device shows the first device's study today", (await goal(B.p)) === `${aQuestions} / 20`, await goal(B.p))
 
@@ -146,7 +151,8 @@ const localRecords = (p) => p.evaluate(() => Object.keys(JSON.parse(localStorage
   B.p.offline = true
   await B.ctx.setOffline(true)
   await tab(B.p, 'Settings')
-  await B.p.getByRole('button', { name: '40', exact: true }).click()
+  // The daily goal is a slider of 10, 20, 40 and 60: the third step is 40.
+  await B.p.locator('#you-goal').fill('2')
   const offlineShown = await B.p.getByText(/^Offline\. Your progress will sync/).waitFor({ timeout: 20000 }).then(() => true, () => false)
   check('Offline is shown while the change waits', offlineShown)
   await B.ctx.setOffline(false)

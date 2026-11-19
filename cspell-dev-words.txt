@@ -17,8 +17,10 @@ Grotesk
 hamzasherzad
 Hanken
 hepatovenous
+hra
 incl
 Monkeytype
+numpy
 PWA
 srs
 typeable

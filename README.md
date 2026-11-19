@@ -74,6 +74,11 @@ apply there.
   (a transverse, coronal or sagittal section that moves with a slider). Tap any part to name it; parts that a module
   teaches show its notes and link to it; Isolate shows the part alone. BodyParts3D has no spinal or limb nerves, so
   the nerve layer shows the brain and the nerves of the eye.
+- **Male or female body** (the Body setting: Settings, the body in 3D, the reproductive module, and a question on the
+  welcome screen; synced with the account): the female body is the Human Reference Atlas female (Visible Human
+  female, CC BY 4.0) — skin, the bony pelvis (ilium, ischium, pubis, sacrum, coccyx), the reproductive organs, the
+  breasts and the bladder, with its own module (*Female reproductive organs*, 20 structures). It has no whole
+  skeleton, muscles, vessels or nerves, so the female body view has three layers.
 - **Curriculum**: 282 topics in 21 categories (`content/curriculum.json`), each with a short definition and four or
   more key points at university level, in British spelling. 59 also link to the 3D modules that teach their core
   structures, and regional and systemic topics link to the 3D body.
@@ -169,6 +174,17 @@ Changes from the source data, all made by `scripts/import-bodyparts3d.mjs`:
 - **The coccyx is approximate.** BodyParts3D has no coccyx mesh, so the script adds a smooth, tapered
   shape at the sacrum's apex. Replace it with a Z-Anatomy coccyx when you can.
 
+### The female body
+
+`public/models/female-reproductive.glb` (the pelvis and organs, 35 meshes) and `female-skin.glb` come from the
+**Human Reference Atlas** 3D Reference Object Library (HuBMAP, CC BY 4.0; sources, authors and DOIs in
+`public/models/README.md`). `scripts/import-hra-female.py` (numpy only) takes the named structures from the
+united female body, and the ilium, ischium and pubis from the female pelvis set (the united body has only the
+ilium; both share one coordinate frame), keeps each source node name, label and ontology id in the mesh's extras,
+and moves the body to stand at y = 0; `scripts/convert-model.sh` then simplifies and compresses it. No geometry
+is drawn or borrowed from the male model. In the body view the one file is split into a bones layer and an
+organs layer (`include` and `exclude` in `src/lib/bodyLayers.ts`).
+
 ### Whole-body layers
 
 The body viewer's layers are built from whole BodyParts3D systems (`scripts/layers/<layer>.json`, using `systems` and
@@ -247,11 +263,13 @@ longer needs one.
 
 ### Rendering
 
-Anatomy uses a near-opaque ivory material under warm, neutral light and a procedural studio
-environment (three's `RoomEnvironment`, nothing downloaded). The target structure is burgundy-red with a
-soft rim glow. In Explore, a tapped structure gets a label pinned to the tapped point with a leader line,
-placed outward from the body as on an atlas plate. Any part of it hidden behind other structures shows through as a faint red silhouette
-(a `GreaterDepth` pass), so internal bones like the sphenoid and ethmoid stay findable.
+The HUD style (`src/viewer/hud.ts`, `highlight.ts`): every structure is drawn as fine edge lines over a barely
+visible surface (edges built a few milliseconds per frame and cached per geometry); the structure asked about is
+the one solid, softly lit object with a faint rim, and turns briefly blue after a right answer. In X-ray the skin
+and muscles become point clouds; on Today the body is a slowly turning point cloud. A heading tape and an AZ/EL
+readout follow the camera; the views turn or sway slowly when left alone (never with reduced motion). Colours
+come from the `--gl-*` tokens in `src/styles/global.css`. In Explore, a tapped structure gets a label pinned to
+the tapped point with a leader line, placed outward from the body as on an atlas plate.
 
 The Draco decoder is served from `/draco` (copied from three.js), not from a CDN, so it works offline.
 
