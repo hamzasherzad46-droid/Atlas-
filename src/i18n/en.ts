@@ -298,6 +298,8 @@ export const en = {
   'viewer.error': 'Couldn’t load the 3D model. Check your connection and try again.',
   'viewer.loading': 'Loading the 3D model',
   'viewer.az': 'Az',
+  'key.colours': 'Colour key',
+  'key.listLabel': 'Colours in this view',
   'bodyOf.label': 'Body',
   'bodyOf.male': 'Male',
   'bodyOf.female': 'Female',

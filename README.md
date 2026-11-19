@@ -263,13 +263,17 @@ longer needs one.
 
 ### Rendering
 
-The HUD style (`src/viewer/hud.ts`, `highlight.ts`): every structure is drawn as fine edge lines over a barely
-visible surface (edges built a few milliseconds per frame and cached per geometry); the structure asked about is
-the one solid, softly lit object with a faint rim, and turns briefly blue after a right answer. In X-ray the skin
-and muscles become point clouds; on Today the body is a slowly turning point cloud. A heading tape and an AZ/EL
-readout follow the camera; the views turn or sway slowly when left alone (never with reduced motion). Colours
-come from the `--gl-*` tokens in `src/styles/global.css`. In Explore, a tapped structure gets a label pinned to
-the tapped point with a leader line, placed outward from the body as on an atlas plate.
+Every structure is drawn smooth (shared vertices, smooth normals) and in the colour of its organ or
+tissue: one muted colour per organ (`content/colours.json`), bones warm off-white, muscles muted rose,
+arteries soft red, veins soft blue, nerves pale yellow (pulmonary arteries are blue and pulmonary veins red,
+as atlases colour them by the blood they carry). Neighbouring organs differ in lightness as well as hue, so
+colour-blind students can tell them apart; `src/content/colours.test.ts` checks every listed pair (lightness
+10+, ΔE 20+) and that every mesh of every model has a colour. Explore and the body view have a Colour key
+of what is on show. The structure asked about (or tapped) is the one bright white object with a glowing
+rim, and everything else dims, so the colours never compete with the quiz. In X-ray the skin and muscles
+become point clouds; on Today the body is a slowly turning point cloud. A heading tape and an AZ/EL readout
+follow the camera; the views turn or sway slowly when left alone (never with reduced motion). In Explore,
+a tapped structure gets a label pinned to the tapped point with a leader line.
 
 The Draco decoder is served from `/draco` (copied from three.js), not from a CDN, so it works offline.
 

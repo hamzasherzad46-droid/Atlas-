@@ -3,13 +3,14 @@ import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
 import { use, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import type { ModuleAssets } from '../content/useModule'
-import { reducedMotion } from '../lib/motion'
+import { motion, reducedMotion } from '../lib/motion'
 import { publicUrl } from '../lib/paths'
 import { trackLoads } from '../state/modelLoads'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
 import { buildPlaceholder } from './placeholder'
 import { Highlighter } from './highlight'
-import { EdgeBuilder, glPalette, lineMaterial } from './hud'
+import { glPalette, OrganMaterials, smoothGeometry } from './hud'
+import { colourGroupFor } from '../content/colours'
 import { useResolvedTheme } from './useResolvedTheme'
 
 const DEG = Math.PI / 180
@@ -51,7 +52,7 @@ function EmbeddedGlb(props: InstanceProps & { file: string }) {
   return <GlbScene {...props} scene={gltf.scene} />
 }
 
-function GlbScene(props: InstanceProps & { scene: THREE.Object3D }) {
+function GlbScene(props: InstanceProps & { scene: THREE.Object3D; file: string }) {
   // Clone per instance (the ghost carousel shows extra copies); geometry stays shared.
   const { scene } = props
   const root = useMemo(() => scene.clone(true), [scene])
@@ -72,10 +73,10 @@ function PlaceholderInstance(props: InstanceProps) {
   return <Highlighted key={root.uuid} root={root} {...props} />
 }
 
-function Highlighted({ root, highlight, onPick, onMatched, focus, onReady, flash = 0 }: InstanceProps & { root: THREE.Object3D }) {
+function Highlighted({ root, file, highlight, onPick, onMatched, focus, onReady, flash = 0 }: InstanceProps & { root: THREE.Object3D; file?: string }) {
   const theme = useResolvedTheme()
   const invalidate = useThree((s) => s.invalidate)
-  const [highlighter] = useState(() => new Highlighter(root, glPalette(), invalidate, focus?.length ? focus : null))
+  const [highlighter] = useState(() => new Highlighter(root, file, glPalette(), focus?.length ? focus : null))
   const fade = useRef({ t: 1, from: 0 })
   const key = highlight.join('|')
 
@@ -112,8 +113,8 @@ function Highlighted({ root, highlight, onPick, onMatched, focus, onReady, flash
     if (highlighter.tick()) invalidate()
     const f = fade.current
     if (f.t >= 1) return
-    // The target fills in over 250 ms (at once when the system asks for less motion).
-    f.t = reducedMotion() ? 1 : Math.min(1, (performance.now() - f.from) / 250)
+    // The target fills in (at once when the system asks for less motion).
+    f.t = reducedMotion() ? 1 : Math.min(1, (performance.now() - f.from) / motion('--slow').duration)
     highlighter.setProgress(1 - Math.pow(1 - f.t, 3))
     invalidate()
   })
@@ -136,38 +137,32 @@ export function ContextModel({ file }: { file: string }) {
 
 function FetchedContext({ file }: { file: string }) {
   const gltf = useGLTF(publicUrl(`models/${file}`), DRACO_PATH, MESHOPT, trackLoads)
-  return <ContextScene scene={gltf.scene} />
+  return <ContextScene scene={gltf.scene} file={file} />
 }
 
 function EmbeddedContext({ file }: { file: string }) {
   const gltf = use(loadEmbeddedModel(file))
-  return <ContextScene scene={gltf.scene} />
+  return <ContextScene scene={gltf.scene} file={file} />
 }
 
-/** The backdrop drawn as faint lines only: no surface, not tappable. */
-function ContextScene({ scene }: { scene: THREE.Object3D }) {
+/** The backdrop (the skeleton behind the organs): smooth, faint and in its own colour, never tappable. */
+function ContextScene({ scene, file }: { scene: THREE.Object3D; file: string }) {
   const theme = useResolvedTheme()
   const invalidate = useThree((s) => s.invalidate)
   const root = useMemo(() => scene.clone(true), [scene])
-  // A new material per theme; the edges themselves are cached, so redrawing them is immediate.
-  const lines = useMemo(() => (theme ? lineMaterial(glPalette(), 0.5) : null)!, [theme])
+  // A new set per theme: the faint colours fade towards the page colour.
+  const materials = useMemo(() => (theme ? new OrganMaterials(glPalette().background) : null)!, [theme])
   useEffect(() => {
-    const hidden = new THREE.MeshBasicMaterial({ visible: false })
-    const meshes: THREE.Mesh[] = []
     root.traverse((o) => {
       const m = o as THREE.Mesh
       if (!m.isMesh) return
-      m.material = hidden
-      m.renderOrder = -1
+      m.geometry = smoothGeometry(m.geometry)
+      m.material = materials.get(colourGroupFor(file, m.name), 'ghost')
+      m.renderOrder = 3
       m.raycast = () => {} // taps go to the module's own structures
-      meshes.push(m)
     })
-    const edges = new EdgeBuilder(meshes, () => lines, invalidate)
-    return () => {
-      edges.dispose()
-      hidden.dispose()
-    }
-  }, [root, lines, invalidate])
-  useEffect(() => () => lines.dispose(), [lines])
+    invalidate()
+  }, [root, materials, file, invalidate])
+  useEffect(() => () => materials.dispose(), [materials])
   return <primitive object={root} />
 }

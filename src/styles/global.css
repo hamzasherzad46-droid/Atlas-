@@ -163,6 +163,9 @@
   --dot-4: 10px;
   --histo-h: 6rem;
   --bar: 3px;
+  /* The colour key in a 3D view: its swatches and how tall its list may grow. */
+  --swatch: 12px;
+  --key-max-h: 15rem;
   --tick-major: 9px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);

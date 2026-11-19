@@ -7,6 +7,7 @@ import { CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
 import { bodyLayers, displayName, type BodyMode, type CutAxis, type LayerId } from '../lib/bodyLayers'
 import { BodyChoice } from '../components/BodyChoice'
+import { ColourKey } from '../components/ColourKey'
 import { useSettings } from '../state/settings'
 import type { Body } from '../content/types'
 import { sentence } from '../lib/format'
@@ -63,6 +64,7 @@ export function BodyScreen() {
   const [pick, setPick] = useState<BodyPick | null>(null)
   const [isolated, setIsolated] = useState(false)
   const [loading, setLoading] = useState<LayerId[]>([])
+  const [groups, setGroups] = useState<string[]>([])
   const progress = useModelLoads((s) => s.shown)
   const api = useRef<BodyViewerApi>(null)
 
@@ -123,8 +125,10 @@ export function BodyScreen() {
             apiRef={api}
             onPick={onPick}
             onLoading={onLoading}
+            onGroups={setGroups}
           />
         </Suspense>
+        <ColourKey groups={groups} />
         {loading.length > 0 && (
           <p className="small body-loading" aria-live="polite">
             {t('body.loading', { layer: loading.map((id) => t(`layer.${id}`)).join(', ') })}

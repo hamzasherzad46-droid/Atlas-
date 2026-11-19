@@ -1,12 +1,17 @@
 import * as THREE from 'three'
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js'
+import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
+import type { ColourGroup } from '../content/colours'
 
 /**
- * The HUD look for 3D: context drawn as fine edge lines (or a point cloud), the target the one solid,
- * softly lit object with a faint rim. Colours come from the CSS tokens (`--gl-*` in global.css), read
- * once per theme, so nothing here hard-codes the palette.
+ * How the 3D is drawn: every structure smooth and in the colour of its organ or tissue
+ * (content/colours.json), point clouds for the outer layers in X-ray and on Today, and the target the
+ * one bright white object with a glowing rim while everything else dims. Theme colours come from the
+ * CSS tokens (`--gl-*` and `--bg` in global.css), read once per theme.
  */
 export interface GlPalette {
+  /** The page colour, which dimmed organs fade towards. */
+  background: string
   line: string
   lineOpacity: number
   point: string
@@ -19,6 +24,7 @@ export function glPalette(): GlPalette {
   const css = getComputedStyle(document.documentElement)
   const v = (name: string, fallback: string) => css.getPropertyValue(name).trim() || fallback
   return {
+    background: v('--bg', '#000000'),
     line: v('--gl-line', '#ffffff'),
     lineOpacity: Number(v('--gl-line-opacity', '0.13')),
     point: v('--gl-point', '#8fb8ff'),
@@ -28,85 +34,22 @@ export function glPalette(): GlPalette {
   }
 }
 
-/** Feature edges of a geometry at a given crease angle, computed once and shared by every model that uses it. */
-const edgeCache = new WeakMap<THREE.BufferGeometry, Map<number, THREE.EdgesGeometry>>()
-export const EDGE_ANGLE = 18
-
-function edgesOf(geometry: THREE.BufferGeometry, angle: number): THREE.EdgesGeometry {
-  let byAngle = edgeCache.get(geometry)
-  if (!byAngle) edgeCache.set(geometry, (byAngle = new Map()))
-  let e = byAngle.get(angle)
-  if (!e) {
-    e = new THREE.EdgesGeometry(geometry, angle)
-    byAngle.set(angle, e)
-  }
-  return e
-}
-
-const hasEdges = (g: THREE.BufferGeometry, angle: number) => !!edgeCache.get(g)?.has(angle)
-
 /**
- * Builds edge lines for many meshes without freezing the screen: a few milliseconds of work per
- * frame, the closest work first, then `onProgress` so the canvas can redraw as the drawing fills in.
- */
-export class EdgeBuilder {
-  private queue: THREE.Mesh[]
-  private cancelled = false
-  readonly lines = new Map<THREE.Mesh, THREE.LineSegments>()
-
-  constructor(
-    meshes: THREE.Mesh[],
-    private material: (mesh: THREE.Mesh) => THREE.LineBasicMaterial,
-    private onProgress: () => void,
-    /** A wider crease angle draws fewer lines (dense whole-body layers). */
-    private angle = EDGE_ANGLE,
-    private budgetMs = 6,
-  ) {
-    // Meshes whose edges are already cached are drawn at once.
-    this.queue = meshes.filter((m) => {
-      if (!hasEdges(m.geometry, angle)) return true
-      this.attach(m)
-      return false
-    })
-    if (this.queue.length) requestAnimationFrame(() => this.step())
-  }
-
-  private attach(m: THREE.Mesh) {
-    const lines = new THREE.LineSegments(edgesOf(m.geometry, this.angle), this.material(m))
-    lines.raycast = () => {}
-    lines.renderOrder = 2
-    m.add(lines)
-    this.lines.set(m, lines)
-  }
-
-  private step() {
-    if (this.cancelled) return
-    const start = performance.now()
-    while (this.queue.length && performance.now() - start < this.budgetMs) this.attach(this.queue.shift()!)
-    this.onProgress()
-    if (this.queue.length) requestAnimationFrame(() => this.step())
-  }
-
-  get done() {
-    return this.queue.length === 0
-  }
-
-  dispose() {
-    this.cancelled = true
-    // The edge geometries stay cached for the next model that shares them.
-    for (const l of this.lines.values()) l.removeFromParent()
-    this.lines.clear()
-  }
-}
-
-/**
- * The one solid object: lit softly by the scene's lights, with a faint fresnel rim. A standard
- * material (so clipping and lights work) with the rim added to its shader.
+ * The structure asked about (or selected): bright white, softly lit, with a glowing fresnel rim and a
+ * little light of its own, so it stands out from the coloured organs around it. A standard material
+ * (so clipping and lights work) with the rim added to its shader.
  */
 export function solidMaterial(palette: GlPalette): THREE.MeshStandardMaterial & { userData: { rim: { value: THREE.Color }; rimStrength: { value: number } } } {
-  const m = new THREE.MeshStandardMaterial({ color: palette.target, roughness: 0.62, metalness: 0, side: THREE.DoubleSide })
+  const m = new THREE.MeshStandardMaterial({
+    color: palette.target,
+    roughness: 0.5,
+    metalness: 0,
+    side: THREE.DoubleSide,
+    emissive: palette.target,
+    emissiveIntensity: GLOW.emissive,
+  })
   const rim = { value: new THREE.Color(palette.rim) }
-  const rimStrength = { value: 0.55 }
+  const rimStrength = { value: GLOW.rim }
   m.userData.rim = rim
   m.userData.rimStrength = rimStrength
   m.onBeforeCompile = (shader) => {
@@ -122,19 +65,75 @@ export function solidMaterial(palette: GlPalette): THREE.MeshStandardMaterial & 
   return m as ReturnType<typeof solidMaterial>
 }
 
-/** Fine lines for the context. */
-export function lineMaterial(palette: GlPalette, scale = 1): THREE.LineBasicMaterial {
-  return new THREE.LineBasicMaterial({
-    color: palette.line,
-    transparent: true,
-    opacity: palette.lineOpacity * scale,
-    depthWrite: false,
-  })
+/** How strongly the target glows: its own light, and its rim. */
+const GLOW = { emissive: 0.12, rim: 0.95 }
+
+/**
+ * The same shape with shared vertices and smooth normals, so curved surfaces shade smoothly instead
+ * of in facets. Computed once per geometry and shared by every model that uses it.
+ */
+const smoothed = new WeakMap<THREE.BufferGeometry, THREE.BufferGeometry>()
+const isSmooth = new WeakSet<THREE.BufferGeometry>()
+export function smoothGeometry(g: THREE.BufferGeometry): THREE.BufferGeometry {
+  if (isSmooth.has(g)) return g
+  let s = smoothed.get(g)
+  if (!s) {
+    const copy = new THREE.BufferGeometry()
+    copy.setAttribute('position', g.getAttribute('position'))
+    if (g.index) copy.setIndex(g.index)
+    s = mergeVertices(copy, 1e-5)
+    s.computeVertexNormals()
+    s.computeBoundingBox()
+    s.computeBoundingSphere()
+    smoothed.set(g, s)
+    isSmooth.add(s)
+  }
+  return s
 }
 
-/** A barely-there surface under the lines, so the model has presence while its edges are drawn. */
-export function fillMaterial(palette: GlPalette, opacity = 0.035): THREE.MeshBasicMaterial {
-  return new THREE.MeshBasicMaterial({ color: palette.line, transparent: true, opacity, depthWrite: false })
+/** How each organ is drawn: in its own colour; dimmed when something else is the target; faint outside a focused region. */
+export type Shade = 'normal' | 'dim' | 'ghost'
+
+/** Dimmed organs keep a trace of their colour, see-through so the target shows through them. */
+const DIM = { towardBackground: 0.5, opacity: 0.18, ghostOpacity: 0.07 }
+
+/**
+ * The materials of one 3D view, one per organ colour and shade, made when first needed and disposed
+ * together. Each view has its own, because a cut sets clipping planes on them.
+ */
+export class OrganMaterials {
+  private cache = new Map<string, THREE.MeshStandardMaterial>()
+  constructor(private background: string) {}
+
+  get(group: ColourGroup, shade: Shade): THREE.MeshStandardMaterial {
+    const key = `${group.id}|${shade}`
+    let m = this.cache.get(key)
+    if (!m) {
+      const colour = new THREE.Color(group.colour)
+      if (shade !== 'normal') colour.lerp(new THREE.Color(this.background), DIM.towardBackground)
+      const opacity = shade === 'normal' ? group.opacity : group.opacity * (shade === 'dim' ? DIM.opacity : DIM.ghostOpacity)
+      m = new THREE.MeshStandardMaterial({
+        color: colour,
+        roughness: 0.62,
+        metalness: 0,
+        side: THREE.DoubleSide,
+        transparent: opacity < 1,
+        opacity,
+        depthWrite: opacity >= 1,
+      })
+      this.cache.set(key, m)
+    }
+    return m
+  }
+
+  all(): THREE.MeshStandardMaterial[] {
+    return [...this.cache.values()]
+  }
+
+  dispose() {
+    for (const m of this.cache.values()) m.dispose()
+    this.cache.clear()
+  }
 }
 
 /** Points spread evenly over a mesh's surface (by area), in the mesh's own space, cached per geometry. */

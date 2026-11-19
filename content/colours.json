@@ -1,0 +1,442 @@
+{
+  "$comment": "One colour per organ or tissue for the 3D views (Golden rule 4). Muted, and neighbours differ in lightness as well as hue (src/content/colours.test.ts checks every pair in neighbours). A mesh takes the group of the first rule with a pattern in its name (lower case), else its file’s group, else other.",
+  "groups": {
+    "heart": {
+      "name": "Heart",
+      "colour": "#7c383e"
+    },
+    "lungs": {
+      "name": "Lungs",
+      "colour": "#d0b5b5"
+    },
+    "airway": {
+      "name": "Trachea and bronchi",
+      "colour": "#67a09b"
+    },
+    "cartilage": {
+      "name": "Cartilage and discs",
+      "colour": "#a6b9c1"
+    },
+    "liver": {
+      "name": "Liver",
+      "colour": "#5e352b"
+    },
+    "gallbladder": {
+      "name": "Gallbladder and bile ducts",
+      "colour": "#807f4a"
+    },
+    "stomach": {
+      "name": "Stomach",
+      "colour": "#eecbb0"
+    },
+    "oesophagus": {
+      "name": "Oesophagus",
+      "colour": "#996b69"
+    },
+    "spleen": {
+      "name": "Spleen",
+      "colour": "#5c3c58"
+    },
+    "pancreas": {
+      "name": "Pancreas",
+      "colour": "#a4884c"
+    },
+    "small-intestine": {
+      "name": "Small intestine",
+      "colour": "#e49791"
+    },
+    "large-intestine": {
+      "name": "Large intestine",
+      "colour": "#8e6449"
+    },
+    "mesentery": {
+      "name": "Mesentery",
+      "colour": "#d7cabe"
+    },
+    "salivary": {
+      "name": "Salivary glands",
+      "colour": "#d4bda5"
+    },
+    "kidney": {
+      "name": "Kidneys",
+      "colour": "#8d4a57"
+    },
+    "adrenal": {
+      "name": "Adrenal glands",
+      "colour": "#d5a971"
+    },
+    "ureter": {
+      "name": "Ureters",
+      "colour": "#c4ad8d"
+    },
+    "bladder": {
+      "name": "Bladder",
+      "colour": "#e8dea4"
+    },
+    "urethra": {
+      "name": "Urethra",
+      "colour": "#ad907e"
+    },
+    "brain": {
+      "name": "Brain",
+      "colour": "#a6a3bc"
+    },
+    "thyroid": {
+      "name": "Thyroid",
+      "colour": "#d58f7d"
+    },
+    "thymus": {
+      "name": "Thymus",
+      "colour": "#c7b0b9"
+    },
+    "pituitary": {
+      "name": "Pituitary and pineal glands",
+      "colour": "#a288a7"
+    },
+    "eye": {
+      "name": "Eyes",
+      "colour": "#b2c4cd"
+    },
+    "uterus": {
+      "name": "Uterus",
+      "colour": "#ab7887"
+    },
+    "vagina": {
+      "name": "Vagina",
+      "colour": "#655e88"
+    },
+    "ovary": {
+      "name": "Ovaries",
+      "colour": "#efbd94"
+    },
+    "tube": {
+      "name": "Uterine tubes",
+      "colour": "#da9488"
+    },
+    "ligament": {
+      "name": "Ligaments",
+      "colour": "#bdaea4"
+    },
+    "breast": {
+      "name": "Mammary gland",
+      "colour": "#f3cfca"
+    },
+    "nipple": {
+      "name": "Nipple and areola",
+      "colour": "#ad7977"
+    },
+    "breast-fat": {
+      "name": "Breast fat",
+      "colour": "#f3ded9",
+      "opacity": 0.3
+    },
+    "prostate": {
+      "name": "Prostate",
+      "colour": "#8d7793"
+    },
+    "testis": {
+      "name": "Testes",
+      "colour": "#f4d1b0"
+    },
+    "male-duct": {
+      "name": "Epididymis and ductus deferens",
+      "colour": "#afa777"
+    },
+    "seminal": {
+      "name": "Seminal vesicles",
+      "colour": "#a89cb4"
+    },
+    "penis": {
+      "name": "Penis",
+      "colour": "#a4757c"
+    },
+    "bone": {
+      "name": "Bones",
+      "colour": "#e8dfd0"
+    },
+    "muscle": {
+      "name": "Muscles",
+      "colour": "#b07779"
+    },
+    "arteries": {
+      "name": "Arteries and pulmonary veins",
+      "colour": "#cf7971"
+    },
+    "veins": {
+      "name": "Veins and pulmonary arteries",
+      "colour": "#3871a2"
+    },
+    "nerves": {
+      "name": "Nerves",
+      "colour": "#e9d797"
+    },
+    "skin": {
+      "name": "Skin",
+      "colour": "#d4bcae",
+      "opacity": 0.85
+    },
+    "other": {
+      "name": "Other structures",
+      "colour": "#969696"
+    }
+  },
+  "rules": [
+    {
+      "group": "veins",
+      "match": ["pulmonary_artery", "pulmonary_trunk"]
+    },
+    {
+      "group": "arteries",
+      "match": ["pulmonary_vein"]
+    },
+    {
+      "group": "arteries",
+      "match": ["artery", "aorta", "arterial", "celiac_trunk", "arcade"]
+    },
+    {
+      "group": "breast",
+      "match": ["mammary", "lactiferous"]
+    },
+    {
+      "group": "nipple",
+      "match": ["nipple", "areola"]
+    },
+    {
+      "group": "breast-fat",
+      "match": ["breast_fat"]
+    },
+    {
+      "group": "veins",
+      "match": ["vein", "vena", "coronary_sinus", "venous", "sinus"]
+    },
+    {
+      "group": "heart",
+      "match": [
+        "wall_of_atrium",
+        "wall_of_ventricle",
+        "cavity_of_atrium",
+        "cavity_of_ventricle",
+        "papillary",
+        "valve",
+        "leaflet",
+        "cusp",
+        "heart"
+      ]
+    },
+    {
+      "group": "lungs",
+      "match": ["segmental_bronchial_tree", "lingular_bronchial_tree", "lung"]
+    },
+    {
+      "group": "airway",
+      "match": ["trachea", "bronch"]
+    },
+    {
+      "group": "cartilage",
+      "match": ["cartilage", "epiglottis", "intervertebral", "meniscus"]
+    },
+    {
+      "group": "brain",
+      "match": ["choroid_plexus"]
+    },
+    {
+      "group": "ligament",
+      "match": ["ligament", "retinaculum"]
+    },
+    {
+      "group": "nerves",
+      "match": ["nerve", "ganglion", "plexus", "spinal_cord", "chiasm"]
+    },
+    {
+      "group": "eye",
+      "match": [
+        "eyeball",
+        "cornea",
+        "iris",
+        "lens",
+        "sclera",
+        "optic_part_of_retina",
+        "choroid",
+        "vitreous",
+        "lacrimal_",
+        "tarsal_plate",
+        "corona_ciliaris",
+        "common_tendinous_ring"
+      ]
+    },
+    {
+      "group": "mesentery",
+      "match": ["mesocolon", "mesoappendix", "mesentery", "omentum"]
+    },
+    {
+      "group": "muscle",
+      "match": ["muscle", "diaphragm", "tongue"]
+    },
+    {
+      "group": "liver",
+      "match": ["liver"]
+    },
+    {
+      "group": "gallbladder",
+      "match": ["gallbladder", "cystic_duct", "hepatic_duct", "bile"]
+    },
+    {
+      "group": "pancreas",
+      "match": ["pancrea"]
+    },
+    {
+      "group": "spleen",
+      "match": ["spleen"]
+    },
+    {
+      "group": "stomach",
+      "match": ["stomach"]
+    },
+    {
+      "group": "oesophagus",
+      "match": ["esophag", "oesophag"]
+    },
+    {
+      "group": "small-intestine",
+      "match": ["duodenum", "jejunum", "ileum", "ileocecal"]
+    },
+    {
+      "group": "large-intestine",
+      "match": ["colon", "appendix", "cecum", "caecum", "rectum", "anal_canal"]
+    },
+    {
+      "group": "salivary",
+      "match": ["submandibular_gland", "sublingual_gland", "parotid"]
+    },
+    {
+      "group": "adrenal",
+      "match": ["adrenal", "suprarenal"]
+    },
+    {
+      "group": "kidney",
+      "match": ["kidney"]
+    },
+    {
+      "group": "ureter",
+      "match": ["ureter"]
+    },
+    {
+      "group": "bladder",
+      "match": ["bladder"]
+    },
+    {
+      "group": "urethra",
+      "match": ["urethra"]
+    },
+    {
+      "group": "thyroid",
+      "match": ["thyroid_gland"]
+    },
+    {
+      "group": "thymus",
+      "match": ["thymus"]
+    },
+    {
+      "group": "pituitary",
+      "match": ["pituitary", "pineal"]
+    },
+    {
+      "group": "tube",
+      "match": ["uterine_tube", "fallopian"]
+    },
+    {
+      "group": "uterus",
+      "match": ["uterus", "cervix"]
+    },
+    {
+      "group": "vagina",
+      "match": ["vagina"]
+    },
+    {
+      "group": "ovary",
+      "match": ["ovary"]
+    },
+    {
+      "group": "prostate",
+      "match": ["prostate"]
+    },
+    {
+      "group": "testis",
+      "match": ["testis", "testes"]
+    },
+    {
+      "group": "male-duct",
+      "match": ["epididymis", "deferent", "ejaculatory"]
+    },
+    {
+      "group": "seminal",
+      "match": ["seminal"]
+    },
+    {
+      "group": "penis",
+      "match": ["penis", "glans", "cavernosum", "spongiosum"]
+    },
+    {
+      "group": "bone",
+      "match": [
+        "ilium",
+        "ischium",
+        "pubis",
+        "sacrum",
+        "coccyx",
+        "femur",
+        "bone",
+        "vertebra"
+      ]
+    },
+    {
+      "group": "skin",
+      "match": ["skin", "external_ear"]
+    }
+  ],
+  "files": {
+    "skeleton.glb": "bone",
+    "skeleton-context.glb": "bone",
+    "muscles.glb": "muscle",
+    "body-muscles.glb": "muscle",
+    "body-arteries.glb": "arteries",
+    "body-veins.glb": "veins",
+    "body-nervous.glb": "nerves",
+    "brain.glb": "brain",
+    "body-skin.glb": "skin",
+    "female-skin.glb": "skin",
+    "vessels.glb": "arteries"
+  },
+  "fallback": "other",
+  "neighbours": [
+    ["liver", "gallbladder"],
+    ["stomach", "spleen"],
+    ["kidney", "adrenal"],
+    ["liver", "stomach"],
+    ["liver", "kidney"],
+    ["gallbladder", "small-intestine"],
+    ["pancreas", "small-intestine"],
+    ["small-intestine", "large-intestine"],
+    ["stomach", "pancreas"],
+    ["stomach", "small-intestine"],
+    ["spleen", "kidney"],
+    ["kidney", "ureter"],
+    ["ureter", "bladder"],
+    ["uterus", "ovary"],
+    ["ovary", "tube"],
+    ["uterus", "tube"],
+    ["uterus", "vagina"],
+    ["bladder", "uterus"],
+    ["heart", "lungs"],
+    ["lungs", "airway"],
+    ["airway", "oesophagus"],
+    ["arteries", "veins"],
+    ["bone", "muscle"],
+    ["breast", "nipple"],
+    ["testis", "male-duct"],
+    ["prostate", "bladder"],
+    ["stomach", "oesophagus"],
+    ["heart", "arteries"],
+    ["bone", "cartilage"]
+  ]
+}

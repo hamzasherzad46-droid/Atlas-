@@ -51,6 +51,7 @@ screen by `scripts/check-navigation.cjs` (output below).
 | Foundation, intermediate or advanced structures | Structures |
 | Seconds allowed for each answer | Time per answer |
 | Keep progress on all your devices | Account (Settings): Sign in, Sign out, Delete account |
+| What each colour on a 3D model is | Colour key (Explore in 3D and the body in 3D) |
 | Which body the 3D models show (where both exist) | Body: Male or Female (Settings, the body in 3D, the reproductive module, and the welcome screen as “Which body would you like to study first?”) |
 
 Changed English labels are listed in `src/i18n/changed-english.json`, and `TRANSLATION-REVIEW.md`

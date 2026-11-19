@@ -14,6 +14,7 @@ import type { CameraApi } from '../viewer/CameraRig'
 import type { PlateAnchor } from '../viewer/plate'
 import { ScreenBar } from '../components/ScreenBar'
 import { LoadError } from '../components/LoadError'
+import { ColourKey } from '../components/ColourKey'
 
 const AnatomyViewer = lazy(() => import('../viewer/AnatomyViewer'))
 
@@ -33,6 +34,7 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
   const [anchors, setAnchors] = useState<PlateAnchor[]>([])
   const [labels, setLabels] = useState(true)
   const [copied, setCopied] = useState(false)
+  const [groups, setGroups] = useState<string[]>([])
   const camera = useRef<CameraApi>(null)
 
   const structures = useMemo(() => assets?.content.structures ?? [], [assets])
@@ -118,10 +120,12 @@ export function ExploreScreen({ moduleId }: { moduleId: string }) {
               onPlateSelect={fromKey}
               readouts
               idle={selected || plate ? 'off' : 'sway'}
+              onGroups={setGroups}
             />
           </Suspense>
         )}
         {!selected && <p className="tiny explore-help">{t('explore.help')}</p>}
+        <ColourKey groups={groups} />
         {import.meta.env.DEV && (
           <button className="dev-copy" onClick={() => void copyCamera()}>
             {copied ? t('explore.copied') : t('explore.copy')}

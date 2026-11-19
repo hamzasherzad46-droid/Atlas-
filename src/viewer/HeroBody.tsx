@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import { ModelLoading } from '../components/ModelLoading'
 import { reducedMotion } from '../lib/motion'
 import { keepMesh, type LayerPart } from '../lib/bodyLayers'
+import { colourGroup } from '../content/colours'
 import { publicUrl } from '../lib/paths'
 import { trackLoads } from '../state/modelLoads'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
@@ -89,7 +90,8 @@ function Cloud({ skin, bones, skinPoints, bonePoints, onReady }: { skin: string;
     const light = theme === 'light'
     const g = new THREE.Group()
     g.add(cloud(skinScene, skinPoints, pointMaterial(p, light ? 0.45 : 0.42, p.point, !light)))
-    g.add(cloud(boneScene, bonePoints, pointMaterial(p, 0.5, p.line, !light), bones))
+    // Bones in their warm off-white on black; on white they need the dark line colour to show.
+    g.add(cloud(boneScene, bonePoints, pointMaterial(p, 0.5, light ? p.line : colourGroup('bone').colour, !light), bones))
     return g
   }, [skinScene, boneScene, theme, bones, skinPoints, bonePoints])
   useEffect(

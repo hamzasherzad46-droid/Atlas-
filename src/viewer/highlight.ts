@@ -1,53 +1,46 @@
 import * as THREE from 'three'
+import { colourGroupFor, type ColourGroup } from '../content/colours'
 import { meshMatchesAny } from '../lib/meshMatch'
-import { EdgeBuilder, fillMaterial, lineMaterial, solidMaterial, type GlPalette } from './hud'
+import { OrganMaterials, smoothGeometry, solidMaterial, type GlPalette } from './hud'
 
 const noRaycast = () => {}
 
-/** Lines outside a focused region: a third as strong, so the region reads first. */
-const GHOST_LINES = 0.35
 /** How long a right answer's blue lasts on the target. */
 const FLASH_MS = 700
 
 /**
- * Owns the materials of one model instance, in the HUD style: every structure is drawn as fine
- * edge lines over a barely-there surface, and the meshes matching `keys` become the one solid,
- * softly lit object. `progress` (0..1) fades the target in so camera moves and the highlight feel
- * like one motion; `flash()` turns it briefly blue after a right answer.
+ * Owns the materials of one model instance. Every structure is drawn smooth, in the colour of its
+ * organ or tissue (content/colours.json). The meshes matching `keys` become the one bright white,
+ * glowing object and everything else dims, so the colours never compete with the question.
+ * `progress` (0..1) fades the target in with the camera move; `flash()` turns it briefly blue after
+ * a right answer.
  */
 export class Highlighter {
   readonly target: ReturnType<typeof solidMaterial>
-  private readonly fill: THREE.MeshBasicMaterial
-  private readonly ghostFill: THREE.MeshBasicMaterial
-  private readonly lines: THREE.LineBasicMaterial
-  private readonly ghostLines: THREE.LineBasicMaterial
-  private readonly edges: EdgeBuilder
+  private materials: OrganMaterials
   private meshes: THREE.Mesh[] = []
-  private hits = new Set<THREE.Mesh>()
+  private groups = new Map<THREE.Mesh, ColourGroup>()
   private palette: GlPalette
   private flashFrom = -Infinity
+  private keys: string[] = []
 
   constructor(
     root: THREE.Object3D,
+    /** The model file, for colours that depend on it (a bone file's meshes are bone). */
+    file: string | undefined,
     palette: GlPalette,
-    onProgress: () => void,
-    /** Mesh keys of a focused region; everything else is drawn fainter and can't be tapped. */
+    /** Mesh keys of a focused region; everything else is drawn faint and can't be tapped. */
     private focus: string[] | null = null,
   ) {
     this.palette = palette
     this.target = solidMaterial(palette)
-    this.fill = fillMaterial(palette)
-    this.ghostFill = fillMaterial(palette, 0.012)
-    this.lines = lineMaterial(palette)
-    this.ghostLines = lineMaterial(palette, GHOST_LINES)
+    this.materials = new OrganMaterials(palette.background)
     root.traverse((o) => {
-      if ((o as THREE.Mesh).isMesh) this.meshes.push(o as THREE.Mesh)
-    })
-    // The focused region is drawn first.
-    const ordered = [...this.meshes].sort((a, b) => Number(!this.inFocus(a)) - Number(!this.inFocus(b)))
-    this.edges = new EdgeBuilder(ordered, (m) => (this.inFocus(m) ? this.lines : this.ghostLines), () => {
-      for (const m of this.hits) this.edges.lines.get(m)?.removeFromParent()
-      onProgress()
+      const m = o as THREE.Mesh
+      if (!m.isMesh) return
+      m.geometry = smoothGeometry(m.geometry)
+      this.meshes.push(m)
+      this.groups.set(m, colourGroupFor(file, m.name))
     })
   }
 
@@ -56,38 +49,40 @@ export class Highlighter {
     return this.meshes.filter((m) => this.inFocus(m))
   }
 
+  /** The colour groups on show, for the colour key. */
+  visibleGroups(): string[] {
+    return [...new Set(this.focusMeshes().map((m) => this.groups.get(m)!.id))]
+  }
+
   private inFocus(m: THREE.Mesh): boolean {
     return !this.focus || meshMatchesAny(m.name, this.focus)
   }
 
+  /** A new theme: the dimmed colours fade towards a different page colour. */
   setPalette(palette: GlPalette) {
     this.palette = palette
     this.target.color.set(palette.target)
+    this.target.emissive.set(palette.target)
     this.target.userData.rim.value.set(palette.rim)
-    this.fill.color.set(palette.line)
-    this.ghostFill.color.set(palette.line)
-    this.lines.color.set(palette.line)
-    this.lines.opacity = palette.lineOpacity
-    this.ghostLines.color.set(palette.line)
-    this.ghostLines.opacity = palette.lineOpacity * GHOST_LINES
+    this.materials.dispose()
+    this.materials = new OrganMaterials(palette.background)
+    this.apply(this.keys)
   }
 
   /** Returns the matched meshes. */
   apply(keys: string[]): THREE.Mesh[] {
-    this.hits.clear()
+    this.keys = keys
     const matched: THREE.Mesh[] = []
+    const anyTarget = keys.length > 0
     for (const m of this.meshes) {
-      const hit = keys.length > 0 && meshMatchesAny(m.name, keys)
+      const hit = anyTarget && meshMatchesAny(m.name, keys)
       const focused = this.inFocus(m)
-      m.material = hit ? this.target : focused ? this.fill : this.ghostFill
-      m.renderOrder = hit ? 0 : focused ? 1 : 4
+      const group = this.groups.get(m)!
+      m.material = hit ? this.target : this.materials.get(group, !focused ? 'ghost' : anyTarget ? 'dim' : 'normal')
+      // The target draws first, then see-through organs over it in a stable order.
+      m.renderOrder = hit ? 0 : focused ? 1 : 2
       m.raycast = focused ? THREE.Mesh.prototype.raycast : noRaycast
-      const lines = this.edges.lines.get(m)
-      if (hit) {
-        matched.push(m)
-        this.hits.add(m)
-        lines?.removeFromParent()
-      } else if (lines && !lines.parent) m.add(lines)
+      if (hit) matched.push(m)
     }
     return matched
   }
@@ -110,13 +105,16 @@ export class Highlighter {
       if (k > 1 && this.flashFrom !== -Infinity) {
         this.flashFrom = -Infinity
         this.target.color.set(this.palette.target)
+        this.target.emissive.set(this.palette.target)
         return true
       }
       return false
     }
     // Rises quickly, eases back to white.
-    const amount = k < 0.2 ? k / 0.2 : 1 - (k - 0.2) / 0.8
-    this.target.color.set(this.palette.target).lerp(new THREE.Color(this.palette.accent), Math.max(0, amount))
+    const amount = Math.max(0, k < 0.2 ? k / 0.2 : 1 - (k - 0.2) / 0.8)
+    const blue = new THREE.Color(this.palette.accent)
+    this.target.color.set(this.palette.target).lerp(blue, amount)
+    this.target.emissive.set(this.palette.target).lerp(blue, amount)
     return true
   }
 
@@ -128,11 +126,7 @@ export class Highlighter {
   }
 
   dispose() {
-    this.edges.dispose()
     this.target.dispose()
-    this.fill.dispose()
-    this.ghostFill.dispose()
-    this.lines.dispose()
-    this.ghostLines.dispose()
+    this.materials.dispose()
   }
 }

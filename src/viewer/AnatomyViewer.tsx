@@ -8,6 +8,7 @@ import { ModelLoading } from '../components/ModelLoading'
 import { motion, reducedMotion } from '../lib/motion'
 import { meshKeys } from '../lib/meshMatch'
 import type { Highlighter } from './highlight'
+import { colourGroupFor } from '../content/colours'
 import { onSide, plateAnchors, viewForMeshes, type PlateAnchor } from './plate'
 
 export type { PlateAnchor }
@@ -44,6 +45,8 @@ export interface AnatomyViewerProps {
   readouts?: boolean
   /** The camera's idle motion (see CameraRig). */
   idle?: 'turn' | 'sway' | 'off'
+  /** The colour groups on show, once the model is ready (the colour key). */
+  onGroups?: (groups: string[]) => void
 }
 
 const DPR: [number, number] = [1, 2] // cap pixel ratio at 2 for mobile GPUs
@@ -64,10 +67,17 @@ export default function AnatomyViewer({
   flash,
   readouts,
   idle = 'off',
+  onGroups,
 }: AnatomyViewerProps) {
   const hud = useRef<BearingReadout>(null)
   const [resetKey, setResetKey] = useState(0)
   const [highlighter, setHighlighter] = useState<Highlighter | null>(null)
+  // The colour key: the model's groups, and the skeleton behind organs.
+  useEffect(() => {
+    if (!highlighter || !onGroups) return
+    const context = assets.info.model?.context ? colourGroupFor(assets.info.model.context, '').id : null
+    onGroups([...highlighter.visibleGroups(), ...(context ? [context] : [])])
+  }, [highlighter, onGroups, assets])
   // A focused region ghosts everything outside it.
   const focus = useMemo(() => (assets.info.include ? assets.content.structures.flatMap((s) => meshKeys(s.meshName)) : undefined), [assets])
   const lastTap = useRef({ t: 0, x: 0, y: 0 })

@@ -3,10 +3,24 @@
   "version": "0.2",
   "description": "Spelling for everything a student reads: British English (en-GB) plus the reviewed anatomy word list in cspell-words.txt. Answer synonyms are checked separately (British or American) by src/content/spelling.test.ts. Never add a word to a word list just to make the check pass: check it in a dictionary or Terminologia Anatomica first, and if unsure, list it in CONTENT-REVIEW.md.",
   "language": "en-GB",
-  "files": ["content/*.json", "src/i18n/en.ts", "README.md", "NAVIGATION.md", "CLAUDE.md"],
+  "files": [
+    "content/*.json",
+    "src/i18n/en.ts",
+    "README.md",
+    "NAVIGATION.md",
+    "CLAUDE.md"
+  ],
   "dictionaryDefinitions": [
-    { "name": "atlas-words", "path": "./cspell-words.txt", "addWords": false },
-    { "name": "atlas-dev-words", "path": "./cspell-dev-words.txt", "addWords": false }
+    {
+      "name": "atlas-words",
+      "path": "./cspell-words.txt",
+      "addWords": false
+    },
+    {
+      "name": "atlas-dev-words",
+      "path": "./cspell-dev-words.txt",
+      "addWords": false
+    }
   ],
   "dictionaries": ["atlas-words"],
   "minWordLength": 3,
@@ -24,6 +38,13 @@
     {
       "filename": "**/src/i18n/en.ts",
       "ignoreRegExpList": ["/^\\s*'[\\w.-]+':/gm"]
+    },
+    {
+      "filename": "**/content/colours.json",
+      "ignoreRegExpList": [
+        "/\"match\"\\s*:\\s*\\[[^\\]]*\\]/g",
+        "/\"[\\w-]+\\.glb\"\\s*:/g"
+      ]
     }
   ]
 }

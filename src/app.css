@@ -609,7 +609,7 @@
 .dev-copy {
   position: absolute;
   inset-inline-end: var(--pad);
-  bottom: var(--s-3);
+  top: calc(var(--tape-h) + var(--s-6));
   z-index: 2;
   font-size: var(--fs-5);
   text-decoration: underline;
@@ -1132,8 +1132,8 @@
 
 .body-loading {
   position: absolute;
-  z-index: 2;
-  top: 10px;
+  z-index: 3;
+  top: calc(var(--tape-h) + var(--s-2));
   inset-inline-start: var(--pad);
   font-size: var(--fs-5);
   color: var(--fg-2);
@@ -1584,4 +1584,62 @@
 .body-note {
   margin-top: var(--s-2);
   color: var(--fg-2);
+}
+
+/* ---------- Colour key ---------- */
+/* In the lower corner of a 3D view, opposite the AZ/EL readout; the list opens above it. */
+.colour-key {
+  position: absolute;
+  z-index: 4;
+  inset-inline-end: var(--pad);
+  bottom: var(--s-1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s-2);
+  max-width: calc(100% - 2 * var(--pad));
+}
+
+.colour-key-toggle {
+  min-height: var(--tap);
+  padding: 0 var(--s-1);
+  font-size: var(--fs-5);
+  color: var(--fg-2);
+  text-shadow: var(--halo);
+}
+
+.colour-key-toggle[aria-expanded='true'] {
+  color: var(--fg);
+}
+
+.colour-key-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: var(--s-2) var(--s-4);
+  max-height: var(--key-max-h);
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--s-3);
+  list-style: none;
+  background: var(--bg);
+  border: var(--hair) solid var(--line-strong);
+  border-radius: var(--radius);
+  font-size: var(--fs-6);
+  color: var(--fg);
+  animation: rise var(--mid) var(--ease) both;
+}
+
+.colour-key-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.colour-swatch {
+  flex-shrink: 0;
+  width: var(--swatch);
+  height: var(--swatch);
+  border-radius: 50%;
+  border: var(--hair) solid var(--line);
 }
