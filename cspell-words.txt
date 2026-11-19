@@ -88,9 +88,11 @@ fingerbreadths
 fixators
 fluorodeoxyglucose
 frontonasal
+fundal
 fundoscopy
 glial
 gomphoses
+gubernaculum
 Hemisection
 Hepatobiliary
 hepatocystic
@@ -407,9 +409,11 @@ interna
 internus
 interventricularis
 intima
+ischii
 ischiocrurales
 jugularis
 lacrimale
+lactiferi
 latae
 laterales
 lateralis
@@ -424,6 +428,8 @@ lucidum
 lumbales
 lumborum
 lunatum
+majus
+mammaria
 mammillaria
 mandibula
 medialis
@@ -453,6 +459,8 @@ ossa
 ossificans
 ovale
 ovalis
+ovarii
+ovarium
 palatinum
 pallidus
 Palmaris
@@ -478,6 +486,7 @@ principalis
 processus
 profundus
 prominens
+proprium
 prostata
 psoas
 pulmo
@@ -538,9 +547,11 @@ triquetrum
 trochlea
 trunci
 truncus
+tubae
 turcica
 ulnaris
 urinaria
+uterinae
 valva
 vas
 vasculosum

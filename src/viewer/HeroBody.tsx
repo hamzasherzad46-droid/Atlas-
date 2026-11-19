@@ -4,6 +4,7 @@ import { Component, Suspense, use, useEffect, useMemo, useRef, useState, type Re
 import * as THREE from 'three'
 import { ModelLoading } from '../components/ModelLoading'
 import { reducedMotion } from '../lib/motion'
+import { keepMesh, type LayerPart } from '../lib/bodyLayers'
 import { publicUrl } from '../lib/paths'
 import { trackLoads } from '../state/modelLoads'
 import { EMBEDDED_MODELS, loadEmbeddedModel } from './embeddedModel'
@@ -21,9 +22,6 @@ const DISTANCE = 4.1
 const HEIGHT = 1.0
 /** Degrees per second of the slow idle turn. */
 const TURN_DEG_S = 5
-/** Points for the outline (skin) and the bones. */
-const SKIN_POINTS = 9000
-const BONE_POINTS = 26000
 
 function useFetchedScene(file: string): THREE.Object3D {
   return useGLTF(publicUrl(`models/${file}`), DRACO_PATH, false, trackLoads).scene
@@ -34,9 +32,11 @@ function useEmbeddedScene(file: string): THREE.Object3D {
 const useModelScene = EMBEDDED_MODELS ? useEmbeddedScene : useFetchedScene
 
 export interface HeroBodyProps {
-  /** The outline and the bones, as model files. */
+  /** The outline (a model file) and the bones (a model file, or part of one), and their numbers of points. */
   skin: string
-  bones: string
+  bones: LayerPart
+  skinPoints: number
+  bonePoints: number
   /** The camera's bearing, whenever it changes (heading tape, AZ/EL). */
   onBearing(az: number, el: number): void
 }
@@ -46,7 +46,7 @@ export interface HeroBodyProps {
  * cloud in the text colour, turning slowly. It is not interactive (the page scrolls over it), and it
  * stops drawing when it is scrolled out of sight.
  */
-export default function HeroBody({ skin, bones, onBearing }: HeroBodyProps) {
+export default function HeroBody({ skin, bones, skinPoints, bonePoints, onBearing }: HeroBodyProps) {
   const el = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(true)
   const [ready, setReady] = useState(false)
@@ -70,7 +70,7 @@ export default function HeroBody({ skin, bones, onBearing }: HeroBodyProps) {
           scene={SCENE}
         >
           <Suspense fallback={null}>
-            <Cloud skin={skin} bones={bones} onReady={() => setReady(true)} />
+            <Cloud key={`${skin} ${bones.file}`} skin={skin} bones={bones} skinPoints={skinPoints} bonePoints={bonePoints} onReady={() => setReady(true)} />
           </Suspense>
           <Turn onBearing={onBearing} />
         </Canvas>
@@ -80,18 +80,18 @@ export default function HeroBody({ skin, bones, onBearing }: HeroBodyProps) {
   )
 }
 
-function Cloud({ skin, bones, onReady }: { skin: string; bones: string; onReady(): void }) {
+function Cloud({ skin, bones, skinPoints, bonePoints, onReady }: { skin: string; bones: LayerPart; skinPoints: number; bonePoints: number; onReady(): void }) {
   const theme = useResolvedTheme()
   const skinScene = useModelScene(skin)
-  const boneScene = useModelScene(bones)
+  const boneScene = useModelScene(bones.file)
   const group = useMemo(() => {
     const p = glPalette()
     const light = theme === 'light'
     const g = new THREE.Group()
-    g.add(cloud(skinScene, SKIN_POINTS, pointMaterial(p, light ? 0.45 : 0.42, p.point, !light)))
-    g.add(cloud(boneScene, BONE_POINTS, pointMaterial(p, 0.5, p.line, !light)))
+    g.add(cloud(skinScene, skinPoints, pointMaterial(p, light ? 0.45 : 0.42, p.point, !light)))
+    g.add(cloud(boneScene, bonePoints, pointMaterial(p, 0.5, p.line, !light), bones))
     return g
-  }, [skinScene, boneScene, theme])
+  }, [skinScene, boneScene, theme, bones, skinPoints, bonePoints])
   useEffect(
     () => () =>
       group.traverse((o) => {
@@ -104,11 +104,11 @@ function Cloud({ skin, bones, onReady }: { skin: string; bones: string; onReady(
 }
 
 /** A model's surfaces as `count` points in all, shared out by area; positions are cached per geometry. */
-function cloud(scene: THREE.Object3D, count: number, material: THREE.PointsMaterial): THREE.Group {
+function cloud(scene: THREE.Object3D, count: number, material: THREE.PointsMaterial, part?: LayerPart): THREE.Group {
   const out = new THREE.Group()
   const meshes: THREE.Mesh[] = []
   scene.updateMatrixWorld(true)
-  scene.traverse((o) => (o as THREE.Mesh).isMesh && meshes.push(o as THREE.Mesh))
+  scene.traverse((o) => (o as THREE.Mesh).isMesh && (!part || keepMesh(part, o.name)) && meshes.push(o as THREE.Mesh))
   const areas = meshes.map(surfaceArea)
   const total = areas.reduce((a, b) => a + b, 0) || 1
   meshes.forEach((m, i) => {

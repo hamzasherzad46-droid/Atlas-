@@ -7,6 +7,7 @@ import { useNav } from '../state/nav'
 import { ANSWER_TIMERS, DAILY_GOALS, OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { StudyAidNotice } from '../components/StudyAidNotice'
 import { StepSlider } from '../components/StepSlider'
+import { BodyChoice } from '../components/BodyChoice'
 import { AccountSection } from './AccountSection'
 import { useAccount } from '../account/account'
 import { resetProgress } from '../account/sync'
@@ -42,6 +43,14 @@ export function YouScreen() {
         <div className="sect-body">
           <CoursePicker value={s.track} onPick={(id) => s.set({ track: id })} />
           <p className="small option-help">{t('course.kept')}</p>
+        </div>
+      </section>
+
+      <section className="sect">
+        <p className="label">{t('bodyOf.label')}</p>
+        <div className="sect-body">
+          <BodyChoice value={s.body} onChange={(body) => s.set({ body })} />
+          <p className="small option-help">{t('bodyOf.help')}</p>
         </div>
       </section>
 

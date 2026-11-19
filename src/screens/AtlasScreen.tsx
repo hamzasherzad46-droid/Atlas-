@@ -1,6 +1,8 @@
 import { useState, type ReactNode } from 'react'
 import { moduleTitle } from '../content/names'
-import { catalog, focusModules, getModuleInfo, regionModules } from '../content/loader'
+import { catalog, focusModules, getModuleInfo, regionModules, shownForBody } from '../content/loader'
+import { BodyChoice } from '../components/BodyChoice'
+import type { Body } from '../content/types'
 import { useModule } from '../content/useModule'
 import { ChevronIcon, BackIcon } from '../components/Icons'
 import { Masthead } from '../components/Masthead'
@@ -30,6 +32,7 @@ export function AtlasScreen() {
   const openBody = useNav((s) => s.openBody)
   const openMock = useNav((s) => s.openMock)
   const topic = useNav((s) => s.topic)
+  const body = useSettings((s) => s.body)
   const [openCategory, setOpenCategory] = useState<string | null>(null)
   if (modulePage) return <ModuleScreen id={modulePage} />
   if (plate) return <PlateScreen id={plate} />
@@ -69,7 +72,9 @@ export function AtlasScreen() {
       <section className="sect">
         <p className="label">{t('atlas.systems')}</p>
         <div className="sect-body rows atlas-list">
-          {catalog.systems.flatMap((sys) => sys.modules.map((m) => <ModuleRow key={m.id} info={{ ...m, systemId: sys.id }} sub={t.td(`system.${sys.id}`, '')} />))}
+          {catalog.systems.flatMap((sys) =>
+            sys.modules.filter((m) => shownForBody(m, body)).map((m) => <ModuleRow key={m.id} info={{ ...m, systemId: sys.id }} sub={t.td(`system.${sys.id}`, '')} />),
+          )}
         </div>
       </section>
 
@@ -128,6 +133,13 @@ function ModuleScreen({ id }: { id: string }) {
   const mastered = stats.reduce((n, r) => n + r.mastered, 0)
   const mistakes = content ? missedCount(content, records) : 0
   const start = (format: QuestionFormat) => startPractice(id, region, mode, timer, tier, format)
+  // The same system on the other body: one Body setting, so the rest of the app follows; this page
+  // is replaced, so Back still leads where it did.
+  const switchBody = (b: Body, other: string) => {
+    if (b === info.body) return
+    settings.set({ body: b })
+    useNav.getState().go({ modulePage: other }, true)
+  }
 
   return (
     <main className="page module-page">
@@ -150,6 +162,7 @@ function ModuleScreen({ id }: { id: string }) {
         <p className="small module-stats num">
           {t('mod.seen', { a: seen, b: total })} · {t('atlas.mastered', { n: pct(mastered, total) })}
         </p>
+        {info.body && info.counterpart && <BodyChoice className="module-body" value={info.body} onChange={(b) => switchBody(b, info.counterpart!)} />}
       </div>
       <Meter value={mastered} max={Math.max(total, 1)} />
 

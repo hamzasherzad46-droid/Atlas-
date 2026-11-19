@@ -28,7 +28,7 @@ Vite + React + TypeScript, three.js via @react-three/fiber + drei, Zustand, loca
 - Ask before adding paid services or non-permissively licensed dependencies. (Approved: cspell, including its bundled common-misspellings list under CC BY-SA 4.0, development only.)
 
 ## Licensing
-3D models from Z-Anatomy (CC BY-SA 4.0) / BodyParts3D (CC BY-SA 2.1 JP; the current skeleton is BodyParts3D 4.0 under CC BY 4.0). Keep the Credits screen attribution intact. Anatomical plates must be public domain (e.g. 19th-century engravings) or drawn for Atlas; never add images from modern publishers.
+3D models from Z-Anatomy (CC BY-SA 4.0) / BodyParts3D (CC BY-SA 2.1 JP; the current skeleton is BodyParts3D 4.0 under CC BY 4.0); the female body from the Human Reference Atlas (HuBMAP, CC BY 4.0; `public/models/README.md`). Only CC0, CC BY or CC BY-SA models that allow commercial use; never paid, non-commercial or unclear-licence models. Keep the Credits screen attribution intact. Anatomical plates must be public domain (e.g. 19th-century engravings) or drawn for Atlas; never add images from modern publishers.
 
 ## Done means
 Builds, lints, runs on a phone-sized viewport, and the quiz flow works end to end.

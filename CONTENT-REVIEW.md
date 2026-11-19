@@ -103,7 +103,7 @@ Structures taught in two modules (diaphragm, external intercostals, superior and
 the same name, Latin name and synonyms in both (tested), but their definition, function and “why” are
 worded differently in each module. The facts agree; a reviewer may want one wording.
 
-## 4. Mock exams (111 questions)
+## 4. Mock exams (121 questions)
 
 Every question was read: the first option is correct and no other option is also correct. Two
 explanations simplify, as exam teaching usually does:
@@ -113,7 +113,7 @@ explanations simplify, as exam teaching usually does:
 | `content/mock.json` | h05 (supraspinatus) | “Supraspinatus starts abduction; the deltoid takes over after about the first 15 degrees.” | “Supraspinatus is most important for the first 15 degrees of abduction; the deltoid does most of the rest.” | Classic teaching; EMG studies show both muscles act from the start. |
 | `content/mock.json` | h21 (tracheal bifurcation) | “T4–T5, at the level of the sternal angle” | keep, or note that it lies lower in the living, upright body (to be confirmed by a clinician) | The sternal-angle level is the textbook (cadaveric, supine) level. |
 
-Also checked by test: 111 unique ids and question texts, four different options per question.
+Also checked by test: 121 unique ids and question texts, four different options per question.
 
 ## 5. Notes for each course
 
@@ -149,8 +149,43 @@ The note is always labelled with the course it was written for.
   elbow” (the name of the condition; British texts also say medial epicondyle apophysitis); “neuro
   check” in a nursing note (nurses’ usage; “neurological observations” is the formal term).
 
-## 7. Needs a person
+## 7. Female reproductive organs and pelvis (new module)
+
+`content/female-reproductive.json` (20 structures), 10 mock questions (f58–f62, h55–h59, topic
+“Reproductive system”) and the curriculum link from “Female Reproductive System” were written for this
+module. **None of it has been reviewed by a clinician or anatomist yet**: every structure, note and
+question below needs checking. Latin names are TA98/TA2 forms **from knowledge**, not checked against
+TA2 itself.
+
+| Structure | Name / Latin | To check |
+|---|---|---|
+| Fundus of uterus | fundus of uterus / fundus uteri | Nursing note: postnatal fundus at the umbilicus, descending about 1 cm a day; medicine note: symphysis–fundal height ≈ weeks from 24 weeks (within 2 cm). |
+| Body of uterus | body of uterus / corpus uteri | The mesh merges HRA “body”, “anterior wall”, “posterior wall” and “lower uterine segment”; is calling all of it the body acceptable, or should the lower segment be separate? |
+| Cervix | cervix / cervix uteri | Notes on HPV screening and types 16 and 18. |
+| Vagina | vagina | pH 3.8 to 4.5; bacterial vaginosis; posterior fornix and the rectouterine pouch. |
+| Ovary | ovary / ovarium | Ovarian vein drainage (right to the IVC, left to the left renal vein). |
+| Infundibulum, ampulla, isthmus of uterine tube | … / … tubae uterinae | “Fimbriated end of uterine tube” accepted as a synonym of the infundibulum (the mesh includes the fimbriae). Ectopic note (“most ectopic pregnancies implant here”, ampulla); sterilisation clips at the isthmus. |
+| Round ligament of uterus | ligamentum teres uteri | Course to the labium majus; “helps hold the womb tilted forwards”; second-trimester round ligament pain. |
+| Ligament of ovary | ligamentum ovarii proprium | Both ligaments described as remnants of the gubernaculum. |
+| Mammary gland | glandula mammaria | Mesh is the HRA “mammary lobes”; “15 to 20 lobes”; “a modified sweat gland”. |
+| Lactiferous ducts | ductus lactiferi | Mesh includes the HRA lactiferous sinuses. Ultrasound studies (Ramsay et al., 2005) found fewer duct openings (about 9) than lobes and no true sinuses; the text says each lobe drains through its own duct (classical teaching). |
+| Nipple, areola | papilla mammaria, areola mammae | Montgomery’s tubercles; “its scent is thought to help a newborn find the nipple” (hedged on purpose). |
+| Ilium, ischium, pubis | os ilium, os ischii, os pubis | New structures, separate from the skeleton module’s hip bone. Bone marrow biopsy at the posterior superior iliac spine; station measured from the ischial spines. |
+| Pubis (medicine note), mock h55 | — | **Subpubic angle values**: female about 80 to 90 degrees, male about 50 to 60 degrees. Sources vary (some give 90 to 100 and 60 to 70). |
+| Sacrum, coccyx, hip bone | as in the skeleton module | Same names, Latin and synonyms as the skeleton module (tested); notes rewritten for the female pelvis (shorter, wider, flatter sacrum; coccyx moves back in birth). |
+
+The female model itself (Human Reference Atlas, Visible Human female; `public/models/README.md`):
+
+- It is one person’s anatomy. Her vertebral column has **six lumbar vertebrae** (HRA names
+  “lumbar vertebra 6”), a normal variant; the spine is not in the app, but a reviewer should know.
+- The breasts have the shape of the cadaver (lying down); the HRA breast fat is not taught, only shown.
+- The bladder is shown in the female model for orientation but is not a structure there (it is taught,
+  with the male model, in the urinary module).
+- The female model has no whole skeleton, muscles, vessels or nerves; the body view says so.
+
+## 8. Needs a person
 
 - **Clinician or anatomist:** the items in sections 2, 3 and 4, confirmed against TA2 itself; course notes
-  for the gaps in section 5 (especially dentistry, physiotherapy and sports science).
+  for the gaps in section 5 (especially dentistry, physiotherapy and sports science); and all of section 7,
+  the new female module (structures, notes, the subpubic angle values and the ten new mock questions).
 - **Native speakers:** the six other interface languages — see `TRANSLATION-REVIEW.md`.

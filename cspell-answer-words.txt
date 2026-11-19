@@ -24,5 +24,8 @@ cavernosa
 # Short forms used in sport and physiotherapy.
 delt
 delts
-glute
 gastrocs
+glute
+
+# Alternative anatomical names: the fimbriated end of the uterine tube (its infundibulum).
+fimbriated

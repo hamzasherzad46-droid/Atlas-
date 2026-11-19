@@ -6,16 +6,19 @@ import { LANG_NAMES, useT } from '../i18n'
 import { OFFERED_LANGS, shownLang, useSettings } from '../state/settings'
 import { ReticleIcon } from '../components/Icons'
 import { StudyAidNotice } from '../components/StudyAidNotice'
+import { BodyChoice } from '../components/BodyChoice'
+import type { Body } from '../content/types'
 import { useAccount } from '../account/account'
 import { useNav } from '../state/nav'
 
-/** First run: the course first, then the language, then straight in. Everything can be changed later in Settings. */
+/** First run: the course, the body to study first and the language, then straight in. Everything can be changed later in Settings. */
 export function OnboardingScreen() {
   const t = useT()
   const accounts = useAccount((a) => a.status !== 'unavailable')
   const openAccount = useNav((n) => n.openAccount)
   const s = useSettings()
   const [track, setTrack] = useState<string>(getCourse(s.track).id)
+  const [body, setBody] = useState<Body>(s.body)
 
   return (
     <div className="overlay onboarding">
@@ -34,6 +37,14 @@ export function OnboardingScreen() {
 
         <CoursePicker value={track} onPick={setTrack} />
 
+        <section className="sect onb-body">
+          <h2 className="title onb-question">{t('bodyOf.question')}</h2>
+          <div className="sect-body">
+            <BodyChoice value={body} onChange={setBody} />
+            <p className="small option-help">{t('bodyOf.help')}</p>
+          </div>
+        </section>
+
         {OFFERED_LANGS.length > 1 && (
           <section className="sect onb-lang">
             <p className="label">{t('onb.lang')}</p>
@@ -48,7 +59,7 @@ export function OnboardingScreen() {
         )}
 
         <div className="start-block">
-          <button className="go" onClick={() => s.set({ track, onboarded: true })}>
+          <button className="go" onClick={() => s.set({ track, body, onboarded: true })}>
             {t('onb.start')}
             <ChevronIcon />
           </button>

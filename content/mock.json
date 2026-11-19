@@ -686,6 +686,66 @@
             "Towards the feet"
           ],
           "explain": "Anterior (ventral) means towards the front. The opposite is posterior (dorsal)."
+        },
+        {
+          "id": "f58",
+          "topic": "Reproductive system",
+          "q": "Where does fertilisation usually take place?",
+          "options": [
+            "In the ampulla of the uterine tube",
+            "In the body of the uterus",
+            "In the ovary",
+            "In the cervix"
+          ],
+          "explain": "The egg is usually fertilised in the ampulla, the widest part of the tube; the embryo then travels on to implant in the lining of the uterus."
+        },
+        {
+          "id": "f59",
+          "topic": "Reproductive system",
+          "q": "Which part of the uterus opens into the vagina?",
+          "options": [
+            "Cervix",
+            "Fundus",
+            "Body",
+            "Isthmus of the uterine tube"
+          ],
+          "explain": "The cervix is the narrow lower part of the uterus. The fundus is its rounded top and the body its main part."
+        },
+        {
+          "id": "f60",
+          "topic": "Reproductive system",
+          "q": "Which hormone makes the breast produce milk after birth?",
+          "options": [
+            "Prolactin",
+            "Oxytocin",
+            "Progesterone",
+            "Oestrogen"
+          ],
+          "explain": "Prolactin, from the anterior pituitary, drives milk production. Oxytocin, from the posterior pituitary, squeezes the milk out (the let-down reflex)."
+        },
+        {
+          "id": "f61",
+          "topic": "Reproductive system",
+          "q": "Which hormones do the ovaries make?",
+          "options": [
+            "Oestrogen and progesterone",
+            "Prolactin and oxytocin",
+            "FSH and LH",
+            "Testosterone and cortisol"
+          ],
+          "explain": "FSH and LH come from the anterior pituitary and act on the ovaries, which make oestrogen and progesterone."
+        },
+        {
+          "id": "f62",
+          "topic": "Reproductive system",
+          "q": "Which bones make up the bony pelvis?",
+          "options": [
+            "The two hip bones, the sacrum and the coccyx",
+            "The two hip bones only",
+            "The two femurs and the sacrum",
+            "The lumbar vertebrae and the sacrum"
+          ],
+          "explain": "Each hip bone is the ilium, ischium and pubis fused together; with the sacrum and coccyx they form the pelvic ring."
         }
       ]
     },
@@ -1339,6 +1399,66 @@
             "A blind spot in the centre of vision"
           ],
           "explain": "The fibres that cross at the chiasm come from the nasal halves of the retinas, which see the temporal fields (bitemporal hemianopia)."
+        },
+        {
+          "id": "h55",
+          "topic": "Reproductive system",
+          "q": "Compared with the male pelvis, the female pelvis typically has what?",
+          "options": [
+            "A wider subpubic angle and a rounder inlet",
+            "A narrower subpubic angle and a heart-shaped inlet",
+            "A longer, more curved sacrum",
+            "Ischial spines that project further inwards"
+          ],
+          "explain": "The female subpubic angle is about 80 to 90 degrees (male about 50 to 60), the inlet is rounder, the sacrum shorter and flatter and the ischial spines less prominent, all of which make the birth canal roomier."
+        },
+        {
+          "id": "h56",
+          "topic": "Reproductive system",
+          "q": "In which part of the uterine tube do most ectopic pregnancies implant?",
+          "options": [
+            "Ampulla",
+            "Isthmus",
+            "Infundibulum",
+            "The part within the wall of the uterus"
+          ],
+          "explain": "Most tubal ectopic pregnancies implant in the ampulla, where fertilisation usually happens."
+        },
+        {
+          "id": "h57",
+          "topic": "Reproductive system",
+          "q": "In labour, the station of the baby’s head is measured from which landmark?",
+          "options": [
+            "The ischial spines",
+            "The sacral promontory",
+            "The pubic symphysis",
+            "The iliac crests"
+          ],
+          "explain": "Station 0 is the level of the ischial spines; above them the station is negative, below them positive."
+        },
+        {
+          "id": "h58",
+          "topic": "Reproductive system",
+          "q": "Into which vein does the left ovarian vein drain?",
+          "options": [
+            "The left renal vein",
+            "The inferior vena cava",
+            "The left internal iliac vein",
+            "The left common iliac vein"
+          ],
+          "explain": "The right ovarian vein drains straight into the inferior vena cava; the left drains into the left renal vein."
+        },
+        {
+          "id": "h59",
+          "topic": "Reproductive system",
+          "q": "Which structure runs through the inguinal canal in the female?",
+          "options": [
+            "The round ligament of the uterus",
+            "The ligament of the ovary",
+            "The uterine tube",
+            "The suspensory ligament of the ovary"
+          ],
+          "explain": "The round ligament runs from the side of the uterus through the inguinal canal to the labium majus, with the ilio-inguinal nerve."
         }
       ]
     }

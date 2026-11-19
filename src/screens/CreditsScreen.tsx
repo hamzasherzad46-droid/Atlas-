@@ -54,6 +54,26 @@ export function CreditsScreen() {
             <div className="r">
               <span className="r-main">
                 <span className="r-title credit">
+                  Female body (skin, bony pelvis, reproductive organs, breasts and bladder): Human Reference Atlas 3D Reference
+                  Object Library, HuBMAP. Kristen Browne and Heidi Schlehlein, “3D Reference Organ Set for Female, v1.10”
+                  (doi:10.48539/HBM637.DWBM.744) and “3D Reference Organ for Pelvis, Female v1.3” (doi:10.48539/HBM853.VCFM.778),
+                  from the Visible Human female (U.S. National Library of Medicine). CC BY 4.0.
+                </span>
+                <a className="r-sub" href="https://humanatlas.io/3d-reference-library" target="_blank" rel="noreferrer">
+                  humanatlas.io/3d-reference-library
+                </a>
+                <a className="r-sub" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">
+                  creativecommons.org/licenses/by/4.0
+                </a>
+                <span className="r-sub">
+                  Changes for Atlas: structures selected and renamed, the ilium, ischium and pubis taken from the pelvis set, the
+                  body moved to stand on the floor, meshes simplified and compressed.
+                </span>
+              </span>
+            </div>
+            <div className="r">
+              <span className="r-main">
+                <span className="r-title credit">
                   Liver surface: BodyParts3D © The Database Center for Life Science (CC BY 4.0), modified by open-anatomy-3d
                   (github.com/MervinR07/open-anatomy-3d), CC BY 4.0.
                 </span>

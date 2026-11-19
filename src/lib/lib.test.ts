@@ -4,7 +4,7 @@ import { meshMatchesKey, meshSide, mostSpecific } from './meshMatch'
 import { INTERVALS, isMissed, prioritise, updateRecord } from './srs'
 import { placeTags } from './plates'
 import { MOCK_LENGTHS, buildMock, topicScores } from './mock'
-import { BODY_LAYERS, CUT_RANGE, EXPLODE_MAX, EXPLODE_ORIGIN, HERO_MODELS, cutPlane, displayName, explodeOffset } from './bodyLayers'
+import { BODY_LAYERS, CUT_RANGE, EXPLODE_MAX, EXPLODE_ORIGIN, FEMALE_LAYERS, HERO_MODELS, cutPlane, displayName, explodeOffset, keepMesh } from './bodyLayers'
 import { bearingText } from './format'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -290,6 +290,27 @@ describe('3D readouts', () => {
 
   it("Today's body uses model files that exist", () => {
     const models = fileURLToPath(new URL('../../public/models/', import.meta.url))
-    for (const file of Object.values(HERO_MODELS)) expect(existsSync(join(models, file)), file).toBe(true)
+    for (const hero of Object.values(HERO_MODELS))
+      for (const file of [hero.skin, hero.bones.file]) expect(existsSync(join(models, file)), file).toBe(true)
+  })
+})
+
+describe('female body', () => {
+  it('every layer file exists', () => {
+    const models = fileURLToPath(new URL('../../public/models/', import.meta.url))
+    for (const l of FEMALE_LAYERS) for (const p of l.parts) expect(existsSync(join(models, p.file)), p.file).toBe(true)
+  })
+
+  it('the bones and the organs of the shared file are split between their layers', () => {
+    const bones = FEMALE_LAYERS.find((l) => l.id === 'skeleton')!.parts[0]
+    const organs = FEMALE_LAYERS.find((l) => l.id === 'organs')!.parts[0]
+    for (const m of ['ilium.l', 'pubis.r', 'sacrum', 'coccyx']) {
+      expect(keepMesh(bones, m), m).toBe(true)
+      expect(keepMesh(organs, m), m).toBe(false)
+    }
+    for (const m of ['uterus_fundus', 'ovary.l', 'mammary_lobes.r']) {
+      expect(keepMesh(bones, m), m).toBe(false)
+      expect(keepMesh(organs, m), m).toBe(true)
+    }
   })
 })

@@ -102,7 +102,16 @@ export interface ModuleInfo {
   description?: string
   /** A course focus module (content/courses.json), built like a regional module. */
   focus?: boolean
+  /**
+   * Whose body the module's model comes from, where the system is taught on both: the student's
+   * Body setting picks which of the pair is shown, and the module page switches between them.
+   */
+  body?: Body
+  /** The same system on the other body (both modules name each other). */
+  counterpart?: string
 }
+
+export type Body = 'male' | 'female'
 
 /** A group of focused regional modules, e.g. the upper limb. Its name lives in the UI translations (group.<id>). */
 export interface RegionGroup {

@@ -2506,7 +2506,8 @@
             "Fertilisation usually takes place in the ampulla of the uterine tube.",
             "The menstrual cycle has ovarian phases (follicular, ovulation, luteal) and uterine phases (menstrual, proliferative, secretory).",
             "The uterus supports the developing pregnancy."
-          ]
+          ],
+          "modules": ["female-reproductive"]
         },
         {
           "title": "Endocrine System",

@@ -2,10 +2,16 @@
  * The whole-body model, layer by layer. Every file is in atlas space (metres, Y up, feet at y = 0,
  * the body faces +Z, its right side is −X), so the layers line up without transforms.
  */
+import type { Body } from '../content/types'
+import { meshMatchesAny } from './meshMatch'
+
 export type LayerId = 'skin' | 'muscles' | 'skeleton' | 'organs' | 'arteries' | 'veins' | 'nervous'
 
 export interface LayerPart {
   file: string
+  /** Only these meshes of the file (mesh keys, as in content meshName), or all but these. */
+  include?: string[]
+  exclude?: string[]
 }
 
 export interface BodyLayer {
@@ -39,6 +45,27 @@ export const BODY_LAYERS: BodyLayer[] = [
   { id: 'veins', parts: [{ file: 'body-veins.glb' }], xray: 1, on: false },
   { id: 'nervous', parts: [{ file: 'body-nervous.glb' }], xray: 1, on: false },
 ]
+
+/** The bones in the female model (the Human Reference Atlas has the female pelvis, not a whole skeleton). */
+export const FEMALE_BONES = ['ilium', 'ischium', 'pubis', 'sacrum', 'coccyx']
+
+/**
+ * The female body: the Human Reference Atlas female (Visible Human female) skin, bony pelvis and
+ * reproductive organs, breasts and bladder. It has no whole skeleton, muscles, vessels or nerves.
+ */
+export const FEMALE_LAYERS: BodyLayer[] = [
+  { id: 'skin', parts: [{ file: 'female-skin.glb' }], xray: 0.1, on: true },
+  { id: 'skeleton', parts: [{ file: 'female-reproductive.glb', include: FEMALE_BONES }], xray: 0.9, on: true },
+  { id: 'organs', parts: [{ file: 'female-reproductive.glb', exclude: FEMALE_BONES }], xray: 1, on: true },
+]
+
+export const bodyLayers = (body: Body): BodyLayer[] => (body === 'female' ? FEMALE_LAYERS : BODY_LAYERS)
+
+/** Whether a mesh of a part's file is shown in that part (its include and exclude lists). */
+export function keepMesh(part: LayerPart, meshName: string): boolean {
+  if (part.include && !meshMatchesAny(meshName, part.include)) return false
+  return !(part.exclude && meshMatchesAny(meshName, part.exclude))
+}
 
 export type BodyMode = 'look' | 'xray' | 'separate' | 'cut'
 export type CutAxis = 'transverse' | 'coronal' | 'sagittal'
@@ -104,5 +131,17 @@ export function displayName(source: string): string {
   return side ? `${name} (${side})` : name
 }
 
-/** The body on Today: its outline and its bones, drawn as point clouds. */
-export const HERO_MODELS = { skin: 'body-skin.glb', bones: 'skeleton-context.glb' }
+/**
+ * The body on Today: its outline and its bones, drawn as point clouds, with the number of points
+ * for each (the female model has the pelvis only, so it gets as few points as the male pelvis).
+ */
+export const HERO_MODELS: Record<Body, { skin: string; bones: LayerPart; skinPoints: number; bonePoints: number }> = {
+  male: { skin: 'body-skin.glb', bones: { file: 'skeleton-context.glb' }, skinPoints: 9000, bonePoints: 26000 },
+  female: { skin: 'female-skin.glb', bones: { file: 'female-reproductive.glb', include: FEMALE_BONES }, skinPoints: 9000, bonePoints: 3500 },
+}
+
+/** Where the camera looks from when the bones are separated: the whole skeleton, or the female pelvis. */
+export const SEPARATE_VIEWS: Record<Body, { position: [number, number, number]; target: [number, number, number] }> = {
+  male: { position: [1.0, 1.05, 4.2], target: [0, 0.86, 0] },
+  female: { position: [0.3, 1.1, 1.25], target: [0, 0.9, 0] },
+}

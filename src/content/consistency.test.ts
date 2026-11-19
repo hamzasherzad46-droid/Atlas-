@@ -93,7 +93,7 @@ describe('consistency of names', () => {
 
   it('mock questions have unique ids and texts, and four different options', () => {
     const questions = read<MockBank>('mock.json').sets.flatMap((s) => s.questions)
-    expect(questions).toHaveLength(111)
+    expect(questions).toHaveLength(121)
     const ids = questions.map((q) => q.id)
     expect(ids.filter((x, i) => ids.indexOf(x) !== i)).toEqual([])
     const texts = questions.map((q) => plain(q.q))

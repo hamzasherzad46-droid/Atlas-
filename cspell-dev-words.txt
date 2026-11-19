@@ -27,3 +27,6 @@ untappable
 WCAG
 wordmark
 xzf
+
+# The Human BioMolecular Atlas Program, publisher of the Human Reference Atlas (the female models).
+HuBMAP

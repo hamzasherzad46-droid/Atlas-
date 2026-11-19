@@ -51,6 +51,7 @@ screen by `scripts/check-navigation.cjs` (output below).
 | Foundation, intermediate or advanced structures | Structures |
 | Seconds allowed for each answer | Time per answer |
 | Keep progress on all your devices | Account (Settings): Sign in, Sign out, Delete account |
+| Which body the 3D models show (where both exist) | Body: Male or Female (Settings, the body in 3D, the reproductive module, and the welcome screen as “Which body would you like to study first?”) |
 
 Changed English labels are listed in `src/i18n/changed-english.json`, and `TRANSLATION-REVIEW.md`
 lists them for each of the other six languages for a native speaker to update.
@@ -78,6 +79,7 @@ screen the student came from (Today, or the screen before for 2-tap paths).
 | Mock exam (setup) | 1 | “Mock exam” | yes | yes |
 | Mock exam (questions) | 2 | “Mock exam” → “Start the mock exam” | yes | yes |
 | Course module page | 1 | “Pulse points” | yes | yes |
+| The other body’s reproductive module | 2 | “Reproductive organs” (the course’s modules) → “Female” (or the reverse) | yes | yes (replaces the page, so Back leaves the module) |
 | Topic (course topic) | 1 | “Vascular Access Anatomy” | yes | yes |
 | All content | 1 | “All content” | yes | n/a (tab) |
 | Any module page | 2 | tab “All content” → “Kidneys and urinary tract” | yes | yes |

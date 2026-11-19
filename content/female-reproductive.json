@@ -1,0 +1,436 @@
+{
+  "module": "female-reproductive",
+  "regions": [
+    {
+      "id": "pelvic-organs",
+      "name": "Pelvic organs"
+    },
+    {
+      "id": "breast",
+      "name": "Breast"
+    },
+    {
+      "id": "bony-pelvis",
+      "name": "Female bony pelvis"
+    }
+  ],
+  "structures": [
+    {
+      "id": "uterus-fundus",
+      "name": "fundus of uterus",
+      "synonyms": ["uterine fundus"],
+      "latinName": "fundus uteri",
+      "definition": "Rounded top of the womb, above the points where the uterine tubes enter it.",
+      "function": "Its muscle contracts most strongly in labour, pushing the baby down towards the cervix.",
+      "why": "The muscle wall is thickest at the top, so contractions push downwards and open the neck of the womb.",
+      "notes": {
+        "nursing": "After birth the fundus should feel firm, at about the level of the umbilicus, and descend about 1 cm a day; a soft fundus suggests uterine atony and bleeding.",
+        "medicine": "From about 24 weeks, the symphysis–fundal height in centimetres roughly equals the weeks of pregnancy (within 2 cm)."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "uterus_fundus",
+      "camera": {
+        "position": [0.045, 0.948, 0.258],
+        "target": [-0.007, 0.835, 0.053]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "uterus-body",
+      "name": "body of uterus",
+      "synonyms": ["uterine body"],
+      "latinName": "corpus uteri",
+      "definition": "Main part of the womb, between its rounded top and its narrow neck.",
+      "function": "Holds and nourishes a pregnancy; its lining, the endometrium, thickens and is shed in each menstrual cycle.",
+      "why": "A thick muscular wall, the myometrium, lets it grow many times larger in pregnancy and contract in labour.",
+      "notes": {
+        "nursing": "Fibroids (leiomyomas) usually grow in this muscle wall and can cause heavy periods and anaemia.",
+        "medicine": "Endometrial cancer typically presents with postmenopausal bleeding, which always needs investigating."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "uterus_body",
+      "camera": {
+        "position": [0.057, 0.923, 0.253],
+        "target": [-0.007, 0.828, 0.042]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "cervix",
+      "name": "cervix",
+      "synonyms": ["uterine cervix", "cervix of uterus", "neck of uterus"],
+      "latinName": "cervix uteri",
+      "definition": "Narrow lower part of the womb that opens into the top of the vagina.",
+      "function": "Keeps the womb closed in pregnancy and dilates to about 10 cm in labour; its mucus changes through the cycle.",
+      "why": "A firm, mostly fibrous ring holds a pregnancy in until it softens and opens at term.",
+      "notes": {
+        "nursing": "Cervical screening takes cells from the transformation zone and tests them for high-risk human papillomavirus (HPV).",
+        "medicine": "Almost all cervical cancers follow persistent infection with high-risk HPV, mainly types 16 and 18."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "cervix",
+      "camera": {
+        "position": [0.071, 0.879, 0.235],
+        "target": [-0.005, 0.813, 0.017]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "vagina",
+      "name": "vagina",
+      "synonyms": [],
+      "latinName": "vagina",
+      "definition": "Muscular tube from the cervix to the vulva, behind the bladder and urethra and in front of the rectum.",
+      "function": "Receives the penis in intercourse, carries menstrual flow out and forms the lower part of the birth canal.",
+      "why": "Its folded, elastic wall stretches greatly in childbirth, and its acidic secretions help resist infection.",
+      "notes": {
+        "nursing": "Normal vaginal pH is about 3.8 to 4.5; a higher pH with a thin grey discharge suggests bacterial vaginosis.",
+        "medicine": "The posterior fornix lies against the rectouterine pouch (pouch of Douglas), the lowest part of the peritoneal cavity."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "vagina",
+      "camera": {
+        "position": [0.116, 0.81, 0.22],
+        "target": [-0.006, 0.779, 0.016]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ovary",
+      "name": "ovary",
+      "synonyms": ["ovaries"],
+      "latinName": "ovarium",
+      "definition": "Almond-sized gland on each side of the womb, against the side wall of the pelvis.",
+      "function": "Releases an egg in each cycle and makes oestrogen and progesterone.",
+      "why": "Eggs wait in follicles until ovulation, so one can mature each month from a store laid down before birth.",
+      "notes": {
+        "nursing": "Sudden one-sided lower abdominal pain, often with vomiting, may be ovarian torsion, a surgical emergency.",
+        "medicine": "The right ovarian vein drains into the inferior vena cava; the left drains into the left renal vein."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "ovary",
+      "camera": {
+        "position": [-0.007, 0.974, 0.287],
+        "target": [-0.007, 0.854, 0.046]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "uterine-tube-infundibulum",
+      "name": "infundibulum of uterine tube",
+      "synonyms": [
+        "infundibulum of fallopian tube",
+        "fimbriated end of uterine tube"
+      ],
+      "latinName": "infundibulum tubae uterinae",
+      "definition": "Funnel-shaped outer end of the tube, fringed with finger-like fimbriae that lie over the ovary.",
+      "function": "Its fimbriae sweep the released egg into the tube.",
+      "why": "The ovary is not joined to the tube, so an open, fringed funnel has to catch the egg as it is released.",
+      "notes": {
+        "medicine": "The tube opens into the peritoneal cavity here, so genital infection can spread into the pelvis as pelvic inflammatory disease."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "uterine_tube_infundibulum",
+      "camera": {
+        "position": [-0.008, 0.981, 0.262],
+        "target": [-0.008, 0.871, 0.04]
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "uterine-tube-ampulla",
+      "name": "ampulla of uterine tube",
+      "synonyms": ["ampulla of fallopian tube", "tubal ampulla"],
+      "latinName": "ampulla tubae uterinae",
+      "definition": "Widest and longest part of the tube, curving over the ovary.",
+      "function": "Where fertilisation usually takes place.",
+      "why": "Its wide, folded lining gives the egg and sperm time and room to meet.",
+      "notes": {
+        "nursing": "Most ectopic pregnancies implant here: pain or bleeding with a positive pregnancy test needs urgent assessment.",
+        "medicine": "A ruptured tubal ectopic pregnancy can bleed heavily into the peritoneal cavity and is life-threatening."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "uterine_tube_ampulla",
+      "camera": {
+        "position": [-0.005, 0.98, 0.295],
+        "target": [-0.005, 0.857, 0.048]
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "uterine-tube-isthmus",
+      "name": "isthmus of uterine tube",
+      "synonyms": ["isthmus of fallopian tube"],
+      "latinName": "isthmus tubae uterinae",
+      "definition": "Narrow, thick-walled part of the tube next to the womb.",
+      "function": "Carries the early embryo on towards the womb.",
+      "why": "A narrow channel with a thick muscle wall controls the passage of sperm one way and the embryo the other.",
+      "notes": {
+        "medicine": "Laparoscopic sterilisation usually closes the tube here with clips."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "uterine_tube_isthmus",
+      "camera": {
+        "position": [-0.007, 0.942, 0.266],
+        "target": [-0.007, 0.835, 0.051]
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "round-ligament-uterus",
+      "name": "round ligament of uterus",
+      "synonyms": ["round ligament of the uterus"],
+      "latinName": "ligamentum teres uteri",
+      "definition": "Cord from the side of the womb, just below the tube, through the inguinal canal to the labium majus.",
+      "function": "Helps hold the womb tilted forwards.",
+      "why": "It is a remnant of the gubernaculum, the cord that guides the gonad down in the embryo.",
+      "notes": {
+        "nursing": "Stretching of these ligaments causes the sharp groin pain common in the second trimester."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "round_ligament",
+      "camera": {
+        "position": [0.047, 0.934, 0.386],
+        "target": [-0.015, 0.81, 0.076]
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "ovarian-ligament",
+      "name": "ligament of ovary",
+      "synonyms": ["ovarian ligament", "proper ovarian ligament"],
+      "latinName": "ligamentum ovarii proprium",
+      "definition": "Short cord joining the lower pole of the ovary to the side of the womb, just below the tube.",
+      "function": "Keeps the ovary close to the womb.",
+      "why": "Like the round ligament, it is a remnant of the gubernaculum.",
+      "notes": {
+        "medicine": "In ovarian torsion the ovary twists on its ligaments and vessels, cutting off its blood supply."
+      },
+      "region": "pelvic-organs",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "ovarian_ligament",
+      "camera": {
+        "position": [-0.007, 0.944, 0.262],
+        "target": [-0.007, 0.837, 0.047]
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "mammary-gland",
+      "name": "mammary gland",
+      "synonyms": ["mammary glands", "breast tissue"],
+      "latinName": "glandula mammaria",
+      "definition": "Milk-producing tissue of the breast, in about 15 to 20 lobes lying in front of pectoralis major.",
+      "function": "Makes milk after childbirth, under the influence of prolactin.",
+      "why": "It is a modified sweat gland, which is why it lies in the fatty layer under the skin rather than in the muscle.",
+      "notes": {
+        "nursing": "Breast awareness: a new lump, skin dimpling or puckering, or a change in the nipple should be checked promptly.",
+        "medicine": "Most lymph from the breast drains to the axillary nodes, which is why they are examined and sampled in breast cancer."
+      },
+      "region": "breast",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "mammary_lobes",
+      "camera": {
+        "position": [0.149, 1.296, 0.735],
+        "target": [0.0, 1.207, 0.14]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "lactiferous-ducts",
+      "name": "lactiferous ducts",
+      "synonyms": ["lactiferous duct", "milk ducts", "milk duct"],
+      "latinName": "ductus lactiferi",
+      "definition": "Tubes that carry milk from each lobe of the breast to an opening on the nipple.",
+      "function": "Carry milk to the nipple when oxytocin squeezes the lobes in the let-down reflex.",
+      "why": "Each lobe drains through its own duct, so milk from many lobes reaches the nipple separately.",
+      "notes": {
+        "nursing": "A blocked duct causes a tender lump while breastfeeding; frequent feeding and good positioning help clear it before mastitis develops."
+      },
+      "region": "breast",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "lactiferous_ducts",
+      "camera": {
+        "position": [0.145, 1.292, 0.73],
+        "target": [0.0, 1.205, 0.151]
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "nipple",
+      "name": "nipple",
+      "synonyms": ["nipples", "mammary papilla"],
+      "latinName": "papilla mammaria",
+      "definition": "Raised point at the centre of the coloured ring of the breast, where the milk ducts open.",
+      "function": "Delivers milk to the baby; it becomes firmer and more prominent when stimulated.",
+      "why": "Gathering the duct openings on a raised point lets a baby latch on and feed.",
+      "notes": {
+        "nursing": "Nipple pain or damage while breastfeeding usually means a shallow latch; correcting the position early helps.",
+        "medicine": "Newly inverted nipples or blood-stained discharge need assessment for an underlying breast cancer."
+      },
+      "region": "breast",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "nipple",
+      "camera": {
+        "position": [0.115, 1.23, 0.636],
+        "target": [0.0, 1.185, 0.177]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "areola",
+      "name": "areola",
+      "synonyms": ["areolae"],
+      "latinName": "areola mammae",
+      "definition": "Ring of darker skin around the nipple, dotted with small raised glands.",
+      "function": "Its small glands (Montgomery’s tubercles) make an oily secretion that protects the skin during breastfeeding.",
+      "why": "The secretion keeps the skin supple, and its scent is thought to help a newborn find the nipple.",
+      "notes": {
+        "nursing": "For a good latch the baby takes much of the areola into its mouth, not just the nipple."
+      },
+      "region": "breast",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "areola",
+      "camera": {
+        "position": [0.121, 1.234, 0.658],
+        "target": [0.0, 1.185, 0.173]
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "hip-bone",
+      "name": "hip bone",
+      "synonyms": ["pelvic bone", "innominate bone", "coxal bone", "os coxae"],
+      "latinName": "os coxae",
+      "definition": "Large paired bone made of the ilium, ischium and pubis, forming the side wall of the bony pelvic ring.",
+      "function": "Forms the hip socket, supports the trunk and protects the pelvic organs.",
+      "why": "Three bones fuse into one strong ring that passes weight to the legs and anchors powerful hip muscles.",
+      "notes": {
+        "nursing": "Ventrogluteal injection: palm on the greater trochanter, index finger on the anterior superior iliac spine, middle finger along the iliac crest; inject in the centre of the V.",
+        "medicine": "In the female pelvis the hip bones flare more widely and the pubic arch is wider than in the male, giving a roomier birth canal."
+      },
+      "region": "bony-pelvis",
+      "modelFile": "female-reproductive.glb",
+      "meshName": ["ilium", "ischium", "pubis"],
+      "camera": {
+        "position": [0.199, 1.093, 0.813],
+        "target": [-0.002, 0.852, 0.008]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ilium",
+      "name": "ilium",
+      "synonyms": ["iliac bone"],
+      "latinName": "os ilium",
+      "definition": "Broad, fan-shaped upper part of the hip bone, ending in the iliac crest.",
+      "function": "Supports the abdominal organs, joins the sacrum at the sacroiliac joint and anchors the gluteal and abdominal muscles.",
+      "why": "Its wide blade gives large muscles room to attach and carries body weight from the spine to the hip.",
+      "notes": {
+        "nursing": "The anterior superior iliac spine and iliac crest are the landmarks for the ventrogluteal injection site.",
+        "medicine": "The iliac crest is a common site for bone marrow aspiration and trephine biopsy (posterior superior iliac spine)."
+      },
+      "region": "bony-pelvis",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "ilium",
+      "camera": {
+        "position": [0.31, 1.13, 0.702],
+        "target": [-0.002, 0.887, 0.008]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ischium",
+      "name": "ischium",
+      "synonyms": ["ischial bone"],
+      "latinName": "os ischii",
+      "definition": "Lower back part of the hip bone, ending in the tuberosity you sit on.",
+      "function": "Takes body weight when sitting and anchors the hamstrings.",
+      "why": "A thick tuberosity at the bottom of the pelvis bears weight in sitting and gives the hamstrings a strong anchor.",
+      "notes": {
+        "nursing": "The skin over the ischial tuberosities is at risk of pressure injury in people who sit for long periods, such as wheelchair users.",
+        "medicine": "The ischial spines are a landmark in labour: the station of the baby’s head is measured from them."
+      },
+      "region": "bony-pelvis",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "ischium",
+      "camera": {
+        "position": [0.237, 0.674, 0.478],
+        "target": [-0.003, 0.794, -0.001]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "pubis",
+      "name": "pubis",
+      "synonyms": ["pubic bone", "os pubis"],
+      "latinName": "os pubis",
+      "definition": "Front part of the hip bone; the two meet in the midline at a cartilage joint.",
+      "function": "Completes the pelvic ring at the front and anchors the adductor and abdominal muscles.",
+      "why": "The joint between the two bones, the pubic symphysis, lets the ring give slightly, especially in childbirth.",
+      "notes": {
+        "nursing": "The upper border of the symphysis is the starting point for measuring symphysis–fundal height in pregnancy.",
+        "medicine": "The angle below the symphysis between the two pubic arches, the subpubic angle, is wider in the female pelvis (about 80 to 90 degrees) than in the male (about 50 to 60 degrees)."
+      },
+      "region": "bony-pelvis",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "pubis",
+      "camera": {
+        "position": [0.084, 0.691, 0.481],
+        "target": [-0.003, 0.799, 0.047]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "sacrum",
+      "name": "sacrum",
+      "synonyms": ["sacral bone"],
+      "latinName": "os sacrum",
+      "definition": "Triangular bone of five fused vertebrae wedged between the hip bones.",
+      "function": "Joins the spine to the pelvis at the sacroiliac joints and passes body weight to the legs.",
+      "why": "Five vertebrae fused into one wedge lock the back of the pelvic ring.",
+      "notes": {
+        "nursing": "The skin over this bone is the most common site for pressure injuries; reposition immobile patients regularly and inspect it.",
+        "medicine": "In the female pelvis the sacrum is shorter, wider and less curved, which helps make the inlet roomier; its promontory marks the back of the inlet."
+      },
+      "region": "bony-pelvis",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "sacrum",
+      "camera": {
+        "position": [0.111, 0.961, -0.415],
+        "target": [-0.002, 0.886, -0.039]
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "coccyx",
+      "name": "coccyx",
+      "synonyms": ["tailbone", "tail bone"],
+      "latinName": "os coccygis",
+      "definition": "Small triangular bone of fused rudimentary vertebrae at the base of the spine.",
+      "function": "Anchors pelvic floor muscles, tendons and ligaments.",
+      "why": "The remnant of a tail, it now supports the pelvic floor and takes weight when sitting leaning back.",
+      "notes": {
+        "nursing": "Often bruised after falls onto the buttocks; pressure-relieving cushions help when sitting is painful.",
+        "medicine": "It moves backwards slightly as the baby’s head passes in birth, widening the outlet."
+      },
+      "region": "bony-pelvis",
+      "modelFile": "female-reproductive.glb",
+      "meshName": "coccyx",
+      "camera": {
+        "position": [-0.09, 0.846, -0.29],
+        "target": [-0.002, 0.824, -0.068]
+      },
+      "difficulty": 1
+    }
+  ]
+}

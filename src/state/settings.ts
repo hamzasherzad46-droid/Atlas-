@@ -1,9 +1,9 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import type { Track } from '../content/types'
+import type { Body, Track } from '../content/types'
 import { appStorage, STORAGE_KEYS } from '../lib/storage'
 
-export type { Track }
+export type { Body, Track }
 export type ThemePref = 'light' | 'dark' | 'system'
 /** learn: every letter shown faintly, with a definition; medium: a few letters and the definition; hard: dashes only. */
 export type QuizMode = 'learn' | 'medium' | 'hard'
@@ -40,13 +40,15 @@ interface SettingsState {
   answerTimer: number
   onboarded: boolean
   lastSession: LastSession | null
-  /** When course, daily goal or name last changed on this device (0: never); the newest change wins across devices. */
+  /** Which body the 3D models show where both exist (the whole body, the reproductive system). */
+  body: Body
+  /** When course, daily goal, name or body last changed on this device (0: never); the newest change wins across devices. */
   profileChangedAt: number
   set(patch: Partial<Omit<SettingsState, 'set'>>): void
 }
 
 /** The settings that follow a signed-in student to their other devices. */
-export const PROFILE_KEYS = ['track', 'dailyGoal', 'name'] as const
+export const PROFILE_KEYS = ['track', 'dailyGoal', 'name', 'body'] as const
 
 export const useSettings = create<SettingsState>()(
   persist(
@@ -60,6 +62,7 @@ export const useSettings = create<SettingsState>()(
       answerTimer: 0,
       onboarded: false,
       lastSession: null,
+      body: 'male',
       profileChangedAt: 0,
       set: (patch) =>
         set((s) => (PROFILE_KEYS.some((k) => k in patch && patch[k] !== s[k]) ? { ...patch, profileChangedAt: Date.now() } : patch)),
@@ -67,13 +70,15 @@ export const useSettings = create<SettingsState>()(
     {
       name: STORAGE_KEYS.settings,
       storage: createJSONStorage(() => appStorage),
-      version: 3,
+      version: 4,
       migrate: (old, version) => {
         const s = (old ?? {}) as Record<string, unknown>
         // v1 had no onboarding; v1 users already chose a track, so skip it.
         if (version < 2) return { ...s, lang: 'en', name: '', dailyGoal: 20, answerTimer: 0, onboarded: true, theme: 'dark' }
         // v3 redesign is dark-first; reset the old “paper” default once.
-        if (version < 3) return { ...s, theme: 'dark' }
+        if (version < 3) return { ...s, theme: 'dark', body: 'male' }
+        // v4 adds the body: everything before it showed the male models.
+        if (version < 4) return { ...s, body: 'male' }
         return s
       },
     },

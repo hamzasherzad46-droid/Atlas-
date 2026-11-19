@@ -5,7 +5,10 @@ import { ModelLoading } from '../components/ModelLoading'
 import { useModelLoads } from '../state/modelLoads'
 import { CloseIcon } from '../components/Icons'
 import { useT } from '../i18n'
-import { BODY_LAYERS, displayName, type BodyMode, type CutAxis, type LayerId } from '../lib/bodyLayers'
+import { bodyLayers, displayName, type BodyMode, type CutAxis, type LayerId } from '../lib/bodyLayers'
+import { BodyChoice } from '../components/BodyChoice'
+import { useSettings } from '../state/settings'
+import type { Body } from '../content/types'
 import { sentence } from '../lib/format'
 import { mostSpecific } from '../lib/meshMatch'
 import { useNav } from '../state/nav'
@@ -22,19 +25,21 @@ interface Known {
   moduleId: string
 }
 
-/** Every structure with study notes, so a tapped part can show its notes where they exist. */
-function useKnownStructures(): Known[] {
+/** Every structure with study notes on this body, so a tapped part can show its notes where they exist. */
+function useKnownStructures(body: Body): Known[] {
   const [known, setKnown] = useState<Known[]>([])
   useEffect(() => {
     let alive = true
-    const modules = catalog.systems.flatMap((s) => s.modules).filter((m) => m.status === 'available' && m.contentFile)
+    const modules = catalog.systems
+      .flatMap((s) => s.modules)
+      .filter((m) => m.status === 'available' && m.contentFile && (!m.body || m.body === body))
     void Promise.all(modules.map((m) => loadContentFile(m.contentFile!).then((c) => c.structures.map((structure) => ({ structure, moduleId: m.id }))))).then(
       (lists) => alive && setKnown(lists.flat()),
     )
     return () => {
       alive = false
     }
-  }, [])
+  }, [body])
   return known
 }
 
@@ -46,8 +51,11 @@ function useKnownStructures(): Known[] {
 export function BodyScreen() {
   const t = useT()
   const openModule = useNav((s) => s.openModule)
-  const known = useKnownStructures()
-  const [layers, setLayers] = useState<LayerId[]>(() => BODY_LAYERS.filter((l) => l.on).map((l) => l.id))
+  const body = useSettings((s) => s.body)
+  const setSettings = useSettings((s) => s.set)
+  const known = useKnownStructures(body)
+  const available = bodyLayers(body)
+  const [layers, setLayers] = useState<LayerId[]>(() => available.filter((l) => l.on).map((l) => l.id))
   const [mode, setMode] = useState<BodyMode>('xray')
   const [separation, setSeparation] = useState(0.6)
   const [cut, setCut] = useState(0.76)
@@ -63,6 +71,14 @@ export function BodyScreen() {
     setPick(p)
     if (!p) setIsolated(false)
   }, [])
+
+  // Switching body starts again from that body's own layers.
+  const switchBody = (b: Body) => {
+    if (b === body) return
+    setSettings({ body: b })
+    setLayers(bodyLayers(b).filter((l) => l.on).map((l) => l.id))
+    onPick(null)
+  }
 
   const toggle = (id: LayerId) => {
     setLayers((l) => (l.includes(id) ? l.filter((x) => x !== id) : [...l, id]))
@@ -83,7 +99,7 @@ export function BodyScreen() {
 
   return (
     <div className="overlay body-screen">
-      <ScreenBar title={<h1 className="screen-bar-h">{t('body.title')}</h1>} />
+      <ScreenBar title={<h1 className="screen-bar-h">{t('body.title')}</h1>} end={<BodyChoice className="bar-options" value={body} onChange={switchBody} />} />
 
       <div className="options body-modes" role="group" aria-label={t('body.mode')}>
         {MODES.map((m) => (
@@ -96,6 +112,7 @@ export function BodyScreen() {
       <div className="explore-viewer body-viewer">
         <Suspense fallback={<ModelLoading always />}>
           <BodyViewer
+            body={body}
             layers={layers}
             mode={mode}
             amount={separate ? separation : cut}
@@ -141,7 +158,7 @@ export function BodyScreen() {
       )}
 
       <div className="body-layers" role="group" aria-label={t('body.layers')}>
-        {BODY_LAYERS.map((l) => (
+        {available.map((l) => (
           <button
             key={l.id}
             className="body-layer"
@@ -157,7 +174,10 @@ export function BodyScreen() {
 
       <section className="explore-panel body-panel" aria-live="polite">
         {!pick ? (
-          <p className="small">{t(`body.help.${mode}`)}</p>
+          <>
+            <p className="small">{t(`body.help.${mode}`)}</p>
+            {body === 'female' && <p className="tiny body-note">{t('bodyOf.femaleNote')}</p>}
+          </>
         ) : (
           <>
             <div className="explore-title">

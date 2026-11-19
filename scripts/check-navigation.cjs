@@ -55,6 +55,7 @@ const PATHS = [
   { screen: 'All content', taps: [['button', /^All content/]], expect: ['heading', 'All content'], back: null },
   { screen: 'Any module page', taps: [['tab', 'All content'], ['button', /^Kidneys and urinary tract/]], expect: ['text', 'These settings apply to the three tests below.'], back: 'Back', backTo: 'All content' },
   { screen: 'Any plate', taps: [['tab', 'All content'], ['button', /^A molar tooth in section/]], expect: ['text', 'Test yourself'], back: 'Back', backTo: 'All content' },
+  { screen: 'The other body’s reproductive module', taps: [['button', /^Reproductive organs/], ['button', 'Female']], expect: ['heading', 'Female reproductive organs'], back: 'Back' },
   { screen: 'Progress', taps: [['tab', 'Progress']], expect: ['heading', 'Progress'], back: null },
   { screen: 'Settings', taps: [['tab', 'Settings']], expect: ['heading', 'Settings'], back: null },
   { screen: 'About and credits', taps: [['tab', 'Settings'], ['button', /^About and credits/]], expect: ['text', '3D model credits'], back: 'Back', backTo: 'Settings' },

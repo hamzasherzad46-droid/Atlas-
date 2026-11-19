@@ -39,7 +39,7 @@ function snapshot(): Progress {
 
 function profile(): Profile {
   const s = useSettings.getState()
-  return { track: s.track, dailyGoal: s.dailyGoal, name: s.name, changedAt: s.profileChangedAt }
+  return { track: s.track, dailyGoal: s.dailyGoal, name: s.name, body: s.body, changedAt: s.profileChangedAt }
 }
 
 /** The account's document as stored, with defaults for anything missing. Refuses a newer app's format. */
@@ -145,8 +145,9 @@ function apply(out: SyncOutput, before: Progress, input: SyncInput) {
     useProgress.setState({ ...progress, otherDays: out.otherDays })
     const p = out.profile
     const s = useSettings.getState()
-    if (p.changedAt !== s.profileChangedAt || p.track !== s.track || p.dailyGoal !== s.dailyGoal || p.name !== s.name) {
-      useSettings.setState({ track: p.track, dailyGoal: p.dailyGoal, name: p.name, profileChangedAt: p.changedAt })
+    const body = p.body ?? s.body
+    if (p.changedAt !== s.profileChangedAt || p.track !== s.track || p.dailyGoal !== s.dailyGoal || p.name !== s.name || body !== s.body) {
+      useSettings.setState({ track: p.track, dailyGoal: p.dailyGoal, name: p.name, body, profileChangedAt: p.changedAt })
     }
   } finally {
     applying = false

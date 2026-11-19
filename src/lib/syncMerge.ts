@@ -49,6 +49,8 @@ export interface Profile {
   track: string
   dailyGoal: number
   name: string
+  /** Absent in documents saved before the female models existed. */
+  body?: 'male' | 'female'
   /** When any of them was last changed (0: never changed on this device). */
   changedAt: number
 }

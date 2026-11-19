@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
-import { getCourse, getModuleInfo, loadCurriculum, loadPlates } from '../content/loader'
+import { getCourse, getModuleInfo, loadCurriculum, loadPlates, moduleForBody } from '../content/loader'
 import { continueModuleId } from '../content/courses'
 import { courseDescription, courseTitle, moduleTitle } from '../content/names'
 import type { Course, Curriculum as CurriculumData, Plate } from '../content/types'
@@ -34,10 +34,11 @@ const exists = (id: string) => getModuleInfo(id)?.status === 'available'
  */
 export function TodayScreen() {
   const t = useT()
-  const { name, lastSession, dailyGoal, track } = useSettings()
+  const { name, lastSession, dailyGoal, track, body } = useSettings()
   const { openExplore, openMock, openBody, openCourses, setTab } = useNav()
   const course = getCourse(track)
-  const moduleId = continueModuleId(course, lastSession?.moduleId, exists)
+  // A module taught on both bodies is shown for the student's body.
+  const moduleId = moduleForBody(continueModuleId(course, lastSession?.moduleId, exists), body)
   const { assets } = useModule(moduleId)
   const { records, cards } = useProgress()
   const days = useAllDays()
@@ -84,7 +85,7 @@ export function TodayScreen() {
 
       <section className="today-hero" aria-label={t('today.readouts')}>
         <Suspense fallback={<ModelLoading always />}>
-          <HeroBody skin={HERO_MODELS.skin} bones={HERO_MODELS.bones} onBearing={onBearing} />
+          <HeroBody {...HERO_MODELS[body]} onBearing={onBearing} />
         </Suspense>
         <ViewerHud ref={tape} azel={false} />
         <div className="ro hero-ro hero-tl">
@@ -206,7 +207,7 @@ export function TodayScreen() {
           </div>
           <p className="small course-line-sub">{courseDescription(t, course)}</p>
           <div className="rows atlas-list">
-            {[...course.modules, ...course.regions].map((id) => {
+            {[...new Set([...course.modules, ...course.regions].map((id) => moduleForBody(id, body)))].map((id) => {
               const m = getModuleInfo(id)
               if (!m) return null
               const sub = m.description ?? (m.group ? t.td(`group.${m.group}`, '') : t.td(`system.${m.systemId}`, ''))

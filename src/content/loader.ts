@@ -2,7 +2,7 @@ import catalogJson from '../../content/catalog.json'
 import coursesJson from '../../content/courses.json'
 import { buildFocusModules, findCourse } from './courses'
 import { publicUrl } from '../lib/paths'
-import type { Catalog, Course, Courses, Curriculum, MockBank, ModuleContent, ModuleInfo, PlaceholderModel, Plates } from './types'
+import type { Body, Catalog, Course, Courses, Curriculum, MockBank, ModuleContent, ModuleInfo, PlaceholderModel, Plates } from './types'
 
 export const catalog = catalogJson as Catalog
 
@@ -24,6 +24,15 @@ export function getCourse(id: string): Course {
 export function getModuleInfo(id: string): ModuleInfo | undefined {
   return allModules.find((m) => m.id === id)
 }
+
+/** The module to show for this body: a module taught on both bodies is swapped for its counterpart. */
+export function moduleForBody(id: string, body: Body): string {
+  const m = getModuleInfo(id)
+  return m?.body && m.counterpart && m.body !== body ? m.counterpart : id
+}
+
+/** Whether a module belongs in lists for this body (modules taught on one body only always do). */
+export const shownForBody = (m: ModuleInfo, body: Body) => !m.body || m.body === body
 
 // Each module's JSON becomes its own lazily loaded chunk.
 const files = import.meta.glob<{ default: unknown }>(['../../content/*.json', '!../../content/catalog.json', '!../../content/courses.json'])

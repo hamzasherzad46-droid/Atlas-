@@ -3,7 +3,8 @@ import { Canvas, useThree, type ThreeEvent } from '@react-three/fiber'
 import { Component, Suspense, use, useEffect, useImperativeHandle, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode, type Ref } from 'react'
 import * as THREE from 'three'
 import type { CameraView } from '../content/types'
-import { BODY_LAYERS, cutPlane, explodeOffset, type BodyLayer, type BodyMode, type CutAxis, type LayerId, type LayerPart } from '../lib/bodyLayers'
+import { SEPARATE_VIEWS, bodyLayers, cutPlane, explodeOffset, keepMesh, type BodyLayer, type BodyMode, type CutAxis, type LayerId, type LayerPart } from '../lib/bodyLayers'
+import type { Body } from '../content/types'
 import { publicUrl } from '../lib/paths'
 import { trackLoads } from '../state/modelLoads'
 import { CameraRig } from './CameraRig'
@@ -19,8 +20,6 @@ import './viewer.css'
 const DPR: [number, number] = [1, 2]
 const DRACO_PATH = publicUrl('draco/')
 const BODY_HOME: CameraView = { position: [0.75, 1.0, 3.05], target: [0, 0.86, 0] }
-/** Far enough back for the separated skeleton. */
-const SEPARATE_VIEW: CameraView = { position: [1.0, 1.05, 4.2], target: [0, 0.86, 0] }
 /** Each cut is seen face on: from above for a transverse cut, the front for coronal, the left side for sagittal. */
 const CUT_VIEWS: Record<CutAxis, CameraView> = {
   transverse: { position: [0.85, 2.6, 2.1], target: [0, 0.86, 0] },
@@ -43,6 +42,8 @@ export interface BodyViewerApi {
 }
 
 export interface BodyViewerProps {
+  /** Which body: its layers come from bodyLayers(). */
+  body: Body
   layers: LayerId[]
   mode: BodyMode
   /** Separation of the bones, or the position of the cut, 0..1. */
@@ -83,7 +84,7 @@ export default function BodyViewer(props: BodyViewerProps) {
   const theme = useResolvedTheme()
   // A focused part keeps the camera until the view mode or cut plane changes.
   const [focus, setFocus] = useState<{ view: CameraView; mode: BodyMode; axis: CutAxis } | null>(null)
-  const modeView = props.mode === 'separate' ? SEPARATE_VIEW : props.mode === 'cut' ? CUT_VIEWS[props.axis] : BODY_HOME
+  const modeView = props.mode === 'separate' ? SEPARATE_VIEWS[props.body] : props.mode === 'cut' ? CUT_VIEWS[props.axis] : BODY_HOME
   const view = focus && focus.mode === props.mode && focus.axis === props.axis ? focus.view : modeView
   const [resetKey, setResetKey] = useState(0)
   const hud = useRef<BearingReadout>(null)
@@ -123,7 +124,7 @@ export default function BodyViewer(props: BodyViewerProps) {
     } else lastTap.current = { t: now, x: e.clientX, y: e.clientY }
   }
 
-  const shown = BODY_LAYERS.filter((l) => props.layers.includes(l.id) && (props.mode !== 'separate' || l.id === 'skeleton'))
+  const shown = bodyLayers(props.body).filter((l) => props.layers.includes(l.id) && (props.mode !== 'separate' || l.id === 'skeleton'))
   const shared: Shared = {
     mode: props.mode,
     amount: props.amount,
@@ -210,9 +211,12 @@ function Part({ layer, part, shared, theme }: { layer: BodyLayer; part: LayerPar
   const { root, meshes } = useMemo(() => {
     const r = scene.clone(true)
     const list: THREE.Mesh[] = []
+    const dropped: THREE.Object3D[] = []
     r.traverse((o) => {
       const m = o as THREE.Mesh
       if (!m.isMesh) return
+      // A file shared by two layers (the female bones and organs) shows only this part's meshes.
+      if (!keepMesh(part, m.name)) return void dropped.push(m)
       // Geometry is in body coordinates; the centre is where a bone moves out from when separated.
       m.geometry.computeBoundingBox()
       const c = m.geometry.boundingBox!.getCenter(new THREE.Vector3())
@@ -220,8 +224,9 @@ function Part({ layer, part, shared, theme }: { layer: BodyLayer; part: LayerPar
       m.userData.layer = layer.id
       list.push(m)
     })
+    for (const d of dropped) d.removeFromParent()
     return { root: r, meshes: list }
-  }, [scene, layer.id])
+  }, [scene, layer.id, part])
 
   useEffect(() => {
     for (const m of meshes) shared.registry.set(`${layer.id}:${m.name}`, m)

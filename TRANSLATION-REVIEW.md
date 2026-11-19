@@ -6,12 +6,16 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## French (`fr`)
 
-### Missing: shown in English (128)
+### Missing: shown in English (138)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
+| `module.female-reproductive` | Female reproductive organs |
+| `region.pelvic-organs` | Pelvic organs |
+| `region.breast` | Breast |
+| `region.bony-pelvis` | Female bony pelvis |
 | `atlas.focus` | Short modules |
 | `quiz.target` | Target |
 | `quiz.timeLeft` | Time left |
@@ -32,6 +36,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
+| `bodyOf.label` | Body |
+| `bodyOf.male` | Male |
+| `bodyOf.female` | Female |
+| `bodyOf.help` | The 3D body, and the reproductive system, are shown as male or female. Your progress is kept either way. |
+| `bodyOf.question` | Which body would you like to study first? |
+| `bodyOf.femaleNote` | The female model shows the skin, the bony pelvis, the reproductive organs, the breasts and the bladder. |
 | `viewer.el` | El |
 | `viewer.north` | N |
 | `viewer.east` | E |
@@ -150,7 +160,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `systemBlurb.respiratory` | Airways, lungs and the muscles of breathing. | “Airways, bronchi and the muscles of breathing.” became “Airways, lungs and the muscles of breathing.”. | Voies aériennes, bronches et muscles de la respiration. |
 | `systemBlurb.nervous` | Lobes, deep nuclei, brainstem and ventricles. | “The brain, its lobes, deep nuclei and pathways.” became “Lobes, deep nuclei, brainstem and ventricles.”. | Le cerveau, ses lobes, ses noyaux profonds et ses voies. |
 | `systemBlurb.digestive` | Mouth to rectum, with the liver, pancreas and spleen. | “From the tongue to the rectum, with the glands that feed it.” became “Mouth to rectum, with the liver, pancreas and spleen.”. | De la langue au rectum, avec les glandes qui l’alimentent. |
-| `systemBlurb.reproductive` | Male reproductive organs and glands. The model is male. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | Organes et glandes reproducteurs masculins (anatomie féminine en préparation). |
+| `systemBlurb.reproductive` | The reproductive organs, on the male or the female body. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | Organes et glandes reproducteurs masculins (anatomie féminine en préparation). |
 | `today.streakStart` | No streak yet | “Start a streak today” became “No streak yet”. | Lancez une série aujourd’hui |
 | `today.resumeGo` | Continue spelling quiz | “Resume practice” became “Continue spelling quiz”. | Reprendre l’entraînement |
 | `today.mistakes` | Fix mistakes | “Mistakes to fix” became “Fix mistakes” (one name for the feature). | Erreurs à corriger |
@@ -214,12 +224,16 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## German (`de`)
 
-### Missing: shown in English (128)
+### Missing: shown in English (138)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
+| `module.female-reproductive` | Female reproductive organs |
+| `region.pelvic-organs` | Pelvic organs |
+| `region.breast` | Breast |
+| `region.bony-pelvis` | Female bony pelvis |
 | `atlas.focus` | Short modules |
 | `quiz.target` | Target |
 | `quiz.timeLeft` | Time left |
@@ -240,6 +254,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
+| `bodyOf.label` | Body |
+| `bodyOf.male` | Male |
+| `bodyOf.female` | Female |
+| `bodyOf.help` | The 3D body, and the reproductive system, are shown as male or female. Your progress is kept either way. |
+| `bodyOf.question` | Which body would you like to study first? |
+| `bodyOf.femaleNote` | The female model shows the skin, the bony pelvis, the reproductive organs, the breasts and the bladder. |
 | `viewer.el` | El |
 | `viewer.north` | N |
 | `viewer.east` | E |
@@ -358,7 +378,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `systemBlurb.respiratory` | Airways, lungs and the muscles of breathing. | “Airways, bronchi and the muscles of breathing.” became “Airways, lungs and the muscles of breathing.”. | Atemwege, Bronchien und Atemmuskulatur. |
 | `systemBlurb.nervous` | Lobes, deep nuclei, brainstem and ventricles. | “The brain, its lobes, deep nuclei and pathways.” became “Lobes, deep nuclei, brainstem and ventricles.”. | Das Gehirn, seine Lappen, Kerne und Bahnen. |
 | `systemBlurb.digestive` | Mouth to rectum, with the liver, pancreas and spleen. | “From the tongue to the rectum, with the glands that feed it.” became “Mouth to rectum, with the liver, pancreas and spleen.”. | Von der Zunge bis zum Rektum, mit den zugehörigen Drüsen. |
-| `systemBlurb.reproductive` | Male reproductive organs and glands. The model is male. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | Männliche Fortpflanzungsorgane und -drüsen (weibliche Anatomie in Vorbereitung). |
+| `systemBlurb.reproductive` | The reproductive organs, on the male or the female body. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | Männliche Fortpflanzungsorgane und -drüsen (weibliche Anatomie in Vorbereitung). |
 | `today.streakStart` | No streak yet | “Start a streak today” became “No streak yet”. | Starte heute eine Serie |
 | `today.resumeGo` | Continue spelling quiz | “Resume practice” became “Continue spelling quiz”. | Übung fortsetzen |
 | `today.mistakes` | Fix mistakes | “Mistakes to fix” became “Fix mistakes” (one name for the feature). | Fehler zu korrigieren |
@@ -420,12 +440,16 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Arabic (`ar`)
 
-### Missing: shown in English (128)
+### Missing: shown in English (138)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
+| `module.female-reproductive` | Female reproductive organs |
+| `region.pelvic-organs` | Pelvic organs |
+| `region.breast` | Breast |
+| `region.bony-pelvis` | Female bony pelvis |
 | `atlas.focus` | Short modules |
 | `quiz.target` | Target |
 | `quiz.timeLeft` | Time left |
@@ -446,6 +470,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
+| `bodyOf.label` | Body |
+| `bodyOf.male` | Male |
+| `bodyOf.female` | Female |
+| `bodyOf.help` | The 3D body, and the reproductive system, are shown as male or female. Your progress is kept either way. |
+| `bodyOf.question` | Which body would you like to study first? |
+| `bodyOf.femaleNote` | The female model shows the skin, the bony pelvis, the reproductive organs, the breasts and the bladder. |
 | `viewer.el` | El |
 | `viewer.north` | N |
 | `viewer.east` | E |
@@ -564,7 +594,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `systemBlurb.respiratory` | Airways, lungs and the muscles of breathing. | “Airways, bronchi and the muscles of breathing.” became “Airways, lungs and the muscles of breathing.”. | المسالك الهوائية والقصبات وعضلات التنفس. |
 | `systemBlurb.nervous` | Lobes, deep nuclei, brainstem and ventricles. | “The brain, its lobes, deep nuclei and pathways.” became “Lobes, deep nuclei, brainstem and ventricles.”. | الدماغ وفصوصه ونواه العميقة ومساراته. |
 | `systemBlurb.digestive` | Mouth to rectum, with the liver, pancreas and spleen. | “From the tongue to the rectum, with the glands that feed it.” became “Mouth to rectum, with the liver, pancreas and spleen.”. | من اللسان إلى المستقيم مع الغدد الهضمية. |
-| `systemBlurb.reproductive` | Male reproductive organs and glands. The model is male. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | الأعضاء والغدد التناسلية الذكرية (التشريح الأنثوي قيد الإعداد). |
+| `systemBlurb.reproductive` | The reproductive organs, on the male or the female body. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | الأعضاء والغدد التناسلية الذكرية (التشريح الأنثوي قيد الإعداد). |
 | `today.streakStart` | No streak yet | “Start a streak today” became “No streak yet”. | ابدأ سلسلة اليوم |
 | `today.resumeGo` | Continue spelling quiz | “Resume practice” became “Continue spelling quiz”. | متابعة التدريب |
 | `today.mistakes` | Fix mistakes | “Mistakes to fix” became “Fix mistakes” (one name for the feature). | أخطاء لتصحيحها |
@@ -620,12 +650,16 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Russian (`ru`)
 
-### Missing: shown in English (128)
+### Missing: shown in English (138)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
+| `module.female-reproductive` | Female reproductive organs |
+| `region.pelvic-organs` | Pelvic organs |
+| `region.breast` | Breast |
+| `region.bony-pelvis` | Female bony pelvis |
 | `atlas.focus` | Short modules |
 | `quiz.target` | Target |
 | `quiz.timeLeft` | Time left |
@@ -646,6 +680,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
+| `bodyOf.label` | Body |
+| `bodyOf.male` | Male |
+| `bodyOf.female` | Female |
+| `bodyOf.help` | The 3D body, and the reproductive system, are shown as male or female. Your progress is kept either way. |
+| `bodyOf.question` | Which body would you like to study first? |
+| `bodyOf.femaleNote` | The female model shows the skin, the bony pelvis, the reproductive organs, the breasts and the bladder. |
 | `viewer.el` | El |
 | `viewer.north` | N |
 | `viewer.east` | E |
@@ -764,7 +804,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `systemBlurb.respiratory` | Airways, lungs and the muscles of breathing. | “Airways, bronchi and the muscles of breathing.” became “Airways, lungs and the muscles of breathing.”. | Дыхательные пути, бронхи и дыхательные мышцы. |
 | `systemBlurb.nervous` | Lobes, deep nuclei, brainstem and ventricles. | “The brain, its lobes, deep nuclei and pathways.” became “Lobes, deep nuclei, brainstem and ventricles.”. | Головной мозг: доли, глубокие ядра и проводящие пути. |
 | `systemBlurb.digestive` | Mouth to rectum, with the liver, pancreas and spleen. | “From the tongue to the rectum, with the glands that feed it.” became “Mouth to rectum, with the liver, pancreas and spleen.”. | От языка до прямой кишки, вместе с пищеварительными железами. |
-| `systemBlurb.reproductive` | Male reproductive organs and glands. The model is male. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | Мужские половые органы и железы (женская анатомия в подготовке). |
+| `systemBlurb.reproductive` | The reproductive organs, on the male or the female body. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | Мужские половые органы и железы (женская анатомия в подготовке). |
 | `today.streakStart` | No streak yet | “Start a streak today” became “No streak yet”. | Начните серию сегодня |
 | `today.resumeGo` | Continue spelling quiz | “Resume practice” became “Continue spelling quiz”. | Продолжить практику |
 | `today.mistakes` | Fix mistakes | “Mistakes to fix” became “Fix mistakes” (one name for the feature). | Ошибок исправить |
@@ -821,12 +861,16 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 
 ## Chinese (`zh`)
 
-### Missing: shown in English (128)
+### Missing: shown in English (138)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
+| `module.female-reproductive` | Female reproductive organs |
+| `region.pelvic-organs` | Pelvic organs |
+| `region.breast` | Breast |
+| `region.bony-pelvis` | Female bony pelvis |
 | `atlas.focus` | Short modules |
 | `quiz.target` | Target |
 | `quiz.timeLeft` | Time left |
@@ -847,6 +891,12 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
+| `bodyOf.label` | Body |
+| `bodyOf.male` | Male |
+| `bodyOf.female` | Female |
+| `bodyOf.help` | The 3D body, and the reproductive system, are shown as male or female. Your progress is kept either way. |
+| `bodyOf.question` | Which body would you like to study first? |
+| `bodyOf.femaleNote` | The female model shows the skin, the bony pelvis, the reproductive organs, the breasts and the bladder. |
 | `viewer.el` | El |
 | `viewer.north` | N |
 | `viewer.east` | E |
@@ -965,7 +1015,7 @@ This file is generated: run `npm run i18n:report` after changing UI strings. `np
 | `systemBlurb.respiratory` | Airways, lungs and the muscles of breathing. | “Airways, bronchi and the muscles of breathing.” became “Airways, lungs and the muscles of breathing.”. | 气道、支气管和呼吸肌。 |
 | `systemBlurb.nervous` | Lobes, deep nuclei, brainstem and ventricles. | “The brain, its lobes, deep nuclei and pathways.” became “Lobes, deep nuclei, brainstem and ventricles.”. | 大脑的脑叶、深部核团和传导通路。 |
 | `systemBlurb.digestive` | Mouth to rectum, with the liver, pancreas and spleen. | “From the tongue to the rectum, with the glands that feed it.” became “Mouth to rectum, with the liver, pancreas and spleen.”. | 从舌到直肠，以及相关的消化腺。 |
-| `systemBlurb.reproductive` | Male reproductive organs and glands. The model is male. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | 男性生殖器官与腺体（女性解剖准备中）。 |
+| `systemBlurb.reproductive` | The reproductive organs, on the male or the female body. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | 男性生殖器官与腺体（女性解剖准备中）。 |
 | `today.streakStart` | No streak yet | “Start a streak today” became “No streak yet”. | 今天开始连续学习 |
 | `today.resumeGo` | Continue spelling quiz | “Resume practice” became “Continue spelling quiz”. | 继续练习 |
 | `today.mistakes` | Fix mistakes | “Mistakes to fix” became “Fix mistakes” (one name for the feature). | 待纠正错误 |
@@ -1019,12 +1069,16 @@ None.
 
 ## Korean (`ko`)
 
-### Missing: shown in English (128)
+### Missing: shown in English (138)
 
 | Key | English |
 | --- | --- |
 | `common.retry` | Try again |
 | `common.studyAid` | Atlas is a study aid for education only. It is not clinical guidance. Always follow your course materials and local clinical policy. |
+| `module.female-reproductive` | Female reproductive organs |
+| `region.pelvic-organs` | Pelvic organs |
+| `region.breast` | Breast |
+| `region.bony-pelvis` | Female bony pelvis |
 | `atlas.focus` | Short modules |
 | `quiz.target` | Target |
 | `quiz.timeLeft` | Time left |
@@ -1045,6 +1099,12 @@ None.
 | `viewer.error` | Couldn’t load the 3D model. Check your connection and try again. |
 | `viewer.loading` | Loading the 3D model |
 | `viewer.az` | Az |
+| `bodyOf.label` | Body |
+| `bodyOf.male` | Male |
+| `bodyOf.female` | Female |
+| `bodyOf.help` | The 3D body, and the reproductive system, are shown as male or female. Your progress is kept either way. |
+| `bodyOf.question` | Which body would you like to study first? |
+| `bodyOf.femaleNote` | The female model shows the skin, the bony pelvis, the reproductive organs, the breasts and the bladder. |
 | `viewer.el` | El |
 | `viewer.north` | N |
 | `viewer.east` | E |
@@ -1163,7 +1223,7 @@ None.
 | `systemBlurb.respiratory` | Airways, lungs and the muscles of breathing. | “Airways, bronchi and the muscles of breathing.” became “Airways, lungs and the muscles of breathing.”. | 기도, 기관지, 호흡 근육. |
 | `systemBlurb.nervous` | Lobes, deep nuclei, brainstem and ventricles. | “The brain, its lobes, deep nuclei and pathways.” became “Lobes, deep nuclei, brainstem and ventricles.”. | 뇌의 엽, 심부 핵, 전도로. |
 | `systemBlurb.digestive` | Mouth to rectum, with the liver, pancreas and spleen. | “From the tongue to the rectum, with the glands that feed it.” became “Mouth to rectum, with the liver, pancreas and spleen.”. | 혀에서 직장까지, 그리고 소화샘. |
-| `systemBlurb.reproductive` | Male reproductive organs and glands. The model is male. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | 남성 생식 기관과 샘(여성 해부학 준비 중). |
+| `systemBlurb.reproductive` | The reproductive organs, on the male or the female body. | “Male reproductive organs and glands (female anatomy in preparation).” became “Male reproductive organs and glands. The model is male.”. | 남성 생식 기관과 샘(여성 해부학 준비 중). |
 | `today.streakStart` | No streak yet | “Start a streak today” became “No streak yet”. | 오늘 연속 학습을 시작하세요 |
 | `today.resumeGo` | Continue spelling quiz | “Resume practice” became “Continue spelling quiz”. | 연습 이어서 하기 |
 | `today.mistakes` | Fix mistakes | “Mistakes to fix” became “Fix mistakes” (one name for the feature). | 고칠 오답 |
