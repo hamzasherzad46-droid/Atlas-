@@ -18,7 +18,14 @@ Compressed GLB files, named as in `content/catalog.json` (`model.file`).
   - changes: structures selected and renamed (the HRA node, label and ontology id are kept in each
     mesh's extras), moved to stand on the floor (feet at y = 0), simplified and Draco-compressed by
     `scripts/import-hra-female.py` and `scripts/convert-model.sh` (skin `SIMPLIFY_RATIO=0.15
-    SIMPLIFY_ERROR=0.001`, organs and pelvis `SIMPLIFY_RATIO=0.08 SIMPLIFY_ERROR=0.0008`).
+    SIMPLIFY_ERROR=0.001`, organs and pelvis `SIMPLIFY_RATIO=0.08 SIMPLIFY_ERROR=0.0008`);
+  - the skin made leaner by `scripts/hra_lean.py` (21 November 2026): the Visible Human female carried a
+    lot of fat, so the skin's vertices are moved inwards over the soft tissue, towards the HRA bones and
+    organs, which do not move. Waist 93 → 84 cm, hips 109 → 103 cm, upper thigh 56 → 47 cm, upper arm
+    about 30 → 26 cm (measured on the full-resolution skin). The head, hands, feet and breasts
+    (whose areolae and nipples are separate meshes) are unchanged; the scan's skin folds are smoothed;
+    the skin stays at least 4 mm clear of every bone, organ and ligament drawn inside it (checked by
+    the script). `--source-build` keeps the skin as in the HRA file.
 
 If a module's GLB is missing, the app renders primitive placeholders from
 `content/<module>.placeholder.json`, so the quiz still works.

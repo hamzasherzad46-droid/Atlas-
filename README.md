@@ -182,7 +182,21 @@ Changes from the source data, all made by `scripts/import-bodyparts3d.mjs`:
 united female body, and the ilium, ischium and pubis from the female pelvis set (the united body has only the
 ilium; both share one coordinate frame), keeps each source node name, label and ontology id in the mesh's extras,
 and moves the body to stand at y = 0; `scripts/convert-model.sh` then simplifies and compresses it. No geometry
-is drawn or borrowed from the male model. In the body view the one file is split into a bones layer and an
+is drawn or borrowed from the male model.
+
+The skin is made leaner by `scripts/hra_lean.py` (called by the import; `--source-build` skips it): the Visible
+Human female carried a lot of fat, so each skin vertex moves inwards over the soft tissue towards the structures
+beneath (the HRA vertebrae, hip bones, femurs, tibias, abdominal and pelvic organs; for the arms, which have no
+bones in the source, centre lines traced from cross-sections). Each region keeps a lean depth and a share of the
+rest (`PARAMS`); the change is smoothed so regions blend, and moves along a smoothed inward direction so the
+navel and creases keep their shape. The head, hands, feet and breasts do not change. The skin never comes within
+8 mm of a structure, and the script stops if anything drawn inside it ends up within 4 mm of it. The bones and
+organs themselves are not touched. Run it in about five minutes:
+
+```bash
+python3 -I scripts/import-hra-female.py 3D-VH-F-United.glb 3d-vh-f-pelvis.glb /tmp/hra-female
+SIMPLIFY_RATIO=0.15 SIMPLIFY_ERROR=0.001 scripts/convert-model.sh /tmp/hra-female/female-skin-raw.glb female-skin
+``` In the body view the one file is split into a bones layer and an
 organs layer (`include` and `exclude` in `src/lib/bodyLayers.ts`).
 
 ### Whole-body layers

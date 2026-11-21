@@ -179,6 +179,10 @@ The female model itself (Human Reference Atlas, Visible Human female; `public/mo
 - It is one person’s anatomy. Her vertebral column has **six lumbar vertebrae** (HRA names
   “lumbar vertebra 6”), a normal variant; the spine is not in the app, but a reviewer should know.
 - The breasts have the shape of the cadaver (lying down); the HRA breast fat is not taught, only shown.
+- The skin was made leaner for Atlas (`scripts/hra_lean.py`; waist 93 → 84 cm, hips 109 → 103 cm): it now
+  lies closer to the bones and organs than in the source, by an estimate of a lean adult's soft tissue per
+  region (`PARAMS`), not by measurement. A reviewer should check that the soft-tissue depths look right
+  (especially over the abdomen, where the source has no ribs or abdominal muscles to measure from).
 - The bladder is shown in the female model for orientation but is not a structure there (it is taught,
   with the male model, in the urinary module).
 - The female model has no whole skeleton, muscles, vessels or nerves; the body view says so.

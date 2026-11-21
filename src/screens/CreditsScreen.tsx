@@ -67,7 +67,9 @@ export function CreditsScreen() {
                 </a>
                 <span className="r-sub">
                   Changes for Atlas: structures selected and renamed, the ilium, ischium and pubis taken from the pelvis set, the
-                  body moved to stand on the floor, meshes simplified and compressed.
+                  body moved to stand on the floor; the skin made leaner (moved inwards over the soft tissue, towards the bones and
+                  organs, which do not move; the head, hands, feet and breasts unchanged) and its scan folds smoothed; meshes
+                  simplified and compressed.
                 </span>
               </span>
             </div>

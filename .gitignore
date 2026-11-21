@@ -13,3 +13,6 @@ ui-debug.log
 
 # Design review screenshots
 .screens/
+
+# Python bytecode from scripts/
+__pycache__/

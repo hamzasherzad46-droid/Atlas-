@@ -10,7 +10,7 @@ Heidi Schlehlein, from the Visible Human female:
     https://cdn.humanatlas.io/digital-objects/ref-organ/pelvis-female/v1.3/assets/3d-vh-f-pelvis.glb
 The two share one coordinate frame (checked: identical vertices for the bones they both have).
 
-  python3 -I scripts/import-hra-female.py <3D-VH-F-United.glb> <3d-vh-f-pelvis.glb> <out-dir>
+  python3 -I scripts/import-hra-female.py <3D-VH-F-United.glb> <3d-vh-f-pelvis.glb> <out-dir> [--source-build]
   SIMPLIFY_RATIO=… scripts/convert-model.sh <out-dir>/<name>-raw.glb <name>   # see README "3D models"
 
 What it does, with numpy only:
@@ -19,15 +19,22 @@ What it does, with numpy only:
     name, label and ontology id go into the node's extras, so every mesh can be traced back;
   - moves the body into atlas space: metres, Y up, the body facing +Z, its left at +X (HRA already
     uses these axes), feet at y = 0 and centred on x = 0 and the pelvis on z = 0 like the male model;
-  - keeps positions and indices only (normals are recomputed in the app).
-Nothing is drawn or invented: every vertex comes from the HRA file.
+  - keeps positions and indices only (normals are recomputed in the app);
+  - makes the skin leaner (scripts/hra_lean.py): the Visible Human female carried a lot of fat, so
+    the skin is moved inwards over the soft tissue, towards the bones and organs, which do not move;
+    the head, hands, feet and breasts are unchanged. --source-build keeps the skin as in the HRA file.
+Nothing is drawn or invented: every vertex comes from the HRA file (the skin's vertices moved).
 """
 import json
+import re
 import struct
 import sys
 from pathlib import Path
 
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import hra_lean  # noqa: E402
 
 # Output file -> { mesh name: [HRA node names whose meshes are merged into it] }.
 PARTS = {
@@ -216,6 +223,7 @@ def main():
     height = skin_pos[:, 1].max() - skin_pos[:, 1].min()
     print(f'skin height {height:.3f} m; shift {np.round(shift, 4).tolist()}')
 
+    built = {}
     for file, parts in PARTS.items():
         meshes = []
         for name, sources in parts.items():
@@ -237,6 +245,21 @@ def main():
             meshes.append((name, pos, np.concatenate(idx_all), {'source': 'Human Reference Atlas, HuBMAP (CC BY 4.0)', 'parts': found}))
             size = pos.max(axis=0) - pos.min(axis=0)
             print(f'  {file}: {name:30s} {len(pos):7d} verts  size {np.round(size * 100, 1).tolist()} cm')
+        built[file] = meshes
+
+    if '--source-build' not in sys.argv:
+        print('leaner skin (scripts/hra_lean.py)')
+        united = {n: geometry(doc, binary, worlds, i)[0] + shift for n, i in by_name.items() if n and 'mesh' in doc['nodes'][i] and any(re.search(rx, n) for _, rx in hra_lean.CORE)}
+        pelvis_nodes = {n: geometry(pdoc, pbinary, pworlds, i)[0] + shift for n, i in pby_name.items() if n and 'mesh' in pdoc['nodes'][i] and re.search(hra_lean.PELVIS_CORE[1], n)}
+        core, labels = hra_lean.core_points(united, pelvis_nodes)
+        # The areolae, nipples and ducts lie on the skin, which does not move there.
+        shipped = np.vstack([pos for name, pos, _, _ in built['female-reproductive'] if not name.startswith(('nipple', 'areola', 'lactiferous'))])
+        name, pos, idx, extras = built['female-skin'][0]
+        lean_pos, lean_tri, summary = hra_lean.lean_skin(pos, idx, core, labels, shipped)
+        extras = {**extras, 'changes': 'made leaner by scripts/hra_lean.py: ' + summary}
+        built['female-skin'][0] = (name, lean_pos, lean_tri.reshape(-1), extras)
+
+    for file, meshes in built.items():
         write_glb(out_dir / f'{file}-raw.glb', meshes)
         print(f'{file}-raw.glb written')
 
